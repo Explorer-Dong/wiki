@@ -9241,6 +9241,14 @@ $$
 
 #### 乘法逆元
 
+定义：
+
+对 $\forall a \in \mathbb{Z}$，如果 $a$ 与 $p$ 互质，则 $\exists x \in \mathbb{Z}$ 使得 $ a \times x \equiv 1  (\text{ mod } p)$，则 $x$ 为 $a$ 在模 $p$ 意义下的乘法逆元，记作 $a^{-1}$。
+
+乘法逆元满足：对于 $b \div a \mod p$，如果有 $a, p$ 互质，则 $b \div a \mod p = b \times a^{-1} \mod p$
+
+> 例如，$2 \times 5 \equiv 1 (\mod 9)$，则 2和5互相是对方在模9意义下的乘法逆元。所以对于 $8 \div 5 \mod 9 = 8 \times 2 \mod 9 = 7$
+
 **快速幂求逆元**
 
 条件： 1. 模数 $b$  是质数。2. $a \bmod b \ne0$
