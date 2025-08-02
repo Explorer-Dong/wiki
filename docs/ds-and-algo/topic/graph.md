@@ -590,8 +590,6 @@ Dijkstra 算法是最经典的单源最短路算法，需要满足非负边权�
 
 ![u 被过早固定](https://cdn.dwj601.cn/images/20250709120735309.png)
 
-建议做一下 [打怪升级](../raicom-caip/1st-undergraduate.md#t3-打怪升级-2525) 这道题来对 Dijkstra 有一个更好的理解。
-
 ### Bellman-Ford 算法
 
 **Bellman-Ford 算法**。单源最短路算法（支持负边权）。
@@ -747,6 +745,152 @@ int main() {
     return 0;
 }
 ```
+
+### 例：打怪升级
+
+> 经典之处：堆优化 Dijkstra 魔改版
+>
+> 难度：CF 1700
+>
+> OJ：[睿抗 2021 年初赛 T3](https://pintia.cn/market/item/1447464596704202752)
+
+题意：给定一张无向图，包含 $n\ (1\le n\le10^3)$ 个结点和 $m$ 条边，不包含重边和自环，每条边有 $a\ (1\le a\le 100)$ 和 $b\ (1\le b\le 100)$ 两个属性。给定目标结点列表 $tgt\ (1\le \vert tgt\vert\le n)$，现在需要确定一个起始位置 $x$，使得 $x$ 到 $tgt$ 中每一个结点的路径中最大的 $\sum a$ 最小，最后给出 $x$ 到 $tgt$ 中每一个结点的路径，要求路径的 $\sum a$ 尽可能小同时 $\sum b$ 尽可能大。
+
+思路：
+
+- 题目略微有一些绕弯，主要分为两步，第一步需要找到某一个顶点作为起点，使得该点到所有目标结点的第一权值之和尽可能小。那么我们遍历每一个点分别跑一遍堆优化的 Dijkstra 即可，时间复杂度为 $O(nm\log m)$；
+- 确定了起点后，需要求解带有两个边权的最短路及其路径，那么只需要简单修改一下 Dijkstra 的路径更新逻辑即可，即当且仅当新点的第一权值更长或新点的第一权值相等但第二权值更小，就更新新点。至于路径的维护，只需要维护一个链表，当点被更新权重时记录父结点即可，时间复杂度为 $O(m\log m)$。
+
+时间复杂度：$O(nm\log m)$
+
+=== "C++"
+
+    ```c++
+    #include <algorithm>
+    #include <climits>
+    #include <iostream>
+    #include <queue>
+    #include <vector>
+    using namespace std;
+    
+    const int N = 1010, inf = INT_MAX >> 1;
+    using pii = pair<int, int>;
+    
+    struct edge {
+        int v, a, b;
+        // 优先队列默认大根堆，至少需要重载小于号，谁小谁就往下 down
+        bool operator<(const edge& t) const {
+            if (this->a == t.a) {
+                return this->b < t.b;
+            }
+            return this->a > t.a;
+        }
+    };
+    
+    int n, m;
+    vector<edge> g[N];
+    
+    int dijkstra(int start) {
+        vector<int> d(n + 1, inf);
+        vector<bool> vis(n + 1, false);
+        priority_queue<pii, vector<pii>, greater<pii>> q;
+        d[start] = 0;
+        q.push({d[start], start});
+        while (q.size()) {
+            auto [_, u] = q.top();
+            q.pop();
+            if (vis[u]) {
+                continue;
+            }
+            vis[u] = true;
+            for (auto& [v, a, _]: g[u]) {
+                if (!vis[v] && d[v] > d[u] + a) {
+                    d[v] = d[u] + a;
+                    q.push({d[v], v});
+                }
+            }
+        }
+        return *max_element(d.begin() + 1, d.end());
+    }
+    
+    void find_path(vector<int>& tgt, int start) {
+        vector<pii> d(n + 1, {inf, -inf});
+        vector<bool> vis(n + 1, false);
+        vector<int> pre(n + 1);
+        priority_queue<edge> q;
+        d[start] = {0, 0};
+        q.push({start, 0, 0});
+        while (q.size()) {
+            auto [u, _, __] = q.top();
+            q.pop();
+            if (vis[u]) {
+                continue;
+            }
+            vis[u] = true;
+            for (auto& [v, a, b]: g[u]) {
+                if (!vis[v] && (d[v].first > d[u].first + a || 
+                                d[v].first == d[u].first + a && d[v].second < d[u].second + b)) {
+                    pre[v] = u;
+                    d[v] = {d[u].first + a, d[u].second + b};
+                    q.push({v, d[v].first, d[v].second});
+                }
+            }
+        }
+    
+        // 输出
+        for (int t: tgt) {
+            int tt = t;
+            vector<int> path;
+            while (t != start) {
+                path.push_back(t);
+                t = pre[t];
+            }
+            reverse(path.begin(), path.end());
+            cout << start;
+            for (int p: path) {
+                cout << "->" << p;
+            }
+            cout << "\n" << d[tt].first << " " << d[tt].second << "\n";
+        }
+    }
+    
+    int main() {
+        ios::sync_with_stdio(false);
+        cin.tie(nullptr);
+    
+        cin >> n >> m;
+        for (int i = 0; i < m; i++) {
+            int u, v, a, b;
+            cin >> u >> v >> a >> b;
+            g[u].push_back({v, a, b});
+            g[v].push_back({u, a, b});
+        }
+    
+        int k;
+        cin >> k;
+        vector<int> tgt(k);
+        for (int i = 0; i < k; i++) {
+            cin >> tgt[i];
+        }
+    
+        // 寻找起点
+        int min_energy = inf, start = -1;
+        for (int i = 1; i <= n; i++) {
+            int energy = dijkstra(i);
+            if (energy < min_energy) {
+                min_energy = energy;
+                start = i;
+            }
+        }
+    
+        cout << start << "\n";
+    
+        // 从起点开始寻找路径
+        find_path(tgt, start);
+    
+        return 0;
+    }
+    ```
 
 ## 生成树问题
 
