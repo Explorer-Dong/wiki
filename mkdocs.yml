@@ -365,8 +365,7 @@ nav:
       - dev-tools/setup/clion-setup.md
     - Git:
       - dev-tools/git/git-commands.md
-      - dev-tools/git/git-pull-request.md
       - dev-tools/git/git-self-define-command.md
-      - dev-tools/git/git-branch-conflict.md
-      - dev-tools/git/git-tips.md
+      - dev-tools/git/git-lfs.md
+      - dev-tools/git/collaboration.md
   - 博客: https://blog.dwj601.cn/

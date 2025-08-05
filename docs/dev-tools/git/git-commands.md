@@ -4,11 +4,9 @@ title: Git 常用命令
 
 Git 是一款版本管理软件，适用目前绝大多数操作系统；GitHub 是一个代码托管平台，与 Git 没有任何关系。只不过 Git 可以基于 GitHub 进行分布式云存储与交互，因此往往需要结合二者从而达到相对良好的 Teamwork 状态。
 
-本文记录 Git 的常用命令。完整命令见官方文档：[https://git-scm.com/book/zh/v2](https://git-scm.com/book/zh/v2)。
+本文记录 Git 的常用命令，完整命令见官方文档 [^git-docs]。下面的图和表概述了 Git 的整个逻辑框架。
 
-下面的图和表概述了 Git 的整个逻辑框架。
-
-Git 的三个区域：
+[^git-docs]: [Book | Git - (git-scm.com)](https://git-scm.com/book/zh/v2)
 
 |     工作区     |     暂存区     |     仓库区     |
 | :------------: | :------------: | :------------: |
@@ -16,7 +14,7 @@ Git 的三个区域：
 
 ![Git 的基本命令](https://cdn.dwj601.cn/images/202402271037959.png)
 
-下面将会从 5 个方面展开 Git 的命令。
+下面将会从「查看、配置、迭代、回溯、分支」五个方面介绍 Git 的命令。
 
 ## 查看
 
@@ -88,7 +86,7 @@ git config --global --get https.proxy
 
 ### 编辑配置
 
-1）邮箱、密码、用户名
+配置邮箱、密码、用户名：
 
 ```bash
 # 配置（修改） Email & Pwd & Username （局部）
@@ -102,7 +100,7 @@ git config --global user.password xxx
 git config --global user.email "xxx@xxx.com"
 ```
 
-2）VPN
+配置代理：
 
 ```bash
 # 配置代理
@@ -114,7 +112,7 @@ git config --global --unset http.proxy
 git config --global --unset https.proxy
 ```
 
-3）远程
+配置远程服务器：
 
 ```bash
 # 连接远程服务器
@@ -134,6 +132,12 @@ git remote set-url --add github https://gitee.com/idwj/idwj.git
 
 # 删除远程
 git remote rm <RemoteName>
+```
+
+取消 Git 对中文的转义：
+
+```bash
+git config --global core.quotepath false
 ```
 
 ## 迭代
@@ -211,7 +215,7 @@ git push
 
 ### 取消版本管理
 
-注意：该操作只能取消当前版本的文件管理，如果需要删除某个文件在所有版本中的管理，需要用到 [进阶命令](./git-tips.md/#将文件从-git-系统中彻底删除)。
+**取消「当前版本」下某个文件的管理**。如下：
 
 ```bash
 # 希望某些文件取消版本管理，但是依然保留在工作区
@@ -223,6 +227,14 @@ git push
 
 - `--cached` 参数表示只删除已经 add/commit 的内容，原始文件保留，如果不加则会将原始文件也一并删除；
 - `-r` 参数表示针对文件夹进行递归删除。
+
+**取消「所有版本」下某个文件的管理**。有时我们会不小心将敏感文件加入到 Git 的版本管理中，并且经过不断迭代，导致曾经的所有版本都记录了该敏感文件，那么我们就得删除所有涉及到该文件的 commit 中的内容 [^del-history]（记得先备份）：
+
+```bash
+git filter-branch --force --index-filter 'git rm --cached --ignore-unmatch <FilePath>' --prune-empty --tag-name-filter cat -- --all
+```
+
+[^del-history]: [Removing sensitive data from a repository | GitHub - (docs.github.com)](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository)
 
 ### 工作区到上一个版本
 
@@ -261,40 +273,6 @@ git commit --amend
 git push --force <RemoteName> <BranchName>
 ```
 
-彻底删除某些文件在
-
-取消 **当前版本** 某文件（夹）的版本管理
-
-```bash
-# 希望某些文件取消版本管理，但是依然保留在工作区
-git rm --cached <FileName>
-git commit -m 'remove xxx file'
-git push
-在 .gitignore 中增加上述 <FileName>
-
-# 希望某些文件取消版本管理，同时在不保留在工作区
-git rm <FileName>
-git commit -m 'delete xxx file(folder)'
-git push
-
-# 如果希望某个目录离开暂存区可以添加 -r 参数，从而可以递归的将该目录下所有的文件 & 子目录全部取消版本管理
-git rm -r --cached <Folder>
-git commit -m 'remove xxx floder'
-git push
-```
-
-取消 **所有版本** 某文件。参考：[单独删除某个文件的所有历史记录 - CSDN](https://blog.csdn.net/q258523454/article/details/83899911)
-
-```bash
-git filter-branch --force --index-filter 'git rm --cached --ignore-unmatch <FilePath>' --prune-empty --tag-name-filter cat -- --all
-```
-
-希望某些文件加入版本管理
-
-```bash
-删除在 .gitignore 中的相应语句即可
-```
-
 ## 分支
 
 ### 创建分支
@@ -318,9 +296,7 @@ git branch -d <BranchName>
 git push <RemoteName> --delete <BranchName>
 ```
 
-### 修改分支
-
-如果修改的分支为远程保护分支，则在远程更新之前，需要在远程相应的服务商家那里对保护分支进行重新设定
+### 修改分支名称
 
 ```bash
 # 修改名称
@@ -331,16 +307,26 @@ git push <RemoteName> <NewName>
 git push <RemoteName> --delete <OldName>
 ```
 
+注意：如果待改名的分支为远程保护分支，则需要先在远程服务商那里调整保护分支。
+
 ### 合并分支
 
+假设想要将 A 分支合并到 B 分支：
+
 ```bash
-# 首先将当前分支切换到需要被合并的分支 <NowBranch>，接着合并需要被合并的分支 <TodoBranch>
-git merge <TodoBranch>
+# 将当前分支切换到 B 分支
+git switch B
+
+# 接着将 A 分支合并进入 B 分支
+git merge A
 ```
 
-### 拉取分支
+上述操作仅针对独立开发者，如果涉及到了多人协作开发，那么分支合并就又有别的讲究，见 [多人协作那些事](./collaboration.md#分支合并) 中的内容。
+
+### 拉取指定分支
+
+在 git clone 后只会拉取默认分支，想要拉取其余的分支需要执行：
 
 ```bash
-# 在 clone 后只会拉取默认分支，想要拉取其余的分支执行
 git checkout -t <RemoteName>/<BranchName>
 ```

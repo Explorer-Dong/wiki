@@ -24,7 +24,7 @@ title: 数据结构与算法专栏简介
 
 1. 按专题剖析原理并补充经典例题，撰写 [专题解析](./topic/index.md) 部分；
 2. 封装套路代码，撰写代码模板部分：[C++](./templates.md)、[Python](./templates-py.md)；
-3. 结合真实竞赛，撰写真题解析部分：[蓝桥杯](./lan-qiao-cup/index.md)、[睿抗](raicom-caip/index.md)。
+3. 结合真实竞赛，撰写真题解析部分：[蓝桥杯](./lan-qiao-cup/index.md)。
 
 [^dslib]: [数据结构算法库 | Explorer-Dong - (gtihub.com)](https://github.com/Explorer-Dong/DataStructure)
 
