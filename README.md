@@ -4,9 +4,7 @@
     </a>
 </div>
 
-本网站以体系化的 AI/CS 学习笔记为基础，旨在构建一个 **开放知识社群 (Open Wiki Community)**。如果您觉得内容不错，欢迎⭐！
-
-笔记按照 Markdown 格式记录，站点采用 MkDocs 框架编译，云端基于 Aliyun OSS 服务部署。访问链接：<https://wiki.dwj601.cn/>。
+本网站以体系化的 AI/CS 学习笔记为基础，旨在构建一个 **开放知识社群**。笔记按照 Markdown 格式记录，站点采用 MkDocs 框架编译，云端基于 Aliyun OSS 服务部署。如果您觉得内容不错，欢迎⭐！在线访问地址：<https://wiki.dwj601.cn/>。
 
 ## 站点预览 / Site Preview
 
