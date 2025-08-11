@@ -180,8 +180,6 @@ nav:
     - 人工智能基础:
       - 数字图像处理:
         - base/ai/digital-image-processing/index.md
-      - 语音信号处理:
-        - base/ai/speech-signal-processing/index.md
       - 机器学习:
         - base/ai/machine-learning/index.md
         - base/ai/machine-learning/data-process.md
@@ -205,6 +203,8 @@ nav:
         - base/ai/deep-learning/convolutional-neural-network.md
         - base/ai/deep-learning/recurrent-neural-network.md
         - base/ai/deep-learning/network-enhancement.md
+      - 语音信号处理:
+        - base/ai/speech-signal-processing/index.md
       - 自然语言处理:
         - base/ai/natural-language-processing/index.md
         - base/ai/natural-language-processing/word-embedding.md
@@ -217,12 +217,6 @@ nav:
         - base/ai/computer-vision/object-detection.md
         - base/ai/computer-vision/image-super-resolution.md
         - base/ai/computer-vision/video-understanding.md
-      - 知识图谱:
-        - base/ai/knowledge-graph/index.md
-        - base/ai/knowledge-graph/kg-acquisition.md
-        - base/ai/knowledge-graph/kg-representation.md
-        - base/ai/knowledge-graph/kg-aware-application.md
-        - base/ai/knowledge-graph/temporal-kg.md
     - 计算机基础:
       - 面向对象程序设计:
         - base/cs/object-oriented-programming/index.md
