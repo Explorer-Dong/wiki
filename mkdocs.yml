@@ -250,6 +250,11 @@ nav:
         - base/math/advanced-math/integration.md
       - 线性代数:
         - base/math/linear-algebra/index.md
+        - base/math/linear-algebra/determinant.md
+        - base/math/linear-algebra/matrix.md
+        - base/math/linear-algebra/elementary-transformation.md
+        - base/math/linear-algebra/vector-group.md
+        - base/math/linear-algebra/similarity-matrix.md
       - 概率统计:
         - base/math/probability-and-statistics/index.md
         - base/math/probability-and-statistics/prob.md
