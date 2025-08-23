@@ -465,61 +465,56 @@ $$
 > - [路人 - 博客 - 更通俗的解释](https://blog.csdn.net/Serendipity_zyx/article/details/120515338)
 > - [牛顿法 - wiki - 更权威的解释](https://zh.wikipedia.org/wiki/%E7%89%9B%E9%A1%BF%E6%B3%95)
 
-## 最小二乘法
+## 实例：最小二乘建模策略
 
-本章继续介绍无约束函数的最优化算法。不过和第四章的区别在于现在的目标函数是二次函数，称为「最小二乘问题」。
+前面介绍了很多求解模型参数的方法，但如何建模却未曾提及。这里我们就以最小二乘法为例，展示一个问题从建模到求解的全过程。
 
-所谓的无约束最小二乘问题，本质上是第四章介绍的无约束问题的一个子集，只不过因为使用场景很多所以单独拿出来进行讨论。也正因为使用场景多，学者们针对此类问题设计出了更加高效的最优化算法。
+### 模型建立
 
-无约束最小二乘问题的形式定义为：
+假设现在拥有 $m$ 个独立同分布的观察数据，包含特征 $\mathbf A_{m\times n}$ 与标签 $\mathbf b$。我们希望找到一个模型 $f(\mathbf x)$ 来近似表示特征到标签的映射，就可以采用最小二乘法 [^non-linear-zhihu] 来建立模型。其核心思想是最小化模型预测值与真实标签值之间的平方损失。
+
+[^non-linear-zhihu]: [非线性最小二乘 | 王金戈 - (zhuanlan.zhihu.com)](https://zhuanlan.zhihu.com/p/124934931)
+
+具体地，利用最小二乘法建立的模型可以定义为：
+
+$$
+\min_{\mathbf x\in R^n}f(\mathbf x) = \min \frac{1}{2} { \sum_{i = 1}^m [f(\mathbf x) - b_i]^2 },\quad m\ge n
+$$
+
+将残量函数/残差记作 $r(\mathbf x)$，即 $r_i(\mathbf x)=f(\mathbf x)-b_i$，那么利用最小二乘法建立的模型就可以简记为：
 
 $$
 \begin{aligned}
-\min_{x\in R^n}f(x)=\frac{1}{2}\sum_{i = 1}^m [r_{i}(x)]^2,\quad m\ge n
+\min_{\mathbf x\in R^n}f(\mathbf x)=\min \frac{1}{2}\sum_{i = 1}^m [r_{i}(\mathbf x)]^2,\quad m\ge n
 \end{aligned}
 $$
 
-其中 $r_i(x)$ 称为「残量函数」。本质上最小二乘问题就是寻找一个函数 $f(x,\alpha_i),(i=1,2,\cdots,m)$ 来拟合 $b$，于是问题就转化为了
+当 $r_i(\mathbf x)$ 为线性函数时，当前问题为线性最小二乘问题；当 $r_i(\mathbf x)$ 为非线性函数时，当前问题为非线性最小二乘问题。下面分别讨论这两种情况的求解策略。
 
-$$
-\begin{aligned}
-\min { \sum_{i = 1}^m [r_i(x)]^2 }=\min { \sum_{i = 1}^m [f(x,\alpha_i) - b_i]^2 }
-\end{aligned}
-$$
-
-当 $r_i(x)$ 为线性函数时，当前问题为线性最小二乘问题；当 $r_i(x)$ 为非线性函数时，当前问题为非线性最小二乘问题。本章将分别讨论这两种最小二乘问题的优化求解策略。
-
-### 线性最小二乘法
+### 线性模型求解
 
 此时可以直接将目标函数写成：
 
 $$
 \begin{aligned}
-\min f(x)&=\frac{1}{2}|| Ax-b ||^2\\
-&= \frac{1}{2}x^TA^TAx-b^TAx+\frac{1}{2}b^Tb
+\min f(\mathbf x)&=\frac{1}{2}|| \mathbf A\mathbf x-\mathbf b ||^2\\
+&= \frac{1}{2}\mathbf x^T\mathbf A^T\mathbf A\mathbf x-\mathbf b^T\mathbf A\mathbf x+\frac{1}{2}\mathbf b^T\mathbf b
 \end{aligned}
 $$
 
-利用一阶必要条件可得：
+利用一阶必要条件：
 
 $$
 \begin{aligned}
-\nabla f(x)&= A^TAx - A^Tb\\
-&= 0
+\nabla f(\mathbf x)= \mathbf A^T\mathbf A\mathbf x - \mathbf A^T\mathbf b = 0
 \end{aligned}
 $$
 
-于是可得最优闭式解：
+想要求解其中的 $\mathbf x$，本质上就是解一个线性方程。可以分别使用 Cholesky 分解、QR 分解、SVD 分解等方法快速计算最优解 $\mathbf x^*$。
 
-$$
-x^*=(A^T A)^{-1}A^Tb
-$$
+### 非线性模型求解
 
-当然 $A^TA$ 并不都是可逆的，并且在数据量足够大时，即使可逆也会让求逆操作即为耗时。针对此问题，提出了线性最小二乘的 QR 正交分解算法。
-
-### 非线性最小二乘法
-
-同样可以采用第四章学到的各种下降迭代算法，这里引入高斯牛顿法，推导的解的迭代公式为：
+这里引入一种全新的优化算法：高斯牛顿法，该方法对应的迭代解的公式如下：
 
 $$
 x^{k+1}= x^k - (A_k^TA_k)^{-1}A_k^Tr_k
@@ -546,7 +541,15 @@ r_m(x_k)
 \end{aligned}
 $$
 
-> 参考：
->
-> - [北京大学 - 课件 - 非线性最小二乘](http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/lect/14-lsp-new-zxx.pdf)
-> - [路人 - 博客 - 通俗解释非线性最小二乘](https://zhuanlan.zhihu.com/p/124934931)
+*注：用模型进行预测时的自变量与求解模型参数时的自变量不是同一个东西
+
+模型在建立时需要确定具体的项，其中的参数都只是项的系数，因此模型求解求的其实也都是系数。例如我们建立了一个形如下式的模型：
+
+$$
+f(\mathbf x;\boldsymbol \theta)=\theta_1 x_1+e^{\theta_2x_2}
+$$
+
+其中 $\mathbf x$ 为观测特征，$\boldsymbol \theta$ 为模型参数。
+
+- 在求解模型时，我们拥有大量的 $\mathbf x$ 作为训练数据（也就是上文的 $\mathbf A$ 矩阵），将其中的 $\boldsymbol \theta$ 看作自变量进行迭代求解；
+- 在用模型进行预测时，此时 $\boldsymbol \theta$ 已经全部求解出来了，那么每一个观测数据 $\mathbf x$ 就是自变量。
