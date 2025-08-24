@@ -175,7 +175,7 @@ copyright: <a href="https://beian.miit.gov.cn/">苏ICP备2024087610号-1</a>
 # ==================== 页面导航 ====================
 nav:
   - index.md
-  - 基础:
+  - 基础知识:
     - base/index.md
     - 人工智能基础:
       - 数字图像处理:
@@ -272,20 +272,7 @@ nav:
         - base/others/english-grammar/word-property.md
         - base/others/english-grammar/sentence-ingredient.md
         - base/others/english-grammar/sentence-type.md
-  - 炼丹:
-    - data-science/index.md
-    - 数据科学常用第三方库:
-      - data-science/pkgs/numpy.md
-      - data-science/pkgs/pandas.md
-      - data-science/pkgs/matplotlib.md
-      - data-science/pkgs/torch.md
-    - 传统机器学习算法:
-      - data-science/shallow-model/linear.md
-    - 现代深度学习模型:
-      - data-science/deep-model/cpu2gpu.md
-      - data-science/deep-model/gpu2gpus.md
-      - data-science/deep-model/fnn.md
-  - 算法:
+  - 数据结构与算法:
     - ds-and-algo/index.md
     - ds-and-algo/templates.md
     - ds-and-algo/templates-py.md
@@ -305,7 +292,19 @@ nav:
       - ds-and-algo/lan-qiao-cup/16th-python-a.md
       - ds-and-algo/lan-qiao-cup/15th-python-a.md
       - ds-and-algo/lan-qiao-cup/14th-python-a.md
-  - 前端:
+  - 算法工程:
+    - algo-engineering/index.md
+    - 常用第三方包:
+      - algo-engineering/pkgs/numpy.md
+      - algo-engineering/pkgs/pandas.md
+      - algo-engineering/pkgs/matplotlib.md
+      - algo-engineering/pkgs/torch.md
+    - 模型训练与部署:
+      - algo-engineering/model-flow/cpu2gpu.md
+      - algo-engineering/model-flow/gpu2gpus.md
+    - 检索增强生成:
+      - algo-engineering/rag/what-is-rag.md
+  - 前端开发:
     - front-end/index.md
     - front-end/html-basic.md
     - front-end/css-basic.md
@@ -317,7 +316,7 @@ nav:
       - front-end/hexo/build-your-own-website-with-hexo.md
       - front-end/hexo/hexo-deployment.md
       - front-end/hexo/hexo-enhancement.md
-  - 后端:
+  - 后端开发:
     - back-end/index.md
     - C++ 标准库:
       - back-end/cpp-std/index.md
@@ -345,7 +344,7 @@ nav:
     - openGauss:
       - back-end/opengauss/opengauss-setup.md
       - back-end/opengauss/opengauss-basic.md
-  - 运维:
+  - 运维测试:
     - operation/index.md
     - operation/gnu-linux-basic.md
     - operation/gnu-linux-advanced.md
@@ -353,10 +352,11 @@ nav:
       - operation/nginx/nginx-commands.md
       - operation/nginx/nginx-setup.md
       - operation/nginx/nginx-examples.md
-  - 工具:
+  - 实用工具:
     - dev-tools/index.md
     - dev-tools/jetbrains-license.md
     - dev-tools/download.md
+    - dev-tools/docker.md
     - 软件配置:
       - dev-tools/setup/windows-setup.md
       - dev-tools/setup/devcpp-setup.md
