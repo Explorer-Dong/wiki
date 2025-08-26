@@ -1,17 +1,18 @@
 ---
-title: 语言基础
+title: 语法基础
+status: new
 ---
 
-本文记录 Python 语言基础。
+本文记录 Python 语法基础。主要包括：
 
-## 基础语法
-
-- 数据类型、变量、运算符
+- 数据类型
+- 变量
+- 运算符
 - 流程控制（`if-else`、`for`/`while` 循环）
 - 函数定义与参数传递（`def`、`lambda`）
 - 异常处理（`try-except`）
 
-### 数据类型
+## 数据类型
 
 在 Python 中，可以按照「数据的可变性」可以将数据分为两大类：
 
@@ -38,6 +39,22 @@ print(original_data)
 TypeError: 'str' object does not support item assignment
 """
 ```
+
+### list
+
+### dict
+
+### set
+
+### int
+
+### float
+
+### str
+
+### tuple
+
+## 变量
 
 ### 变量引用
 
@@ -231,7 +248,7 @@ corgi
 """
 ```
 
-### 运算符
+## 运算符
 
 首先看一下 Python 都有哪些运算符 [^op]：
 
@@ -274,12 +291,43 @@ corgi
 |                           `lambda`                           |           lambda 表达式            |
 |                             `:=`                             |             赋值表达式             |
 
-## 数据结构
+## 流程控制
 
-- 列表、元组、字典、集合的操作与应用场景
-- 字符串处理（格式化、常用方法）
+TODO
 
-## 文件操作
+## 函数
 
-- 读写文本/二进制文件（`open`、`with` 语句）
-- JSON/CSV 文件处理（`json`、`csv` 模块）
+TODO
+
+## 异常处理
+
+TODO
+
+## 待定内容
+
+面向对象编程：
+
+- 类与对象、继承、多态、魔术方法
+- 设计模式基础（如单例、工厂模式）
+
+模块化开发：
+
+- 模块与包的组织（`import`、`__init__.py`）
+
+常用标准库：
+
+- `os`/`sys`（系统操作）
+- `datetime`（时间处理）
+- `collections`（高效数据结构）
+- `itertools`（迭代工具）
+- 二进制/JSON/CSV 文件处理（文件操作）
+
+函数式编程：
+
+- 高阶函数（`map`/`filter`/`reduce`）
+- 闭包与装饰器
+
+性能优化：
+
+- 运行原理、代码剖析（`cProfile`）、内存管理
+- C 扩展（如 `Cython` 基础）
