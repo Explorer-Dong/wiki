@@ -2,13 +2,13 @@
 title: pandas
 ---
 
-本文记录 [pandas](https://github.com/pandas-dev/pandas) 库的学习笔记。
+本文记录 pandas [^pandas] 库的学习笔记。
+
+[^pandas]: [pandas | NumFOCUS - (pandas.pydata.org)](https://pandas.pydata.org/)
 
 ## DataFrame
 
 ### info()
-
-<https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.info.html#pandas-dataframe-info>
 
 按列统计属性的非空数量与数据类型。
 
@@ -41,8 +41,6 @@ memory usage: 252.0+ bytes
 ```
 
 ### describe()
-
-<https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.describe.html#pandas.DataFrame.describe>
 
 按列统计属性的统计特征。
 

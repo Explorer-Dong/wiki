@@ -3,14 +3,7 @@ title: 语法基础
 status: new
 ---
 
-本文记录 Python 语法基础。主要包括：
-
-- 数据类型
-- 变量
-- 运算符
-- 流程控制（`if-else`、`for`/`while` 循环）
-- 函数定义与参数传递（`def`、`lambda`）
-- 异常处理（`try-except`）
+本文记录 Python 语法基础。
 
 ## 数据类型
 
@@ -293,15 +286,15 @@ corgi
 
 ## 流程控制
 
-TODO
+`if-else`、`for`/`while` 循环。
 
 ## 函数
 
-TODO
+`def`、`lambda`。
 
 ## 异常处理
 
-TODO
+`try-except`。
 
 ## 待定内容
 

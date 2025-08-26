@@ -1,5 +1,6 @@
 ---
 title: 序列分类
+status: new
 ---
 
 序列分类常见的任务有：依存分析、命名实体识别、情感识别等。本文将会依次利用 FNN、RNN 和 CNN 模型来完成这三类问题。
@@ -8,7 +9,7 @@ title: 序列分类
 
 ### 语言规则说明
 
-依存分析任务定义为：判断句子中单词之间的依赖关系。属于基础任务中的句法分析，通过依存分析任务得到句子单词之间的依赖关系之后就可以更方便的进行机器翻译等更困难的任务。
+依存分析任务定义为：判断句子中单词之间的依赖关系。属于基础任务中的句法分析，通过依存分析任务得到句子单词之间的依赖关系之后，可以将依存分析树编码作为额外特征辅助其他任务。
 
 ### 传统方法
 
@@ -28,6 +29,12 @@ Danqi Chen 在 2014 年的工作 *A Fast and Accurate Dependency Parser using Ne
 
 [^fnn-dp]: [A Fast and Accurate Dependency Parser using Neural Networks | Danqi Chen - (aclanthology.org)](https://aclanthology.org/D14-1082)
 
+模型结构如下图所示：
+
+![依存分析网络结构](https://cdn.dwj601.cn/images/20250624092912640.png)
+
+可以看到其实就是一个两层全连接网络。输入：单词、位置标签、转义标签；输出：转义操作。
+
 ## 命名实体识别
 
 序列标注任务的一种，即给定一个序列，标注序列中每一个 token 的某种性质。除了命名实体识别任务，常见的序列标注任务还有词性分析等。
@@ -40,7 +47,7 @@ Danqi Chen 在 2014 年的工作 *A Fast and Accurate Dependency Parser using Ne
 
 此处主要介绍 [RNN](../deep-learning/index.md) 的变种：长短时记忆 (Long Short-term Memory, LSTM) 模型。
 
-## 情感识别
+## 情感分类
 
 TODO
 

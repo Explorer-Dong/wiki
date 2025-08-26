@@ -1,5 +1,6 @@
 ---
-title: 语言基础
+title: 语法基础
+status: new
 ---
 
 头文件导入：`#include`、宏定义 `#define`
@@ -294,3 +295,210 @@ void globalFun() {
 问：为什么 `.h` 文件就可以直接对类的成员函数进行定义而不会出现重定义问题？
 
 答：C++中的 **类成员函数默认是内联的**（inline）。但是不推荐这种直接定义成员函数的方法，因为这会导致编译时代码膨胀（每个调用的地方都会被插入函数代码），故多文件编程的规范就是：无论是类的成员函数还是全局函数，函数的声明都写在 `.h` 文件中，而对于这些函数声明的定义都写在相同文件名的 `.cpp` 文件中。
+
+## 常用标准库
+
+### 并发库
+
+创建线程：`std::thread`
+
+等待线程结束：`.join()`, `.detach()`
+
+同步机制：`std::mutex`, `std::lock_guard`, `std::unique_lock`
+
+原子变量：`std::atomic<T>`
+
+任务异步：`std::async`, `std::future`, `std::promise`
+
+### 容器库
+
+顺序容器
+
+`std::vector<T>`：动态数组
+
+`std::list<T>`：双向链表
+
+`std::array<T, N>`：定长数组
+
+`std::deque<T>`：双端队列
+
+关联容器
+
+`std::set`, `std::map`：有序红黑树容器，O(logN)
+
+`std::unordered_set`, `std::unordered_map`：哈希容器，O(1) 平均查找时间
+
+`std::multiset`, `std::multimap`：允许重复键
+
+### 日期时间库
+
+定时类型：`std::chrono::seconds`, `milliseconds`
+
+计时器：`std::chrono::steady_clock`, `high_resolution_clock`
+
+睡眠函数：`std::this_thread::sleep_for()`
+
+时间差值计算
+
+### 异常库
+
+基本语法：`try`, `catch`, `throw`
+
+标准异常类：
+
+- `std::exception`
+- `std::runtime_error`
+- `std::invalid_argument`
+- `std::out_of_range`
+
+自定义异常类继承 `std::exception`
+
+### I/O 库
+
+> 标准输入输出：`std::cin`, `std::cout`
+>
+> 文件输入输出：`std::ifstream`, `std::ofstream`, `std::fstream`
+>
+> 格式控制：`std::setw`, `std::setprecision`, `std::left`, `std::right`（头文件 `<iomanip>`）
+>
+> 字符输入输出：`get`, `put`, `getline`
+
+C++ 封装了三个类用来进行文件 IO 操作，分别为 `ifstream`、`ofstream` 和 `fstream`。其中 `ifstream` 负责读文件，`ofstream` 负责写文件，`fstream` 读写都可以，三个类都需要依赖 `iostream` 和 `fstream` 头文件。下面分三个部分大致介绍一下，后续遇到了继续补充：
+
+ifstream 只读
+
+```cpp
+#include <iostream>
+#include <fstream>
+
+int main() {
+	std::ifstream fin;
+
+	fin.open("../test.txt", std::ios::in);
+
+	std::string word;
+	while (fin >> word) {
+		std::cout << word << " ";
+	}
+
+	fin.close();
+
+	return 0;
+}
+```
+
+ofstream 只写
+
+```cpp
+#include <iostream>
+#include <fstream>
+
+int main() {
+    std::ofstream fout;
+    
+    fout.open("../test.txt", std::ios::out);
+    
+    for (int i = 1; i <= 10; i++) {
+        fout << i << " ";
+    }
+    
+    fout.close();
+    
+    return 0;
+}
+```
+
+fstream 读写
+
+```cpp
+
+```
+
+### 智能指针库
+
+`std::unique_ptr<T>`：独占所有权，不能复制
+
+`std::shared_ptr<T>`：引用计数共享资源
+
+`std::weak_ptr<T>`：不影响计数的引用，解决循环引用问题
+
+`make_shared`, `make_unique`：创建智能指针的推荐方式
+
+### 算法库
+
+> 排序：`std::sort`, `std::stable_sort`, `std::partial_sort`
+>
+> 查找：`std::find`, `std::binary_search`, `std::find_if`
+>
+> 修改：`std::reverse`, `std::rotate`, `std::replace`
+>
+> 统计：`std::count`, `std::accumulate`（需 `<numeric>`）
+>
+> 拷贝/移动：`std::copy`, `std::move`, `std::swap`
+
+reverse：想要翻转一个容器，大约有以下三种方法，以 string 为例。
+
+1）方法一：使用 `std::reverse()` 原地翻转
+
+```c++
+#include <algorithm>
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    string s = "hello world!";
+    cout << s << "\n";
+
+    reverse(s.begin(), s.end());
+    cout << s << "\n";
+
+    return 0;
+}
+```
+
+2）方法二：使用 `std::reverse_copy` 拷贝翻转
+
+```c++
+#include <algorithm>
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    string s = "hello world!";
+    cout << s << "\n";
+
+    string t(s.size(), ' ');  // 需要提前申请好内存空间
+    reverse_copy(s.begin(), s.end(), t.begin());
+    cout << t << "\n";
+
+    return 0;
+}
+```
+
+3）方法三：重新构造
+
+```c++
+#include <algorithm>
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    string s = "hello world!";
+    cout << s << "\n";
+
+    string t = string(s.rbegin(), s.rend());
+    cout << t << "\n";
+
+    return 0;
+}
+```
+
+上述均输出：
+
+```c++
+hello world!
+!dlrow olleh
+```

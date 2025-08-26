@@ -1,5 +1,6 @@
 ---
 title: 微分学
+status: new
 ---
 
 ## 极限 (Limit)

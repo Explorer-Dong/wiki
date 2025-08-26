@@ -1,6 +1,5 @@
 ---
 title: 深度学习导读
-status: new
 ---
 
 本文记录深度学习 [^book] 入门笔记。代码实现框架为 PyTorch [^pytorch]，教学内容参考 Karpathy [^karpathy]、Dive into DeepLearning [^d2l] 等。

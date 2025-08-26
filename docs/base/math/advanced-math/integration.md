@@ -1,5 +1,6 @@
 ---
 title: 积分学
+status: new
 ---
 
 ## 积分

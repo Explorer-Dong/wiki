@@ -1,5 +1,6 @@
 ---
 title: 第 16 届 Python A 组（国赛）
+status: new
 ---
 
 !!! tip

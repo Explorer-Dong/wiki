@@ -1,5 +1,6 @@
 ---
 title: 全连接神经网络
+status: new
 ---
 
 全连接神经网络 (Full-connect Neural Network, FNN)，又称多层感知机 (Multi-Layer Perceptron, MLP)。是前馈神经网络 (Feedforward Neural Network, FNN) 的一种。是深度神经网络模型的开山鼻祖，通过向前传递数据，向后更新参数，实现学习和拟合的功能。

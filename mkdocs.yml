@@ -294,7 +294,7 @@ nav:
       - ds-and-algo/lan-qiao-cup/14th-python-a.md
   - 算法工程:
     - algo-engineering/index.md
-    - 常用第三方包:
+    - 常用第三方库:
       - algo-engineering/pkgs/numpy.md
       - algo-engineering/pkgs/pandas.md
       - algo-engineering/pkgs/matplotlib.md
@@ -302,8 +302,6 @@ nav:
     - 模型训练与部署:
       - algo-engineering/model-flow/cpu2gpu.md
       - algo-engineering/model-flow/gpu2gpus.md
-    - 检索增强生成:
-      - algo-engineering/rag/what-is-rag.md
   - 前端开发:
     - front-end/index.md
     - front-end/html-basic.md
@@ -318,26 +316,14 @@ nav:
       - front-end/hexo/hexo-enhancement.md
   - 后端开发:
     - back-end/index.md
-    - C++ 标准库:
-      - back-end/cpp-std/index.md
-      - back-end/cpp-std/base.md
-      - back-end/cpp-std/io.md
-      - back-end/cpp-std/container.md
-      - back-end/cpp-std/algo.md
-      - back-end/cpp-std/string.md
-      - back-end/cpp-std/utils.md
-      - back-end/cpp-std/pointer.md
-      - back-end/cpp-std/concurrent.md
-      - back-end/cpp-std/datetime.md
-      - back-end/cpp-std/math.md
-      - back-end/cpp-std/exception.md
-    - Python 标准库:
-      - back-end/py-std/index.md
-      - back-end/py-std/setup.md
-      - back-end/py-std/base.md
-    - 网络编程:
-      - back-end/web/flask.md
-      - back-end/web/crow.md
+    - C++:
+      - back-end/cpp/setup.md
+      - back-end/cpp/base.md
+    - Python:
+      - back-end/python/setup.md
+      - back-end/python/base.md
+      - back-end/python/concurrent-programming.md
+      - back-end/python/network-programming.md
     - MySQL:
       - back-end/mysql/mysql-basic.md
       - back-end/mysql/mysql-problem-solve.md
@@ -354,14 +340,12 @@ nav:
       - operation/nginx/nginx-examples.md
   - 实用工具:
     - dev-tools/index.md
-    - dev-tools/jetbrains-license.md
+    - dev-tools/windows.md
     - dev-tools/download.md
     - dev-tools/docker.md
-    - 软件配置:
-      - dev-tools/setup/windows-setup.md
-      - dev-tools/setup/devcpp-setup.md
-      - dev-tools/setup/idle-setup.md
-      - dev-tools/setup/clion-setup.md
+    - dev-tools/devcpp.md
+    - dev-tools/idle.md
+    - dev-tools/jetbrains.md
     - Git:
       - dev-tools/git/git-commands.md
       - dev-tools/git/git-self-define-command.md
