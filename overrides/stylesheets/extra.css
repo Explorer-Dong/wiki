@@ -8,9 +8,18 @@
 
 
 /* ==================== 文本 ==================== */
-/* 二级标题居中 */
-h2 {
+/* 二级标题配置 */
+.md-typeset h2 {
+    /* font-weight: bold; */
     text-align: center !important;
+    border-bottom: 1px solid #ddd; /* 浅浅的下划线 */
+    padding-bottom: 0.1em;  /* 让文字和下划线保持一定间距 */
+    margin-bottom: 0.8em;  /* 和下面的内容拉开一些距离 */
+}
+
+/* 三级标题配置 */
+.md-typeset h3 {
+    font-weight: bold;
 }
 
 /* 外链小箭头 */
