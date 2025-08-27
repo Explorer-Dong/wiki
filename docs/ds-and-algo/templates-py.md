@@ -3765,7 +3765,7 @@ class DisjointSetUnion:
 
 并查集是一种用于管理元素所属集合的数据结构，实现为一个森林，其中每棵树表示一个集合，树中的节点表示对应集合中的元素。集合内的元素可达且连通。
 
-<img src="https://pic.leetcode.cn/1741748205-rrerHS-image.png" alt="image.png" style="zoom:50%;" />
+<img src="https://cdn.dwj601.cn/images/20250827182449730.png" alt="image.png" style="zoom:50%;" />
 
 - $union(u, v)$ 合并两个元素所属集合（合并对应的树）
 - $find(x)$ 查询某个元素所属集合（查询对应的树的根节点），这可以用于判断两个元素是否属于同一集合
@@ -3782,7 +3782,7 @@ class DisjointSetUnion:
 
 - 查询：当  $fa[x] =x$  表示 $x$ 节点即是根节点；否则，通过递归调用 $find(fa[x])$，沿着树向上移动，直至找到根节点。通常在判断是否可达、连通问题时进行查询，如需要判断 $u,v$ 是否属于一个集合，通过 $find(u),find(v)$  是否相等判断。
 
-    <img src="https://pic.leetcode.cn/1741748277-RgfNTu-image.png" alt="image.png" style="zoom:50%;" />
+    <img src="https://cdn.dwj601.cn/images/20250827182457805.png" alt="image.png" style="zoom:50%;" />
 
 ```python
 # 查找 x 所属集合（对应的树的树根）
@@ -3800,7 +3800,7 @@ def find(x):
 
     
 
-    <img src="https://pic.leetcode.cn/1741750133-ShXMMP-image.png" alt="image.png" style="zoom:50%;" />
+    <img src="https://cdn.dwj601.cn/images/20250827182505693.png" alt="image.png" style="zoom:50%;" />
 
 ```python
 # v 所在集合并到 u 所在集合中
@@ -3813,7 +3813,7 @@ def union(u, v):
 
 查询过程中，经过的每个元素都属于该集合，我们可直接更新每个元素，让其父节点指向树根。即 $fa[x] \leftarrow find(fa[x])$ 来减少树根，加快后续查询。最终，我们会将原树压缩成树高越发接近 2 的树。
 
-<img src="https://pic.leetcode.cn/1741750082-qDWJcM-image.png" alt="image.png" style="zoom:50%;" />
+<img src="https://cdn.dwj601.cn/images/20250827182513207.png" alt="image.png" style="zoom:50%;" />
 
 ```python
 def find(x):
@@ -3876,7 +3876,7 @@ def union(u, v):
 
 - 对每组询问，$find(p_u)$ 和 $find(p_v)$ 的关系判断 $u,v$ 是否可达。
 
-    <img src="https://pic.leetcode.cn/1741843275-YnoDaB-image.png" alt="image.png" style="zoom:33%;" />
+    <img src="https://cdn.dwj601.cn/images/20250827182521784.png" alt="image.png" style="zoom:33%;" />
 
 
 
@@ -7389,7 +7389,7 @@ class Trie:
 
 给定 $n$ 个节点，$m$ 条边。我们希望用 $g(u,v)$ 表示 $u,v$ 的信息。（如连通性、边权）
 
-<img src="https://pic.leetcode.cn/1742044412-UDnzcZ-image.png" alt="image.png" style="zoom:50%;" />
+<img src="https://cdn.dwj601.cn/images/20250827182607999.png" alt="image.png" style="zoom:50%;" />
 
 **邻接矩阵**
 
