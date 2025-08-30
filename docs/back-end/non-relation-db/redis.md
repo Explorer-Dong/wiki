@@ -1,5 +1,5 @@
 ---
-title: 基本配置
+title: Redis
 status: new
 ---
 

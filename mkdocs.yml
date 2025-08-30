@@ -73,7 +73,7 @@ markdown_extensions:
   - footnotes
   # 目录
   - toc:
-      # permalink: true             # 显示标题链接
+      permalink: true             # 显示标题链接
       toc_depth: 3                # 显示目录深度
       title: 本页目录                 # 目录标题
       permalink_title: 页面定位   # 链接标题
@@ -317,19 +317,19 @@ nav:
   - 后端开发:
     - back-end/index.md
     - C++:
-      - back-end/cpp/setup.md
-      - back-end/cpp/base.md
+      - back-end/cpp/basic-concepts.md
+      - back-end/cpp/grammar.md
+      - back-end/cpp/common-standard-library.md
     - Python:
-      - back-end/python/setup.md
-      - back-end/python/base.md
-      - back-end/python/concurrent-programming.md
+      - back-end/python/basic-concepts.md
+      - back-end/python/grammar.md
+      - back-end/python/common-standard-library.md
       - back-end/python/network-programming.md
-    - MySQL:
-      - back-end/mysql/mysql-basic.md
-      - back-end/mysql/mysql-problem-solve.md
-    - openGauss:
-      - back-end/opengauss/opengauss-setup.md
-      - back-end/opengauss/opengauss-basic.md
+    - 关系型数据库:
+      - back-end/relation-db/mysql.md
+      - back-end/relation-db/opengauss.md
+    - 非关系型数据库:
+      - back-end/non-relation-db/redis.md
   - 运维测试:
     - operation/index.md
     - operation/gnu-linux-basic.md
