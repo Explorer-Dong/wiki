@@ -6,8 +6,6 @@ title: 首页
 
 下图展示了本站的所有专栏（可点击跳转）：
 
-<div align="center">
-
 ```mermaid
 graph LR
     %% 实体定义
@@ -33,8 +31,6 @@ graph LR
     click back_end "./back-end/"
     click dev_ops "./operation/"
 ```
-
-</div>
 
 ![贡献名单](https://contrib.rocks/image?repo=Explorer-Dong/wiki)
 

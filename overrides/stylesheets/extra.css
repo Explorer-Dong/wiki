@@ -19,7 +19,7 @@
 
 /* 三级标题配置 */
 .md-typeset h3 {
-    font-weight: bold;
+    font-weight: 500;
 }
 
 /* 外链小箭头 */
@@ -81,4 +81,9 @@ td, th {
   font-style: normal;
   text-align: center;
   margin-top: 0.3em;
+}
+
+/* mermaid 居中 */
+.mermaid {
+    text-align: center;
 }
