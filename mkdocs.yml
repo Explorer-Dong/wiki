@@ -296,7 +296,7 @@ nav:
     - llm/index.md
     - 模型研究:
       - llm/research/index.md
-      - llm/research/torch.md
+      - llm/research/pytorch.md
       - llm/research/cpu2gpu.md
       - llm/research/gpu2gpus.md
     - 基础设施:

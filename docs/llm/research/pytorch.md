@@ -1,5 +1,5 @@
 ---
-title: torch
+title: PyTorch
 status: new
 ---
 
