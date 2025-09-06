@@ -292,16 +292,20 @@ nav:
       - ds-and-algo/lan-qiao-cup/16th-python-a.md
       - ds-and-algo/lan-qiao-cup/15th-python-a.md
       - ds-and-algo/lan-qiao-cup/14th-python-a.md
-  - 算法工程:
-    - algo-engineering/index.md
-    - 常用第三方库:
-      - algo-engineering/pkgs/numpy.md
-      - algo-engineering/pkgs/pandas.md
-      - algo-engineering/pkgs/matplotlib.md
-      - algo-engineering/pkgs/torch.md
-    - 模型训练与部署:
-      - algo-engineering/model-flow/cpu2gpu.md
-      - algo-engineering/model-flow/gpu2gpus.md
+  - 大模型:
+    - llm/index.md
+    - 模型研究:
+      - llm/research/index.md
+      - llm/research/torch.md
+      - llm/research/cpu2gpu.md
+      - llm/research/gpu2gpus.md
+    - 基础设施:
+      - llm/infrastructure/index.md
+    - 下游应用:
+      - llm/downstream/index.md
+      - llm/downstream/prompt.md
+      - llm/downstream/rag.md
+      - llm/downstream/agent.md
   - 前端开发:
     - front-end/index.md
     - front-end/html-basic.md
@@ -319,17 +323,16 @@ nav:
     - C++:
       - back-end/cpp/basic-concepts.md
       - back-end/cpp/grammar.md
-      - back-end/cpp/common-standard-library.md
+      - back-end/cpp/std-lib.md
     - Python:
       - back-end/python/basic-concepts.md
       - back-end/python/grammar.md
-      - back-end/python/common-standard-library.md
-      - back-end/python/network-programming.md
-    - 关系型数据库:
-      - back-end/relation-db/mysql.md
-      - back-end/relation-db/opengauss.md
-    - 非关系型数据库:
-      - back-end/non-relation-db/redis.md
+      - back-end/python/std-lib.md
+      - back-end/python/network-lib.md
+      - back-end/python/science-lib.md
+    - 数据库:
+      - back-end/database/mysql.md
+      - back-end/database/opengauss.md
   - 运维测试:
     - operation/index.md
     - operation/gnu-linux-basic.md
@@ -347,6 +350,7 @@ nav:
     - dev-tools/idle.md
     - dev-tools/jetbrains.md
     - dev-tools/battery-info-view.md
+    - dev-tools/ragflow.md
     - Git:
       - dev-tools/git/git-commands.md
       - dev-tools/git/git-self-define-command.md
