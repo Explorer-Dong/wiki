@@ -2,7 +2,7 @@
 title: Jetbrains
 ---
 
-本文记录 Jetbrains 系列开发软件的使用指南。
+本文记录 Jetbrains 系列软件的使用指南。
 
 ## 更新 Jetbrains 学生许可证
 
@@ -39,7 +39,7 @@ title: Jetbrains
 
 ![有效期已增加一年](https://cdn.dwj601.cn/images/202405171111855.png)
 
-## CLion
+## CLion 的针对性配置
 
 ### 自动加载 CMake 更改
 
@@ -133,9 +133,9 @@ Process finished with exit code 0
 
     ![配置路径](https://cdn.dwj601.cn/images/202402292258092.png)
 
-## 通用
+## 通用配置
 
-### 配置代理服务
+### 系统代理
 
 > 加速插件更新、全局更新等操作。
 
@@ -154,3 +154,9 @@ Process finished with exit code 0
 测试连接成功，那么配置就成功了，如下：
 
 ![测试连接成功](https://cdn.dwj601.cn/images/202403032127862.png)
+
+### 启动时不打开最近的项目
+
+进入 `File | Settings | Appearance & Behavior | System Settings` 目录，取消勾选 `Reopen projects on startup` 即可：
+
+![启动软件时不打开最近的项目](https://cdn.dwj601.cn/images/20250906144309795.png)
