@@ -1,5 +1,6 @@
 ---
 title: MySQL
+status: new
 ---
 
 本文介绍 MySQL 的学习笔记。

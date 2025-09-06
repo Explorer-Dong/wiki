@@ -5,6 +5,15 @@ status: new
 
 本文以 Python 的常用标准库。
 
+[并行库讲解](https://www.bilibili.com/video/BV1Bix9euEeh/)，包括两个部分：
+
+1. 利用 multiprocessing 的 Process 和 Value 手动获得每一个子进程的返回值；
+2. 利用 multiprocessing 的 Pool 自动一次性获得每一个子进程的返回值。
+
+为什么不得不多线程：https://peps.python.org/pep-0703/#the-gil-makes-many-types-of-parallelism-difficult-to-express
+
+
+
 ## 并发库
 
 - 多线程/多进程（`threading`、`multiprocessing`）

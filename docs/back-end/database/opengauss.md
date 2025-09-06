@@ -1,5 +1,6 @@
 ---
 title: openGauss
+status: new
 ---
 
 本文介绍 [openGauss](https://docs.opengauss.org/zh/) 的学习笔记。
