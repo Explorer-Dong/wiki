@@ -19,15 +19,15 @@ graph LR
     %% 实体定义
     aics_base(基础知识专栏)
     ds_and_algo(数据结构与算法专栏)
-    algo_engineering(算法工程专栏)
+    llm(大模型专栏)
     dev_tools(开发工具专栏)
     front_end(前端开发专栏)
     back_end(后端开发专栏)
     dev_ops(运维测试专栏)
 
     %% 关系定义
-    aics_base --> algo_engineering
-    ds_and_algo --> algo_engineering & back_end
+    aics_base --> llm
+    ds_and_algo --> llm & back_end
     dev_tools --> front_end & back_end & dev_ops
 ```
 
@@ -51,10 +51,9 @@ graph LR
 
 ## 贡献名单
 
-<a href="https://github.com/Explorer-Dong/wiki/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Explorer-Dong/wiki" />
-</a>
+![贡献名单](https://contrib.rocks/image?repo=Explorer-Dong/wiki)
 
 ## 星标历史
 
-[![星标历史](https://api.star-history.com/svg?repos=Explorer-Dong/wiki&type=Date)](https://www.star-history.com/#Explorer-Dong/wiki&Date)
+![星标历史](https://api.star-history.com/svg?repos=Explorer-Dong/wiki&type=Date)
+
