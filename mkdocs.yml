@@ -296,6 +296,7 @@ nav:
     - llm/index.md
     - 模型研究:
       - llm/research/index.md
+      - llm/research/huggingface.md
     - 基础设施:
       - llm/infrastructure/index.md
     - 下游应用:
@@ -344,7 +345,6 @@ nav:
     - dev-tools/idle.md
     - dev-tools/jetbrains.md
     - dev-tools/battery-info-view.md
-    - dev-tools/ragflow.md
     - Git:
       - dev-tools/git/git-commands.md
       - dev-tools/git/git-self-define-command.md
