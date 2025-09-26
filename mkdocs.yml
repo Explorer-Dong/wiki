@@ -64,6 +64,7 @@ markdown_extensions:
   # 悬浮提示
   - abbr
   - attr_list
+  - md_in_html
   - pymdownx.snippets
   # 折叠块
   - pymdownx.details
@@ -332,11 +333,11 @@ nav:
         - develop/operation/nginx/nginx-examples.md
   - 大模型:
     - llm/index.md
+    - 基础设施:
+      - llm/infrastructure/index.md
     - 模型研究:
       - llm/research/index.md
       - llm/research/huggingface.md
-    - 基础设施:
-      - llm/infrastructure/index.md
     - 下游应用:
       - llm/downstream/index.md
   - 实用工具:

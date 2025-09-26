@@ -2,36 +2,23 @@
     <a href="https://wiki.dwj601.cn/">
         <img src="./overrides/assets/cover-image.png" alt="Site Cover Image" />
     </a>
-</div>
 
-本网站以 **体系化** 的学习笔记为基础，旨在围绕「计算机与人工智能」构建一个 **开放知识社群**。
+</br>
 
-在线浏览地址：<https://wiki.dwj601.cn/>。您的⭐与反馈是我们更新的最大动力！
+[![stars](https://img.shields.io/github/stars/Explorer-Dong/wiki?color=ccf)](https://github.com/Explorer-Dong/wiki)
+![python](https://img.shields.io/badge/Python-3.11+-aff)
+![material](https://img.shields.io/badge/Mkdocs_Material-9.x-purple)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Explorer-Dong/wiki)
 
-## 关于本站
-
-笔记按照 Markdown 格式记录，站点采用 MkDocs 框架编译，云端基于 Aliyun OSS 服务部署。下图展示了本站的所有专栏：
-
-<div align="center">
-
-```mermaid
-graph LR
-    %% 实体定义
-    aics_base(基础知识专栏)
-    ds_and_algo(数据结构与算法专栏)
-    llm(大模型专栏)
-    dev_tools(开发工具专栏)
-    front_end(前端开发专栏)
-    back_end(后端开发专栏)
-    dev_ops(运维测试专栏)
-
-    %% 关系定义
-    aics_base --> llm
-    ds_and_algo --> llm & back_end
-    dev_tools --> front_end & back_end & dev_ops
-```
+开放知识社群是一个围绕计算机与人工智能的体系化学习笔记知识库。
 
 </div>
+
+# 开放知识社群
+
+开放知识社群围绕计算机和人工智能，体系化地记录了相关的学习笔记。
+
+笔记按照 Markdown 格式撰写，站点采用 MkDocs 框架编译，云端基于 Aliyun OSS 服务部署。在线浏览地址：<https://wiki.dwj601.cn>。您的⭐与反馈是我们更新的最大动力！
 
 ## 共建社区
 
@@ -42,12 +29,12 @@ graph LR
 3. 回到原来的网站页面点击右上角铅笔按钮；
 4. 编辑内容后向我发起 Pull Request。
 
-当然您也可以将仓库克隆至本地，按照 `.github/workflows/bot.yml` 文件指引安装构建文档所需的依赖环境，完成修改/新增后，推送至仓库并向我发起 Pull Request。
+当然您也可以将仓库克隆至本地，安装好 `requirements.txt` 中的 Python 依赖包后进行热编辑，即 `mkdocs serve -f local.yml`。完成修改/新增后，推送至仓库并向我发起 Pull Request。
 
 本站点行文格式主要参考 [OI Wiki 格式手册](https://oi-wiki.org/intro/format/)。其中：
 
 - 标题：单页文章标题为 H2 至 H3，低于 H3 等级的标题不应再出现，可以采用段首加粗的形式；
-- 链接：所有内链请采用相对引用的格式。
+- 链接：所有内链请采用相对引用的格式，例如 `[基础知识](./base/index.md)`。
 
 ## 贡献名单
 
