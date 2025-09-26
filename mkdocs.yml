@@ -337,17 +337,17 @@ nav:
       - operation/nginx/nginx-setup.md
       - operation/nginx/nginx-examples.md
   - 实用工具:
-    - dev-tools/index.md
-    - dev-tools/windows.md
-    - dev-tools/download.md
-    - dev-tools/docker.md
-    - dev-tools/devcpp.md
-    - dev-tools/idle.md
-    - dev-tools/jetbrains.md
-    - dev-tools/battery-info-view.md
+    - tools/index.md
+    - tools/windows.md
+    - tools/download.md
+    - tools/docker.md
+    - tools/devcpp.md
+    - tools/idle.md
+    - tools/jetbrains.md
+    - tools/battery-info-view.md
     - Git:
-      - dev-tools/git/git-commands.md
-      - dev-tools/git/git-self-define-command.md
-      - dev-tools/git/git-lfs.md
-      - dev-tools/git/collaboration.md
+      - tools/git/git-commands.md
+      - tools/git/git-self-define-command.md
+      - tools/git/git-lfs.md
+      - tools/git/collaboration.md
   - 博客: https://blog.dwj601.cn/
