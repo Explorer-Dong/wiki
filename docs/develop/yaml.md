@@ -1,5 +1,5 @@
 ---
-title: YAML 基础
+title: YAML
 ---
 
 本文记录 YAML 格式文件的常见写法 [^chatgpt] [^runoob]。

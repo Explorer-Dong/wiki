@@ -292,6 +292,44 @@ nav:
       - ds-and-algo/lan-qiao-cup/16th-python-a.md
       - ds-and-algo/lan-qiao-cup/15th-python-a.md
       - ds-and-algo/lan-qiao-cup/14th-python-a.md
+  - 软件开发:
+    - develop/index.md
+    - develop/yaml.md
+    - 前端:
+      - develop/front-end/index.md
+      - develop/front-end/html.md
+      - develop/front-end/css.md
+      - JavaScript:
+        - develop/front-end/javascript/basic-concepts.md
+        - develop/front-end/javascript/grammar.md
+      - Hexo:
+        - develop/front-end/hexo/build-your-own-website-with-hexo.md
+        - develop/front-end/hexo/hexo-deployment.md
+        - develop/front-end/hexo/hexo-enhancement.md
+    - 后端:
+      - develop/back-end/index.md
+      - C++:
+        - develop/back-end/cpp/basic-concepts.md
+        - develop/back-end/cpp/grammar.md
+        - develop/back-end/cpp/std-lib.md
+      - Python:
+        - develop/back-end/python/basic-concepts.md
+        - develop/back-end/python/grammar.md
+        - develop/back-end/python/std-lib.md
+        - develop/back-end/python/network-lib.md
+        - develop/back-end/python/science-lib.md
+      - 数据库:
+        - develop/back-end/database/mysql.md
+        - develop/back-end/database/opengauss.md
+    - 运维:
+      - develop/operation/index.md
+      - develop/operation/gnu-linux-basic.md
+      - develop/operation/gnu-linux-advanced.md
+      - develop/operation/docker.md
+      - Nginx:
+        - develop/operation/nginx/nginx-commands.md
+        - develop/operation/nginx/nginx-setup.md
+        - develop/operation/nginx/nginx-examples.md
   - 大模型:
     - llm/index.md
     - 模型研究:
@@ -301,50 +339,15 @@ nav:
       - llm/infrastructure/index.md
     - 下游应用:
       - llm/downstream/index.md
-  - 前端开发:
-    - front-end/index.md
-    - front-end/html-basic.md
-    - front-end/css-basic.md
-    - front-end/yaml-basic.md
-    - JavaScript:
-      - front-end/javascript/javascript-basic.md
-      - front-end/javascript/javascript-advanced.md
-    - Hexo:
-      - front-end/hexo/build-your-own-website-with-hexo.md
-      - front-end/hexo/hexo-deployment.md
-      - front-end/hexo/hexo-enhancement.md
-  - 后端开发:
-    - back-end/index.md
-    - C++:
-      - back-end/cpp/basic-concepts.md
-      - back-end/cpp/grammar.md
-      - back-end/cpp/std-lib.md
-    - Python:
-      - back-end/python/basic-concepts.md
-      - back-end/python/grammar.md
-      - back-end/python/std-lib.md
-      - back-end/python/network-lib.md
-      - back-end/python/science-lib.md
-    - 数据库:
-      - back-end/database/mysql.md
-      - back-end/database/opengauss.md
-  - 运维测试:
-    - operation/index.md
-    - operation/gnu-linux-basic.md
-    - operation/gnu-linux-advanced.md
-    - Nginx:
-      - operation/nginx/nginx-commands.md
-      - operation/nginx/nginx-setup.md
-      - operation/nginx/nginx-examples.md
   - 实用工具:
     - tools/index.md
     - tools/windows.md
     - tools/download.md
-    - tools/docker.md
-    - tools/devcpp.md
-    - tools/idle.md
-    - tools/jetbrains.md
     - tools/battery-info-view.md
+    - IDE:
+      - tools/ide/jetbrains.md
+      - tools/ide/devcpp.md
+      - tools/ide/idle.md
     - Git:
       - tools/git/git-commands.md
       - tools/git/git-self-define-command.md
