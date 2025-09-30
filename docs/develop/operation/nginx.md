@@ -1,15 +1,82 @@
 ---
-title: Nginx 常用命令
+title: Nginx
 ---
 
-在 Ubuntu22.04 操作系统上，我们使用 Nginx 需要不断使用其相关命令，本文介绍一下常用的几个命令。
+本文记录 [Nginx](https://nginx.org/) 的学习笔记。
 
-## `nginx -?,-h`
+## 基本概念
+
+Nginx 实现了主机虚拟化的功能，即一台主机可以通过 Nginx 的分发功能对外提供多种服务。
+
+### 安装位置
+
+在 Ubuntu 22.04 操作系统上，我们使用以下命令安装 Nginx 以后：
+
+```nginx
+sudo apt update && sudo apt install nginx
+```
+
+使用命令 `whereis nginx` 查看安装路径，输出：
+
+```bash
+nginx: /usr/sbin/nginx /usr/lib/nginx /etc/nginx /usr/share/nginx /usr/share/man/man8/nginx.8.gz
+```
+
+可以看到一共有 5 个位置，下面分别解读。
+
+1）`/usr/sbin/nginx`：
+
+<img src="https://cdn.dwj601.cn/images/202404031007306.png" alt="/usr/sbin/nginx" style="zoom:67%;" />
+
+<img src="https://cdn.dwj601.cn/images/202404031011583.png" alt="* 含义解释" style="zoom:67%;" />
+
+当前路径包含了 Nginx 服务器的可执行文件。而 Ubuntu 中这个位置是用于存放系统管理的可执行文件的标准目录之一，可以从图二中的 `*` 看出，在 Mobaxterm 中，文件名后面加 `*` 表示该文件拥有执行权限。
+
+2）`/usr/lib/nginx`：
+
+<img src="https://cdn.dwj601.cn/images/202404031019394.png" alt="/usr/lib/nginx" style="zoom:67%;" />
+
+<img src="https://cdn.dwj601.cn/images/202404031014214.png" alt="/usr/lib/nginx/modules" style="zoom:67%;" />
+
+当前路径包含 Nginx 的共享对象模块（so，shared objects）。通常情况下，这些模块文件可能被 Nginx 服务器在运行时动态加载。当服务器需要使用特定功能时，它会动态加载相应的模块，以提供所需的功。
+
+3）`/etc/nginx`：
+
+<img src="https://cdn.dwj601.cn/images/202404031027880.png" alt="/etc/nginx" style="zoom:67%;" />
+
+当前路径是 Nginx 的主要配置文件目录。我们主要在这里进行 Nginx 的配置。
+
+4）`/usr/share/nginx`：
+
+<img src="https://cdn.dwj601.cn/images/202404031027018.png" alt="/usr/share/nginx" style="zoom:67%;" />
+
+当前路径包含一些 Nginx 的静态资源，同时软链接到模块依赖文件。
+
+5）`/usr/share/man/man8/nginx.8.gz`：
+
+<img src="https://cdn.dwj601.cn/images/202404031303783.png" alt="/usr/share/man/man8/nginx.8.gz" style="zoom:67%;" />
+
+当前路径包含 Nginx 的手册页文件，以供用户查阅 Nginx 命令的使用说明。我们可以使用 `gzip -d nginx.8.gz` 将其解压后阅读。
+
+### 代理系统
+
+所谓代理，简单来说就是连接用户与服务器的中间媒介。有正向代理、反向代理等实际应用。与传统的用户与服务器直连的方式不同，代理系统可以完成很多前者无法完成的任务，同时在性能上也有质的飞跃。下面从理论的角度介绍代理系统的应用和优势。
+
+1）正向代理。这里的正向指的是「面向用户」进行运作。常见的正向代理应用比如 VPN 服务就是很典型的一种。
+
+![正向代理逻辑](https://cdn.dwj601.cn/images/202403300120927.png)
+
+2）反向代理。这里的反向指的是「面向服务器」进行运作。Nginx 与 Apache 就是典型的反向代理应用。通过代理客户端请求并统一转发到后端服务器，来实现负载均衡、加速优化、安全防护等效果。
+
+![反向代理逻辑](https://cdn.dwj601.cn/images/202403300120846.png)
+
+## 常用命令
+
+### `nginx -?,-h`
 
 我们用 `nginx -h` 或 `nginx -?` 来查看当前 Nginx 的版本和全部的指令简介：
 
 ```nginx
-root@dwj2:~# nginx -h
 nginx version: nginx/1.18.0 (Ubuntu)
 Usage: nginx [-?hvVtTq] [-s signal] [-c filename] [-p prefix] [-g directives]
 
@@ -26,21 +93,19 @@ Options:
   -g directives : set global directives out of configuration file
 ```
 
-## `nginx -v`
+### `nginx -v`
 
 我们用 `nginx -v` 来查看当前 Nginx 的版本信息，往往用来检测 Nginx 是否安装成功：
 
 ```nginx
-root@dwj2:~# nginx -v
 nginx version: nginx/1.18.0 (Ubuntu)
 ```
 
-## `nginx -V`
+### `nginx -V`
 
 我们用 `nginx -V` 来查看当前 Nginx 版本信息，同时显示配置信息，往往用来查看配置文件的存放路径：
 
 ```nginx
-root@dwj2:~# nginx -V
 nginx version: nginx/1.18.0 (Ubuntu)
 built with OpenSSL 3.0.2 15 Mar 2022
 TLS SNI support enabled
@@ -124,32 +189,29 @@ configure arguments:
 --with-http_sub_module           # 用于替换响应内容
 ```
 
-## `nginx -t`
+### `nginx -t`
 
-我们用 `nginx -t` 来测试配置文件是否格式正确：
+我们用 `nginx -t` 来测试配置文件是否格式正确。
 
-成功时，输出成功信息：
+1）成功时，输出成功信息：
 
 ```nginx
-root@dwj2:~# nginx -t
 nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
 nginx: configuration file /etc/nginx/nginx.conf test is successful
 ```
 
-失败时，输出报错内容：
+2）失败时，输出报错内容：
 
 ```nginx
-root@dwj2:~# nginx -t
 nginx: [emerg] directive "include" is not terminated by ";" in /etc/nginx/nginx.conf:6
 nginx: configuration file /etc/nginx/nginx.conf test failed
 ```
 
-## `nginx -T`
+### `nginx -T`
 
-我们用 `nginx -T` 来测试配置文件是否格式正确，同时将所有的配置信息输出到屏幕上，我们可以对输出信息转存用来备份配置：
+我们用 `nginx -T` 来测试配置文件是否格式正确，同时将所有的配置信息输出到屏幕上。我们可以对输出信息转存用来备份配置。
 
 ```nginx
-root@dwj2:~# nginx -T
 nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
 nginx: configuration file /etc/nginx/nginx.conf test is successful
 
@@ -157,12 +219,11 @@ nginx: configuration file /etc/nginx/nginx.conf test is successful
 ...
 ```
 
-## `nginx -q`
+### `nginx -q`
 
-我们用 `nginx -q` 来测试配置，与 `-t` 和 `-T` 不同的是，该命令不会显示非错误信息从而简化输出
+我们用 `nginx -q` 来测试配置，与 `-t` 和 `-T` 不同的是，该命令不会显示非错误信息从而简化输出。
 
 ```nginx
-root@dwj2:~# nginx -q
 nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Unknown error)
 nginx: [emerg] bind() to [::]:80 failed (98: Unknown error)
 nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Unknown error)
@@ -176,34 +237,96 @@ nginx: [emerg] bind() to [::]:80 failed (98: Unknown error)
 nginx: [emerg] still could not bind()
 ```
 
-## `nginx -s <signal>`
+### `nginx -s <signal>`
 
-我们使用 `nginx -s <signal>` 相关指令来对控制 Nginx 的 master 进程。
+我们用 `nginx -s <signal>` 相关指令来对控制 Nginx 的 master 进程。例如：
 
-### `nginx -s stop`
+- `nginx -s stop`：停止 Nginx 服务器，使其不再处理新的请求，并且关闭已有的连接；
+- `nginx -s quit`：优雅地关闭 Nginx 服务器。与 `stop` 信号不同，`quit` 信号会等待当前请求处理完毕后再关闭服务器，这样可以确保不丢失任何已接收但未处理完的请求；
+- `nginx -s reopen`：重新打开 Nginx 的日志文件。重新打开日志文件可以在不重启 Nginx 的情况下切换日志文件，这在日志轮换时非常有用；
+- `nginx -s reload`：重新加载 Nginx 的配置文件，而无需停止服务器。这使得在不停止服务的情况下更新配置成为可能，可以避免中断用户的访问；
+- `nginx -p <prefix>`：配置 Nginx 的工作路径；
+- `nginx -c <filename>`：指定 Nginx 的配置文件路径；
+- `nginx -g <directives>`：指定全局指令而不会写入配置文件中。
 
-我们使用 `nginx -s stop` 指令来停止 Nginx 服务器，使其不再处理新的请求，并且关闭已有的连接。
+## 常见配置
 
-### `nginx -s quit`
+所有的配置修改后，都需要使用 `nginx -s reload` 命令重启 Nginx。
 
-我们使用 `nginx -s quit` 指令来优雅地关闭 Nginx 服务器。与 `stop` 信号不同，`quit` 信号会等待当前请求处理完毕后再关闭服务器，这样可以确保不丢失任何已接收但未处理完的请求。
+### 静态网站配置
 
-### `nginx -s reopen`
+访问 `http://www.example.com` 时，访问静态网站：
 
-我们使用 `nginx -s reopen` 指令来重新打开 Nginx 的日志文件。重新打开日志文件可以在不重启Nginx的情况下切换日志文件，这在日志轮换时非常有用。
+```nginx
+server {
+    listen       80;               # 监听的端口
+    server_name  www.example.com;  # 监听的域名
 
-### `nginx -s reload`
+    # 静态网站路径
+    location / {
+        root /home/web/www;        # 网站根目录
+    }
+}
+```
 
-我们使用 `nginx -s reload` 指令来重新加载Nginx的配置文件，而无需停止服务器。这使得在不停止服务的情况下更新配置成为可能，可以避免中断用户的访问。
+访问 `http://example.com` 时，通过重定向的方式也访问静态网站：
 
-## `nginx -p <prefix>`
+```nginx
+server {
+    listen       80;               # 监听的端口
+    server_name  example.com;      # 监听的域名
 
-我们使用 `nginx -p <prefix>` 指令来配置 Nginx 的工作路径。
+    # 重定向到 www.example.com
+    location / {
+        proxy_pass  https://www.example.com  
+    }
+}
+```
 
-## `nginx -c <filename>`
+### 带端口的网站配置
 
-我们使用 `nginx -c <prefix>` 指令来指定 Nginx 的配置文件路径。
+```nginx
+server {
+    listen 80;
+    server_name example.com www.example.com;
 
-## `nginx -g <directives>`
+    location / {
+        proxy_pass http://localhost:5000/;  # 转发到 5000 端口对应的进程上
+    }
+}
+```
 
-我们使用 `nginx -g <prefix>` 指令来指定全局指令而不会写入配置文件中。
+### 启用 HTTPs 服务
+
+如果需要向外提供  HTTPs 服务，首先需要准备一个 [SSL](https://www.aliyun.com/product/cas?userCode=jpec1z57) 证书，将证书的 pem 文件和 key 文件上传到服务器后，对 Nginx 进行以下配置：
+
+```nginx
+server {
+    listen 443 ssl;
+    server_name example.com;  # 自定义
+
+    ssl_certificate      /etc/nginx/ssl/example.com.pem;  # 自定义
+    ssl_certificate_key  /etc/nginx/ssl/example.com.key;  # 自定义
+
+    ssl_session_cache    shared:SSL:1m;
+    ssl_session_timeout  5m;
+    ssl_ciphers  HIGH:!aNULL:!MD5;
+    ssl_prefer_server_ciphers  on;
+
+    location / {
+        root /home/web/example;  # 自定义
+    }
+}
+```
+
+### HTTP 自动跳转 HTTPs
+
+添加一个 server 块专门监听 http 协议默认的 80 端口：
+
+```nginx
+server {
+    listen 80;
+    server_name example.com;
+    return 301 https://$host$request_uri;
+}
+```
