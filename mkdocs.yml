@@ -296,6 +296,8 @@ nav:
   - 软件开发:
     - develop/index.md
     - develop/yaml.md
+    - develop/ssg-hexo.md
+    - develop/ssg-mkdocs.md
     - 前端:
       - develop/front-end/index.md
       - develop/front-end/html.md
@@ -303,10 +305,6 @@ nav:
       - JavaScript:
         - develop/front-end/javascript/basic-concepts.md
         - develop/front-end/javascript/grammar.md
-      - Hexo:
-        - develop/front-end/hexo/build-your-own-website-with-hexo.md
-        - develop/front-end/hexo/hexo-deployment.md
-        - develop/front-end/hexo/hexo-enhancement.md
     - 后端:
       - develop/back-end/index.md
       - C++:
@@ -319,18 +317,14 @@ nav:
         - develop/back-end/python/std-lib.md
         - develop/back-end/python/network-lib.md
         - develop/back-end/python/science-lib.md
-      - 数据库:
-        - develop/back-end/database/mysql.md
-        - develop/back-end/database/opengauss.md
+    - 数据库:
+      - develop/database/mysql.md
+      - develop/database/opengauss.md
     - 运维:
       - develop/operation/index.md
-      - develop/operation/gnu-linux-basic.md
-      - develop/operation/gnu-linux-advanced.md
+      - develop/operation/linux.md
+      - develop/operation/nginx.md
       - develop/operation/docker.md
-      - Nginx:
-        - develop/operation/nginx/nginx-commands.md
-        - develop/operation/nginx/nginx-setup.md
-        - develop/operation/nginx/nginx-examples.md
   - 大模型:
     - llm/index.md
     - 基础设施:
