@@ -1,13 +1,9 @@
 ---
 title: 深度学习导读
+status: new
 ---
 
-本文记录深度学习 [^book] 入门笔记。代码实现框架为 PyTorch [^pytorch]，教学内容参考 Karpathy [^karpathy]、Dive into DeepLearning [^d2l] 等。
-
-[^book]: 邱锡鹏. *神经网络与深度学习* [M]. 1版. 北京: 机械工业出版社, 2017. ISBN 978-7-111-64968-7.
-[^pytorch]: [PyTorch | Docs - (pytorch.org)](https://pytorch.org/docs/stable/index.html)
-[^karpathy]: [Karpathy 的教学视频 | bilibili - (space.bilibili.com)](https://space.bilibili.com/3129054/lists/874339)
-[^d2l]: [动手学深度学习 | amazon - (zh.d2l.ai)](https://zh.d2l.ai/index.html)
+本文记录深度学习入门笔记。主要参考邱锡鹏老师的 [神经网络与深度学习](https://nndl.github.io/)，部分参考 [Karpathy 的教学视频](https://space.bilibili.com/3129054/lists/874339)、李沐老师的 [Dive into DeepLearning](https://zh.d2l.ai/index.html)。代码实现框架为 [PyTorch](https://pytorch.org/docs/stable/index.html)。
 
 **深度学习是什么**？相较于机器学习中「手动提取特征」从而进行之后的下游任务，深度学习则直接规避了手动提取特征的人工干预，直接让模型自动提取数据特征并进行之后的下游任务，从而实现所谓「端到端」的任务范式。这里的自动提取特征也被叫做「表示学习」，具体流程如下图所示：
 

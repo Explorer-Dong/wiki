@@ -1,15 +1,12 @@
 ---
 title: 自然语言处理导读
+status: new
 ---
 
-本文记录自然语言处理的入门笔记。部分参考内容如下：
+本文记录自然语言处理的入门笔记。参考：
 
-- 理论部分：*CS 224N* [^cs-224n] [^cs-224n-video]；
-- 实践部分：*Dive into Deep Learning* [^d2l]。
-
-[^cs-224n]: [CS 224N HomePage | Stanford - (web.stanford.edu)](https://web.stanford.edu/class/cs224n/index.html)
-[^cs-224n-video]: [CS 224N Video | GPT 中英字幕课程资源 - (www.bilibili.com)](https://www.bilibili.com/video/BV1U5RNYgEfp)
-[^d2l]: [自然语言处理 | d2l - (zh.d2l.ai)](https://zh.d2l.ai/chapter_natural-language-processing-pretraining/index.html)
+- CS 224N：[课程主页](https://web.stanford.edu/class/cs224n/index.html)、[课程视频](https://www.bilibili.com/video/BV1U5RNYgEfp)；
+- Dive into Deep Learning：[官网](https://zh.d2l.ai/chapter_natural-language-processing-pretraining/index.html)。
 
 自然语言处理 (Natural Language Processing, NLP) 是人工智能研究的一个子领域，核心任务是利用「人类自然语言的文本数据」完成「预测、生成」等任务。NLP 的主要研究内容如下：
 
