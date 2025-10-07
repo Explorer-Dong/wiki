@@ -204,6 +204,8 @@ nav:
         - base/ai/deep-learning/convolutional-neural-network.md
         - base/ai/deep-learning/recurrent-neural-network.md
         - base/ai/deep-learning/network-enhancement.md
+      - 强化学习:
+        - base/ai/reinforcement-learning/index.md
       - 语音信号处理:
         - base/ai/speech-signal-processing/index.md
       - 自然语言处理:
