@@ -2,18 +2,21 @@
 title: 静态网站生成器 (Hexo)
 ---
 
-笔者比较喜欢记笔记，有时可能会分享给其他同学，直接发笔记文件不能实时更新，依托在线笔记软件也不够优雅（飞书的链接不能自定义、GitHub 的样式也比较简单），所以索性打包成网站直接部署到服务器上。现在主流建站模式有两个：
+我比较喜欢按照树的结构体系化地整理电子笔记，我一般将其称为知识库 (Wiki)，让我产生「将知识库搭建为在线网站」这个想法主要有以下几个原因：
 
-1. 有后端：[WordPress](https://cn.wordpress.org/)；
-2. 无后端：[Hexo](https://hexo.io/zh-cn/)、[VuePress](https://v2.vuepress.vuejs.org/zh/)、[Gatsby](https://www.gatsbyjs.com/docs)。
+- 分享笔记时，如果直接发文件不能实时更新，依托在线笔记软件也不够优雅，比如飞书的链接不能自定义、GitHub 有网络限制等；
+- 整理笔记时，以网站的形式呈现内容在架构上会更加清晰，更有助于我对笔记进行修改、润色和链接；
+- 阅读笔记时，以网站的形式呈现内容在多端阅读时会非常方便，避免了纯 Markdown 的格式渲染问题。
 
-有后端的网站用在知识库上显得有些大材小用，而无后端的「静态站点」很适合更新不怎么频繁的中小型知识库场景。所谓的静态站点，其实就是利用一个转换工具将自己写好的 Markdown 笔记转换为 HTML 文件，打包部署后就可以全球共享了。作者只需关注文章的内容本身，即可在极短的时间内构建一个所有人都可以访问的博客网站。
+所以索性直接将笔记打包成网站部署到大陆的服务器上。现在「以内容为主」的主流建站模式及其特点如下：
 
-本博客以 Hexo 为例讲解如何 [从零开始搭建一个自己的博客网站](https://www.bilibili.com/video/BV1dt4y1Q7UE)。在开始之前，你需要：
+1. 有后端：[WordPress](https://cn.wordpress.org/) 等。用在知识库上显得有些大材小用，也不太适合多人编辑进行开源；
+2. 无后端：[Hexo](https://hexo.io/zh-cn/)、[Mkdocs](https://www.mkdocs.org/)、[VuePress](https://v2.vuepress.vuejs.org/zh/)、[Gatsby](https://www.gatsbyjs.com/docs) 等。很适合更新不怎么频繁的中小型知识库场景，原理就是利用 [静态站点生成器](https://developer.mozilla.org/zh-CN/docs/Glossary/SSG) (static site generator, SSG)，将写好的 Markdown 文件转换为 HTML 文件供浏览器渲染。作者只需关注文章的内容本身，即可在极短的时间内构建一个所有人都可以访问的博客网站。
 
-- 配置好了 Node 运行时环境；
-- 安装好了 Git 软件；
-- 创建好了 GitHub 账号。
+本文就以 Hexo 为例讲解如何从零开始搭建一个自己的知识库网站。掌握了该方法，其余的 SSG 逻辑都是类似的，也就一通百通了。
+
+!!! tip
+    在开始之前，你需要在本地安装好 [Node.js](https://nodejs.org/zh-cn) 和 [Git](https://git-scm.com/)，并创建一个 [GitHub](https://github.com) 账号。
 
 ## 本地调试
 
@@ -51,7 +54,7 @@ Hexo 服务默认占用 4000 端口。现在用浏览器访问 `http://localhost
 
 本地调试没问题后，就可以打包网站并部署到服务器了。所谓打包，就是将 Markdown 笔记转化为 HTML 网页；所谓部署，就是将网页放到服务器。之后用户就可以通过 IP 或域名的方式访问你的笔记了。
 
-这里介绍以下四种方法：
+这里介绍以下四种方法（选择其中的任意一种方法部署你的网站即可）：
 
 ```mermaid
 graph LR
@@ -186,7 +189,7 @@ git add .
 git commit -m 'init'
 
 # 连接远程仓库
-git remote add origin https://github.com/Explorer-Dong/demo-github-actions.git
+git remote add origin https://github.com/<user_name>/<repo_name>.git
 
 # 首次推送
 git push -u origin main
@@ -200,9 +203,11 @@ GitHub Pages 按照上述工作流的指令，检测到 push 后开始执行，�
 
 ### 基于 Git Hooks
 
-由于 GitHub Pages 服务使用的服务器在美国，不用魔法访问速度过慢，国内平替 Gitee Pages 已经停止服务了，综合考虑还是部署到大陆的服务器上。当然这前提是你已经拥有一台大陆「备案」的 [云服务器](https://www.aliyun.com/product/ecs?userCode=jpec1z57) 和一个 [域名](https://wanwang.aliyun.com/domain/)。如果觉得备案太麻烦，可以考虑入手一台香港服务器。下面将基于 [Git Hooks](https://githooks.com/) 工具，介绍如何将自己的 Hexo 静态网站部署到阿里云服务器上。
+由于 GitHub Pages 服务使用的服务器在美国，不用魔法访问速度过慢，国内平替 Gitee Pages 已经停止服务了，综合考虑还是部署到大陆的服务器上。当然这前提是你已经拥有一台大陆「备案」的 [云服务器](https://www.aliyun.com/product/ecs?userCode=jpec1z57) 和一个 [域名](https://wanwang.aliyun.com/domain/)。如果觉得备案太麻烦，可以考虑入手一台香港服务器。
 
-1）域名解析。我们需要将域名指向自己服务器的IP，下图中记录值即你的云服务器 IP 地址：
+假设你已经有了一台云服务器。为了简化后续文件上传操作，需要建立本地机和云服务器的 [SSH](./operation/linux.md#ssh) 连接。下面将基于 [Git Hooks](https://githooks.com/) 工具，介绍如何将自己的 Hexo 静态网站部署到阿里云服务器上。
+
+1）域名解析。我们需要将域名指向自己服务器的 IP，下图中记录值即你的云服务器 IP 地址：
 
 ![域名解析](https://cdn.dwj601.cn/images/202404051247292.png)
 
@@ -218,6 +223,8 @@ passwd git
 # 编辑 /etc/sudoers 文件，在 root ALL=(ALL:ALL) ALL 后追加一句
 git ALL=(ALL:ALL) ALL
 ```
+
+然后安装并配置 [Nginx](./operation/nginx.md)，确保外网也可以访问服务器。
 
 3）创建 Git Hooks。与 GitHub Pages 自动部署的工作流逻辑类似，我们将静态文件推送到云服务器后，需要让云服务器帮我们持续部署。我们可以借助 Git Hooks 的功能来实现：
 
@@ -246,7 +253,7 @@ chown -R git:git /home/repo
 chown -R git:git /home/web/blog
 ```
 
-4）本地部署配置。在配置好 [SSH](./operation/linux.md#ssh) 和 [Nginx](./operation/nginx.md) 后，编辑 `_config.yml` 中的 `url` 和 `deploy` 字段：
+4）本地部署配置。编辑 `_config.yml` 中的 `url` 和 `deploy` 字段：
 
 - `url` 字段修改为自己的域名：
 
@@ -263,19 +270,19 @@ chown -R git:git /home/web/blog
         branch: main
     ```
 
-最后我们在本地执行 `hexo clean && hexo generate && hexo deploy` 即可实现一步部署到自己的服务器。此时检查对应目录（这里是 `home/web/blog/`）应当能看到所有的网页文件。浏览器输入对应的域名也应当可以看到具体的内容。
+最后我们在本地执行 `hexo clean && hexo generate && hexo deploy` 即可实现一步部署到自己的服务器。此时检查服务器对应目录（这里是 `home/web/blog/`）应当能看到所有的网页文件。浏览器输入对应的域名也应当可以看到具体的内容。
 
 Git Hooks 的工作原理与 GitHub Workflow 类似，都可以在我们做出某些行为的前后自动执行一些我们预设定的任务。此处使用到的就是 [post-receive](https://git-scm.com/docs/githooks#post-receive) 任务。原文是这样解释的：
 
 > This hook is invoked by git-receive-pack when it reacts to `git push` and updates reference(s) in its repository. It executes on the remote repository once after all the refs have been updated.
 
-即当其接收到 push 任务并且存储库的索引被更新后，该钩子就会执行其中的内容。我们利用该功能，在将我们的站点 hexo deploy 到服务器后，hooks 检测到 git 索引更新了，就执行 checkout 命令推送上来的站点 checkout 到指定的站点托管目录下，从而实现了持续集成的功能。我画了个工作流程图，更直观的展示了 Git Hooks 在这个场景下的运行逻辑：
+即当其接收到 push 任务并且存储库的索引被更新后，该钩子就会执行其中的内容。我们利用该功能，在将我们的站点 `hexo deploy` 到服务器后，hooks 检测到 Git 索引更新了，就执行 checkout 命令推送上来的站点 checkout 到指定的站点托管目录下，从而实现了持续集成的功能。我画了个工作流程图，更直观的展示了 Git Hooks 在这个场景下的运行逻辑：
 
 ![基于 Git Hooks 的部署逻辑](https://cdn.dwj601.cn/images/202404081614614.jpg)
 
-### 最朴素的方法
+### 基于最朴素的方法
 
-同样需要先配置好 [SSH](./operation/linux.md#ssh) 和 [Nginx](./operation/nginx.md)，接下来就两步：
+同样需要先配置好 [SSH](./operation/linux.md#ssh) 和 [Nginx](./operation/nginx.md)。接下来就两步：
 
 1）打包网站。将 Markdown 文件转化为 HTML 文件：
 
@@ -330,9 +337,7 @@ EOF
 
 如果将网站托管在 GitHub Pages 上并且觉得 `xxx.github.io` 不能凸显出你的内容，GitHub Pages 提供了自定义域名的服务（将域名指向 GitHub 的服务器是不需要备案的，懂的都懂）。下面以阿里云的域名为例展开介绍。
 
-**云平台端**。进入云平台，将自己购买的域名绑定到 GitHub Pages 对应的路由地址。
-
-1）进入域名控制台并点击「解析」按钮：
+1）进入云平台，将自己购买的域名绑定到 GitHub Pages 对应的路由地址：
 
 ![进入域名控制台并点击解析按钮](https://cdn.dwj601.cn/images/202403101115508.png)
 
@@ -344,7 +349,7 @@ EOF
 
 ![添加解析记录](https://cdn.dwj601.cn/images/202403101117553.png)
 
-**GitHub Pages 端**。在 GitHub Pages 界面绑定刚才购买的域名。
+3）在 GitHub Pages 界面绑定刚才购买的域名。
 
 进入仓库的 `Setting >> Pages` 页面，在 Custom domain 中填入 `<domain>.xxx` 域名并勾选强制 https 服务：
 
@@ -352,7 +357,7 @@ EOF
 
 等待几分钟 DNS 解析即可使用 `<domain>.xxx` 或 `www.<domain>.xxx` 或 `<username>.github.io` 访问自己的静态网站啦！在使用了 CNAME 的情况下，如果使用 `<username>.github.io` 访问站点，一般会做重定向，即重定向为你自己的域名。
 
-**最后的补丁**。操作完上述两步以后，GitHub 仓库会多一个 CNAME 文件。如下图所示：
+4）最后的补丁。操作完上述两步以后，GitHub 仓库会多一个 CNAME 文件。如下图所示：
 
 ![仓库内多了一个 CNAME 文件](https://cdn.dwj601.cn/images/202403101223383.png)
 

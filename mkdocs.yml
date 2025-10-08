@@ -299,7 +299,6 @@ nav:
     - develop/index.md
     - develop/yaml.md
     - develop/ssg-hexo.md
-    - develop/ssg-mkdocs.md
     - 前端:
       - develop/front-end/index.md
       - develop/front-end/html.md
