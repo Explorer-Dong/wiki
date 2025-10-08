@@ -49,6 +49,7 @@ theme:
     - content.tooltips             # 内容悬浮提示
     - content.action.edit          # 编辑源文件按钮
     - content.action.view          # 查看源文件按钮
+    - content.tabs.link            # 同名标签一起切换
     - search.highlight             # 搜索结果高亮
     - search.share                 # 社交分享按钮
     - search.suggest               # 搜索建议
@@ -297,7 +298,7 @@ nav:
       - ds-and-algo/lan-qiao-cup/14th-python-a.md
   - 软件开发:
     - develop/index.md
-    - develop/yaml.md
+    - develop/data-serialization-format.md
     - develop/ssg-hexo.md
     - 前端:
       - develop/front-end/index.md
