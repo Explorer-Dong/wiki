@@ -320,6 +320,7 @@ nav:
         - develop/back-end/python/network-lib.md
         - develop/back-end/python/science-lib.md
     - 数据库:
+      - develop/database/index.md
       - develop/database/mysql.md
       - develop/database/opengauss.md
     - 运维:
