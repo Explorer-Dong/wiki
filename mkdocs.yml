@@ -201,7 +201,6 @@ nav:
       - 深度学习:
         - base/ai/deep-learning/index.md
         - base/ai/deep-learning/full-connect-neural-network.md
-        - base/ai/deep-learning/auto-encoder.md
         - base/ai/deep-learning/convolutional-neural-network.md
         - base/ai/deep-learning/recurrent-neural-network.md
         - base/ai/deep-learning/network-enhancement.md
@@ -214,7 +213,6 @@ nav:
         - base/ai/natural-language-processing/word-embedding.md
         - base/ai/natural-language-processing/sequence-classification.md
         - base/ai/natural-language-processing/sequence-generation.md
-        - base/ai/natural-language-processing/pre-training.md
       - 计算机视觉:
         - base/ai/computer-vision/index.md
         - base/ai/computer-vision/image-classification.md
@@ -330,11 +328,15 @@ nav:
       - develop/operation/docker.md
   - 大模型:
     - llm/index.md
+    - llm/huggingface.md
     - 基础设施:
       - llm/infrastructure/index.md
     - 模型研究:
       - llm/research/index.md
-      - llm/research/huggingface.md
+      - 预训练:
+        - llm/research/pre-training/index.md
+      - 后训练:
+        - llm/research/post-training/index.md
     - 下游应用:
       - llm/downstream/index.md
   - 实用工具:
