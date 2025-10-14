@@ -225,7 +225,10 @@ nav:
       - 数字逻辑电路:
         - base/cs/digital-logic-circuit/index.md
       - 计算机系统基础:
-        - base/cs/computer-system-basic/index.md
+        - base/cs/computer-system-base/index.md
+        - base/cs/computer-system-base/data-represent-and-process.md
+        - base/cs/computer-system-base/program-transform-and-represent.md
+        - base/cs/computer-system-base/program-link.md
       - 数据库:
         - base/cs/database/index.md
       - 操作系统:

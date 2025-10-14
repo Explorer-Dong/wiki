@@ -17,5 +17,5 @@ title: 计算机组成导读
 
 注意：
 
-- 本书 ISA 采用 MIPS 指令系统。之前学习的 [计算机系统基础](../computer-system-basic/index.md#32-ia-32-指令系统概述) 中 ISA 采用的是 IA-32 指令系统，也就是大名鼎鼎的 x86-64 指令系统的 32 位前身；
+- 本书 ISA 采用 MIPS 指令系统。之前学习的 [计算机系统基础](../computer-system-base/program-transform-and-represent.md#ia-32-指令系统) 中 ISA 采用的是 IA-32 指令系统，也就是大名鼎鼎的 x86-64 指令系统的 32 位前身；
 - 为了形式化地描述 CPU 的运行逻辑，需要使用寄存器传送级 (register transfer level, 简称 RTL) 语言。本书 RTL 语言有以下规定：R [r] 表示通用寄存器 r 的内容，M [addr] 表示存储单元 addr 的内容；M [R[r]] 表示寄存器 r 的内容所指存储单元的内容；PC 表示 PC 的内容，M [PC] 表示 PC 所指存储单元的内容；SEXT [imm] 表示对 imm 进行符号扩展，ZEXT [imm] 表示对 imm 进行零扩展；传送方向用 $\leftarrow$ 表示，即传送源在右，传送目的在左。

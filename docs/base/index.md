@@ -63,7 +63,7 @@ flowchart LR
 
     click 面向对象程序设计 "./cs/object-oriented-programming/"
     click 数字逻辑电路 "./cs/digital-logic-circuit/"
-    click 计算机系统基础 "./cs/computer-system-basic/"
+    click 计算机系统基础 "./cs/computer-system-base/"
     click 数据库 "./cs/database/"
     click 数据结构与算法 "./ds-and-algo/"
     click 操作系统 "./cs/operating-system/"
