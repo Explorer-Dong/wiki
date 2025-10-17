@@ -345,7 +345,7 @@ nav:
   - 实用工具:
     - tools/index.md
     - tools/windows.md
-    - tools/download.md
+    - tools/transfer.md
     - tools/battery-info-view.md
     - IDE:
       - tools/ide/jetbrains.md
