@@ -211,8 +211,6 @@ Linux 默认自带，Windows 下载地址：[Tree for Windows](https://gnuwin32.
 
 在 Windows 中，我们对用户和权限的概念接触的并不多，因为很多东西都默认设置好了。但是在 GNU/Linux 中，很多文件的权限都需要自己配置和定义，因此权限管理的操作方法十分重要。我们从现象入手逐个进行讲解。
 
-
-
 首先以 root 用户身份登录并进入 `/opt/OS/task2/` 目录，然后创建一个测试文件 `root_file.txt` 和一个测试文件夹 `root_folder`。使用 `ls -l` 命令列出当前目录下所有文件的详细信息：
 
 ![root 用户创建的文件和文件夹](https://cdn.dwj601.cn/images/202409271003057.png)
@@ -243,8 +241,6 @@ Linux 默认自带，Windows 下载地址：[Tree for Windows](https://gnuwin32.
 
 对于当前用户 `now_user` 以及当前用户所在的组 `now_group`，同组用户 `adj_user` 和其他用户 `other_user` 可以形象的理解为以下的集合关系：
 
-<div align="center">
-
 ```mermaid
 graph TB
     subgraph ag[another_group]
@@ -256,8 +252,6 @@ graph TB
     adj_user
     end
 ```
-
-</div>
 
 ### 权限类别
 
@@ -346,18 +340,15 @@ groupdel
 **改变属主**：
 
 ```bash
-chown <user> <filename>
+chown <user>:<group> <filename>
 ```
-
-将指定文件 filename 更改属主为 user。
 
 **改变属组**：
 
 ```bash
 chgrp <group> <filename>
+# 等价于 chown :<group> <filename>
 ```
-
-将指定文件 filename 更改属组为 group。
 
 **改变权限**：
 

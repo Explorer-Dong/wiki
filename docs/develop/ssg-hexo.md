@@ -282,7 +282,7 @@ Git Hooks 的工作原理与 GitHub Workflow 类似，都可以在我们做出�
 
 ### 基于最朴素的方法
 
-同样需要先配置好 [SSH](./operation/linux.md#ssh) 和 [Nginx](./operation/nginx.md)。接下来就两步：
+同样需要先配置好 [SSH](../tools/transfer.md#ssh) 和 [Nginx](./operation/nginx.md)。接下来就两步：
 
 1）打包网站。将 Markdown 文件转化为 HTML 文件：
 

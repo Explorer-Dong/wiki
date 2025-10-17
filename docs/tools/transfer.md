@@ -36,27 +36,32 @@ Linux 默认自带，Windows 下载地址：[Windows binaries of GNU Wget](https
 
 ## ssh
 
-为了绝对的自动化 CD，就需要避免所有的人为干预，例如要避免本地机与云主机通信时手动输入密码的操作，可以借助 SSH 来规避这个问题。
+ssh 是很多加密传输的前置步骤，所以单独成段进行介绍。
 
-1）本地生成密钥（公钥 + 私钥），连按三次回车即可生成默认配置的密钥（如果本地已经有密钥对了，这一步可以跳过）：
+在计算机网络应用层中，我们介绍了 [SSH 协议](../base/cs/computer-network/application-layer.md#ssh-协议)，基于该协议，工程师开发了加密传输程序，一般用小写表示，即 ssh。在实际应用中，ssh 主要作为客户端和服务器之间的连接与数据传输工具。
+
+ssh 支持密码连接和密钥连接。其中密码连接可以禁用，密钥连接也可以增设密码。
+
+在仅使用密钥的情况下，可以在数据传输时避免人为干预。核心逻辑是：利用 ssh 程序在本地生成一对钥匙，分别叫「公钥」和「私钥」。将公钥上传服务器后，就可以在本地基于私钥和远程服务器进行身份鉴权从而连接。
+
+基本使用流程如下：
+
+1）本地生成密钥对（公钥 + 私钥），连按三次回车即可生成默认配置且不带密码 (passphrase) 的密钥对：
 
 ```bash
 ssh-keygen
 ```
 
-![使用 Git Bash 生成密钥](https://cdn.dwj601.cn/images/202404071758590.png)
+![生成默认配置且不带密码 (passphrase) 的密钥对](https://cdn.dwj601.cn/images/202404071758590.png)
 
-2）在 `/home/git` 目录下右键新建名为 `.ssh` 的文件夹，并在该文件夹内新建名为 `authorized_keys` 的文本文件，将之前生成的公钥文件中的所有内容复制进去，保存。
+2）在服务器地用户目录下新建名为 `.ssh` 的文件夹，并在该文件夹内新建名为 `authorized_keys` 的文本文件，将之前生成的公钥中的所有内容复制进去并保存。
 
-3）修改文件/文件夹的权限 [^chmod] 与属主 [^chown] ：
-
-[^chmod]: [Linux chmod 命令 | 菜鸟教程 - (www.runoob.com)](https://www.runoob.com/linux/linux-comm-chmod.html)
-[^chown]: [Linux chown 命令 | 菜鸟教程 - (www.runoob.com)](https://www.runoob.com/linux/linux-comm-chown.html)
+3）修改文件/文件夹的权限与属主：
 
 ```bash
-chmod 600 /home/git/.ssh/authorized_keys
-chmod 700 /home/git/.ssh
-chown -R git:git /home/git/.ssh
+chmod 600 /home/user/.ssh/authorized_keys
+chmod 700 /home/user/.ssh
+chown -R git:git /home/user/.ssh
 ```
 
 现在我们可以在本地测试 SSH 连接：
@@ -65,21 +70,15 @@ chown -R git:git /home/git/.ssh
 ssh git@xxx.xxx.xxx.xxx  # 填你的服务器 ip 地址
 ```
 
-首次连接需要输入一个 `yes` 用来在本地存储主机信息。如果不需要输入密码就进入了命令行界面，表示 ssh 通信建立成功！
+首次连接需要输入一个 `yes` 用来在本地存储主机信息。
 
-![ssh 连接成功](https://cdn.dwj601.cn/images/202404071826099.png)
-
-可以将 SSH 简单地理解为一种用来连接本地客户端与远程服务器的通信隧道。下面是较为官方 [^ssh] 的解释：
-
-[^ssh]: [什么是 SSH | Info-Finder - (info.support.huawei.com)](https://info.support.huawei.com/info-finder/encyclopedia/zh/SSH.html)
-
-> SSH（Secure Shell，安全外壳）是一种网络安全协议，通过加密和认证机制实现安全的访问和文件传输等业务。传统远程登录和文件传输方式，例如 Telnet、FTP，使用明文传输数据，存在很多的安全隐患。随着人们对网络安全的重视，这些方式已经慢慢不被接受。SSH 协议通过对网络数据进行加密和验证，在不安全的网络环境中提供了安全的网络服务。作为 Telnet 和其他不安全远程 shell 协议的安全替代方案，目前 SSH 协议已经被全世界广泛使用，大多数设备都支持 SSH 功能。
-
-用一张图来更加清晰直观的理解：
-
-![SSH 工作原理图](https://cdn.dwj601.cn/images/202404081642038.png)
+使用 `-i /path/to/private_key` 指定本地的私钥路径。
 
 ## scp
+
+在计算机网络应用层中，我们介绍了安全复制协议 [SCP](../base/cs/computer-network/application-layer.md#scp-协议)，基于该协议，工程师开发了安全复制程序，一般用小写表示，即 scp。
+
+该协议就两个用法：
 
 拉取数据：
 
@@ -93,7 +92,4 @@ scp user@xxx.xxx.xxx.xxx:/path/to/source /path/to/target
 scp /path/to/source user@xxx.xxx.xxx.xxx:/path/to/target
 ```
 
-关于参数：
-
-- 端口：`-P <port>`
-- 文件夹：`-r`
+使用 `-P <port>` 指定端口，使用 `-r` 表递归。
