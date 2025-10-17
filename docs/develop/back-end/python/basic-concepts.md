@@ -53,29 +53,121 @@ graph TB
 
 不同的项目往往依赖不同的包，为了避免出现包的版本冲突，一般推荐按照项目进行包的隔离，即虚拟环境。
 
-Pycharm 和 VScode 等都提供了可视化的虚拟环境创建方法，但为了彻底理解虚拟环境的工作原理，这里仅讨论最朴素的创建方法，即使用 Python 配套安装的 venv 模块自定义创建虚拟环境。
+Pycharm 和 VScode 等都提供了可视化的虚拟环境创建方法，但为了彻底理解虚拟环境的工作原理，这里仅讨论最朴素的创建方法，即使用 Python 配套安装的 venv 模块自定义创建虚拟环境。主要有以下几个步骤：
 
-主要有以下几个步骤：
+创建环境：
 
-- 创建虚拟环境目录：
+```bash
+python -m venv <VenvFolderName>
+```
 
-    ```bash
-    python -m venv <VenvFolderName>
-    ```
+激活环境：
 
-- 激活虚拟环境的解释器：
+=== "Windows"
 
     ```bash
     source <VenvFolderName>/Scripts/activate
     ```
 
-- 失活虚拟环境的解释器：
+=== "Linux"
 
     ```bash
-    deactivate
+    source <VenvFolderName>/bin/activate
     ```
 
-由上可以看出，所谓虚拟环境，本质上就是拷贝（或链接）一个 Python 解释器，然后将各种包安装在指定目录下，从而起到了隔离的效果。注意虚拟环境并不代表根解释器的完全拷贝，有些项目无关的文件并不会拷贝，所以不能删除根解释器。
+退出环境：
+
+```bash
+deactivate
+```
+
+所谓虚拟环境，本质上就是拷贝（或链接）一个 Python 解释器，然后将各种包安装在指定目录下，从而起到了隔离的效果。
+
+*注：虚拟环境并不代表根解释器的完全拷贝，有些项目无关的文件并不会拷贝，所以不能删除根解释器。
+
+### 包的隔离 (conda)
+
+conda 是一个更高级的包管理工具，不仅能隔离 Python 包，还能同时管理不同版本的 Python 解释器。
+
+**更换 conda 的下载源**。默认情况下，conda 从官方的 `repo.anaconda.com` 下载包，速度较慢，可以切换到国内镜像源。常见镜像源如下：
+
+- 清华源：`https://mirrors.tuna.tsinghua.edu.cn/anaconda/`
+- 中科大源：`https://mirrors.ustc.edu.cn/anaconda/`
+- 阿里云源：`https://mirrors.aliyun.com/anaconda/`
+
+更换方法：
+
+- 临时换源：
+
+    ```bash
+    conda install <PackageName> -c https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+    ```
+
+- 永久换源：
+
+    ```bash
+    conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+    conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+    conda config --set show_channel_urls yes
+    ```
+
+查看当前源设置：
+
+```bash
+conda config --show
+```
+
+重置为默认源：
+
+```bash
+conda config --remove-key channels
+```
+
+**环境管理**。conda 最大的优势是可以为不同项目创建独立的虚拟环境，隔离不同版本的包与 Python 本身。常见操作如下：
+
+查看环境：
+
+```bash
+conda env list
+```
+
+创建环境：
+
+```bash
+conda create -n <env_name> python=3.12
+```
+
+激活环境：
+
+```bash
+conda activate <env_name>
+```
+
+退出环境：
+
+```bash
+conda deactivate
+```
+
+删除环境：
+
+```bash
+conda remove -n <env_name> --all
+```
+
+导出环境：
+
+```bash
+conda env export > environment.yml
+```
+
+复现环境：
+
+```bash
+conda env create -f environment.yml
+```
+
+相比 pip 的 `requirements.txt`，conda 的 `environment.yml` 更强大，因为它能记录 Python 版本、依赖渠道、操作系统等信息。
 
 ### 包的管理 (pip)
 
@@ -83,38 +175,36 @@ pip 是安装 Python 时自带的程序，用来管理项目中的第三方库�
 
 **更换 pip 的下载源**。默认的 pip 会从国外的 PyPI 拉取库，可能会遇到网络问题，我们可以更换 pip 的下载源。大致罗列几个比较出名的镜像源：
 
-- 清华大学：`https://pypi.tuna.tsinghua.edu.cn/simple/`
-- 中国科技大学：`https://pypi.mirrors.ustc.edu.cn/simple/`
-- 阿里云：`https://mirrors.aliyun.com/pypi/simple/`
-- 腾讯云：`https://mirrors.cloud.tencent.com/pypi/simple/`
+- 清华源：`https://pypi.tuna.tsinghua.edu.cn/simple/`
+- 中科大源：`https://pypi.mirrors.ustc.edu.cn/simple/`
+- 阿里云源：`https://mirrors.aliyun.com/pypi/simple/`
+- 腾讯云源：`https://mirrors.cloud.tencent.com/pypi/simple/`
 
 更换 pip 下载源的方法有以下两种：
 
-- 临时换源（适用于单次下载）：
+- 临时换源：
 
     ```bash
     pip install <PackageName> -i <pip_source>
     ```
 
-- 永久换源（适用于项目级管理）：
+- 永久换源：
 
     ```bash
     pip config set global.index-url <pip_source>
     ```
 
-查看当前环境的 pip 下载源：
+查看当前配置：
 
-- 查看当前配置：
+```bash
+pip config list
+```
 
-    ```bash
-    pip config list
-    ```
+恢复默认源：
 
-- 恢复默认源：
-
-    ```bash
-    pip config unset global.index-url
-    ```
+```bash
+pip config unset global.index-url
+```
 
 **管理项目中的所有包**。一个项目往往会依赖很多第三方包，如果需要协同开发，或者便于复现，就需要固定项目的环境，其中最重要的就是项目中依赖的各种包及其版本了。为此大家就规定需要将项目依赖的第三方包及其版本都记录下来。
 
