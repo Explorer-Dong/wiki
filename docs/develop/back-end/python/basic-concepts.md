@@ -143,6 +143,14 @@ conda create -n <env_name> python=3.12
 conda activate <env_name>
 ```
 
+*注：如果当前不是 base 环境，激活环境时可能会出现 CondaError: Run 'conda init' before 'conda activate' 的报错。先切换到 base 环境再激活即可。
+
+激活 base 环境：
+
+```bash
+source activate base
+```
+
 退出环境：
 
 ```bash
