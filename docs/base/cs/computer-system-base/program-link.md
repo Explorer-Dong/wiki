@@ -2,11 +2,11 @@
 title: 程序的链接
 ---
 
-在上一章 [程序的转换与表示](./program-transform-and-represent.md) 中，我们已经了解了程序从源代码到机器指令的转换过程，现在我们详细介绍其中的最后一步——链接。链接的任务，是把所有的机器码模块、库函数以及全局变量组合成一个完整的、可以被操作系统加载和执行的可执行文件。
+在上一章 [程序的转换与表示](./program-transform-and-represent.md) 中，我们已经了解了程序从源代码到机器指令的转换过程，现在我们详细介绍其中的最后一步——链接。
 
 ## 基本概念
 
-### 链接的必要性
+### 链接的必要性与定义
 
 现代程序通常采用「模块化开发」，即：将程序按功能拆分成多个 `.c` 文件，各自编译为独立的目标文件。这样做的好处包括：
 
@@ -14,7 +14,7 @@ title: 程序的链接
 * 提高开发效率：多人可并行开发；
 * 增强代码复用性：公共模块可被多个项目共用。
 
-但模块化也带来了新问题：**不同模块间的符号如何关联**？例如，一个模块中定义了变量 `int counter;`，另一个模块中使用了 `extern int counter;`。编译器在编译每个模块时，只能识别本文件的符号定义。它并不知道外部符号在哪定义，因此必须留下「未解决的引用」，等到链接阶段再统一处理。
+但模块化也带来了新问题：**不同模块间的符号如何关联**？例如，一个模块中定义了变量 `int counter;`，另一个模块中使用了 `extern int counter;`。编译器在编译每个模块时，只能识别本文件的符号定义，它并不知道外部符号在哪定义，因此必须留下未解决的引用，等到链接阶段再统一处理。因此链接的任务，就是把所有的机器码模块、库函数以及全局变量组合成一个完整的、可以被操作系统加载和执行的可执行文件。
 
 ### 目标文件与 ELF 格式
 
@@ -30,6 +30,68 @@ title: 程序的链接
 | `.rel.text`、`.rel.data` | 重定位信息，说明哪些位置需要调整地址 |
 
 链接器通过读取这些段的信息来进行符号解析和重定位。
+
+### GCC 基础
+
+相比于在 Windows 进行 C/C++ 编程时需要自己额外安装编译器集合 MSVC (Microsoft Visual C++) 或 MinGW (Minimalist GNU for Windows)，GNU/Linux 已经默认配置好了编译器集合 [GCC](https://gcc.gnu.org/onlinedocs/) (GNU Compiler Collection)，我们可以利用 GCC 提供的 gcc 等工具快捷地使用编译器集合中的所有程序。
+
+我们可以使用 `gcc --version` 命令查看当前的 GCC 版本：
+
+```bash
+root@dwj2:/opt/OS/task4# gcc --version
+gcc (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0
+Copyright (C) 2021 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+```
+
+因此我们选择版本最相近的手册 [gcc-11.5.0](https://gcc.gnu.org/onlinedocs/gcc-11.5.0/gcc/) 进行阅读。
+
+**环境变量**。对于当前路径下链接出来的可执行文件 demo，为什么 `demo` 无法正常执行，`./demo` 就可以正常执行？根本原因是 bash 默认执行 PATH 环境变量下的可执行文件，显然上述的 demo 可执行文件并不在 PATH 对应的路径下，那么 PATH 路径都有哪些呢？我们使用 `echo $PATH | tr ':' '\n'` 打印出来：
+
+```bash
+root@dwj2:/opt/OS/task4# echo $PATH | tr ':' '\n'
+/usr/local/sbin
+/usr/local/bin
+/usr/sbin
+/usr/bin
+/usr/games
+/usr/local/games
+/snap/bin
+```
+
+能不能使用 demo 运行呢？有很多解决办法，但根本逻辑都是将当前路径加入到 PATH 环境变量。下面补充几个 gcc 和 g++相关的环境变量：
+
+- 头文件搜索路径
+    - `C_INCLUDE_PATH`: gcc 找头文件的路径；
+    - `CPLUS_INCLUDE_PATH`: g++ 找头文件的路径。
+- 库文件搜索路径
+    - `LD_LIBRARY_PATH`: 找动态链接库的路径；
+    - `LIBRARY_PATH`: 找静态链接库的路径。
+
+**编译选项**。C/C++ 最基本的编译链就是 `-E` $\to$ `-S` $\to$ `-c` $\to$ `-o`，每一个参数都包含前面所有的参数。下面主要讲讲 `-I<dir>`，`-L<dir>` 和 `-l<name>` 三个参数。
+
+1）`-I<dir>` 顾名思义就是「头文件导入」的搜索目录。例如下面的编译语句：
+
+```bash
+gcc –I/opt/OS/task4/include demo.c
+```
+
+注意：当我们不使用 `-o` 参数指定 outfile 的名称时，默认是 `a.out`。
+
+2）`-L<dir>` 顾名思义就是「库文件连接」搜索目录。例如下面的编译语句：
+
+```bash
+gcc -o x11fred -L/usr/openwin/lib x11fred.c
+```
+
+3）`-l<name>` 比较有意思，就是直接制定了库文件是哪一个。正因为有了这样的用法，我们在给库文件 (`.a` 表示静态库文件，`.so` 表示动态库文件) 起名时，就只能起 `lib<name>.a` 或 `lib<name>.so`：
+
+```bash
+gcc -o fred -lm fred.c
+# 等价于
+gcc –o fred /usr/lib/libm.a fred.c
+```
 
 ## 链接过程
 
@@ -91,64 +153,15 @@ $$
 
 2. 相对重定位 `R_386_PC32`。按当前位置计算目标的偏移量。常见于 `call`、`jmp` 指令。
 
-### 链接示例
+## 链接类别
 
-给定 `main.c` 文件：
-
-```c
-#include <stdio.h>
-extern void foo(void);
-int counter = 1;
-
-int main(void) {
-    foo();
-    printf("counter = %d\n", counter);
-    return 0;
-}
-```
-
-给定 `foo.c` 文件：
-
-```c
-extern int counter;
-
-void foo(void) {
-    counter += 5;
-}
-```
-
-编译与链接：
-
-```bash
-gcc -c main.c
-gcc -c foo.c
-gcc main.o foo.o -o app
-```
-
-运行结果：
-
-```c
-counter = 6
-```
-
-分析过程：
-
-* `main.o` 定义了符号 `counter`、`main`，引用 `foo`；
-* `foo.o` 定义了符号 `foo`，引用 `counter`；
-* 链接器解析后为引用找到定义，并进行重定位；
-* 最终生成一个可执行文件 `app`。
-
-## 静态链接
-
-### 静态库
+### 静态链接
 
 静态库 `.a` 是若干目标文件的集合，本质上就是把一堆 `.o` 文件打包成一个归档文件。它通过 `ar` 工具创建，例如：
 
 ```bash
 ar rcs libmath.a add.o sub.o mul.o div.o
 ```
-
-### 静态链接过程
 
 当我们在链接时指定静态库：
 
@@ -165,100 +178,7 @@ gcc main.o -L. -lmath -o app
 
 静态库按需加载，这也是为什么库文件必须写在命令行的「引用者之后」的原因。例如 `gcc main.o -lmylib` 正确，而 `gcc -lmylib main.o` 可能失败。
 
-### 静态链接示例
-
-假设我们要构建一个小型数学库，提供加减法函数，然后在主程序中调用它。
-
-编写 `add.c` 文件：
-
-```c
-int add(int a, int b) {
-    return a + b;
-}
-```
-
-编写 `sub.c` 文件：
-
-```c
-int sub(int a, int b) {
-    return a - b;
-}
-```
-
-编写主程序 `main.c`：
-
-```c
-#include <stdio.h>
-
-int add(int, int);
-int sub(int, int);
-
-int main(void) {
-    int x = 10, y = 3;
-    printf("x + y = %d\n", add(x, y));
-    printf("x - y = %d\n", sub(x, y));
-    return 0;
-}
-```
-
-将源文件分别编译为 `.o` 可重定位目标文件：
-
-```bash
-gcc -c add.c
-gcc -c sub.c
-gcc -c main.c
-```
-
-此时目录下包含 `add.o`、`sub.o` 和 `main.o` 三个文件。每个 `.o` 文件都包含各自的符号表，`add.o` 定义 `add`，`sub.o` 定义 `sub`，`main.o` 引用 `add`、`sub`。
-
-将 `add.o` 和 `sub.o` 打包为一个静态库：
-
-```bash
-ar rcs libmath.a add.o sub.o
-```
-
-`libmath.a` 实际上是一个归档文件 (Archive)，内部类似于 ZIP，只是存放 `.o` 文件，并带有符号索引表，方便链接器查找。
-
-可以用 `ar t libmath.a` 查看内容，输出：
-
-```
-add.o
-sub.o
-```
-
-使用 `gcc` 将主程序与静态库链接：
-
-```bash
-gcc main.o -L. -lmath -o app
-```
-
-`-L.` 告诉链接器在当前目录查找库，`-lmath` 表示链接 `libmath.a`。
-
-链接器的工作过程是：
-
-1. 扫描 `main.o` 的未解析符号：发现 `add` 和 `sub`；
-2. 打开 `libmath.a`，从索引表中找到定义这些符号的目标文件；
-3. 解包相应的 `add.o` 与 `sub.o`，合并到最终的输出；
-4. 执行符号解析与地址重定位，生成 `app`。
-
-未被引用的对象文件不会被加入，因此静态库体积较大但最终可执行文件只包含所需部分。
-
-运行结果：
-
-```
-x + y = 13
-x - y = 7
-```
-
-用 `ldd` 查看依赖：
-
-```bash
-ldd app
-```
-
-输出中不会出现 `libmath.a` 或任何自定义库，因为静态链接已经把库内容复制进了可执行文件中。若换成动态库 `.so`，则 `ldd` 会显示该库的路径。
-
-## 动态链接
+### 动态链接
 
 静态链接虽然简单高效，但存在以下问题：
 
@@ -266,76 +186,132 @@ ldd app
 2. 内存浪费：多个程序同时运行时，各自都有一份库代码副本；
 3. 维护困难：库文件更新后，所有依赖程序都需重新链接。
 
-为了解决这些问题，动态链接出现了，它让库文件在程序运行时按需加载。
-
-### 动态库
-
-动态链接将库打包为共享对象 (Shared Object)，通常扩展名为 `.so`。
-
-### 动态链接过程
-
-链接器在生成可执行文件时，并不复制库的代码，而是：
+为了解决这些问题，动态链接出现了，它让库文件在程序运行时按需加载。动态链接将库打包为共享对象 (Shared Object)，通常扩展名为 `.so`。链接器在生成可执行文件时，并不复制库的代码，而是：
 
 * 在可执行文件中记录对共享库的「引用信息」；
 * 由操作系统在「程序加载时」将共享库映射到内存；
 * 所有引用同一库的程序共享同一份库代码。
 
-### 动态链接示例
+### 链接示例
 
-给定 `foo.c` 文件：
+对于下面的函数库与调用示例：
 
 ```c
-#include <stdio.h>
-void foo(void) {
-    printf("Hello from shared library!\n");
+// addvec.c
+void addvec(int* x, int* y, int* z, int n) {
+    // 按位加
+    for(int i = 0; i < n ; i++) {
+        z[i] = x[i] + y[i];
+    }
 }
-```
 
-编译生成共享库：
+// multvec.c
+void multvec(int* x, int* y, int* z, int n) {
+    for(int i = 0; i < n ; i++) {
+        // 按位乘
+        z[i] = x[i] * y[i];
+    }
+}
 
-```bash
-gcc -fPIC -shared foo.c -o libfoo.so
-```
+// vector.h
+void addvec(int* x, int* y, int* z, int n);
+void multvec(int* x, int* y, int* z, int n);
 
-主程序：
-
-```c
-extern void foo(void);
-int main(void) {
-    foo();
+// main.c
+#include <stdio.h>
+#include "vector.h"
+int x[2] = {1, 2}, y[2] = {3, 4}, z[2];
+int main() {
+    addvec(x, y, z, 2);
+    printf("z = [%d, %d]\n", z[0], z[1]);
     return 0;
 }
 ```
 
-编译链接：
+**生成静态库文件 `libvector.a` 并链接至可执行文件 `p1` 中**。共有以下三步：
+
+1）将两个自定义库函数编译为可重定位目标文件 `addvec.o` 和 `multvec.o`：
 
 ```bash
-gcc main.c -L. -lfoo -o app
+gcc -c addvec.c multvec.c
 ```
 
-运行：
+2）将两个可重定位目标文件打包成静态库文件 `libvector.a`：
 
 ```bash
-LD_LIBRARY_PATH=. ./app
+ar crv libvector.a addvec.o multvec.o
 ```
 
-输出：
+`libvector.a` 实际上是一个归档文件 (Archive)，内部类似于 ZIP，只是存放 `.o` 文件，并带有符号索引表，方便链接器查找。
+
+可以用 `ar t libvector.a` 查看内容，输出：
 
 ```text
-Hello from shared library!
+addvec.o
+multvec.o
 ```
 
-## 本章小结
+`-L.` 告诉链接器在当前目录查找库，`-lvector` 表示链接 `libvector.a`。
+
+3）生成静态链接的可执行文件 `p1`：
+
+```bash
+gcc -static -o p1 main.c -L. -lvector
+```
+
+链接器的工作过程是：
+
+1. 扫描 `main.o` 的未解析符号：发现 `add` 和 `sub`；
+2. 打开 `libvector.a`，从索引表中找到定义这些符号的目标文件；
+3. 解包相应的 `addvec.o` 与 `multvec.o`，合并到最终的输出；
+4. 执行符号解析与地址重定位，生成 `p1`。
+
+未被引用的对象文件不会被加入，因此静态库体积较大但最终可执行文件只包含所需部分。
+
+用 `ldd` 查看依赖：
+
+```bash
+ldd p1
+```
+
+输出中不会出现 `libvector.a` 或任何自定义库，因为静态链接已经把库内容复制进了可执行文件中。若换成动态库 `.so`，则 `ldd` 会显示该库的路径。
+
+**生成动态库文件 `libvector.so` 并链接至可执行文件 `p2` 中**。共有以下三步：
+
+1）将两个自定义库函数编译为动态库文件 `libvector.so`：
+
+```bash
+gcc -shared -o libvector.so addvec.c multvec.c
+```
+
+2）生成动态链接的可执行文件 `p2`：
+
+```bash
+gcc -o p2 main.c -L. -lvector
+```
+
+3）明确动态库文件的链接搜索路径，然后执行：
+
+```bash
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:.
+./p2
+```
+
+最后我们查看一下 `p1` 和 `p2` 详细信息，如下图所示。显然静态链接的可执行文件 `p1` 占用的存储空间远大于动态连接的可执行文件 `p2`。
+
+![静态链接的可执行文件 vs 动态链接的可执行文件](https://cdn.dwj601.cn/images/202410091956946.png)
+
+### 对比分析
 
 链接是程序世界的最后拼图，本质上这个过程就做了一件事：完成了从「符号名」到「内存地址」的映射。
 
 我们重点介绍了静态链接和动态链接，前者注重独立完整，后者追求共享与灵活。这两种链接方式的对比如下表所示：
 
-| 特性   | 静态链接        | 动态链接        |
-| ---- | ----------- | ----------- |
-| 链接时机 | 编译期完成       | 程序加载或运行时    |
-| 文件体积 | 较大（包含库代码）   | 较小（仅保存引用信息） |
-| 内存占用 | 每个进程独立一份    | 多个进程共享      |
-| 更新维护 | 需重新链接       | 更新库文件即可     |
-| 启动速度 | 略快          | 需加载库文件略慢    |
-| 典型应用 | 嵌入式系统、单文件发布 | 桌面程序、系统库    |
+| 特性     | 静态链接               | 动态链接               |
+| -------- | ---------------------- | ---------------------- |
+| 链接时机 | 编译期完成             | 程序加载或运行时       |
+| 文件体积 | 较大（包含库代码）     | 较小（仅保存引用信息） |
+| 内存占用 | 每个进程独立一份       | 多个进程共享           |
+| 更新维护 | 需重新链接             | 更新库文件即可         |
+| 启动速度 | 略快                   | 需加载库文件略慢       |
+| 典型应用 | 嵌入式系统、单文件发布 | 桌面程序、系统库       |
