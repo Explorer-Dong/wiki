@@ -1,39 +1,167 @@
 ---
-title: Linux
-status: new
+title: GNU/Linux
 ---
 
-本文记录 GNU/Linux 的学习笔记，演示结果均基于 Ubuntu 22.04。
+本文记录 GNU/Linux 的学习笔记。好吧其实是学习 GNU 中的各种命令。主要以 Ubuntu 发行版为主。
 
-所以为什么要叫做 GNU/Linux 这么“繁琐”的名字呢？现在大家都称呼该操作系统为 Linux 操作系统，但其实这是不合理的，因为 Linux 只是这个操作系统的内核，还需要配合 GNU 的一整套工具链（包括命令行终端 bash、C 标准库 glibc、C 编译器 GCC 等）才能称之为操作系统。当然，为了方便，后续都将 GNU/Linux 简称为 Linux。
+## 基本概念
 
-## 文件系统
+现在大家都称 GNU/Linux 操作系统为 Linux，但其实这是不合理的。因为 Linux 只是这个操作系统的内核（负责硬件管理和资源调度），还需要配合 GNU 的一整套用户程序（包括命令行终端 bash、C 标准库 glibc、C 编译器 GCC 等）才能称得上一个完整的操作系统。
 
-| <img src="https://cdn.dwj601.cn/images/202409132006698.png" alt="Ubuntu22.04 目录结构" style="zoom:150%;" /> | ![功能解释](https://cdn.dwj601.cn/images/20250324172802457.png) |
-| :----------------------------------------------------------: | :----------------------------------------------------------: |
-|                     Ubuntu22.04 目录结构                     | [功能解释](https://mp.weixin.qq.com/s/kMPlOZ6BD6XxcS4k9XyOwQ?scene=1) |
+显然，内核不是我们需要考虑的东西，因为我们一般动不了内核，因此我们主要学习的是 GNU/Linux 中的 GNU 部分，即用户程序。至于操作系统的工作原理，不在本文的讨论范围内，感兴趣的读者可以移步基础知识部分的 [操作系统原理](../../base/cs/operating-system/index.md) 进一步阅读。
 
-## Shell 与 Terminal
+### Shell 与 Terminal
 
-Shell 是 Shell 语言的解释器，与传统的编程语言类似，也是编译为字节码然后运行在处理器上。当然不同的解释器有不同的语法，但都大差不差。而终端从某种程度上来说也是一个 GUI，它能够让我们通过 Shell 语言和操作系统交互从而完成人类意愿。
+Terminal 是一个 GUI 界面，让用户直接和操作系统进行交互，而 Shell 是一个解释器，负责执行用户输入的各种命令。
 
-## 修改 Shell 语言
+常见的 Shell 解释器是 bash，当然也有 fish、zsh 等。
 
-Shell 的运行结果通过 Terminal 呈现，如果遇到都是英文的输出结果，可以进行以下操作将其转换为中文。
+下面的程序演示了如何利用 bash 查询 $[0,100]$ 范围内的所有质数：
 
-1）**安装中文语言包**：
+```bash
+#!/bin/bash
+
+# 判断一个数是否是质数的函数
+is_prime() {
+  local num=$1
+  if ((num <= 1)); then
+    return 1
+  fi
+  for ((i = 2; i <= num / 2; i++)); do
+    if ((num % i == 0)); then
+      return 1  # 不是质数
+    fi
+  done
+  return 0  # 是质数
+}
+
+# 打印 0 到 100 之间的所有质数
+for ((n = 0; n <= 100; n++)); do
+  if is_prime $n; then
+    echo $n
+  fi
+done
+```
+
+### 文件系统
+
+在 GNU/Linux 操作系统中，文件不再像 Windows 那样分盘管理，只有一个根路径。[下图](https://mp.weixin.qq.com/s/kMPlOZ6BD6XxcS4k9XyOwQ?scene=1) 展示了 GNU/Linux 中一些特定文件夹的名称及其功能：
+
+<img src="https://cdn.dwj601.cn/images/20250324172802457.png" alt="GNU/Linux 中一些特定文件夹的名称及其功能" style="zoom: 33%;" />
+
+### 访问权限
+
+在 Windows 中，我们对用户和权限的概念接触的并不多，因为很多东西都默认设置好了。但是在 GNU/Linux 中，很多文件的权限都需要自己配置和定义，因此权限管理的操作方法十分重要。
+
+使用 `ls -l` 命令列出当前目录下所有文件的详细信息：
+
+![root 用户创建的文件和文件夹](https://cdn.dwj601.cn/images/202409271003057.png)
+
+可以看到一共有六列信息，从左到右依次为：
+
+- 用户访问权限；
+- 与文件链接的个数；
+- 文件属主；
+- 文件属组；
+- 文件大小；
+- 最后修改日期；
+- 文件/目录名。
+
+我们重点关注第一列信息的 $10$ 个字符。
+
+**第 $1$ 个字符**。表示当前文件的类型，共有如下几种：
+
+|   文件类型   | 符号 |
+| :----------: | :--: |
+|   普通文件   | `-`  |
+|     目录     | `d`  |
+| 字符设备文件 | `c`  |
+|  块设备文件  | `b`  |
+|   符号链接   | `l`  |
+| 本地域套接口 | `s`  |
+|   有名管道   | `p`  |
+
+**第 $2\sim10$ 共 $9$ 个字符**。$9$ 个字符每 $3$ 个为一组，分别表示：属主 (user) 权限、属组 (group) 权限和其他用户 (other) 权限。
+
+user、group 和 other 的定义如下：
+
+- 文件用户（user/u）：文件的拥有者。
+- 所属组（group/g）：与该文件关联的用户组，组内成员享有特定的权限。
+- 其他用户（others/o）：系统中不属于拥有者或组的其他用户。
+
+对于当前用户 `now_user` 以及当前用户所在的组 `now_group`，同组用户 `adj_user` 和其他用户 `other_user` 可以形象的理解为以下的集合关系：
+
+```mermaid
+graph TB
+    subgraph ag[another_group]
+    other_user1
+    other_user2
+    end
+    subgraph ng[now_group]
+    now_user
+    adj_user
+    end
+```
+
+每个文件或文件夹对于不同身份的用户会有不同的权限，9 个字符就对应 3 种身份的用户访问权限。每个用户一共有 3 种权限：
+
+| 符号 |  对于文件  |             对于目录             |
+| :--: | :--------: | :------------------------------: |
+| `r`  | 可查看文件 |         能列出目录下内容         |
+| `w`  | 可修改文件 | 能在目录中创建、删除和重命名文件 |
+| `x`  | 可执行文件 |            能进入目录            |
+
+因此上图 `root_file.txt` 文件的 `rw-r--r--` 就表示「root 用户」对其有查看和修改的权限，「同组的其他用户」和「其他组的用户」对其只有查看权限。
+
+那么我们平时看到的关于权限还有数字的配置，是怎么回事呢？其实是对上述字符配置的二进制数字化。读 $r$ 对应 $2^2=4$，写 $w$ 对应 $2^1=2$，可执行 $x$ 对应 $2^0=1$，例如如果一个文件对于所有用户都拥有可读、可写、可执行权限，那么就是 `rwxrwxrwx`，对应到数字就是 $777$。
+
+## 常用工具
+
+### 软件管理器 apt
+
+apt (advanced package tool) 是 Ubuntu/Debian 自带的软件管理工具，可以通过命令管理机器上的所有软件。下面简单罗列一下 apt 的常用命令及其功能：
+
+更新软件的最新版本号：
+
+```bash
+apt update
+```
+
+更新软件（一般需要先更新软件的最新版本号）：
+
+```bash
+apt upgrade <package_name>
+```
+
+下载并安装指定的软件包：
+
+```bash
+apt install <package_name>:<version>
+```
+
+删除指定的软件包：
+
+```bash
+apt remove <package_name>
+```
+
+### 终端汉化 language-pack-zh-hans
+
+language-pack-zh-hans 是一个终端汉化软件包。Shell 的运行结果通过 Terminal 呈现，如果遇到都是英文的输出结果，可以进行以下操作将其转换为中文。
+
+1）安装中文语言包：
 
 ```bash
 apt install language-pack-zh-hans
 ```
 
-2）**添加中文语言支持**：
+2）添加中文语言支持：
 
 ```bash
 locale-gen zh_CN.UTF-8
 ```
 
-3）**编辑 `/etc/default/locale` 文件并编辑**：
+3）编辑 `/etc/default/locale` 文件：
 
 ```bash
 LANG="zh_CN.UTF-8"
@@ -50,13 +178,26 @@ LC_MEASUREMENT="zh_CN.UTF-8"
 LC_ALL=zh_CN.UTF-8
 ```
 
-4）**重启机器**：
+4）重启机器：
 
 ```bash
 reboot
 ```
 
-## 基础命令
+### 目录可视化 tree
+
+tree 是一个目录可视化工具。GNU/Linux 默认自带。Windows 下载地址：[Tree for Windows](https://gnuwin32.sourceforge.net/packages/tree.htm)，下载后将二进制文件的路径加入环境变量即可像在 GNU/Linux 上使用了。
+
+基本命令格式：`tree [-option] [dir]`
+
+- 显示中文：`-N`。如果中文名是中文，不加 `-N` 有些电脑上是乱码的；
+- 选择展示的层级：`-L [n]`；
+- 只显示文件夹：`-d`；
+- 区分文件夹、普通文件、可执行文件：`-FC`。`C` 是加上颜色；
+- 起别名：`alias tree='tree -FCN'`；
+- 输出目录结构到文件： `tree -L 2 -I '*.js|node_modules|*.md|*.json|*.css|*.ht' > tree.txt`。
+
+## 文件管理常用命令
 
 ### 改变目录 cd
 
@@ -166,110 +307,9 @@ grep [option] <pattern> <source>
 
 使用正则表达式在指定文件中进行模式匹配。`-n` 显示行号，`-i` 忽略大小写，`-r` 递归搜索，`-c` 打印匹配数量。
 
-## 软件管理工具 apt
+## 权限管理常用命令
 
-Ubuntu/Debian 提供了软件管理工具 apt (advanced package tool)，可以通过命令行管理机器上的所有软件。下面简单罗列一下 apt 的常用命令及其功能：
-
-1）**更新软件包列表**。其实是更新每一个软件包对应的版本号，而非真正更新了软件。原理大概类比于手机端提示更新（一定是最新版），但是服务器不会实时更新软件的最新版编号（因为没有实时联网），因此需要我们手动更新获取所有软件的最新版本编号，从而可以后续真正意义上的软件更新：
-
-```bash
-apt update
-```
-
-2）**更新软件包**。更新全局软件包到最新版本：
-
-```bash
-apt upgrade
-```
-
-3）**安装软件包**。安装指定的软件包：
-
-```bash
-apt install <PackageName>
-```
-
-4）**删除软件包**。删除指定的软件包：
-
-```bash
-apt remove <PackageName>
-```
-
-## 目录可视化工具 tree
-
-Linux 默认自带，Windows 下载地址：[Tree for Windows](https://gnuwin32.sourceforge.net/packages/tree.htm)，将二进制文件路径加入环境变量即可。
-
-基本命令格式：`tree [-option] [dir]`
-
-- 显示中文：`-N`。如果中文名是中文，不加 `-N` 有些电脑上是乱码的。
-- 选择展示的层级：`-L [n]`。
-- 只显示文件夹：`-d`。
-- 区分文件夹、普通文件、可执行文件：`-FC`。`C` 是加上颜色。
-- 起别名：`alias tree='tree -FCN'`。
-- 输出目录结构到文件： `tree -L 2 -I '*.js|node_modules|*.md|*.json|*.css|*.ht' > tree.txt`。
-
-## 权限管理
-
-在 Windows 中，我们对用户和权限的概念接触的并不多，因为很多东西都默认设置好了。但是在 GNU/Linux 中，很多文件的权限都需要自己配置和定义，因此权限管理的操作方法十分重要。我们从现象入手逐个进行讲解。
-
-首先以 root 用户身份登录并进入 `/opt/OS/task2/` 目录，然后创建一个测试文件 `root_file.txt` 和一个测试文件夹 `root_folder`。使用 `ls -l` 命令列出当前目录下所有文件的详细信息：
-
-![root 用户创建的文件和文件夹](https://cdn.dwj601.cn/images/202409271003057.png)
-
-可以看到一共有 $6$ 列信息，从左到右依次为：用户访问权限、与文件链接的个数、文件属主、文件属组、文件大小、最后修改日期、文件/目录名。$2-5$ 列的信息都很显然，我们重点关注第一列信息。
-
-第 $1$ 列一共有 $10$ 个字符，其中第 $1$ 个字符表示当前文件的类型，共有如下几种：
-
-|   文件类型   | 符号 |
-| :----------: | :--: |
-|   普通文件   | `-`  |
-|     目录     | `d`  |
-| 字符设备文件 | `c`  |
-|  块设备文件  | `b`  |
-|   符号链接   | `l`  |
-| 本地域套接口 | `s`  |
-|   有名管道   | `p`  |
-
-第 $2-10$ 共 $9$ 个字符分 $3$ 个一组，分别表示：属主 (user) 权限、属组 (group) 权限和其他用户 (other) 权限。
-
-### 用户和组
-
-首先我们需要明确用户和组这两个概念的定义：
-
-- 文件用户（user/u）：文件的拥有者。
-- 所属组（group/g）：与该文件关联的用户组，组内成员享有特定的权限。
-- 其他用户（others/o）：系统中不属于拥有者或组的其他用户。
-
-对于当前用户 `now_user` 以及当前用户所在的组 `now_group`，同组用户 `adj_user` 和其他用户 `other_user` 可以形象的理解为以下的集合关系：
-
-```mermaid
-graph TB
-    subgraph ag[another_group]
-    other_user1
-    other_user2
-    end
-    subgraph ng[now_group]
-    now_user
-    adj_user
-    end
-```
-
-### 权限类别
-
-一共有 3 种权限，如下表所示：
-
-|      |    文件    |               目录               |
-| :--: | :--------: | :------------------------------: |
-| `r`  | 可查看文件 |         能列出目录下内容         |
-| `w`  | 可修改文件 | 能在目录中创建、删除和重命名文件 |
-| `x`  | 可执行文件 |            能进入目录            |
-
-那么我们平时看到的关于权限还有数字的配置，是怎么回事呢？其实是对上述字符配置的八进制数字化。读 $r$ 对应 $4$，写 $w$ 对应 $2$，可执行 $x$ 对应 $1$，例如如果一个文件对于所有用户都拥有可读、可写、可执行权限，那么就是 `rwxrwxrwx`，对应到数字就是 $777$。
-
-### 相关命令
-
-下面罗列一些和权限管理相关的命令。
-
-**提升权限**：
+### 提升权限 sudo
 
 ```bash
 sudo ...
@@ -277,19 +317,19 @@ sudo ...
 
 sudo 的全称是 superuser do，即「超级用户执行」。命令之前加上 `sudo` 的意思是普通用户以管理员身份执行指令，从而以管理员权限执行比如：安装软件、系统设置和文件系统等安全操作。可以避免不必要的安全风险。如果是 root 用户则无需添加。
 
-**查看当前用户**：
+### 查看当前用户 whoami
 
 ```bash
 whoami
 ```
 
-**创建用户**：
+### 创建用户 useradd
 
 ```bash
 useradd <username>
 ```
 
-**删除用户**：
+### 删除用户 userdel
 
 ```bash
 userdel <username>
@@ -297,7 +337,7 @@ userdel <username>
 
 `-r` 表示同时删除数据信息。
 
-**修改用户信息**：
+### 修改用户信息 usermod
 
 ```bash
 usermod
@@ -305,13 +345,13 @@ usermod
 
 使用 `-h` 参数查看所有用法。
 
-**修改用户密码**：
+### 修改用户密码 passwd
 
 ```bash
 passwd <username>
 ```
 
-**切换用户**：
+### 切换用户 su
 
 ```bash
 su <username>
@@ -319,38 +359,38 @@ su <username>
 
 添加 `-` 参数则直接进入 `/home/<username>/` 目录（如果有的话）。
 
-**查看当前用户所属组**：
+### 查看当前用户所属组 groups
 
 ```bash
 groups
 ```
 
-**创建用户组**：
+### 创建用户组 groupadd
 
 ```bash
 groupadd
 ```
 
-**删除用户组**：
+### 删除用户组 groupdel
 
 ```bash
 groupdel
 ```
 
-**改变属主**：
+### 改变属主 chown
 
 ```bash
 chown <user>:<group> <filename>
 ```
 
-**改变属组**：
+### 改变属组 chgrp
 
 ```bash
 chgrp <group> <filename>
 # 等价于 chown :<group> <filename>
 ```
 
-**改变权限**：
+### 改变权限 chmod
 
 ```bash
 chmod <option> <filename>
@@ -368,7 +408,7 @@ chmod 766 demo.py
 
 至于为什么数字表示法会用 $4,2,1$，是因为 $4,2,1$ 刚好对应了二进制的 $001, 010, 100$，三者的组合可以完美的表示出 $[0,7]$ 范围内的任何一个数。
 
-**默认权限**：
+### 默认权限 umask
 
 ```bash
 umask
@@ -476,25 +516,21 @@ umask
     
     ![权限测试](https://cdn.dwj601.cn/images/202409280007514.png)
 
-## 进程管理
+## 进程管理常用命令
 
-在熟悉了 bash shell 的基本命令以及 GNU/Linux 中用户与权限管理的基本概念后，我们就可以开始尝试管理 GNU/Linux 中的进程了。接下来简单介绍一下 GNU/Linux 的进程管理。最后再通过调试一个 C 程序来熟悉 GNU 调试工具 gdb (GNU Debugger) 的使用。
-
-### 进程监视
-
-**查看进程状态**：
+### 查看进程状态 ps
 
 ```bash
 ps
 ```
 
-**动态查看进程状态**：
+### 动态查看进程状态 top
 
 ```bash
 top
 ```
 
-**杀死某个进程**：
+### 杀死某个进程 kill
 
 ```bash
 kill -9 <PID>
@@ -555,14 +591,14 @@ kill -9 <PID>
     
     ![删除目录和文件](https://cdn.dwj601.cn/images/202410081748818.png)
 
-### 进程调试
+### 进程调试 gdb
 
 参考 [GDB 官网](https://www.gnu.org/software/gdb/)。常用的如下：
 
-**开始运行**：r 即 run
+开始运行：r 即 run
 
 ```bash
-r
+r  # 即 run
 ```
 
 设置断点：
@@ -571,13 +607,13 @@ r
 break <line_num>
 ```
 
-**运行到下一个断点**：c 即 continue
+运行到下一个断点：
 
 ```bash
-c
+c  # 即 continue
 ```
 
-??? "练习"
+??? "gdb 练习"
 
     **一、创建 `fork.c` 文件**
     
@@ -646,137 +682,3 @@ c
     ![运行到第二个断点时观察子进程 1510171](https://cdn.dwj601.cn/images/202410081951803.png)
     
     从上述子进程的追踪结果可以看出，在父进程结束之后，子进程成功执行了 `pid == 0` 的逻辑并开始调用 `ls` 工具。
-
-## C/C++ 编程
-
-本部分主要是为了熟悉 C/C++ 编程中的「静态链接」与「动态链接」逻辑。
-
-### GCC 基础
-
-相比于在 Windows 进行 C/C++ 编程时需要自己额外安装编译器集合 MSVC (Microsoft Visual C++) 或 MinGW (Minimalist GNU for Windows)，GNU/Linux 发行版 Ubuntu22.04 已经默认配置好了编译器集合 GCC (GNU Compiler Collection)，我们可以利用 GCC 提供的前端工具 gcc 等快捷地使用编译器集合中的所有工具。具体命令可以参考 GCC 官方在线文档：<https://gcc.gnu.org/onlinedocs/>。
-
-我们可以使用 `gcc --version` 命令查看当前的 GCC 版本：
-
-```bash
-root@dwj2:/opt/OS/task4# gcc --version
-gcc (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0
-Copyright (C) 2021 Free Software Foundation, Inc.
-This is free software; see the source for copying conditions.  There is NO
-warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-```
-
-因此我们选择版本最相近的手册 [gcc-11.5.0](https://gcc.gnu.org/onlinedocs/gcc-11.5.0/gcc/) 进行阅读。对于最基本的编译操作和理论，已经在 [计算机系统基础](../../base/cs/computer-system-base/program-transform-and-represent.md#程序的转换) 课程中有所学习，不再赘述。
-
-**环境变量**。对于当前路径下链接出来的可执行文件 demo，为什么 `demo` 无法正常执行，`./demo` 就可以正常执行？根本原因是 bash 默认执行 PATH 环境变量下的可执行文件，显然上述的 demo 可执行文件并不在 PATH 对应的路径下，那么 PATH 路径都有哪些呢？我们使用 `echo $PATH | tr ':' '\n'` 打印出来：
-
-```bash
-root@dwj2:/opt/OS/task4# echo $PATH | tr ':' '\n'
-/usr/local/sbin
-/usr/local/bin
-/usr/sbin
-/usr/bin
-/usr/games
-/usr/local/games
-/snap/bin
-```
-
-能不能使用 demo 运行呢？有很多解决办法，但根本逻辑都是将当前路径加入到 PATH 环境变量。下面补充几个 gcc 和 g++相关的环境变量：
-
-- 头文件搜索路径
-    - `C_INCLUDE_PATH`: gcc 找头文件的路径。
-    - `CPLUS_INCLUDE_PATH`: g++ 找头文件的路径。
-- 库文件搜索路径
-    - `LD_LIBRARY_PATH`: 找动态链接库的路径。
-    - `LIBRARY_PATH`: 找静态链接库的路径。
-
-**编译选项**。在计算机系统基础中已经学习到了，C/C++ 最基本的编译链就是 `-E`、`-S`、`-c`、`-o`，每一个参数都包含前面所有的参数。下面主要讲讲 `-I<dir>`，`-L<dir>` 和 `-l<name>` 三个参数。
-
-1）`-I<dir>` 顾名思义就是「头文件导入」的搜索目录。例如下面的编译语句：
-
-```bash
-gcc –I/opt/OS/task4/include demo.c
-```
-
-注意：当我们不使用 `-o` 参数指定 outfile 的名称时，默认是 `a.out`。
-
-2）`-L<dir>` 顾名思义就是「库文件连接」搜索目录。例如下面的编译语句：
-
-```bash
-gcc -o x11fred -L/usr/openwin/lib x11fred.c
-```
-
-3）`-l<name>` 比较有意思，就是直接制定了库文件是哪一个。正因为有了这样的用法，我们在给库文件 (`.a` 表示静态库文件，`.so` 表示动态库文件) 起名时，就只能起 `lib<name>.a` 或 `lib<name>.so`。例如下面的编译语句：
-
-```bash
-gcc -o fred -lm fred.c
-```
-
-等价于：
-
-```bash
-gcc –o fred /usr/lib/libm.a fred.c
-```
-
-### 库的链接
-
-对于下面的函数库与调用示例：
-
-```c
-// addvec.c
-void addvec(int* x, int* y, int* z, int n) {
-    for(int i = 0; i < n ; i++) {
-        z[i] = x[i] + y[i];
-    }
-}
-
-// multvec.c
-void multvec(int* x, int* y, int* z, int n) {
-    for(int i = 0; i < n ; i++) {
-        z[i] = x[i] * y[i];
-    }
-}
-
-// vector.h
-void addvec(int* x, int* y, int* z, int n);
-void multvec(int* x, int* y, int* z, int n);
-
-// main.c
-#include <stdio.h>
-#include "vector.h"
-int x[2] = {1, 2}, y[2] = {3, 4}, z[2];
-int main() {
-    addvec(x, y, z, 2);
-    printf("z = [%d, %d]\n", z[0], z[1]);
-    return 0;
-}
-```
-
-生成静态库文件 `libvector.a` 并链接至可执行文件 p1 中：
-
-```bash
-# 将两个自定义库函数编译为可重定位目标文件 addvec.o 和 multvec.o
-gcc -c addvec.c multvec.c
-
-# 将两个可重定位目标文件打包成静态库文件 libvector.a
-ar crv libvector.a addvec.o multvec.o
-
-# 生成静态链接的可执行文件 p1
-gcc -static -o p1 main.c -L. -lvector
-```
-
-生成动态库文件 `libvector.so` 并链接至可执行文件 p2 中：
-
-```bash
-# 将两个自定义库函数编译为动态库文件 libvector.so
-gcc -shared -o libvector.so addvec.c multvec.c
-
-# 生成动态链接的可执行文件 p2
-gcc -o p2 main.c -L. -lvector
-
-# 使用 ./p2 执行之前需要明确一下动态库文件的链接搜索路径，否则会找不到动态库文件
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:.
-```
-
-最后我们查看一下 p1 和 p2 详细信息，如下图所示。显然静态链接的可执行文件 p1 占用的存储空间远大于动态连接的可执行文件 p2。
-
-![静态链接的可执行文件 vs. 动态链接的可执行文件](https://cdn.dwj601.cn/images/202410091956946.png)
