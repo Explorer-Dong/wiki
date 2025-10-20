@@ -9,13 +9,14 @@ status: new
 
 MySQL 是一款目前较为流行的关系型数据库。
 
+## 下载安装
+
+不同的 GNU/Linux 发行版的部署方法不尽相同，详细操作可以参考：
+
+- CentOS：[Linux 安装 mysql8.0 - CSDN](https://blog.csdn.net/weixin_55914667/article/details/126410095)
+- Ubuntu：[在Ubuntu 22.04 LTS 上安装 MySQL两种方式：在线方式和离线方式 - CSDN](https://blog.csdn.net/weixin_45626288/article/details/133220238)
+
 ## 常用命令
-
-### 登录
-
-```bash
-mysql -uroot -p
-```
 
 ### 启动
 
@@ -45,6 +46,30 @@ sudo systemctl restart mysql
 
 ```mysql
 FLUSH PRIVILEGES;
+```
+
+### 登录
+
+```bash
+mysql -uroot -p
+```
+
+### 允许远程登录数据库
+
+```mysql
+update user set host = '%' where user = 'root';
+```
+
+### 重置密码
+
+```mysql
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
+```
+
+### 使用数据库
+
+```mysql
+use mysql
 ```
 
 ## 常见问题
