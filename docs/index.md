@@ -56,13 +56,9 @@ title: 首页
 
 </div>
 
----
-
 如果您能参与到知识的传播中，我们将会非常欢迎，具体的贡献方法请见 [贡献指南](https://github.com/Explorer-Dong/wiki?tab=readme-ov-file#共建社区)。下图是本仓库的贡献者名单：
 
 ![贡献者名单](https://contrib.rocks/image?repo=Explorer-Dong/wiki)
-
----
 
 如果觉得网站内容对您有帮助，欢迎进入 [GitHub](https://github.com/Explorer-Dong/wiki) 为我们的项目点一颗 Star。您的⭐与反馈是我们更新的最大动力！下图是本仓库的星标历史：
 
