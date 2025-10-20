@@ -318,7 +318,6 @@ nav:
         - develop/back-end/python/basic-concepts.md
         - develop/back-end/python/grammar.md
         - develop/back-end/python/std-lib.md
-        - develop/back-end/python/network-lib.md
         - develop/back-end/python/science-lib.md
     - 数据库:
       - develop/database/index.md
