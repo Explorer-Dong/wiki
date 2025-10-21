@@ -6,7 +6,7 @@ title: 首页
 
 <div class="grid cards" markdown>
 
--   :octicons-book-16:{ .lg .middle } __基础知识__
+-   :octicons-book-16:{ .lg .middle } **基础知识**
 
     ---
 
@@ -14,7 +14,7 @@ title: 首页
 
     [:octicons-arrow-right-24: 开始阅读](./base/index.md)
 
--   :material-graph-outline:{ .lg .middle } __数据结构与算法__
+-   :material-graph-outline:{ .lg .middle } **数据结构与算法**
 
     ---
 
@@ -22,7 +22,7 @@ title: 首页
 
     [:octicons-arrow-right-24: 开始阅读](./ds-and-algo/index.md)
 
--   :fontawesome-regular-file-code:{ .lg .middle } __软件开发__
+-   :fontawesome-regular-file-code:{ .lg .middle } **软件开发**
 
     ---
 
@@ -30,7 +30,7 @@ title: 首页
 
     [:octicons-arrow-right-24: 开始阅读](./develop/index.md)
 
--   :material-robot-outline:{ .lg .middle } __大模型__
+-   :material-robot-outline:{ .lg .middle } **大模型**
 
     ---
 
@@ -38,7 +38,7 @@ title: 首页
 
     [:octicons-arrow-right-24: 开始阅读](./llm/index.md)
 
--   :material-tools:{ .lg .middle } __实用工具__
+-   :material-tools:{ .lg .middle } **实用工具**
 
     ---
 
@@ -46,20 +46,20 @@ title: 首页
 
     [:octicons-arrow-right-24: 开始阅读](./tools/index.md)
 
--   :material-clock-fast:{ .lg .middle } __未完待续__
+-   :material-account-group-outline:{ .lg .middle } **参与贡献**
 
     ---
 
-    To be continued.
+    一起参与到项目的完善中。
 
-    [:octicons-arrow-right-24: 开始阅读](#)
+    [:octicons-arrow-right-24: 开始阅读](./contributing.md)
 
 </div>
 
-如果您能参与到知识的传播中，我们将会非常欢迎，具体的贡献方法请见 [贡献指南](https://github.com/Explorer-Dong/wiki?tab=readme-ov-file#共建社区)。下图是本仓库的贡献者名单：
+如果您能参与到知识的传播中，我们将会非常欢迎，具体的贡献方法请见 [贡献指南](./contributing.md)。下图是本项目的协作者名单：
 
-![贡献者名单](https://contrib.rocks/image?repo=Explorer-Dong/wiki)
+![贡献名单](https://stg.contrib.rocks/image?repo=Explorer-Dong/wiki)
 
-如果觉得网站内容对您有帮助，欢迎进入 [GitHub](https://github.com/Explorer-Dong/wiki) 为我们的项目点一颗 Star。您的⭐与反馈是我们更新的最大动力！下图是本仓库的星标历史：
+如果觉得网站内容对您有帮助，欢迎进入 [GitHub](https://github.com/Explorer-Dong/wiki) 为我们的项目点一颗 Star。您的⭐与反馈是我们更新的最大动力！下图是本项目的星标历史：
 
-![星标历史](https://api.star-history.com/svg?repos=Explorer-Dong/wiki&type=Date)
+![星标历史](https://api.star-history.com/svg?repos=Explorer-Dong/wiki&type=date&legend=bottom-right)

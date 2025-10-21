@@ -35,9 +35,13 @@
 
 ## 共建社区
 
-碍于笔者的认知，笔记的内容难免有些偏差。我们非常欢迎你的意见或建议，一起参与到项目的贡献中来！详细的贡献方法请移步 [参与贡献](https://wiki.dwj601.cn/contributing/)。下图是项目的协作者：
+碍于笔者的认知，笔记的内容难免有些偏差。我们非常欢迎你的意见或建议，一起参与到项目的贡献中来！详细的贡献方法请移步 [参与贡献](https://wiki.dwj601.cn/contributing/)。
 
-![项目的贡献名单](https://contrib.rocks/image?repo=Explorer-Dong/wiki)
+下图是项目的协作者：
+
+<a href="https://github.com/Explorer-Dong/wiki/graphs/contributors">
+  <img src="https://stg.contrib.rocks/image?repo=Explorer-Dong/wiki" alt="项目的协作者" />
+</a>
 
 ## 星标历史
 
@@ -45,7 +49,7 @@
 
 下图是项目的星标历史：
 
-![项目的星标历史](https://api.star-history.com/svg?repos=Explorer-Dong/wiki&type=Date)
+![项目的星标历史](https://api.star-history.com/svg?repos=Explorer-Dong/wiki&type=date&legend=bottom-right)
 
 ## 开源协议
 
