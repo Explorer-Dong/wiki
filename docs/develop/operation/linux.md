@@ -197,7 +197,7 @@ tree 是一个目录可视化工具。GNU/Linux 默认自带。Windows 下载地
 - 起别名：`alias tree='tree -FCN'`；
 - 输出目录结构到文件： `tree -L 2 -I '*.js|node_modules|*.md|*.json|*.css|*.ht' > tree.txt`。
 
-## 文件管理常用命令
+## 文件管理
 
 ### 改变目录 cd
 
@@ -307,7 +307,7 @@ grep [option] <pattern> <source>
 
 使用正则表达式在指定文件中进行模式匹配。`-n` 显示行号，`-i` 忽略大小写，`-r` 递归搜索，`-c` 打印匹配数量。
 
-## 权限管理常用命令
+## 权限管理
 
 ### 提升权限 sudo
 
@@ -516,7 +516,7 @@ umask
     
     ![权限测试](https://cdn.dwj601.cn/images/202409280007514.png)
 
-## 进程管理常用命令
+## 进程管理
 
 ### 查看进程状态 ps
 
@@ -682,3 +682,44 @@ c  # 即 continue
     ![运行到第二个断点时观察子进程 1510171](https://cdn.dwj601.cn/images/202410081951803.png)
     
     从上述子进程的追踪结果可以看出，在父进程结束之后，子进程成功执行了 `pid == 0` 的逻辑并开始调用 `ls` 工具。
+
+## 硬盘管理
+
+### 硬盘挂载
+
+查看硬盘接口：
+
+```bash
+fdisk -l
+```
+
+![1 TB 的硬盘已经被系统识别到了，硬盘接口为 /dev/vdc](https://cdn.dwj601.cn/images/20251024210643811.png)
+
+格式化硬盘（设置硬盘的文件系统）：
+
+```bash
+mkfs -t ext4 /dev/vdc
+```
+
+![格式化结果](https://cdn.dwj601.cn/images/20251024211157415.png)
+
+挂载硬盘：
+
+```bash
+cd / && mkdir zzz
+mount /dev/vdc /zzz
+```
+
+![此时 zzz 文件夹被挂载到了 /dev/vdc 硬盘中](https://cdn.dwj601.cn/images/20251024211402168.png)
+
+卸载硬盘：
+
+```bash
+umount /zzz
+```
+
+![此时 zzz 文件夹恢复到了 /dev/vda2 硬盘中](D:\NutCloud\_images\screen-shots\image-20251024211457804.png)
+
+挂载前，数据存储在原来的设备中，挂载后原来的数据会被遮蔽，新数据持久化保存在新挂载的设备中，取消挂载后原来的数据就会显现。可以使用 `df -h <filepath>` 来查看数据所在的设备。
+
+有关自动挂载参见 [知乎](https://zhuanlan.zhihu.com/p/691951675)。
