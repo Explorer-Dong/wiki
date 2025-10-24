@@ -2,13 +2,11 @@
 title: 数字图像处理
 ---
 
-本文介绍数字图像处理 [^ref-book] 的入门笔记。旨在学习「数字图像的基本知识」以及「传统的图像处理算法」，为后续的计算机视觉等领域知识打好基础。本文涉及到的代码有 MATLAB (R2023a) [^matlab] 和 Python (opencv == 4.10.0) [^opencv] 两种。
+本文介绍数字图像处理 [^ref-book] 的入门笔记。旨在学习「数字图像的基本知识」以及「传统的图像处理算法」，为后续的计算机视觉等领域知识打好基础。本文涉及到的代码有 [MATLAB (R2023a)](https://ww2.mathworks.cn/help/images/index.html) 和 [Python (opencv == 4.10.0)](https://docs.opencv.org/4.10.0/d2/d96/tutorial_py_table_of_contents_imgproc.html) 两种。
 
 注：如果没有特别声明，所有的“图像”都表示“数字图像”。
 
 [^ref-book]: 蔡利梅, 王利娟. 数字图像处理——使用MATLAB分析与实现（第2版）[M]. 北京: 清华大学出版社, 2023.
-[^matlab]: [Image Processing Toolbox | MTLAB - (ww2.mathworks.cn)](https://ww2.mathworks.cn/help/images/index.html)
-[^opencv]: [Image Processing in OpenCV | OpenCV - (docs.opencv.org)](https://docs.opencv.org/4.10.0/d2/d96/tutorial_py_table_of_contents_imgproc.html)
 
 ## 图像基本概念
 
@@ -39,8 +37,15 @@ $$
 \text{PPI} = \frac{\sqrt{(\text{水平像素数})^2 + (\text{垂直像素数})^2}}{\text{屏幕尺寸（英寸）}}
 $$
 
+*注：上述屏幕尺寸是指屏幕对角线的长度。
 
-注：上述屏幕尺寸是指屏幕对角线的长度
+常见的分辨率有 480P、720P、1080P 等，P 即 Progressive Scan 逐行扫描的意思，那么数字就表示图像的像素行数。例如，按照 16:9 的宽高比例来说，对应的分辨率尺寸就是：
+
+|    分辨率名     | 宽高比 | 实际像素  |   场景举例   |
+| :-------------: | :----: | :-------: | :----------: |
+|    480P (SD)    |  16:9  |  854*480  |  手机流媒体  |
+|    720P (HD)    |  16:9  | 1280*720  | 常见高清视频 |
+| 1080P (Full HD) |  16:9  | 1920*1080 |   主流电视   |
 
 3）**清晰度**
 
