@@ -265,7 +265,7 @@ conda env create -f environment.yml
 
 Python 增强提案 (Python Enhancement Proposal, PEP) 是 Python 社区用来规范 Python 语言的。下面罗列一些比较常用的规则。
 
-### PEP 503 – Simple Repository API
+### PEP 503: Simple Repository API
 
 2015 年 Python 社区提出了 [包名标准化](https://peps.python.org/pep-0503/) 制度，所有的 `- . _` 字符（单个或连续）都会被替换为单个 `-` 字符，所有字母都会被转化为小写字母。
 
@@ -292,30 +292,24 @@ my_project/
 
 当用 `import xxx` 尝试导入某一个模块时，Python 会按以下顺序搜索模块：
 
-1. 当前执行脚本所在目录。例如执行 `python main.py`，解释器会先在 `main.py` 所在目录 `my_project` 中找；
-2. 环境变量 `PYTHONPATH` 指定的路径。我们可以通过 `export PYTHONPATH=/path/to/mylibs` 指令进行指定；
-3. 标准包路径。解释器自带的包，如 `os`、`sys` 等；
-4. 第三方包路径。通过 `pip install` 安装的库都在这里，即 site-packages 目录。
+1. **当前执行脚本所在目录**。例如执行 `python main.py` 时，解释器会先在 `my_project` 中找；
+2. **环境变量 `PYTHONPATH` 指定的路径**。可以通过 `export PYTHONPATH=/path/to/mylibs` 指定；
+3. **标准包路径**。Python 自带的包，如 `os`、`sys` 等；
+4. **第三方包路径**。通过 `pip install` 安装的库都在这里，即 `site-packages` 目录。
 
-可以用以下方式查看解释器的搜索路径：
+可以打印 `sys.path` 列表查看解释器的模块搜索路径：
 
-```python
-import sys
-print("\n".join(sys.path))
-```
+![解释器的模块搜索路径](https://cdn.dwj601.cn/images/20251025231212366.png)
 
-输出：
+可以看到解释器的确按照上述顺序搜索模块。其中空字符串就表示项目所在根目录，对于示例项目，就是 `/path/to/my_project`。
 
-```text
-D:\desktop\my_project
-D:\software\Python313\python313.zip
-D:\software\Python313\DLLs
-D:\software\Python313\Lib
-D:\software\Python313
-D:\software\Python313\Lib\site-packages
-```
+注意：PYTHONPATH $\ne$ 虚拟环境激活。
 
-可以看到解释器的确按照上述顺序搜索模块。
+- 设置 `PYTHONPATH` 只是告诉解释器额外去某个目录找模块，并没有改变 Python 的运行环境。
+- 虚拟环境在激活时，会做的不仅仅是修改 `PYTHONPATH`，它还会：
+    1. 改变 `sys.prefix` 和 `sys.executable`，让解释器以虚拟环境为主；
+    2. 注入 `sitecustomize.py` 和 `site.py` 的钩子，使包索引、依赖解析与虚拟环境匹配；
+    3. 修改动态链接库的搜索路径。
 
 ### 模块的导入方式
 
@@ -394,7 +388,7 @@ if __name__ == '__main__':
 
 在 C++ 和 Python 中，赋值语句的语义是完全不同的。类比：C++ 变量像「盒子」，赋值就是再拿一个盒子装一份拷贝；而 Python 变量像「标签」，赋值就是多贴几个标签在同一个盒子上。下图生动的展示了 Python 变量的意义：
 
-![C++ 盒子模型 vs. Python 标签模型](https://cdn.dwj601.cn/images/202407031133477.png)
+![C++ 盒子模型 vs Python 标签模型](https://cdn.dwj601.cn/images/202407031133477.png)
 
 **C++：赋值会产生拷贝（盒子模型）**。给变量赋值时，会重新申请内存空间，把数据复制过去。
 
