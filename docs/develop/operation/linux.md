@@ -4,6 +4,11 @@ title: GNU/Linux
 
 本文记录 GNU/Linux 的学习笔记。好吧其实是学习 GNU 中的各种命令。主要以 Ubuntu 发行版为主。
 
+一些可参考的内容：
+
+- 菜鸟教程：[Linux 命令大全](https://www.runoob.com/linux/linux-command-manual.html)
+- 开源社区：[Linux Command](https://github.com/jaywcjlove/linux-command)
+
 ## 基本概念
 
 现在大家都称 GNU/Linux 操作系统为 Linux，但其实这是不合理的。因为 Linux 只是这个操作系统的内核（负责硬件管理和资源调度），还需要配合 GNU 的一整套用户程序（包括命令行终端 bash、C 标准库 glibc、C 编译器 GCC 等）才能称得上一个完整的操作系统。
@@ -718,7 +723,7 @@ mount /dev/vdc /zzz
 umount /zzz
 ```
 
-![此时 zzz 文件夹恢复到了 /dev/vda2 硬盘中](D:\NutCloud\_images\screen-shots\image-20251024211457804.png)
+![此时 zzz 文件夹恢复到了 /dev/vda2 硬盘中](https://cdn.dwj601.cn/images/20251025100850672.png)
 
 挂载前，数据存储在原来的设备中，挂载后原来的数据会被遮蔽，新数据持久化保存在新挂载的设备中，取消挂载后原来的数据就会显现。可以使用 `df -h <filepath>` 来查看数据所在的设备。
 

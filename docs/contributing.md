@@ -49,8 +49,19 @@ cd wiki
 
 ```bash
 python -m venv .venv
-source .venv/Script/activate
 ```
+
+=== "Windows"
+
+    ```bash
+    source .venv/Script/activate
+    ```
+
+=== "macOS/Linux"
+
+    ```bash
+    source .venv/bin/activate
+    ```
 
 3）安装项目依赖：
 
