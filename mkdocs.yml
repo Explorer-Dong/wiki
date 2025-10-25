@@ -330,15 +330,11 @@ nav:
       - develop/operation/docker.md
   - 大模型:
     - llm/index.md
-    - llm/huggingface.md
     - 基础设施:
       - llm/infrastructure/index.md
+      - llm/infrastructure/huggingface.md
     - 模型研究:
       - llm/research/index.md
-      - 预训练:
-        - llm/research/pre-training/index.md
-      - 后训练:
-        - llm/research/post-training/index.md
     - 下游应用:
       - llm/downstream/index.md
   - 实用工具:
