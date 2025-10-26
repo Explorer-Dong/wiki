@@ -332,7 +332,9 @@ nav:
     - llm/index.md
     - 基础设施:
       - llm/infra/index.md
+      - llm/infra/accelerator.md
       - llm/infra/huggingface.md
+      - llm/infra/pytorch.md
     - 模型研究:
       - llm/research/index.md
     - 下游应用:

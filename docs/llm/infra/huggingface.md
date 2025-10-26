@@ -1,5 +1,5 @@
 ---
-title: Hugging Face 那些事
+title: Hugging Face
 status: new
 ---
 
