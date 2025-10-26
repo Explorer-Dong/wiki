@@ -331,8 +331,8 @@ nav:
   - 大模型:
     - llm/index.md
     - 基础设施:
-      - llm/infrastructure/index.md
-      - llm/infrastructure/huggingface.md
+      - llm/infra/index.md
+      - llm/infra/huggingface.md
     - 模型研究:
       - llm/research/index.md
     - 下游应用:
