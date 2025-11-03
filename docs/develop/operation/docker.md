@@ -22,7 +22,7 @@ status: new
 
 ## 下载安装
 
-Linux 和 macOS 安装待定，这里介绍在 Windows 上安装 Docker 的流程。
+这里只介绍在 Windows 上安装 Docker 的流程，其他平台详见 [Install Docker Engine](https://docs.docker.com/engine/install/)。
 
 ### 下载安装 WSL
 
@@ -66,25 +66,122 @@ wsl.exe -d Ubuntu  # Ubuntu 可以替换为你指定的 Linux 发行版名称
 
 启动 Docker Desktop 后就可以使用所有的 Docker 命令了，当然也可以利用 Docker Desktop 进行可视化操作。
 
-## 基本用法 *
+## 基本用法
 
-1. **镜像操作**
-    - 拉取：`docker pull`
-    - 查看：`docker images`
-    - 删除：`docker rmi`
-2. **容器操作**
-    - 创建与运行：`docker run`
-    - 查看运行状态：`docker ps`
-    - 停止与删除：`docker stop`, `docker rm`
-3. **进入容器与交互**
-    - `docker exec -it <id> /bin/bash`
-    - `docker logs <id>`
-4. **数据持久化**
-    - Volume（数据卷）
-    - Bind mount（目录挂载）
-5. **网络**
-    - 默认网络
-    - 容器间通信
+### 镜像操作
+
+拉取镜像：
+
+```bash
+docker pull <镜像名>:<标签>
+```
+
+查看本地镜像：
+
+```bash
+docker images
+```
+
+删除镜像：
+
+```bash
+docker rmi <镜像ID或镜像名>
+```
+
+### 容器操作
+
+创建与运行容器：
+
+```bash
+# 从镜像启动一个新容器
+docker run --name <容器名> -itd <镜像名或ID> /bin/bash
+
+# 可带 GPU 和挂载目录
+docker run --gpus all -itd --ipc=host --name <容器名> -v <宿主机路径>:<容器路径> <镜像名> /bin/bash
+```
+
+查看容器运行状态：
+
+```bash
+# 查看正在运行的容器
+docker ps
+
+# 查看所有容器（包括已停止的）
+docker ps -a
+```
+
+停止运行中的容器：
+
+```bash
+docker stop <容器名或ID>
+```
+
+删除已停止的容器：
+
+```bash
+docker rm <容器名或ID>
+```
+
+进入正在运行的容器：
+
+```bash
+docker exec -it <容器名或ID> /bin/bash
+```
+
+查看容器日志：
+
+```bash
+# 标准输出/错误
+docker logs <容器名或ID>
+
+# 实时查看（跟随输出）
+docker logs -f <容器名或ID>
+```
+
+### 数据持久化
+
+由 Docker 管理的持久化存储：
+
+```bash
+docker volume create <卷名>
+docker run -v <卷名>:<容器路径> <镜像名>
+```
+
+将宿主机目录直接挂载到容器：
+
+```bash
+docker run -v <宿主机路径>:<容器路径> <镜像名> /bin/bash
+```
+
+### 网络
+
+Docker 默认创建 `bridge` 网络，容器可通过宿主机访问外部网络。在同一网络下的容器可通过名称互相通信。
+
+查看网络列表：
+
+```bash
+docker network ls
+```
+
+
+创建自定义网络：
+
+```bash
+docker network create <网络名>
+```
+
+运行容器时加入网络：
+
+```bash
+docker run --name <容器A> --network <网络名> -itd <镜像名>
+docker run --name <容器B> --network <网络名> -itd <镜像名>
+```
+
+在容器 A 中可直接使用容器名访问容器 B：
+
+```bash
+ping <容器B>
+```
 
 ## 进阶用法 *
 
