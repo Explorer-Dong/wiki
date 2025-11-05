@@ -2,7 +2,7 @@
 title: 基本概念
 ---
 
-本文记录 Python 的基本概念。
+本文记录 [Python](https://www.python.org/) 的基本概念。
 
 ## 解释器
 
@@ -14,25 +14,13 @@ Python 是一门解释型语言，代码不会被提前编译成机器码，而�
 | PyPy    | Python | 逐条解释，但会在运行时将热点字节码即时 (Just In Time, JIT) 编译为机器码，直接在 CPU 上执行 | 执行速度快，适合长时间运行的计算任务；但兼容性稍差 | 高性能计算、高并发等                 |
 | Jython  | Java     | 将 Python 源码直接编译成 Java 字节码，然后由 JVM（Java 虚拟机）执行 | 能与 Java 无缝集成；但性能依赖 JVM 优化，启动速度稍慢 | 需要在 Java 环境中使用 Python 脚本 |
 
-### 安装
+本地使用 Python 的方法有很多，包括：直接下载安装 Python、基于 Anaconda/Miniconda 使用 Python 等，各个平台的安装方法一搜便知。
 
-以 Windows 平台为例。直接去 [Python 官网](https://www.python.org/) 下载对应硬件架构的安装包即可。注意本地安装完之后不要把安装包删了，因为安装好的 Python 需要通过这个安装包进行后续的管理。
+*注：对于直接下载 Python，本地安装完之后不要把安装包删了，因为安装好的 Python 需要通过这个安装包进行后续的管理。
 
-如果此前没有使用安装包卸载 Python，重新安装时就会出现各种异常报错，例如：`0x80070422` 和 `0x80070643` 报错。此时需要到注册表里彻底删掉对应的文件，在下面的三个路径下一一尝试，删除对应的版本的 Python 文件即可：
+## 包与环境
 
-- `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall`
-- `HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall`
-- `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall`
-
-### 集成开发环境
-
-集成开发环境可以提供代码高亮、语法提示等便捷的功能，方便开发者更高效地开发 Python 项目。
-
-主流的主要有 [Pycharm](https://www.jetbrains.com/pycharm/)、[VSCode](https://code.visualstudio.com/) 等。
-
-## 包
-
-与 C++ 的命名空间类似，Python 以包（也称库）的形式组织不同的功能模块，每一个 `.py` 文件就是一个模块，模块中含有对应的类和函数。基本结构如下图所示：
+与 C++ 的命名空间类似，Python 以包 (package) 的形式组织不同的功能模块，每一个 `.py` 文件就是一个模块，模块中含有对应的类和函数。基本结构如下图所示：
 
 ```mermaid
 graph TB
@@ -51,13 +39,23 @@ graph TB
 
 得益于 Python 便捷的开发逻辑，其第三方包相当丰富。包分发系统 (Python Package Index, [PyPI](https://pypi.org/)) 可以非常便捷地分发和管理第三方包。
 
+每一个项目往往会依赖不同的第三方包，甚至不同的 Python 版本，下面就简单介绍 Python 的包与环境管理工具。
+
 ### pip
 
-pip 是安装 Python 时自带的程序，用来管理项目中的第三方库。
+pip 是安装 Python 时自带的程序，用来管理项目中的第三方包。详细用法可以在安装 Python 后使用 `pip --help` 查看，这里仅列出常见的命令。
 
-**更换 pip 的下载源**。默认的 pip 会从国外的 PyPI 拉取库，可能会遇到网络问题，我们可以更换 pip 的下载源。
+管理第三方包：
 
-更换 pip 下载源：
+```bash
+# 下载第三方包（可以添加 -v 参数显示详细安装过程）
+pip install <pkg>==<versioon>
+
+# 卸载第三方包
+pip uninstall <pkg>
+```
+
+管理 pip 下载源：
 
 ```bash
 # 临时换源
@@ -65,65 +63,54 @@ pip install <PackageName> -i https://pypi.tuna.tsinghua.edu.cn/simple/
 
 # 永久换源
 pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple/
-```
 
-查看当前配置：
-
-```bash
-pip config list
-```
-
-恢复默认源：
-
-```bash
+# 恢复默认源
 pip config unset global.index-url
 ```
 
-**管理项目中的所有包**。一个项目往往会依赖很多第三方包，如果需要协同开发，或者便于复现，就需要固定项目的环境，其中最重要的就是项目中依赖的各种包及其版本了。为此大家就规定需要将项目依赖的第三方包及其版本都记录下来。
-
-例如下面的内容就指定了当前项目依赖的各种第三方库的名称及其版本：
-
-```text
-babel==2.17.0
-charset-normalizer==3.4.1
-click==8.1.8
-gitdb==4.0.12
-GitPython==3.1.44
-```
-
-导出环境：
+管理项目的包依赖：
 
 ```bash
+# 导出环境
 pip freeze > requirements.txt
+
+# 复现环境
+pip install -r requirements.txt
 ```
 
-复现环境：
+管理 pip 的配置：
 
 ```bash
-pip install -r requirements.txtbash
+# 查看 pip 的配置（添加 -v 参数显示配置文件路径）
+pip config list
+
+# 设置配置
+pip config set <level>.<key> <value>
+
+# 取消配置
+pip config unset <level>.<key>
 ```
 
-**pip 高级用法**。可以使用 `pip --help` 查看 pip 的更多用法。
-
-显示安装过程：
+管理 pip 的缓存：
 
 ```bash
-pip install <pkg> -v
+# 显示缓存路径
+pip cache dir
+
+# 显示缓存信息（包括路径、大小、数量等）
+pip cache info
+
+# 清空缓存
+pip cache purge
 ```
-
-官方解释是：Give more output. Option is additive, and can be used up to 3 times.
-
-## 虚拟环境
-
-不同的项目往往依赖不同的包，为了避免出现包的版本冲突，一般推荐按照项目进行包的隔离，即虚拟环境。
-
-所谓虚拟环境，本质上就是拷贝（或链接）一个 Python 解释器，然后将各种包安装在指定目录下，从而起到了隔离的效果。
-
-*注：虚拟环境并不代表根解释器的完全拷贝，有些项目无关的文件并不会拷贝，所以不能删除根解释器。
 
 ### venv
 
-Pycharm 和 VScode 等都提供了可视化的虚拟环境创建方法，但为了彻底理解虚拟环境的工作原理，这里仅讨论最朴素的创建方法，即使用 Python 标准库中的 venv 模块自定义创建虚拟环境。主要有以下几个步骤：
+不同的项目往往依赖不同的包，为了避免出现包的版本冲突，一般推荐按照项目进行包的隔离，即虚拟环境。所谓虚拟环境，本质上就是拷贝（或链接）一个 Python 解释器，然后将各种包安装在指定目录下，从而起到了隔离的效果。
+
+*注：虚拟环境并不代表根解释器的完全拷贝，有些项目无关的文件并不会拷贝，所以不能删除根解释器。
+
+Pycharm 和 VScode 等都提供了可视化的虚拟环境创建方法，但为了彻底理解虚拟环境的工作原理，这里仅讨论最朴素的创建方法，即使用 Python 标准库中的 venv 模块自定义创建虚拟环境。
 
 创建环境：
 
@@ -157,9 +144,7 @@ deactivate
 
 与 pip 不同的是，conda 不仅可以以虚拟环境的形式管理 Python 包，还能很方便地管理 Python 版本。这对于很多对 Python 版本有要求的项目来说很方便。
 
-**安装 Miniconda**。在所有系统上的安装方法详见 [Anaconda 官网](https://www.anaconda.com/docs/getting-started/miniconda/install)，这里以 Linux 系统为例。
-
-Linux 系统下 Miniconda 的安装步骤：
+Linux 安装 Miniconda 的安装步骤（在其他系统上的安装方法详见 [Anaconda 官网](https://www.anaconda.com/docs/getting-started/miniconda/install)）：
 
 ```bash
 # 假设安装到当前用户目录下
@@ -173,17 +158,12 @@ bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
 
 # 删除安装脚本（可选）
 rm ~/miniconda3/miniconda.sh
-```
 
-之后使用以下命令即可激活 base 虚拟环境：
-
-```bash
+# 激活 base 虚拟环境
 source ~/miniconda3/bin/activate
 ```
 
-**更换 conda 下载源**。默认情况下，conda 从官方的 `repo.anaconda.com` 地址下载包，大陆体验较差，可以切换到镜像源。
-
-切换包安装地址：
+管理 conda 下载源：
 
 ```bash
 # 临时换源
@@ -193,69 +173,45 @@ conda install <PackageName> -c https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkg
 conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
 conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
 conda config --set show_channel_urls yes
-```
 
-查看当前源设置：
-
-```bash
+# 查看当前源设置
 conda config --show
-```
 
-重置为默认源：
-
-```bash
+# 重置为默认源
 conda config --remove-key channels
 ```
 
-**虚拟环境管理**。conda 的虚拟环境管理逻辑和 pip 类似，最大的不同就是可以指定 Python 的版本。
-
-查看环境：
+管理虚拟环境：
 
 ```bash
+# 查看环境：
 conda env list
-```
 
-创建环境：
-
-```bash
+# 创建环境
 conda create -n <env_name> python=3.12
-```
 
-激活环境：
-
-```bash
+# 激活环境
 conda activate <env_name>
+
+# 激活 base 环境
+source activate base
+
+# 退出环境
+conda deactivate
+
+# 删除环境
+conda remove -n <env_name> --all
 ```
 
 *注：如果当前不是 base 环境，激活环境时可能会报错 CondaError: Run 'conda init' before 'conda activate'。先切换到 base 环境再激活即可。
 
-激活 base 环境：
+管理项目的包依赖：
 
 ```bash
-source activate base
-```
-
-退出环境：
-
-```bash
-conda deactivate
-```
-
-删除环境：
-
-```bash
-conda remove -n <env_name> --all
-```
-
-导出环境：
-
-```bash
+# 导出环境
 conda env export > environment.yml
-```
 
-复现环境：
-
-```bash
+# 复现环境
 conda env create -f environment.yml
 ```
 
@@ -267,7 +223,10 @@ Python 增强提案 (Python Enhancement Proposal, PEP) 是 Python 社区用来�
 
 ### PEP 503: Simple Repository API
 
-2015 年 Python 社区提出了 [包名标准化](https://peps.python.org/pep-0503/) 制度，所有的 `- . _` 字符（单个或连续）都会被替换为单个 `-` 字符，所有字母都会被转化为小写字母。
+2015 年 Python 社区提出了 [包名标准化](https://peps.python.org/pep-0503/) 制度：
+
+- 所有单个或连续的 `- . _` 字符都会被替换为单个 `-` 字符；
+- 所有字母都会被转化为小写字母。
 
 例如 `FLASH-atTn`、`flash_attn`、`flash___attn` 等都会被解释为 `flash-attn`。
 
