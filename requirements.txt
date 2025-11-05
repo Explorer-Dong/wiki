@@ -19,6 +19,7 @@ mkdocs-git-revision-date-localized-plugin==1.4.4
 mkdocs-glightbox==0.4.0
 mkdocs-material==9.6.7
 mkdocs-material-extensions==1.3.1
+mkdocs-toggle-sidebar-plugin==0.0.8
 packaging==24.2
 paginate==0.5.7
 pathspec==0.12.1

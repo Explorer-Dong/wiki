@@ -148,6 +148,10 @@ plugins:
       auto_caption: false
   # meta 配置
   - meta
+  # 隐藏侧边栏行为
+  - toggle-sidebar:
+      theme: material
+      toggle_button: all
 
 
 # ==================== 额外配置 ====================

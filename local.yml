@@ -12,6 +12,9 @@ plugins:
   - search
   - glightbox:
       auto_caption: false
+  - toggle-sidebar:
+      theme: material
+      toggle_button: all
 
 watch:
   - mkdocs.yml
