@@ -344,6 +344,7 @@ nav:
     - tools/windows.md
     - tools/transfer.md
     - tools/battery-info-view.md
+    - tools/vim.md
     - IDE:
       - tools/ide/jetbrains.md
       - tools/ide/devcpp.md
