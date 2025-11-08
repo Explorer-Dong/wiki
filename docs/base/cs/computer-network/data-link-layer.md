@@ -51,7 +51,7 @@ title: 数据链路层
 
 差错检测主要有三种：
 
-1. [奇偶校验](../computer-organization/device.md/#数据校验)；
+1. [奇偶校验](../computer-organization/device.md#数据校验)；
 
 2. 校验和：把所有字段求和并取反。例如：网络层的 IP 协议、传输层的 UDP/TCP 协议；
 

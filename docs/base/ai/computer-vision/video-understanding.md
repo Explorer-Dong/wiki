@@ -185,7 +185,7 @@ TimeSformer [^timesformer] 是第一个尝试将 ViT [^vit] 引入到动作识�
 - 训练阶段，利用视频和对应的监督信息使模型能够准确识别每个类别的动作模式；
 - 测试阶段，模型根据输入的无修剪视频，给出时序动作检测结果。第 $i$ 个视频的预测结果表示为 $p_i=\{t_j^s,t_j^e,c_j,s_j\}_{j=1}^M$，即模型给当前视频预测出了 $M$ 个动作，其中 $t_j^s,t_j^e,c_j,s_j$ 分别表示第 $i$ 个视频中第 $j$ 个动作的开始时间、结束时间、动作类别和置信度。
 
-**评价指标**。与目标检测类似，时序动作检测也可以采用平均精度均值 (mean Average Precision, mAP) 作为评价指标。与目标检测的 [mAP](./object-detection.md/#性能度量) 略有不同，这里的 IoU 变成了 tIoU。各种 IoU 的计算方法如下图所示：
+**评价指标**。与目标检测类似，时序动作检测也可以采用平均精度均值 (mean Average Precision, mAP) 作为评价指标。与目标检测的 [mAP](./object-detection.md#性能度量) 略有不同，这里的 IoU 变成了 tIoU。各种 IoU 的计算方法如下图所示：
 
 ![各种 IoU 的计算方法](https://cdn.dwj601.cn/images/20250617104551490.png)
 
