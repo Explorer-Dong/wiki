@@ -40,8 +40,16 @@ systemctl restart mysql
 
 ### 开机自启动
 
+启用：
+
 ```bash
 systemctl enable mysql
+```
+
+禁止：
+
+```bash
+systemctl disable mysql
 ```
 
 ### 检查服务状态
