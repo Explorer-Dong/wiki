@@ -15,6 +15,7 @@ plugins:
   - toggle-sidebar:
       theme: material
       toggle_button: all
+      button_toggle_both_tooltip: 折叠或展开文件列表和页面目录
 
 watch:
   - mkdocs.yml

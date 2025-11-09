@@ -4,6 +4,7 @@ site_url: https://wiki.dwj601.cn/
 repo_url: https://github.com/Explorer-Dong/wiki
 repo_name: Open Wiki Community
 edit_uri: edit/main/docs/
+copyright: '&copy; 2025 Explorer Dong · <a href="https://beian.miit.gov.cn/">苏ICP备2024087610号-1</a>'
 
 
 # ==================== 主题配置 ====================
@@ -152,6 +153,7 @@ plugins:
   - toggle-sidebar:
       theme: material
       toggle_button: all
+      button_toggle_both_tooltip: 折叠或展开文件列表和页面目录
 
 
 # ==================== 额外配置 ====================
@@ -172,10 +174,6 @@ extra:
     - icon: fontawesome/solid/c
       link: https://blog.csdn.net/qq_73408594
       name: CSDN
-
-
-# ==================== 文章权限 ====================
-copyright: <a href="https://beian.miit.gov.cn/">苏ICP备2024087610号-1</a>
 
 
 # ==================== 页面导航 ====================
@@ -349,6 +347,7 @@ nav:
     - tools/transfer.md
     - tools/battery-info-view.md
     - tools/vim.md
+    - tools/wsl2.md
     - IDE:
       - tools/ide/jetbrains.md
       - tools/ide/devcpp.md
