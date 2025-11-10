@@ -202,6 +202,29 @@ tree 是一个目录可视化工具。GNU/Linux 默认自带。Windows 下载地
 - 起别名：`alias tree='tree -FCN'`；
 - 输出目录结构到文件： `tree -L 2 -I '*.js|node_modules|*.md|*.json|*.css|*.ht' > tree.txt`。
 
+### 多路复用器 tmux
+
+[tmux](https://github.com/tmux/tmux) 是一个终端多路复用工具，支持一个终端多路复用。不同的路以会话 (session) 的形式存在。特别适合后台运行长时间任务。
+
+基本命令如下：
+
+```bash
+# 新建并进入会话
+tmux new -s <session_name>
+
+# 进入会话
+tmux attach -t <session_name>
+
+# 列出所有会话
+tmux ls
+
+# 退出会话
+Ctrl+b d
+
+# 删除会话
+tmux kill-session -t <session_name>
+```
+
 ## 文件管理
 
 ### 改变目录 cd
