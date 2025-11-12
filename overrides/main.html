@@ -1,25 +1,3 @@
-<!-- 重载块 -->
+<!-- 重载块，可以扩展内容，比如设置公告栏 -->
 
 {% extends "base.html" %}
-
-{% block announce %}
-
-<style>
-    .orange-link {
-        color: orange !important;
-    }
-    .white-link {
-        color: white !important;
-    }
-</style>
-
-<div align="center">
-    <a href="https://www.aliyun.com/product/ecs?userCode=jpec1z57" target="_blank" class="orange-link">
-        阿里云推广计划
-    </a>
-    <a href="https://www.aliyun.com/product/ecs?userCode=jpec1z57" target="_blank" class="white-link">
-        学生认证可免费领取300元优惠券，适用于绝大多数阿里云产品。2C2G3M年租只需99元。老用户可享最多6.5折升配优惠！
-    </a>
-</div>
-
-{% endblock %}
