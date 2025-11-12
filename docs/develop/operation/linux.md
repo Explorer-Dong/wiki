@@ -126,25 +126,25 @@ graph TB
 
 apt (advanced package tool) 是 Ubuntu/Debian 自带的软件管理工具，可以通过命令管理机器上的所有软件。下面简单罗列一下 apt 的常用命令及其功能：
 
-更新软件的最新版本号：
+更新软件的版本索引：
 
 ```bash
 apt update
 ```
 
-更新软件（一般需要先更新软件的最新版本号）：
+更新软件（需先更新软件的版本索引）：
 
 ```bash
 apt upgrade <package_name>
 ```
 
-下载并安装指定的软件包：
+安装软件：
 
 ```bash
 apt install <package_name>:<version>
 ```
 
-删除指定的软件包：
+卸载软件：
 
 ```bash
 apt remove <package_name>
@@ -191,7 +191,19 @@ reboot
 
 ### 目录可视化 tree
 
-tree 是一个目录可视化工具。GNU/Linux 默认自带。Windows 下载地址：[Tree for Windows](https://gnuwin32.sourceforge.net/packages/tree.htm)，下载后将二进制文件的路径加入环境变量即可像在 GNU/Linux 上使用了。
+tree 是一个目录可视化工具，适合展示或查看指定目录下的文件结构。
+
+Linux 默认自带，如果没有，可以快速安装：
+
+```bash
+# 安装 tree
+apt update && apt upgrade && apt install tree
+
+# 检查安装
+tree --version
+```
+
+Windows 需要手动下载 tree 的二进制程序，下载地址：[Tree for Windows](https://gnuwin32.sourceforge.net/packages/tree.htm)。下载后将二进制程序的路径加入环境变量即可。
 
 基本命令格式：`tree [-option] [dir]`
 
@@ -204,9 +216,9 @@ tree 是一个目录可视化工具。GNU/Linux 默认自带。Windows 下载地
 
 ### 多路复用器 tmux
 
-[tmux](https://github.com/tmux/tmux) 是一个终端多路复用工具，支持一个终端多路复用。不同的路以会话 (session) 的形式存在。特别适合后台运行长时间任务。
+[tmux](https://github.com/tmux/tmux) 是一个终端多路复用工具，支持一个终端多路复用。不同的路以会话 (session) 的形式存在，特别适合后台运行长时间任务。
 
-基本命令如下：
+基本命令：
 
 ```bash
 # 新建并进入会话
@@ -218,11 +230,18 @@ tmux attach -t <session_name>
 # 列出所有会话
 tmux ls
 
+# 删除会话
+tmux kill-session -t <session_name>
+```
+
+控制命令：
+
+```bash
 # 退出会话
 Ctrl+b d
 
-# 删除会话
-tmux kill-session -t <session_name>
+# 查看会话历史
+Ctrl+b 滚轮
 ```
 
 ## 文件管理
@@ -265,6 +284,19 @@ mkdir <FolderName>
 
 ```bash
 touch <FileName>
+```
+
+### 创建软链接 ln
+
+```bash
+# 创建软链接
+ln -s <target> <link_name>
+
+# 查看软链接
+ls -l <link_name>
+
+# 删除软链接
+rm <link_name>
 ```
 
 ### 复制 cp
