@@ -277,7 +277,11 @@ whoami
 ### 创建文件夹 mkdir
 
 ```bash
+# 创建一层
 mkdir <FolderName>
+
+# 递归创建
+mkdir -p <fold_name>
 ```
 
 ### 创建文件 touch
