@@ -171,7 +171,19 @@ deactivate
 
     ```bash
     # 安装包
+    pip install <pkg>
+    
+    # 安装包（安装指定版本）
     pip install <pkg>==<version>
+    
+    # 安装包（从 GitHub 下载，可指定分支或提交）
+    pip install git+https://github.com/<username>/<repo>.git@<branch or commit_id>
+    
+    # 安装包（强制安装最新版）
+    pip install --upgrade <pkg>
+    
+    # 安装包（强制重新安装）
+    pip install --force-reinstall <pkg>
     
     # 卸载包
     pip uninstall <pkg>
