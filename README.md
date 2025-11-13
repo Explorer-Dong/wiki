@@ -1,5 +1,5 @@
 <p align="center">
-    <a title="Project Cover Image" href="https://wiki.dwj601.cn/" target="_blank"><img src="./overrides/assets/cover-image.png" alt="Project Cover Image"></a>
+    <a title="Project Cover Image" href="https://wiki.dwj601.cn/" target="_blank"><img src="https://cdn.dwj601.cn/images/wiki-github-image.png" alt="Project Cover Image"></a>
 </p>
 
 <p align="center">

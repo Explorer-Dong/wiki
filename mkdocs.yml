@@ -13,8 +13,8 @@ theme:
   language: zh
   custom_dir: overrides
   # 图标
-  logo: assets/logo.svg
-  favicon: assets/logo.svg
+  logo: assets/images/logo.svg
+  favicon: assets/images/logo.svg
   icon:
     repo: fontawesome/brands/github
     edit: material/pencil 
@@ -116,18 +116,18 @@ extra_javascript:
   # mermaid
   - https://cdn.dwj601.cn/files/mermaid.min.js
   # 外链跳转
-  - javascripts/link_blank.js
+  - assets/javascripts/link_blank.js
   # 百度统计
-  - javascripts/baidu_tongji.js
+  - assets/javascripts/baidu_tongji.js
   # 解析图片的 alt 属性
-  - javascripts/show_img_alt.js
+  - assets/javascripts/show_img_alt.js
   # 首页脚本（暂时不用，会出现屏幕闪烁的情况）
-  # - javascripts/homepage.js
+  # - assets/javascripts/homepage.js
 extra_css:
   # KaTeX
   - https://registry.npmmirror.com/katex/0.16.21/files/dist/katex.min.css
   # 自定义样式
-  - stylesheets/extra.css
+  - assets/stylesheets/extra.css
 
 
 # ==================== 插件配置 ====================
