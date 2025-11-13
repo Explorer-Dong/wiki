@@ -4,6 +4,16 @@ title: 基本概念
 
 本文记录 [Python](https://www.python.org/) 的基本概念。
 
+## 安装 Python
+
+安装 Python 的方法有很多，主要有以下几种：
+
+- 【新人小白推荐】基于 [python 安装包](https://www.python.org/downloads/) 管理 Python；
+- 【数据科学推荐】基于 conda 管理 Python；
+- 【现代工程推荐】基于 uv 管理 Python。
+
+后两种方法详见 [项目管理](#项目管理)。
+
 ## 解释器
 
 Python 是一门解释型语言，代码不会被提前编译成机器码，而是由解释器在运行时逐行转换并执行。解释器会先将 `.py` 代码转换为 `.pyc` 字节码，然后逐行执行字节码得到运行结果。根据场景的不同，执行字节码的实现也不同，目前主流的有以下几种实现：
@@ -14,13 +24,11 @@ Python 是一门解释型语言，代码不会被提前编译成机器码，而�
 | PyPy    | Python | 逐条解释，但会在运行时将热点字节码即时 (Just In Time, JIT) 编译为机器码，直接在 CPU 上执行 | 执行速度快，适合长时间运行的计算任务；但兼容性稍差 | 高性能计算、高并发等                 |
 | Jython  | Java     | 将 Python 源码直接编译成 Java 字节码，然后由 JVM（Java 虚拟机）执行 | 能与 Java 无缝集成；但性能依赖 JVM 优化，启动速度稍慢 | 需要在 Java 环境中使用 Python 脚本 |
 
-本地使用 Python 的方法有很多，包括：直接下载安装 Python、基于 Anaconda/Miniconda 使用 Python 等，各个平台的安装方法一搜便知。
+## 包
 
-*注：对于直接下载 Python，本地安装完之后不要把安装包删了，因为安装好的 Python 需要通过这个安装包进行后续的管理。
+Python 以包 (Package) 的形式组织不同的功能模块，每一个 `.py` 文件就是一个模块，模块中含有对应的类和函数。可以简单地将 Python 中的包与 [C++ 中的命名空间](../cpp/basic-concepts.md#命名空间) 类比——同一个包中不可出现同名模块，不同的包中可以出现同名模块。
 
-## 包与环境
-
-与 C++ 的命名空间类似，Python 以包 (package) 的形式组织不同的功能模块，每一个 `.py` 文件就是一个模块，模块中含有对应的类和函数。基本结构如下图所示：
+Python Package 的基本结构如下图所示：
 
 ```mermaid
 graph TB
@@ -39,78 +47,13 @@ graph TB
 
 得益于 Python 便捷的开发逻辑，其第三方包相当丰富。包分发系统 (Python Package Index, [PyPI](https://pypi.org/)) 可以非常便捷地分发和管理第三方包。
 
-每一个项目往往会依赖不同的第三方包，甚至不同的 Python 版本，下面就简单介绍 Python 的包与环境管理工具。
+## 虚拟环境
 
-### pip
-
-pip 是安装 Python 时自带的程序，用来管理项目中的第三方包。详细用法可以在安装 Python 后使用 `pip --help` 查看，这里仅列出常见的命令。
-
-管理第三方包：
-
-```bash
-# 下载第三方包（可以添加 -v 参数显示详细安装过程）
-pip install <pkg>==<versioon>
-
-# 卸载第三方包
-pip uninstall <pkg>
-```
-
-管理 pip 下载源：
-
-```bash
-# 临时换源
-pip install <PackageName> -i https://pypi.tuna.tsinghua.edu.cn/simple/
-
-# 永久换源
-pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple/
-
-# 恢复默认源
-pip config unset global.index-url
-```
-
-管理项目的包依赖：
-
-```bash
-# 导出环境
-pip freeze > requirements.txt
-
-# 复现环境
-pip install -r requirements.txt
-```
-
-管理 pip 的配置：
-
-```bash
-# 查看 pip 的配置（添加 -v 参数显示配置文件路径）
-pip config list
-
-# 设置配置
-pip config set <level>.<key> <value>
-
-# 取消配置
-pip config unset <level>.<key>
-```
-
-管理 pip 的缓存：
-
-```bash
-# 显示缓存路径
-pip cache dir
-
-# 显示缓存信息（包括路径、大小、数量等）
-pip cache info
-
-# 清空缓存
-pip cache purge
-```
-
-### venv
-
-不同的项目往往依赖不同的包，为了避免出现包的版本冲突，一般推荐按照项目进行包的隔离，即虚拟环境。所谓虚拟环境，本质上就是拷贝（或链接）一个 Python 解释器，然后将各种包安装在指定目录下，从而起到了隔离的效果。
+不同的项目往往依赖不同的包，为了避免出现包的版本冲突，一般推荐按照项目进行包的隔离，隔离出来的环境被称作虚拟环境。所谓虚拟环境，本质上就是拷贝（或链接）一个 Python 解释器，然后将各种包安装在指定目录下，从而起到了隔离的效果。
 
 *注：虚拟环境并不代表根解释器的完全拷贝，有些项目无关的文件并不会拷贝，所以不能删除根解释器。
 
-Pycharm 和 VScode 等都提供了可视化的虚拟环境创建方法，但为了彻底理解虚拟环境的工作原理，这里仅讨论最朴素的创建方法，即使用 Python 标准库中的 venv 模块自定义创建虚拟环境。
+各种 IDE 都提供了可视化的虚拟环境创建方法，但为了彻底理解虚拟环境的工作原理，这里仅讨论最朴素的创建方法——使用 Python 标准库中的 `venv` 模块自定义虚拟环境。
 
 创建环境：
 
@@ -123,13 +66,13 @@ python -m venv <VenvFolderName>
 === "Windows"
 
     ```bash
-    source <VenvFolderName>/Scripts/activate
+    .\<VenvFolderName>\Scripts\activate
     ```
 
 === "Linux"
 
     ```bash
-    source <VenvFolderName>/bin/activate
+    source ./<VenvFolderName>/bin/activate
     ```
 
 退出环境：
@@ -138,84 +81,350 @@ python -m venv <VenvFolderName>
 deactivate
 ```
 
-### conda
+## 项目管理
 
-介绍 conda 之前，需要介绍 Anaconda 和 Miniconda。这俩都是包管理软件，都依赖 conda 进行包的管理。其中 Miniconda 是 Anaconda 的精简版，推荐使用 Miniconda。
+一般来说，对于一个规范的 Python 工程，都需要确保能够被复现，此时就需要用上 Python 项目管理工具了。目前主流的主要有以下几个：
 
-与 pip 不同的是，conda 不仅可以以虚拟环境的形式管理 Python 包，还能很方便地管理 Python 版本。这对于很多对 Python 版本有要求的项目来说很方便。
+- [`pip`](https://github.com/pypa/pip)。Python 自带的包管理工具。特点：轻量、传统、兼容性好，但速度较慢；
+- [`conda`](https://github.com/conda/conda)。Anaconda 和 Miniconda 的包与环境管理工具，其中 Miniconda 是 Anaconda 的精简版，推荐使用 Miniconda。与 `pip` 不同的是，`conda` 不仅可以以虚拟环境的形式管理 Python 包，还能很方便地管理 Python 版本。这对于很多对 Python 版本有要求的项目来说很方便。特点：强大、跨语言、数据科学常用，但相对臃肿；
+- [`uv`](https://github.com/astral-sh/uv)。一个超高速的 Python 包与环境管理工具。它的设计目标是成为 `pip` + `venv` + `virtualenv` + `pip-tools` + `pipx` 的统一替代品，同时兼具 Rust 语言的高性能和 Python 工具的灵活性。特点：新一代工具，统一包管理与环境管理，速度极快，未来有望成为主流。
 
-Linux 安装 Miniconda 的安装步骤（在其他系统上的安装方法详见 [Anaconda 官网](https://www.anaconda.com/docs/getting-started/miniconda/install)）：
+### 工具安装
 
-```bash
-# 假设安装到当前用户目录下
-mkdir -p ~/miniconda3
+=== "pip"
 
-# 拉取安装脚本
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
+    安装 Python 时自带，无需额外安装。如果没有，可以手动安装：
+    
+    ```bash
+    python -m ensurepip --upgrade
+    ```
 
-# 下载并安装
-bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
+=== "conda"
 
-# 删除安装脚本（可选）
-rm ~/miniconda3/miniconda.sh
+    以在 Linux 系统安装 Miniconda 为例，其他系统上的安装方法见 [Anaconda](https://www.anaconda.com/docs/getting-started/miniconda/install) 官网）：
+    
+    ```bash
+    # 创建安装目录（自定义）
+    mkdir -p ~/software/miniconda3
+    
+    # 下载安装脚本
+    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/software/miniconda3/miniconda.sh
+    
+    # 下载并安装
+    bash ~/software/miniconda3/miniconda.sh -b -u -p ~/software/miniconda3
+    
+    # 删除安装脚本（可选）
+    rm ~/software/miniconda3/miniconda.sh
+    ```
 
-# 激活 base 虚拟环境
-source ~/miniconda3/bin/activate
-```
+=== "uv"
 
-管理 conda 下载源：
+    更多安装方法见 [uv](https://docs.astral.sh/uv/getting-started/installation/) 官网，这里以直接下载 [GitHub Releases](https://github.com/astral-sh/uv/releases) 中的二进制程序为例，使用 Windows 上的 Git Bash：
+    
+    ```bash
+    # 下载 uv 压缩包
+    wget https://github.com/astral-sh/uv/releases/download/0.9.9/uv-i686-pc-windows-msvc.zip
+    
+    # 解压 uv 压缩包
+    unzip file.zip -d /path/to/directory
+    
+    # 把 uv 的二进制程序所在目录放到环境变量
+    ```
 
-```bash
-# 临时换源
-conda install <PackageName> -c https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+### 管理 Python
 
-# 永久换源
-conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
-conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
-conda config --set show_channel_urls yes
+=== "pip"
 
-# 查看当前源设置
-conda config --show
+    无法管理 Python 版本，只能依赖已有的 Python。
 
-# 重置为默认源
-conda config --remove-key channels
-```
+=== "conda"
 
-管理虚拟环境：
+    可以在创建虚拟环境的时候指定 Python 版本，详见 [管理虚拟环境](#管理虚拟环境)。
 
-```bash
-# 查看环境：
-conda env list
+=== "uv"
 
-# 创建环境
-conda create -n <env_name> python=3.12
+    ```bash
+    # 查询可下载的 Python 版本
+    uv python list
+    
+    # 下载指定版本的 Python
+    uv python install <python_version>
+    
+    # 固定项目使用的 Python 版本，之后会在项目目录下生成一个 .python-version 的文本文件
+    uv python pin <python_version>
+    
+    # 将 Python 二进制程序加入用户环境变量
+    uv python update-shell
+    
+    # 激活虚拟环境后即可使用对应 Python 了
+    uv init
+    uv add request
+    ...
+    
+    # 删除指定版本的 Python
+    uv python uninstall <python_version>
+    ```
 
-# 激活环境
-conda activate <env_name>
+### 管理包
 
-# 激活 base 环境
-source activate base
+=== "pip"
 
-# 退出环境
-conda deactivate
+    ```bash
+    # 安装包
+    pip install <pkg>==<version>
+    
+    # 卸载包
+    pip uninstall <pkg>
+    ```
 
-# 删除环境
-conda remove -n <env_name> --all
-```
+=== "conda"
 
-*注：如果当前不是 base 环境，激活环境时可能会报错 CondaError: Run 'conda init' before 'conda activate'。先切换到 base 环境再激活即可。
+    ```bash
+    # 安装包
+    conda install <pkg>=<version>
+    
+    # 卸载包（方法一）
+    conda uninstall <pkg>
+    
+    # 卸载包（方法二）
+    conda remove <pkg>
+    ```
 
-管理项目的包依赖：
+=== "uv"
 
-```bash
-# 导出环境
-conda env export > environment.yml
+    `uv add` 会自动创建并管理虚拟环境（如果没有手动创建），因此你不需要手动执行 `python -m venv` 或 `conda create`。它还会自动处理依赖冲突与解析锁定文件 `uv.lock`，保证安装可复现。
+    
+    ```bash
+    # 安装包
+    uv add <pkg>==<version>
+    
+    # 卸载包
+    uv remove <pkg>
+    ```
 
-# 复现环境
-conda env create -f environment.yml
-```
+### 管理虚拟环境
 
-相比 pip 的 `requirements.txt`，conda 的 `environment.yml` 更强大，因为它能记录 Python 版本、依赖渠道、操作系统等信息。
+=== "pip"
+
+    无法管理，但是可以借助 Python 自带的 `venv` 库，如 [虚拟环境](#虚拟环境) 中介绍的。
+
+=== "conda"
+
+    ```bash
+    # 查看环境
+    conda env list
+    
+    # 创建环境
+    conda create -n <env_name> python=<python_version>
+    
+    # 激活 base 环境（方法一）
+    source ~/software/miniconda3/bin/activate
+    
+    # 激活 base 环境（方法二）
+    source activate base
+    
+    # 激活自定义的环境
+    conda activate <env_name>
+    
+    # 退出环境
+    conda deactivate
+    
+    # 删除环境
+    conda remove -n <env_name> --all
+    ```
+
+=== "uv"
+
+    ```bash
+    # 创建环境
+    uv venv <env_folder>
+    
+    # 激活环境
+    source <env_folder>/bin/activate   # Linux / macOS
+    .\<env_folder>\Scripts\activate    # Windows
+    
+    # 删除环境
+    rm -rf <env_folder>
+    ```
+
+### 同步环境
+
+=== "pip"
+
+    ```bash
+    # 导出环境
+    pip freeze > requirements.txt
+    
+    # 复现环境
+    pip install -r requirements.txt
+    ```
+
+=== "conda"
+
+    ```bash
+    # 导出环境
+    conda env export > environment.yml
+    
+    # 复现环境
+    conda env create -f environment.yml
+    ```
+
+=== "uv"
+
+    用 `uv add`、`uv remove` 命令管理包时，`uv` 会自动维护两个文件：
+    
+    - `pyproject.toml`：记录你手动添加的顶层依赖（即你显式安装的包）；
+    - `uv.lock`：记录完整的锁定依赖树（所有版本、所有子依赖、哈希等）。
+    
+    ```bash
+    # 复现环境
+    uv sync
+    ```
+
+### 管理配置
+
+=== "pip"
+
+    ```bash
+    # 查看 pip 的配置（添加 -v 参数显示配置文件路径）
+    pip config list
+    
+    # 设置配置
+    pip config set <level>.<key> <value>
+    
+    # 取消配置
+    pip config unset <level>.<key>
+    ```
+
+=== "conda"
+
+    ```bash
+    # 查看所有的配置文件及其配置
+    conda config --show-sources
+    ```
+
+=== "uv"
+
+    uv 没有 config 子命令一说，各种配置都被拆解为对应的子命令了，强烈建议使用 `uv --help` 查看各种命令的用法。关于配置的查询顺序和优先级，详见 [uv | Configuration files](https://docs.astral.sh/uv/concepts/configuration-files/) 官方文档。
+
+### 配置下载源
+
+=== "pip"
+
+    ```bash
+    # 临时换源
+    pip install <PackageName> -i https://pypi.tuna.tsinghua.edu.cn/simple/
+    
+    # 永久换源
+    pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple/
+    
+    # 查看当前源设置
+    pip cogfig list
+    
+    # 恢复默认源
+    pip config unset global.index-url
+    ```
+
+=== "conda"
+
+    ```bash
+    # 临时换源
+    conda install <pkg> -c https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+    
+    # 永久换源
+    conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+    conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+    conda config --set show_channel_urls yes
+    
+    # 查看当前源设置
+    conda config --show
+    
+    # 恢复默认源
+    conda config --remove-key channels
+    ```
+
+=== "uv"
+
+    ```bash
+    # 临时换源
+    uv add requests --index https://pypi.tuna.tsinghua.edu.cn/simple/
+    
+    # 项目级换源
+    # 编辑项目目录下的 pyproject.toml 文件
+    [[tool.uv.index]]
+    url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
+    default = true
+    
+    # 用户级换源
+    # 根据 https://docs.astral.sh/uv/concepts/configuration-files/ 的指引找到当前系统存储的 uv.toml 并编辑
+    [[index]]
+    url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
+    default = true
+    
+    # 系统级换源
+    # 编辑环境变量 UV_DEFAULT_INDEX=https://pypi.tuna.tsinghua.edu.cn/simple/
+    ```
+
+### 管理缓存
+
+=== "pip"
+
+    ```bash
+    # 显示缓存路径
+    pip cache dir
+    
+    # 显示缓存信息（包括路径、大小、数量等）
+    pip cache info
+    
+    # 清空缓存
+    pip cache purge
+    ```
+
+=== "conda"
+
+    ```bash
+    # 清空缓存
+    conda clean --all
+    ```
+
+=== "uv"
+
+    ```bash
+    # 显示缓存路径
+    uv cache dir
+    
+    # 显示缓存大小（-H 表示符合人类习惯）
+    uv cache size -H
+    
+    # 清空缓存
+    uv cache clean
+    ```
+
+### 其他常用操作
+
+=== "pip"
+
+    ```bash
+    # 查看包信息
+    pip show <pkg>
+    
+    # 查看包文件
+    pip show -f <pkg>
+    ```
+
+=== "conda"
+
+    ```bash
+    # 查看安装的包列表
+    conda list
+    ```
+
+=== "uv"
+
+    ```bash
+    # 初始化项目
+    uv init
+    ```
 
 ## PEP
 
