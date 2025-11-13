@@ -160,3 +160,15 @@ Process finished with exit code 0
 进入 `File | Settings | Appearance & Behavior | System Settings` 目录，取消勾选 `Reopen projects on startup` 即可：
 
 ![启动软件时不打开最近的项目](https://cdn.dwj601.cn/images/20250906144309795.png)
+
+### 配置默认服务器
+
+在配置了远程服务器后，往往需要文件实时同步，该功能只能用于默认服务器，因此对于多服务器的场景，需要手动切换默认服务器。下面介绍配置默认服务器的方法。
+
+进入配置选项卡 `Tools >> Deployment >> Configuration`：
+
+![进入配置选项卡 Tools >> Deployment >> Configuration](https://cdn.dwj601.cn/images/20251113221213040.png)
+
+点击对应的服务器连接，然后点击右上角的对勾表示设置为默认服务器：
+
+![点击对应的服务器连接，然后点击右上角的对勾表示设置为默认服务器](https://cdn.dwj601.cn/images/20251113221427034.png)
