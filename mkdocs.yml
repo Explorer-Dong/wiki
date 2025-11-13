@@ -110,7 +110,7 @@ markdown_extensions:
 # ==================== 样式注入 ====================
 extra_javascript:
   # KaTeX
-  - javascripts/katex.js
+  - assets/javascripts/katex.js
   - https://registry.npmmirror.com/katex/0.16.21/files/dist/katex.min.js
   - https://registry.npmmirror.com/katex/0.16.21/files/dist/contrib/auto-render.min.js
   # mermaid
