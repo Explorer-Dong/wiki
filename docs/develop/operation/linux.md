@@ -52,7 +52,7 @@ done
 
 在 GNU/Linux 操作系统中，文件不再像 Windows 那样分盘管理，只有一个根路径。[下图](https://mp.weixin.qq.com/s/kMPlOZ6BD6XxcS4k9XyOwQ?scene=1) 展示了 GNU/Linux 中一些特定文件夹的名称及其功能：
 
-<img src="https://cdn.dwj601.cn/images/20250324172802457.png" alt="GNU/Linux 中一些特定文件夹的名称及其功能" style="zoom: 33%;" />
+<img src="https://cdn.dwj601.cn/images/20251114220521389.png" alt="GNU/Linux 中文件夹的名称及其对应存放的内容" style="zoom:40%;" />
 
 ### 访问权限
 
