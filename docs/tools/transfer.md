@@ -110,7 +110,8 @@ aria2c -x 4 <URL>
 
 `aria2` 会将文件分成多个部分并通过不同的连接进行下载，从而显著提高下载速度。
 
-*注：多线程下载仅适用于单线程跑不满下行带宽的场景。同时需要注意，线程开多了容易被误判为爬虫从而被封禁 IP。
+!!! tip
+    多线程下载仅适用于单线程跑不满下行带宽的场景。同时需要注意，线程开多了容易被误判为爬虫从而被封禁 IP。
 
 2）**断点续传**。如果下载中断了，可以使用以下命令恢复下载：
 
@@ -145,47 +146,44 @@ aria2c -i urls.txt
 
 ### ssh
 
-ssh 是很多加密传输的前置步骤，所以单独成段进行介绍。
+在计算机网络应用层中，我们介绍了安全外壳协议 [SSH](../base/cs/computer-network/application-layer.md#ssh-协议)。基于该协议，工程师开发了加密传输程序——ssh，作为客户端和服务器之间的加密连接与数据传输工具。
 
-在计算机网络应用层中，我们介绍了安全外壳协议 [SSH](../base/cs/computer-network/application-layer.md#ssh-协议)，基于该协议，工程师开发了加密传输程序，一般用小写表示，即 ssh。在实际应用中，ssh 主要作为客户端和服务器之间的连接与数据传输工具。
+ssh 支持「密码」和「密钥」两种连接方式。其中密码连接可以在服务器端禁用，密钥连接也可以设置额外的密码 (Passphrase)。考虑到密钥连接的场景更多，这里我们重点介绍密钥连接。其核心逻辑是：利用 ssh 程序在本地生成一对密钥，分别叫「公钥」和「私钥」。将公钥上传服务器后，就可以在本地利用 ssh 程序和远程服务器进行加密连接。基本使用流程如下：
 
-ssh 支持密码和密钥两种连接方式。其中密码连接可以在服务器端禁用，密钥连接也可以设置额外的密码 (Passphrase)。
-
-在仅使用密钥的情况下，可以在数据传输时避免人为干预。核心逻辑是：利用 ssh 程序在本地生成一对钥匙，分别叫「公钥」和「私钥」。将公钥上传服务器后，就可以在本地基于私钥和远程服务器进行身份鉴权从而连接。
-
-基本使用流程如下：
-
-1）本地生成密钥对（公钥 + 私钥），连按三次回车即可生成默认配置且不带密码 (passphrase) 的密钥对：
+1）本地生成密钥对（公钥 + 私钥），连按三次回车即可生成默认配置且不带 Passphrase 的密钥对：
 
 ```bash
 ssh-keygen
 ```
 
-![生成默认配置且不带密码 (passphrase) 的密钥对](https://cdn.dwj601.cn/images/202404071758590.png)
+![生成默认配置且不带 Passphrase 的密钥对](https://cdn.dwj601.cn/images/202404071758590.png)
 
-2）在服务器地用户目录下新建名为 `.ssh` 的文件夹，并在该文件夹内新建名为 `authorized_keys` 的文本文件，将之前生成的公钥中的所有内容复制进去并保存。
+2）在服务器的用户目录（一般为 `/home/<user_name>/`）下新建名为 `.ssh` 的文件夹，并在该文件夹内新建名为 `authorized_keys` 的文本文件，将之前生成的公钥中的所有内容复制进去并保存：
+
+```bash
+echo "<your_public_key> <local_user_name>@<local_computer_name>" >> authorized_keys
+```
+
+!!! tip
+    `authorized_keys` 可以存放多个公钥，以供多人连接使用。
 
 3）修改文件和文件夹的权限与属主：
 
 ```bash
-chmod 600 /home/user/.ssh/authorized_keys
-chmod 700 /home/user/.ssh
-chown -R git:git /home/user/.ssh
+chmod 600 /home/<user_name>/.ssh/authorized_keys
+chmod 700 /home/<user_name>/.ssh
+chown -R <user_name>:<group_name> /home/<user_name>/.ssh
 ```
 
-现在我们可以在本地测试 SSH 连接：
+4）本地测试 SSH 连接：
 
 ```bash
-ssh git@xxx.xxx.xxx.xxx  # 服务器 ip 地址
+ssh -i /path/to/private_key <user_name>@xxx.xxx.xxx.xxx  # 服务器 ip 地址
 ```
-
-使用 `-i /path/to/private_key` 指定本地的私钥路径。
 
 ### scp
 
-在计算机网络应用层中，我们介绍了安全复制协议 [SCP](../base/cs/computer-network/application-layer.md#scp-协议)，基于该协议，工程师开发了安全复制程序，一般用小写表示，即 scp。
-
-该协议就两个用法：
+在计算机网络应用层中，我们介绍了安全复制协议 [SCP](../base/cs/computer-network/application-layer.md#scp-协议)，基于该协议，工程师开发了安全复制程序——scp。该程序就两个核心用法：
 
 1）拉取数据：
 
