@@ -43,6 +43,7 @@ nums = [e for row in matrix for e in row]
 - `s1.startswith(s2, beg = 0, end = len(s2))`：
   用于检查字符串 s1 是否以字符串 s2 开头。是则返回 True。如果指定 beg 和 end，则在 s1 [beg: end] 范围内查找。
 - 使用 `ascii_lowercase` 遍历 26 个字母：
+
   ```python
   from string import ascii_lowercase
   cnt = {ch: 0 for ch in ascii_lowercase}
@@ -130,7 +131,7 @@ map(function, iterable, ...)
 ```python
 # 计算平方数
 def square(x):
-   return x ** 2
+    return x ** 2
 
 # 计算列表各个元素的平方
 map(square, [1,2,3,4,5])
@@ -622,8 +623,8 @@ $$
 \begin{aligned}
 则有:
 p [0] = \sum(a [: 0]) &= 0 \\
-p [1] = \sum(a [: 1]) &= a [0] \\ 
-p [n - 1] = \sum(a [: n - 1]) &= a [0] + ... + a [n - 2] \\ 
+p [1] = \sum(a [: 1]) &= a [0] \\
+p [n - 1] = \sum(a [: n - 1]) &= a [0] + ... + a [n - 2] \\
 p [n] = \sum(a [: n]) &= a [0] + ... + a [n - 2] + a [n - 1] = \sum(a) \\
 显然可以发现 p [n] - p [n-1] &= a [n-1] \\
 \end{aligned}
@@ -892,7 +893,7 @@ for q in Q:
 
 - 由于求符合条件的数对个数，与顺序无关，先排序
 - 对 $  \text{lower} \le x + y \le \text{upper}$，变形为 $  \text{lower} - x \le  y \le \text{upper} - x$
-- 即对一个 $x$， 区间 $[i + 1, n)$ 中有多少个数出现在 区间 $[\text{lower} - x, \text{upper} - x]$ 
+- 即对一个 $x$， 区间 $[i + 1, n)$ 中有多少个数出现在 区间 $[\text{lower} - x, \text{upper} - x]$
 - 即求 $L = bisect(a, \text[lower] - x - 1)$，$R = bisect(a, \text{upper} - x) - 1$
 - 答案等于 $R-L + 1$
 
@@ -979,7 +980,7 @@ print(bisect(a, x, check = lambda y: y ** 3 + y * 2 + 1)) #4
 
 - 求最值 / 最优问题
 - 答案 $res$ 存在一个确定、连续区间 $[lo, hi]$
-- 对确定的 $res = i$，能够求出 $check(i) =False \text{还是 }True$, 即是否满足条件 
+- 对确定的 $res = i$，能够求出 $check(i) =False \text{还是 }True$, 即是否满足条件
 
 基本模型：
 
@@ -1027,7 +1028,7 @@ $\text{对于 }100\%\text{ 的评测用例,}1\leq n\leq10^4\mathrm{,}1\leq b\leq
 
 - 显然 $v$ 有区间 $[1, 10^9]$；
 - 对于给定的 $v$，可以通过枚举一整遍的方式判断是否符合条件；
-- 暴力做法可以达到 $O(nL)$, $L = 10^9$ ，会超时；    
+- 暴力做法可以达到 $O(nL)$, $L = 10^9$ ，会超时；
 
 **思路**
 
@@ -1103,7 +1104,7 @@ return -1 if res > m else res
 
 **示例 1：**
 
-```
+```text
 输入：candies = [5,8,6], k = 3
 输出：5
 解释：可以将 candies[1] 分成大小分别为 5 和 3 的两堆，然后把 candies[2] 分成大小分别为 5 和 1 的两堆。现在就有五堆大小分别为 5、5、3、5 和 1 的糖果。可以把 3 堆大小为 5 的糖果分给 3 个小孩。可以证明无法让每个小孩得到超过 5 颗糖果。
@@ -1111,7 +1112,7 @@ return -1 if res > m else res
 
 **示例 2：**
 
-```
+```text
 输入：candies = [2,5], k = 11
 输出：0
 解释：总共有 11 个小孩，但只有 7 颗糖果，但如果要分配糖果的话，必须保证每个小孩至少能得到 1 颗糖果。因此，最后每个小孩都没有得到糖果，答案是 0 。
@@ -1249,7 +1250,7 @@ class Solution:
 
 - 贪心，从左到右，尽可能构造 9。
 - 对每一位数字，只会用一种操作。
-- 记 $dfs(i, n, a, b)$ 表示当前考虑到第 $i$ 位，剩下 $a$ 次操作 1 和 $b$ 次操作 2 情况下，当前获得的最大数为 $n$ 
+- 记 $dfs(i, n, a, b)$ 表示当前考虑到第 $i$ 位，剩下 $a$ 次操作 1 和 $b$ 次操作 2 情况下，当前获得的最大数为 $n$
 - 对于操作 1，考虑 $d=min(9-x,a)$，即当前能够执行操作 1 的次数
 - 则 $n \leftarrow n \times 10 + (x + d)$，$a \leftarrow a - d $
 - 对于操作 2，考虑 $b$ 是否大于等于 $x + 1$，是则可以得到 9，且 $b \leftarrow b - (x + 1)$
@@ -1309,7 +1310,7 @@ for u in range(1, n + 1):
 
 - 时间戳思想，额外记录每次访问节点 $u$ 的序号 $idx$，字典 $d$ 存放 $u:idx$ 键值对
 - 如果 $u$ 在 $d$ 中，说明第二次访问到 $u$ ，构成闭环。两次序号之差 $idx - d[u]$ 即环的长度
-- 如果 $u$ 不在 $d$ 中，添加到字典中，并且访问后续节点 $dfs(g[u], idx + 1)$ 
+- 如果 $u$ 不在 $d$ 中，添加到字典中，并且访问后续节点 $dfs(g[u], idx + 1)$
 - 遍历所有节点，确保考虑所有连通分量
 - 在外层用 $res$ 记录最大环长。
 
@@ -2206,7 +2207,7 @@ while sub <= s:
 m = int(log(n + 1, 10)) + 1
 ```
 
-二进制长度	
+二进制长度
 
 ```python
 n = num.bit_lenght()
@@ -2961,7 +2962,7 @@ while i < n:
 	ans = max(ans, i - start)
 ```
 
-时间复杂度：$O(n)$ 
+时间复杂度：$O(n)$
 
 [2760. 最长奇偶子数组 - 力扣（LeetCode）](https://leetcode.cn/problems/longest-even-odd-subarray-with-threshold/description/)
 
@@ -3452,7 +3453,7 @@ for _ in range(m):
 
 点差分：解决多路径节点计数问题。
 
-$u \rightarrow v 的路径转化为 u \rightarrow lca左孩子 + lca \rightarrow v$ 
+$u \rightarrow v 的路径转化为 u \rightarrow lca左孩子 + lca \rightarrow v$
 
 ```python
 # 差分时左闭右开，无需考虑啊 u = a 的情况
@@ -3521,7 +3522,7 @@ def treeDiameter(self, edges: List[List[int]]) -> int:
 
 方法二：树形 DP
 
-返回每个节点 的最长路径 fst 和 与最长路径没有公共边的次长路径 sec，取 max(fst + sec) 
+返回每个节点 的最长路径 fst 和 与最长路径没有公共边的次长路径 sec，取 max(fst + sec)
 
 ```python
 def treeDiameter(self, edges: List[List[int]]) -> int:
@@ -3650,7 +3651,7 @@ print(-hq[0]) # 13
 
 **示例 2：**
 
-```
+```text
 输入：nums = [1,10,3,3,3], k = 3
 输出：17
 解释：可以执行下述操作：
@@ -3685,7 +3686,7 @@ class Solution:
 
 - 贪心：考虑当前选择字母的范围。假设上一处选择的字母下标为 $L$，左边界 $L+1$。右边界 $R$ 应该保证其右侧还有足够的备选项，在区间内，贪心的选择最小的字母。
 
-- 最小堆，插入可以选择的元素，每次选择完成进行一次 $pop$ 
+- 最小堆，插入可以选择的元素，每次选择完成进行一次 $pop$
 
     > 例如，
     >
@@ -3798,7 +3799,7 @@ def find(x):
 
 - 合并：要合并两棵树，我们只需要将一棵树的根节点 $find(v)$ 连到另一棵树的根节点 $find(u)$，即 $fa[find(v)] \leftarrow find(u)$。通常在更新可达、连通关系进行合并。
 
-    
+
 
     <img src="https://cdn.dwj601.cn/images/20250827182505693.png" alt="image.png" style="zoom:50%;" />
 
@@ -4046,7 +4047,7 @@ print(len(set(fa)) - 1)
 
 
 
-**并查集维护连通块大小 ** 
+**并查集维护连通块大小 **
 
 模板代码：
 
@@ -5493,11 +5494,11 @@ $N$ 个物品，价值为 $v_i$，重量为 $w_i$，背包容量为 $W$。挑选
 
 #### 01 背包
 
-状态表示：$f(i, j)$ 
+状态表示：$f(i, j)$
 
-- 集合 ：
+- 集合：
   - 所有拿物品的选法
-  - 条件：1. 只从前 $i$ 个物品中选；2. 总重量 $\le j$ 
+  - 条件：1. 只从前 $i$ 个物品中选；2. 总重量 $\le j$
 - 表示的属性：所有选法的总价值的最大值（$\max$）
 - 最终求解的问题 $f(N, W)$ 。
 
@@ -5730,7 +5731,7 @@ f [i, j-w]~ &= ~Max(	&		&f [i-1, j-w],&	&~f [i-1, j-2w]+v,&			&~f [i-1, j-3w]+2v
 \end{align}
 $$
 
-所以 $f(i, j) = \max \big(f(i - 1, j), f(i, j - w[i]) + v[i] \big)$， 
+所以 $f(i, j) = \max \big(f(i - 1, j), f(i, j - w[i]) + v[i] \big)$，
 
 ```python
 for i in range(1, N + 1):
@@ -5824,10 +5825,6 @@ $f(i)$ 表示找出总和为 $i$ 的排列方案数，$f(i)=\sum f(i-w)$
                     f[i] += f[i - w]
         return f[target]
 ```
-
-
-
-
 
 [1449. 数位成本和为目标值的最大数字 - 力扣（LeetCode）](https://leetcode.cn/problems/form-largest-integer-with-digits-that-add-up-to-target/description/?envType=featured-list&envId=OZhLbgFT?envType=featured-list&envId=OZhLbgFT)
 
@@ -6425,7 +6422,7 @@ $f(i,~mask,~is\_limit,~is\_num)$ 表示 前导数字集合为 $mask$，从第 $i
 
 其中， $is\_limit$ 表示前导是否恰好全都取到上界。为 $True$ 时，$i$ 的上界 $hi = int(s[i])$ 否则 为 9；
 
-$is\_num$ 表示前导是否有数字。为 $True$ 时，$i$  的下界从 $0$ 开始；否则可以继续不填数字，或者下界从 $1$ 开始。 
+$is\_num$ 表示前导是否有数字。为 $True$ 时，$i$  的下界从 $0$ 开始；否则可以继续不填数字，或者下界从 $1$ 开始。
 
 ```python
         @lru_cache(maxsize = None)
@@ -6777,12 +6774,6 @@ class Solution:
         return res 
 ```
 
-
-
-
-
-
-
 #### 划分成 $k$ 个子集的问题
 
 $f(i,s)$ 表示划分到第 $i$ 个子集，划分的状态为 $s$ 情况下的某个值。$f(i,s)=F((f(i-1,s-sub),~G(sub) ))$。
@@ -6990,7 +6981,7 @@ class Solution:
 
 类型 1： $f[i][j]$ 当前考虑完前缀 $a[:i]$，且 $a[:i]$ 恰好划分成 $j$ 个连续子数组所得到的最优解。 枚举最后一个子数组的左端点 $L$, 从 $f[L][j-1]$ 转移到 $f[i][j]$，并考虑 $a[L:i]$ 对最优解的影响。 $f(i,j)=\min(f(L,j-1))$
 
-类型 2：$f(i,j, pre)$ 表示当前考虑到 $a[i]$， 且 $a[:i]$ 的前缀中包含 $j$ 个连续子数组所得的最优解，其中 $pre$ 表示当前待划分的这段的状态。 考虑是否在 $i$ 处划分，并考虑前一段状态 $pre$ 是否允许划分。$f(i,j,pre)=\min \{~f(i+1,j,pre),~f(i+1,j+1,pre')~\}$ 
+类型 2：$f(i,j, pre)$ 表示当前考虑到 $a[i]$， 且 $a[:i]$ 的前缀中包含 $j$ 个连续子数组所得的最优解，其中 $pre$ 表示当前待划分的这段的状态。 考虑是否在 $i$ 处划分，并考虑前一段状态 $pre$ 是否允许划分。$f(i,j,pre)=\min \{~f(i+1,j,pre),~f(i+1,j+1,pre')~\}$
 
 [3117. 划分数组得到最小的值之和 - 力扣（LeetCode）](https://leetcode.cn/problems/minimum-sum-of-values-by-dividing-array/description/)
 
@@ -7030,7 +7021,7 @@ $f[x]$  表示 $ 0 \sim endTime[x] $ 时间段内的最多报酬，一种转移�
 
 实现时，在数组前面增加一个 $(0,0,0)$ 用于统一查找。
 
-时间复杂度：$O(n \log n)$ 
+时间复杂度：$O(n \log n)$
 
 ```python
     def jobScheduling(self, startTime: List[int], endTime: List[int], profit: List[int]) -> int:
@@ -7177,7 +7168,7 @@ def solve():
         if j == len_p: res.append(i)
 ```
 
-**前缀函数 / next 数组** 
+**前缀函数 / next 数组**
 
 时间复杂度：$O(n)$，在线算法
 
@@ -7260,7 +7251,7 @@ for i in range(1, n):
 
 判断 p 在删除 ss 中下标元素后，是否仍然满足 s 是 p 的子序列。
 
-> ```
+> ```text
 > 例如：
 > s = "abcacb", p = "ab", removable[:2] = [3, 1]
 > 解释：在移除下标 3 和 1 对应的字符后，"abcacb" 变成 "accb" 。
@@ -7398,7 +7389,7 @@ class Trie:
 - 初始值设置为 $inf$ 表示不连通，即距离无穷大
 - $g(x,x)$ 应为 $0$
 
-```
+```text
 5 6
 0 1 2
 1 2 5
@@ -7418,7 +7409,7 @@ for _ in range(m):
     g[u][u] = g[v][v] = 0 # 原地不动，距离是 0
 ```
 
-```
+```text
 样例输出
 [0, 2, inf, 3, inf]
 [2, 0, 5, 4, inf]
@@ -7429,7 +7420,7 @@ for _ in range(m):
 
 **邻接表**
 
-1. 带权无向图
+1）带权无向图
 
 ```python
 n, m = map(int, input().split())
@@ -7440,7 +7431,7 @@ for _ in range(m):
     e[v].append((u, w))
 ```
 
-```
+```text
 [(1, 2), (3, 3)]
 [(0, 2), (2, 5), (3, 4)]
 [(1, 5), (3, 10)]
@@ -7448,7 +7439,7 @@ for _ in range(m):
 [(3, 7)]
 ```
 
-2. 带权有向图
+2）带权有向图
 
 ```python
 n, m = map(int, input().split())
@@ -7458,7 +7449,7 @@ for _ in range(m):
     e[u].append((v, w))
 ```
 
-3. 不带权有向图
+3）不带权有向图
 
 ```python
 n, m = map(int, input().split())
@@ -7524,7 +7515,7 @@ for u, v, w in edges:
 给定 $n$ 个节点，$m$ 条边的带权无向图，和 $q$ 组询问，每次需要回答 $u, v$ 的最短路径长度。
 
 - 考虑 $u,v$ 路径上的中间节点 $k$ ，拆分成 $u \rightarrow k$ 的最短路径长度 + $k \rightarrow v$ 的最短路径长度
--  $k$ 代表当前允许使用的中间节点，$k$ 遍历 $[0, n - 1]$ ，对于每个 $k$ 对整个邻接矩阵进行更新
+- $k$ 代表当前允许使用的中间节点，$k$ 遍历 $[0, n - 1]$ ，对于每个 $k$ 对整个邻接矩阵进行更新
 - $\text{ g[u][v] = min(g[u][v], g[u][k] + g[k][v])}$
 - 为什么 $k$ 不能放在其他位置？放在最外层，对于每个 $k$ 从左上到右下进行一次更新，能够有效利用之前的值。放在最内层，每处 $(u,v)$ 局部更新，不能有效利用之前的值。
 
@@ -8172,7 +8163,7 @@ solve()
 
 - 不存在奇数点的环（不存在奇数条边的环）
 
-  ​	证明：因为走过一条边必然从一个集合走到另一个集合，要完成闭环必须走偶数条边（偶数个点）
+证明：因为走过一条边必然从一个集合走到另一个集合，要完成闭环必须走偶数条边（偶数个点）
 
 - 可能存在孤点
 
@@ -8638,7 +8629,7 @@ for i in range(2, n + 1):
 
 ##### **(2). 欧拉筛 / 线性筛**
 
-基本思想：每一个合数一定存在最小的质因子。确保每一个合数只被他的最小质因子筛去。 	
+基本思想：每一个合数一定存在最小的质因子。确保每一个合数只被他的最小质因子筛去。
 
 ```python
 primes = []
@@ -8662,7 +8653,7 @@ for i in range(2, n + 1):
 
    每个合数 $x$ 一定存在最小质因子 $p$，和对应的 $ x / p$。在 $i$ 枚举到 $x / p$ 的时候，一定会筛去 $x$
 
-由于保证每个合数一定被晒一次，所以是 $O(n)$ 
+由于保证每个合数一定被晒一次，所以是 $O(n)$
 
 ##### **(3). 分解质因子**
 
@@ -8945,10 +8936,6 @@ for f in range(1, mx):
         factors[x].append(f)
 ```
 
-
-
-
-
 #### 欧拉函数
 
 定义：$\phi(n) $ 表示 $1 \sim n $ 中 与 $n$  互质（最大公约数为 1）的数的个数。
@@ -8993,11 +8980,11 @@ $$
 
 - 积性函数：对于互质的 $p, q$,  $\phi(p \times q) = \phi(p) \times \phi(q)$。 特别的， 对于奇数 $p$， $\phi(2p) = \phi(p)$
 
-​		证明：互质的数，质因子分解的集合无交集。$\phi(2) = 1$
+  证明：互质的数，质因子分解的集合无交集。$\phi(2) = 1$
 
 - 对于质数 $p$ ， $\phi(p^k) = p^k - \frac{p^k}{p} = p^k - p^{k -1}$
 
-​		证明：减去是 $p$ 的倍数的数，剩下不是 p 的倍数的数，一定和 $p$ 互质。
+  证明：减去是 $p$ 的倍数的数，剩下不是 p 的倍数的数，一定和 $p$ 互质。
 
 ```python
 def solve(n):
@@ -9012,7 +8999,7 @@ def solve(n):
     return res
 ```
 
-##### 1. 筛法求欧拉函数
+##### 筛法求欧拉函数
 
 对于 $N$ 的最小质因子 $p_1$， $N' = \frac{N}{p_1}$，我们希望筛法中，$N$ 通过 $N' \cdot p_1$ 筛掉。
 
@@ -9052,7 +9039,7 @@ for i in range(2, n + 1):
         phi[i * p] = (p - 1) * phi[i]
 ```
 
-#####  2. 欧拉定理
+##### 欧拉定理
 
 $$
 若 a 与 n 互质，则 a^{\phi(n)} \bmod n ~ = 1
@@ -9070,11 +9057,9 @@ $$
 a^{\phi(n)} \equiv 1~~ (\bmod~ n)
 $$
 
-#####  3.费马小定理
+##### 费马小定理
 
 若 $a$ 与 素数 $p$ 互质，则 $a^{p-1} \equiv 1 (\bmod ~ p)$。
-
-
 
 #### 裴蜀定理
 
@@ -9221,7 +9206,7 @@ def liEu(a, b, c):
     return x * (c // d) % (b // d), y * (c // d) % (a // d)
 ```
 
-​	
+​
 
 **同余**
 
@@ -9310,12 +9295,12 @@ def inv(a, b):
 递推式：
 
 $$
-\text{inv}[i] = 
+\text{inv}[i] =
 \begin{cases}
 1, & \text{if} ~i = 1
 \\
 -(p //i) \times \text{inv}[p \%i],&\text{otherwise}
-\end{cases} 
+\end{cases}
 ~(\bmod p)
 $$
 
@@ -9325,10 +9310,6 @@ for i in range(2, n + 1):
     k, j = (p // i), p % i
     inv[i] = -k * inv[j] % p
 ```
-
-
-
-
 
 **逆元解决除法取模**
 
@@ -9341,7 +9322,7 @@ for i in range(2, n + 1):
 
 
 
-#### 中国剩余定理 
+#### 中国剩余定理
 
 条件：整数 $m_1,m_2,\ldots,m_n$ **两两互质**
 
@@ -9487,7 +9468,7 @@ def solve():
 
 利用等差数列求和公式：$1 \sim n 中 能被 x 整除的数之和 = (x + 2\cdot x+ \cdots + n//x \cdot x) = x \cdot(1 + n // x) * (n // x) // 2$
 
-因而， 
+因而，
 
 ```python
 class Solution:
@@ -9566,11 +9547,11 @@ class Solution:
 
 **鸽巢原理定理**
 
-有 $n+1$ 只鸽子，飞入 $n$ 个鸽子巢，则至少有一个巢里有不少于两只鸽子。（反证法：假设没有一个巢中有不少于两只鸽子，则鸽子总数不会超过 $n$， 矛盾）。即将 $n+1$ 个物体，划分成 $n$ 组，至少有一组有不少于两个物体。 
+有 $n+1$ 只鸽子，飞入 $n$ 个鸽子巢，则至少有一个巢里有不少于两只鸽子。（反证法：假设没有一个巢中有不少于两只鸽子，则鸽子总数不会超过 $n$， 矛盾）。即将 $n+1$ 个物体，划分成 $n$ 组，至少有一组有不少于两个物体。
 
 推广：将 $n$ 个物体，划分成 $k$ 组，至少有一组不少于 $\left\lceil \frac{n}{k} \right\rceil$。（证明：反证法，假设所有组少于  $\left\lceil \frac{n}{k} \right\rceil$，则至多  $(\left\lceil \frac{n}{k} \right\rceil - 1) \times k < (\frac{n}{k}) \times k=n$ 个物体，矛盾）
 
->  例如，53 个物体，分成 6 组，最坏情况下是 9，9，9，9，9，8。
+> 例如，53 个物体，分成 6 组，最坏情况下是 9，9，9，9，9，8。
 
 简单应用：
 
@@ -9581,8 +9562,6 @@ class Solution:
 
 任意 $n$ 个人，必然有 $\lceil (n-1)/2 \rceil$ 个人相互认识 或者 相互不认识。（证明：考虑其中一个人的视角，剩下 n - 1 个人需要划分成两组，$k1$ 表示与它认识，$k2$ 表示与他不认识，其中一组至少为  $\lceil (n-1)/2 \rceil$ 个人。）
 
-
-
 **隔板法**
 
 [Problem - 1205 (hdu.edu.cn)](https://acm.hdu.edu.cn/showproblem.php?pid=1205)
@@ -9592,10 +9571,6 @@ class Solution:
 即给定 $K$ 组物品，各组物品个数有 $a_i$ 个，每次从任意一组种拿出一个，要求连续两个物品不能属于同一组。是否存在一种方案能拿完所有物品？
 
 找到最大个数的数量 $N$, 其余物品数量之和为 $S$， 通过隔板法，当且仅当形成的 $N-1$ 个右侧隔间每个至少有一个其他物品时满足条件。所以当 $S \ge N-1$ 成立，反之不成立。
-
-
-
-
 
 ### 数学公式
 
@@ -9619,13 +9594,13 @@ $$
 (b - a - 1) // k + 1
 $$
 
-####  平均数不等式
+#### 平均数不等式
 
 $$
 x_1, x_2,\ldots, x_n\in\mathbb{R}_+\Rightarrow\frac n{\sum_{i = 1}^n\frac1{x_i}}
 \leq\sqrt [n]{\prod_{i = 1}^nx_i}
 \leq\frac{\sum_{i = 1}^nx_i}n
-\leq\sqrt{\frac{\sum_{i = 1}^nx_i^2}n} 
+\leq\sqrt{\frac{\sum_{i = 1}^nx_i^2}n}
 \\
 \text{当且仅当 }x_1 = x_2 =\cdots = x_n\text{, 等号成立。}
 $$
@@ -9636,7 +9611,7 @@ $$
 
 例如当算术平均数为定值，$x_i$ 分布越接近，平方平均数越小，因此可以进行贪心算法：
 
-[3081. 替换字符串中的问号使分数最小 - 力扣（LeetCode）](https://leetcode.cn/problems/replace-question-marks-in-string-to-minimize-its-value/description/) 
+[3081. 替换字符串中的问号使分数最小 - 力扣（LeetCode）](https://leetcode.cn/problems/replace-question-marks-in-string-to-minimize-its-value/description/)
 各个字母之间的出现次数的差异越小，越均衡，最终结果越小。可以基于贪心 + 堆进行维护，每次取出出现次数最小中字典序最小的字符。
 
 ```python
@@ -9911,7 +9886,7 @@ f(n,1)
 6 \\
 6
 \end{array}\right]
-\cdot 
+\cdot
 \left[\begin{array}{c}
 2 & 2 \\
 2 & 3
@@ -9973,7 +9948,7 @@ $$
 f(x)= f(x_0)+\frac{f'(x_0)}{1!}(x-x_0)+\frac{f''(x_0)}{2!}(x-x_0)^2+\cdots+\frac{f^{(n)}(x_0)}{n!}(x-x_0)^n+R_n
 $$
 
-**麦克劳林公式：$x_0 = 0$** 
+**麦克劳林公式：$x_0 = 0$**
 
 $$
 f(x) = \sum_{k = 0}^{n} \frac{f^{(k)}(0)}{k!} \cdot x^k + o(x^n) = f(0) + \frac{f'(0)}{1!} \cdot x + \frac{f''(0)}{2!} \cdot x^2 + \cdots+\frac{f^{(n)}(0)}{n!} \cdot x^n + o(x^n)
@@ -9988,7 +9963,7 @@ $$
 所以有：
 
 $$
-e = \frac{1}{0!} + \frac{1}{1!} + \frac{1}{2!} + \cdots + \frac{1}{n!} 
+e = \frac{1}{0!} + \frac{1}{1!} + \frac{1}{2!} + \cdots + \frac{1}{n!}
 $$
 
 #### Stirling 斯特林公式
