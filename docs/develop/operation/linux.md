@@ -484,7 +484,7 @@ umask
 
 可能是出于安全考虑，文件默认不允许拥有可执行权限，因此如果 `umask` 显示为 $0022$，则创建的文件默认权限为 $644$，即每一位都 $-1$ 以确保是偶数。
 
-??? "练习"
+??? "练习：权限管理"
 
     **一、添加 4 个用户：alice、bob、john、mike**
     
@@ -582,25 +582,50 @@ umask
 
 ## 进程管理
 
-### 查看进程状态 ps
+### 查看进程 ps、top、htop、btop
 
 ```bash
+# 静态
 ps
-```
 
-### 动态查看进程状态 top
-
-```bash
+# 动态
 top
+
+# 高级工具
+htop
+
+# 更高级的工具
+btop
 ```
 
-### 杀死某个进程 kill
+### 终止进程 kill
 
-```bash
-kill -9 <PID>
-```
+如果想要中断一个并行/并发任务，在终端输入 `Ctrl+C` 往往是无效的，因为 `Ctrl+C` 一次只能结束一个进程/线程。我们可以直接用 `taskkill` 或 `pkill` 终止对应程序的所有进程。
 
-??? "练习"
+=== "Windows"
+
+    ```bash
+    # 终止所有 Python 进程
+    taskkill /F /IM python.exe
+    
+    # 终止特定 PID 的进程
+    taskkill /F /T /PID <process_id>
+    ```
+
+=== "Linux/macOS"
+
+    ```bash
+    # 终止所有 Python 进程
+    pkill -9 -f python
+    
+    # 或者使用 killall
+    killall -9 python
+    
+    # 终止特定 PID 的进程
+    kill -9 <process_id>
+    ```
+
+??? "练习：进程管理"
 
     **一、编写一个 shell 程序 `badproc.sh` 使其不断循环**
     
@@ -655,11 +680,11 @@ kill -9 <PID>
     
     ![删除目录和文件](https://cdn.dwj601.cn/images/202410081748818.png)
 
-### 进程调试 gdb
+### 调试进程 gdb
 
 参考 [GDB 官网](https://www.gnu.org/software/gdb/)。常用的如下：
 
-开始运行：r 即 run
+开始运行：
 
 ```bash
 r  # 即 run
@@ -677,7 +702,7 @@ break <line_num>
 c  # 即 continue
 ```
 
-??? "gdb 练习"
+??? "练习：gdb 实战"
 
     **一、创建 `fork.c` 文件**
     
