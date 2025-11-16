@@ -44,6 +44,7 @@ theme:
     # - navigation.expand            # 分类页默认展开
     - navigation.indexes           # 不显示分类索引首页
     - navigation.top               # 顶部导航栏
+    - navigation.path              # 路径导航
     - navigation.footer            # 页脚
     - content.code.copy            # 代码块复制按钮
     - content.code.select          # 代码块选中行
@@ -320,7 +321,7 @@ nav:
         - develop/back-end/python/basic-concepts.md
         - develop/back-end/python/grammar.md
         - develop/back-end/python/std-lib.md
-        - develop/back-end/python/science-lib.md
+        - develop/back-end/python/concurrency-and-parallelism.md
     - 数据库:
       - develop/database/index.md
       - develop/database/mysql.md
@@ -336,7 +337,11 @@ nav:
       - llm/infra/index.md
       - llm/infra/accelerator.md
       - llm/infra/huggingface.md
-      - llm/infra/pytorch.md
+      - 训练框架:
+        - llm/infra/training-framework/numpy.md
+        - llm/infra/training-framework/pandas.md
+        - llm/infra/training-framework/matplotlib.md
+        - llm/infra/training-framework/pytorch.md
     - 模型研究:
       - llm/research/index.md
     - 下游应用:
