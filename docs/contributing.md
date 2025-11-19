@@ -36,59 +36,91 @@ title: 参与贡献
 
 ## 方法三：本地部署
 
-该方法适合本地预览你的修改，详细步骤如下：
+该方法适合本地预览你的修改。
 
-1）克隆仓库到本地。选择一个合适的文件夹，然后打开终端输入：
+1）克隆仓库到本地：
 
 ```bash
 https://github.com/Explorer-Dong/wiki.git
 cd wiki
 ```
 
-2）创建 Python 虚拟环境并激活（请确保你的本地安装了 Python 并且最好在 3.11 及以上）：
+2）配置 Python 环境：
 
-```bash
-python -m venv .venv
-```
+=== "基于 `uv`"
 
-=== "Windows"
+    安装项目依赖：
 
     ```bash
-    source .venv/Script/activate
+    uv sync
     ```
 
-=== "macOS/Linux"
+    激活虚拟环境：
+
+    === "Windows"
+
+        ```bash
+        source .venv/Script/activate
+        ```
+
+    === "Linux"
+
+        ```bash
+        source .venv/bin/activate
+        ```
+
+=== "基于 `pip`"
+
+    创建 Python 虚拟环境：
 
     ```bash
-    source .venv/bin/activate
+    python -m venv .venv
     ```
 
-3）安装项目依赖：
+    激活虚拟环境：
 
-```bash
-pip install -r requirements.txt
-```
+    === "Windows"
 
-4）本地部署并编辑：
+        ```bash
+        source .venv/Script/activate
+        ```
+
+    === "Linux"
+
+        ```bash
+        source .venv/bin/activate
+        ```
+
+    安装项目依赖：
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+3）启动本地服务：
 
 ```bash
 mkdocs serve -f local.yml
 ```
 
-之后你就可以进行修改或新增文件，新增文件请符合以下规范：
+之后你就可以进行修改或新增文件，具体规范见 [行文规范](#行文规范)。
 
-- 文件名小写，使用 `-` 符号连接各单词；
-- 文件请放置在 `docs` 文件夹下的合适位置；
-- 将新增的文件路径添加到 `mkdocs.yml` 中。
-
-5）最后推送到你的仓库后点击右上角的 Contribute 按钮发起 Pull Request：
+4）推送到你的仓库后点击右上角的 Contribute 按钮发起 Pull Request：
 
 ![推送到你的仓库后点击右上角的 Contribute 按钮发起 Pull Request](https://cdn.dwj601.cn/images/20251020220221619.png)
 
-## 行文格式
+## 行文规范
 
-为了统一行文风格，便于读者阅读，请严格遵循以下规范：
+为了统一内容编排逻辑和文章写作风格，便于读者阅读，请严格遵循以下规范。
+
+新增文件规范：
+
+- 文件名：全部小写，适当缩写，使用 `-` 符号连接各单词，例如 `ds-and-algo`；
+- 文件位置：请将需要补充的文件放置在 `docs` 文件夹下的合适位置，例如 `templates-py.md` 放在 `ds-and-algo/` 下；
+- 文件路径配置：将新增的文件路径添加到 `mkdocs.yml` 中。
+
+文章写作规范：
 
 - 标题：文章标题为 H2 至 H3，低于 H3 等级的标题不应再出现，可以采用段首加粗的形式；
 - 链接：所有内链请采用相对引用的格式，例如 `[基础知识](./base/index.md)`；
-- 更多参考 [OI Wiki 格式手册](https://oi-wiki.org/intro/format/)。
+- 更多文章写作规范可参考 [OI Wiki 格式手册](https://oi-wiki.org/intro/format/)，这里不做严格约束。
