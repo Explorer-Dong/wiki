@@ -1,0 +1,14 @@
+[project]
+name = "Open-Wiki-Community"
+version = "0.0.1"
+description = "A systematic learning note knowledge base centered on computers and artificial intelligence."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "mkdocs>=1.6.1",
+    "mkdocs-git-committers-plugin-2>=2.5.0",
+    "mkdocs-git-revision-date-localized-plugin>=1.5.0",
+    "mkdocs-glightbox>=0.5.2",
+    "mkdocs-material>=9.7.0",
+    "mkdocs-toggle-sidebar-plugin>=0.0.9",
+]
