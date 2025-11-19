@@ -369,3 +369,18 @@ server {
     return 301 https://$host$request_uri;
 }
 ```
+
+### 配置最大请求体
+
+当客户端的请求超过一定大小时，通过 Nginx 代理的服务会拒绝该请求，并响应 "413 Request Entity Too Large"。这是因为 Nginx 默认只给 1 MB 的请求大小。
+
+我们可以通过 [`client_max_body_size`](https://nginx.org/en/docs/http/ngx_http_core_module.html#client_max_body_size) 参数来配置客户端的最大请求体积。该参数作用域为 `http`、`server` 和 `location`。
+
+示例配置：
+
+```nginx
+location / {
+    client_max_body_size 20m;  # 约束最大请求体积为 20 MB
+    proxy_pass http://localhost:1314;
+}
+```
