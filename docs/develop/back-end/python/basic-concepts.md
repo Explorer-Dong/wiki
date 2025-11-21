@@ -176,6 +176,9 @@ deactivate
     # 安装包（安装指定版本）
     pip install <pkg>==<version>
     
+    # 安装包（同时安装扩展）
+    pip install <pkg>[<plugin>]  # 例如 pip install "imageio[ffmpeg]"
+    
     # 安装包（从 GitHub 下载，可指定分支或提交）
     pip install git+https://github.com/<username>/<repo>.git@<branch or commit_id>
     
