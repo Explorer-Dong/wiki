@@ -369,6 +369,20 @@ find <path> <expression>
 
 `-maxdepth <num>`, `-mindepth <num>`: 最大、最小搜索深度。
 
+示例：删除指定目录下的所有普通文件，但保留所有文件夹和 `.gitignore` 文件。
+
+```bash
+find /path/to/dir -maxdepth 1 -type f ! -name ".gitignore" -delete
+```
+
+解释一下逻辑：
+
+- `find /path/to/dir` 在指定目录里查找；
+- `-maxdepth 1` 限制目录处理深度只有一层；
+- `-type f` 只选普通文件，不碰目录；
+- `! -name ".gitignore"` 排除 `.gitignore` 文件；
+- `-delete` 只删除匹配到的文件。
+
 ### 匹配 grep
 
 ```bash
