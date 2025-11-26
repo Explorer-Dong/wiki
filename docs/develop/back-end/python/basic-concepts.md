@@ -184,6 +184,8 @@ deactivate
     
     # 安装包（强制安装最新版）
     pip install --upgrade <pkg>
+    # 等价于
+    pip install -U <pkg>
     
     # 安装包（强制重新安装）
     pip install --force-reinstall <pkg>
@@ -196,6 +198,9 @@ deactivate
 
     ```bash
     # 安装包
+    conda install <pkg>
+    
+    # 安装包（安装指定版本，注意只有一个等号）
     conda install <pkg>=<version>
     
     # 卸载包（方法一）
@@ -207,11 +212,21 @@ deactivate
 
 === "uv"
 
-    `uv add` 会自动创建并管理虚拟环境（如果没有手动创建），因此你不需要手动执行 `python -m venv` 或 `conda create`。它还会自动处理依赖冲突与解析锁定文件 `uv.lock`，保证安装可复现。
+    `uv add` 会自动创建并管理虚拟环境（如果没有手动创建），因此你不需要手动执行 `python -m venv` 或 `conda create`。
+    
+    同时 uv 还会自动处理依赖冲突与解析锁定文件 `uv.lock`，保证安装可复现。
     
     ```bash
     # 安装包
+    uv add <pkg>
+    
+    # 安装包（安装指定版本）
     uv add <pkg>==<version>
+    
+    # 安装包（强制安装最新版）
+    uv add --upgrade <pkg>
+    # 等价于
+    uv add -U <pkg>
     
     # 卸载包
     uv remove <pkg>
