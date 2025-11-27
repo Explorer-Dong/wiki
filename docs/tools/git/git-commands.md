@@ -1,118 +1,57 @@
-﻿---
+---
 title: Git 常用命令
 ---
 
-Git 是一款版本管理软件，适用目前绝大多数操作系统；GitHub 是一个代码托管平台，与 Git 没有任何关系。只不过 Git 可以基于 GitHub 进行分布式云存储与交互，因此往往需要结合二者从而达到相对良好的 Teamwork 状态。
+!!! tip "Git 与 GitHub"
+    Git 是一款版本管理软件，适用目前绝大多数操作系统；GitHub 是一个代码托管平台，与 Git 没有任何关系。只不过 Git 可以基于 GitHub 进行云存储，因此往往需要结合二者来达到相对良好的 Teamwork 状态。
 
-本文记录 Git 的常用命令，完整命令见官方文档 [^git-docs]。下面的图和表概述了 Git 的整个逻辑框架。
+愚以为，Git 最主要的特性是「区域」和「分支」。所谓区域，就是代码在 Git 的视角下有着「工作区、暂存区和仓库区」三个区域，每个区域表示代码的某一个状态（详见 [迭代](#迭代) 与 [回溯](#回溯) 两节的内容）；所谓分支，就是任意一个版本的代码可以同时生成多个分支并行开发（详见 [分支](#分支) 一节的内容）。三个区域的内容基本可以描述为：
 
-[^git-docs]: [Book | Git - (git-scm.com)](https://git-scm.com/book/zh/v2)
+- 工作区：内容的编辑区域；
+- 暂存区：变动的保存区域；
+- 仓库区：版本的生成区域。
 
-|     工作区     |     暂存区     |     仓库区     |
-| :------------: | :------------: | :------------: |
-| 内容的编辑区域 | 变动的保存区域 | 版本的生成区域 |
-
-![Git 的基本命令](https://cdn.dwj601.cn/images/202402271037959.png)
-
-下面将会从「查看、配置、迭代、回溯、分支」五个方面介绍 Git 的命令。
-
-## 查看
-
-### 查看状态
-
-```bash
-# 查看当前文件状态
-git status
-```
-
-### 查看日志
-
-```bash
-# 从当前版本开始查询 commit 日志
-git log
-```
-
-```bash
-# 查看所有 commit 日志
-git reflog
-```
-
-### 查看差异
-
-```bash
-# 查看工作区与暂存区的差异
-git diff <FileName>
-
-# 查看两个区域所有文件的差异
-git diff
-```
-
-```bash
-# 查看暂存区与仓库区的差异
-git diff --cached <FileName>
-
-# 查看两个区域所有文件的差异
-git diff --cached
-```
+本文将会从「配置、迭代、回溯、分支、查看」五个方面介绍 Git 的常用命令，完整内容见 [Git](https://git-scm.com/book/zh/v2) 官方文档。
 
 ## 配置
 
-### 初始化
+使用 Git 之前需要进行基本的配置才能使用。一般流程是：
+
+1. 在当前项目目录初始化 Git 仓库：`git init`；
+2. 查看当前项目配置：`git config --list`；
+3. 确定项目配置级别：添加 `--global` 参数表示全局级配置，否则为项目级配置。
+
+### 配置个人信息
 
 ```bash
-# 初始化仓库
-git init
-```
-
-### 查看配置
-
-```bash
-# 查看 git 配置信息
-git config --list
-```
-
-```bash
-# 查看 git 用户名、密码、邮箱的配置
+# 查看：用户名 & 密码 & 邮箱
 git config user.name
 git config user.password
 git config user.email
-```
 
-```bash
-# 查看代理
-git config --global --get http.proxy
-git config --global --get https.proxy
-```
-
-### 编辑配置
-
-配置邮箱、密码、用户名：
-
-```bash
-# 配置（修改） Email & Pwd & Username （局部）
+# 配置/修改：用户名 & 密码 & 邮箱
 git config user.name "xxx"
 git config user.password "xxx"
 git config user.email "xxx@xxx.com"
-
-# 配置（修改） Email & Pwd & Username （全局）
-git config --global user.name xxx
-git config --global user.password xxx
-git config --global user.email "xxx@xxx.com"
 ```
 
-配置代理：
+### 配置网络代理
 
 ```bash
+# 查看代理
+git config --get http.proxy
+git config --get https.proxy
+
 # 配置代理
-git config --global http.proxy 127.0.0.1:<VpnPort>
-git config --global https.proxy 127.0.0.1:<VpnPort>
+git config http.proxy 127.0.0.1:<VpnPort>
+git config https.proxy 127.0.0.1:<VpnPort>
 
 # 取消代理
-git config --global --unset http.proxy
-git config --global --unset https.proxy
+git config --unset http.proxy
+git config --unset https.proxy
 ```
 
-配置远程服务器：
+### 配置服务器
 
 ```bash
 # 连接远程服务器
@@ -134,15 +73,60 @@ git remote set-url --add github https://gitee.com/idwj/idwj.git
 git remote rm <RemoteName>
 ```
 
-取消 Git 对中文的转义：
+### 配置中文转义
 
 ```bash
+# 取消 Git 对中文的转义
 git config --global core.quotepath false
 ```
 
 ## 迭代
 
-### 工作区到暂存区
+### 服务器 $\xrightarrow[]{\text{clone}}$ 本地
+
+从服务器克隆仓库到本地：
+
+```bash
+# 拉取默认的 main 分支
+git clone https://github.com/<UserName>/<ProjectName>.git <ProjectName>
+
+# 拉取其余的分支
+git checkout -t <RemoteName>/<BranchName>
+```
+
+!!! tip
+    使用 SSH 协议克隆项目需要本地额外进行 [ssh](../transfer.md#ssh) 配置。
+
+假设基于克隆的代码进行了开发，那么在推送到服务器之前，需要和「远程可能更新的代码」进行合并，当然如果远程没有更新代码，这一步就没有必要，但这是一个好习惯，可以避免潜在的 [分支冲突](./collaboration.md#合并冲突) 问题。
+
+=== "远程更新，本地未更新"
+
+    === "方法一"
+    
+        ```bash
+        # 抓取复制远程代码
+        git fetch <RemoteName> <BranchName>
+    
+        # 更新本地分支
+        git merge <BranchName>
+        ```
+    
+    === "方法二"
+    
+        ```bash
+        # 直接使用 pull 命令，等价于上述方法一的两步。即先抓取，后合并分支
+        git pull
+        ```
+
+=== "远程更新，本地也更新"
+
+    ```bash
+    # 在将远程代码与本地合并后，再将个人修改的代码推送到远程
+    git pull
+    git push
+    ```
+
+### 工作区 $\xrightarrow[]{\text{add}}$ 暂存区
 
 ```bash
 # 工作区到暂存区（单文件）
@@ -152,108 +136,46 @@ git add <FileName>
 git add .
 ```
 
-### 暂存区到仓库区
+### 暂存区 $\xrightarrow[]{\text{commit}}$ 仓库区
 
 ```bash
 # 暂存区到仓库区
 git commit -m '<Comment>'
 ```
 
-### 仓库区到服务器
+### 仓库区 $\xrightarrow[]{\text{push}}$ 服务器
 
 ```bash
 # 仓库区到云服务器（常规方法）
 git push <RemoteName> <BranchName>
 
-# 仓库区到云服务器（初始配置仓库推送默认地址）
-git push -u <RemoteName> <BranchName>
+# 仓库区到云服务器（首次推送时需要指定上游分支，--set-upstream 可简写为 -u）
+git push --set-upstream <RemoteName> <BranchName>
 
 # 仓库区到云服务器（已配置默认推送地址后）
 git push
-```
 
-```bash
-# 强制覆盖推送
+# 强制覆盖推送（--force 可简写为 -f）
 git push --force <RemoteName> <BranchName>
-```
-
-### 服务器到本地
-
-一键克隆整个项目
-
-```bash
-# 从服务器克隆仓库
-git clone https://github.com/<UserName>/<ProjectName>.git <ProjectName>
-```
-
-远程更新，本地未更新（方法一）
-
-```bash
-# 抓取复制远程代码
-git fetch <RemoteName> <BranchName>
-
-# 更新本地分支
-git merge <BranchName>
-```
-
-远程更新，本地未更新（方法二）
-
-```bash
-# 直接使用 pull 命令，等价于上述方法一的两步。即先抓取，后合并分支
-git pull
-```
-
-远程更新，本地也更新
-
-```bash
-# 在将远程代码与本地合并后，再将个人修改的代码推送到远程
-git pull
-git push
 ```
 
 ## 回溯
 
-### 取消版本管理
-
-**取消「当前版本」下某个文件的管理**。如下：
+### 未变动 $\xleftarrow[]{\text{checkout}}$ 工作区
 
 ```bash
-# 希望某些文件取消版本管理，但是依然保留在工作区
-git rm --cached <FileName>
-git commit -m 'remove xxx file'
-git push
-# 之后在 .gitignore 中增加上述 <FileName>
-```
-
-- `--cached` 参数表示只删除已经 add/commit 的内容，原始文件保留，如果不加则会将原始文件也一并删除；
-- `-r` 参数表示针对文件夹进行递归删除。
-
-**取消「所有版本」下某个文件的管理**。有时我们会不小心将敏感文件加入到 Git 的版本管理中，并且经过不断迭代，导致曾经的所有版本都记录了该敏感文件，那么我们就得删除所有涉及到该文件的 commit 中的内容 [^del-history]（记得先备份）：
-
-```bash
-git filter-branch --force --index-filter 'git rm --cached --ignore-unmatch <FilePath>' --prune-empty --tag-name-filter cat -- --all
-```
-
-[^del-history]: [Removing sensitive data from a repository | GitHub - (docs.github.com)](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository)
-
-### 工作区到上一个版本
-
-```bash
-# 取消新文件的管理 or 将修改文件回溯到上一个版本的初始状态
+# 取消修改
 git checkout -- <FileName>
 ```
 
-### 暂存区到工作区状态
+### 工作区 $\xleftarrow[]{\text{reset}}$ 暂存区
 
 ```bash
-# 取消 add（一个文件），默认为 --mixed 模式，即保存修改但是从暂存区到工作区
+# 取消 add，默认为 --mixed 模式，即保存修改但是从暂存区到工作区
 git reset <FileName>
-
-# 取消 add（全部文件），默认为 --mixed 模式，即保存修改但是从暂存区到工作区
-git reset .
 ```
 
-### 仓库区到暂存区状态
+### 暂存区 $\xleftarrow[]{\text{reset}}$ 仓库区
 
 ```bash
 # 移动 HEAD 指针到指定的版本
@@ -261,19 +183,47 @@ git reset '<commit_id>'        # 默认为 --mixed，将指定版本与暂存区
 git reset --soft '<commit_id>' # 【更推荐】工作区不变，只是将指定版本合并到暂存区
 git reset --hard '<commit_id>' # 【不推荐】工作区与暂存区全部被指定版本覆盖
 
-# 取消上一次 comment 并进入 vim 编辑模式
+# 取消上一次 comment 并进入编辑模式
 git commit --amend
 ```
 
-### 取消云端更改
+### 特殊：取消 Git 管理
 
-在本地强制推送即可：
+取消「当前版本」下某个文件的管理：
+
+```bash
+# 取消某些文件或文件夹的版本管理 (add/commit)，但依然保留在工作区
+git rm --cached <FileName>  # 加 -r 表示递归处理文件夹
+git commit -m 'remove xxx file'
+git push
+# 之后在 .gitignore 中增加上述 <FileName>
+```
+
+!!! tip
+    有时我们会不小心将敏感文件加入到 Git 的版本管理中，并且经过不断迭代，曾经的所有版本都记录了该敏感文件，那么我们就得 [在所有涉及到该敏感文件的版本中删除它](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository)。
+
+取消「所有版本」下某个文件的管理：
+
+!!! warning
+    请务必先备份对应数据。
+
+```bash
+git filter-branch \
+    --force \
+    --index-filter 'git rm --cached --ignore-unmatch <FilePath>' \
+    --prune-empty \
+    --tag-name-filter cat -- --all
+```
+
+最后在本地强制推送即可远程同步：
 
 ```bash
 git push --force <RemoteName> <BranchName>
 ```
 
 ## 分支
+
+Git 分支可以说是其最核心的功能，适用于多人协作、多功能开发等所有可并行迭代场景。
 
 ### 创建分支
 
@@ -285,48 +235,82 @@ git branch <BranchName>
 git push <RemoteName> <BranchName>
 ```
 
-### 删除分支
+### 合并分支
+
+假设在 dev 分支进行试验性开发，在 main 分支进行稳定性发布。那么在确保 dev 分支没问题后需要合并到 main 分支，就需要使用 Git 的分支合并功能了：
 
 ```bash
-# 切换到另一个分支再进行删除操作
-git switch <AnotherBranchName>
-git branch -d <BranchName>
+# 将当前分支切换到 main 分支
+git switch main
 
-# 远程同步
-git push <RemoteName> --delete <BranchName>
+# 接着将 dev 分支合并到 main 分支
+git merge dev
 ```
+
+!!! tip
+    上述操作仅针对独立开发者，如果涉及到了多人协作开发，那么分支合并就又有别的讲究，见 [多人协作那些事](./collaboration.md#分支合并)。
 
 ### 修改分支名称
 
 ```bash
-# 修改名称
+# 修改名称（本质上是在本地创建了一个新分支，并且删除了老分支）
 git branch -m <OldName> <NewName>
 
-# 远程同步
+# 远程同步新分支
 git push <RemoteName> <NewName>
+
+# 远程删除老分支
 git push <RemoteName> --delete <OldName>
 ```
 
 注意：如果待改名的分支为远程保护分支，则需要先在远程服务商那里调整保护分支。
 
-### 合并分支
-
-假设想要将 A 分支合并到 B 分支：
+### 删除分支
 
 ```bash
-# 将当前分支切换到 B 分支
-git switch B
+# 切换到另一个分支（必须）
+git switch <AnotherBranchName>
 
-# 接着将 A 分支合并进入 B 分支
-git merge A
+# 本地删除老分支
+git branch -d <BranchName>
+
+# 远程删除老分支
+git push <RemoteName> --delete <BranchName>
 ```
 
-上述操作仅针对独立开发者，如果涉及到了多人协作开发，那么分支合并就又有别的讲究，见 [多人协作那些事](./collaboration.md#分支合并) 中的内容。
+## 查看
 
-### 拉取指定分支
+经过各种上述操作的排列组合后，肯定需要查看每一个文件的状态，或者各种版本信息，此时就需要用上 Git 的查看功能了。
 
-在 git clone 后只会拉取默认分支，想要拉取其余的分支需要执行：
+### 查看状态
 
 ```bash
-git checkout -t <RemoteName>/<BranchName>
+# 查看当前项目的版本管理状态
+git status
+```
+
+### 查看日志
+
+```bash
+# 从当前版本开始查询 commit 日志
+git log
+
+# 查看所有 commit 日志
+git reflog
+```
+
+### 查看差异
+
+```bash
+# 查看「工作区」与「暂存区」的差异：指定文件
+git diff <FileName>
+
+# 查看「工作区」与「暂存区」的差异：所有文件
+git diff
+
+# 查看「暂存区」与「仓库区」的差异：指定文件
+git diff --cached <FileName>
+
+# 查看「暂存区」与「仓库区」的差异：所有文件
+git diff --cached
 ```
