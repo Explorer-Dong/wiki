@@ -2,27 +2,67 @@
 title: 语法基础
 ---
 
-本文介绍 Python 的语法基础。即不 `import` 任何包的情况下需要掌握的内容。
+本文介绍 Python 的语法基础，即不 `import` 任何包的情况下需要涉及到的内容，标准文档见 [Python Docs](https://docs.python.org/3/) 官网。
 
-## 基本数据类型
+## 数据类型
 
 Python 是动态类型语言，变量不需要声明类型，赋值时会自动确定类型。
 
+!!! tip
+    Python 支持在声明变量时写上预期的数据类型，但并不会主动检查数据类型不匹配的错误，可以借助第三方 [类型检查](./basic-concepts.md#类型检查) 工具来避免此类错误。
+
+### 整型
+
 ```python
-x = 10            # 整数
-y = 3.14          # 浮点数
-is_active = True  # 布尔值
-name = "Alice"    # 字符串
+x: int = 10
 ```
 
-## 常用数据类型
-
-列表是 Python 中常用的容器类型，支持动态添加、删除元素：
+### 浮点型
 
 ```python
+y: float = 3.14
+```
+
+### 布尔型
+
+```python
+is_active: bool = True
+```
+
+### 字符串
+
+```python
+# 基本用法
+info: str = "Alice"
+
+# python 会对其中的特殊字符转义，例如 \t 会被转义为一个 tab
+info = "hello\tworld"  # hello    world
+
+# r 表示输出原始 (row) 内容，不会对其中的内容进行转义
+info = r"hello\tworld"  # hello\tworld
+
+# 字符模板
+age = 18
+info = (f"My age is {age}, "
+        f"and you?")  # My age is 18, and you?
+```
+
+### 列表
+
+可变序列。可以理解为线性表，$O(1)$ 尾插入、$O(1)$ 尾删除：
+
+```python
+# 初始化
 fruits = ["apple", "banana", "cherry"]
-fruits.append("orange")  # 添加元素
-fruits.remove("banana")  # 删除元素
+
+# 尾插入
+fruits.append("orange")
+
+# 尾删除
+fruits.pop()
+
+# 删除第一个匹配到的元素
+fruits.remove("banana")
 
 print(fruits[0])    # 访问列表第一个元素
 print(fruits[1:3])  # 切片，访问第二到第三个元素
@@ -35,14 +75,18 @@ squares = [x**2 for x in range(5)]  # 生成 0 到 4 的平方
 print(squares)
 ```
 
-元组是不可变的序列类型，一旦创建不能修改：
+### 元组
+
+不可变的序列类型，一旦创建不能修改：
 
 ```python
 coordinates = (10, 20)
 print(coordinates[0])  # 访问元组的第一个元素
 ```
 
-字典是由键值对组成的数据结构：
+### 字典
+
+由键值对组成：
 
 ```python
 person = {"name": "Alice", "age": 25}
@@ -52,7 +96,9 @@ person["city"] = "New York"  # 添加新的键值对
 print(person["name"])  # 访问值
 ```
 
-集合是一个无序且不重复的元素集合：
+### 集合
+
+一个无序且不重复的元素集合：
 
 ```python
 colors = {"red", "green", "blue"}

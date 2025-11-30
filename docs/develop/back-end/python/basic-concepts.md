@@ -48,9 +48,9 @@ graph TB
 
 得益于 Python 便捷的开发逻辑，其第三方包相当丰富。包分发系统 (Python Package Index, [PyPI](https://pypi.org/)) 可以非常便捷地分发和管理第三方包。
 
-## 项目管理
+## 环境管理
 
-一般来说，对于一个规范的 Python 工程，都需要确保能够被复现，此时就需要用上 Python 项目管理工具了。目前主流的主要有以下几个：
+一般来说，对于一个规范的 Python 工程，都需要确保能够被复现，此时就需要用上 Python 环境管理工具了。目前主流的主要有以下几个：
 
 - [`pip`](https://github.com/pypa/pip)。Python 自带的包管理工具。特点：轻量、传统、兼容性好，但速度较慢；
 - [`conda`](https://github.com/conda/conda)。Anaconda 和 Miniconda 的包与环境管理工具，其中 Miniconda 是 Anaconda 的精简版，推荐使用 Miniconda。与 `pip` 不同的是，`conda` 不仅可以以虚拟环境的形式管理 Python 包，还能很方便地管理 Python 版本。这对于很多对 Python 版本有要求的项目来说很方便。特点：强大、跨语言、数据科学常用，但相对臃肿；
@@ -452,23 +452,29 @@ graph TB
 
 ## 代码管理🤨
 
-项目管理好后，就开始 coding 啦！但是在开始 coding 之前，需要提前做好代码的规范化配置，这有助于更高效地编写出更健壮的代码。
+环境配置好后，就开始 coding 啦！但是在开始 coding 之前，需要提前做好代码的规范化配置，这有助于更高效地编写出更健壮的代码。
 
-### 代码格式化工具
+### 代码格式化
 
-TODO：ruff
+即 formatter，推荐 ruff
 
-### 代码检查工具
+### 代码检查
 
-TODO：ruff
+即 linter，推荐 ruff
 
-### 代码测试工具
+### 类型检查
 
-TODO：pytest
+推荐 mypy
 
-### 注释生成工具
+### 测试
+
+推荐 pytest
+
+### 注释
 
 VSCode 插件：autoDocstring
+
+PyCharm：自动 docstring 模板
 
 ## PEP
 
