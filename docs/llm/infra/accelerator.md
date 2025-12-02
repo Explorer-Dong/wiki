@@ -51,3 +51,7 @@ CUDA C++ 就是普通 C/C++ 加上了适配 GPU 特性的语法。其中的普�
 ## CUDA C/C++ 教程
 
 [CUDA 入门博客](https://developer.nvidia.com/zh-cn/blog/even-easier-introduction-cuda-2/)
+
+## 性能分析工具 nsys
+
+[Nsight Systems](https://docs.nvidia.com/nsight-systems/index.html)
