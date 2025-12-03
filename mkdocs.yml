@@ -361,6 +361,7 @@ nav:
       - tools/git/git-commands.md
       - tools/git/git-self-define-command.md
       - tools/git/git-lfs.md
+      - tools/git/git-submodule.md
       - tools/git/collaboration.md
   - contributing.md
   - 站长博客: https://blog.dwj601.cn/
