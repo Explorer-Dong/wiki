@@ -55,22 +55,22 @@ git config --unset https.proxy
 
 ```bash
 # 连接远程服务器
-git remote add <RemoteName> https://github.com/用户名/仓库名.git
+git remote add <remote_name> <remote_url>
 
 # 查看所有连接的远程
 git remote -v
 
 # 修改远程别名
-git remote rename <OldRemoteName> <NewRemoteName>
+git remote rename <old_remote_name> <new_remote_name>
 
 # 修改远程 URL
-git remote set-url <RemoteName> <NewURL>
+git remote set-url <remote_name> <new_url>
 
 # 增加远程 push 的仓库
-git remote set-url --add github https://gitee.com/idwj/idwj.git
+git remote set-url --add <another_remote_name> <another_remote_url>
 
 # 删除远程
-git remote rm <RemoteName>
+git remote rm <remote_name>
 ```
 
 ### 配置中文转义
@@ -88,10 +88,13 @@ git config --global core.quotepath false
 
 ```bash
 # 拉取默认的 main 分支
-git clone https://github.com/<UserName>/<ProjectName>.git <ProjectName>
+git clone <remote_url> [<project_name>]
+
+# 克隆指定分支
+git clone -b <branch_name> <remote_url> [<project_name>]
 
 # 拉取其余的分支
-git checkout -t <RemoteName>/<BranchName>
+git checkout -t <remote_name>/<branch_name>
 ```
 
 !!! tip
@@ -105,10 +108,10 @@ git checkout -t <RemoteName>/<BranchName>
     
         ```bash
         # 抓取复制远程代码
-        git fetch <RemoteName> <BranchName>
+        git fetch <remote_name> <branch_name>
     
         # 更新本地分支
-        git merge <BranchName>
+        git merge <branch_name>
         ```
     
     === "方法二"
@@ -130,7 +133,7 @@ git checkout -t <RemoteName>/<BranchName>
 
 ```bash
 # 工作区到暂存区（单文件）
-git add <FileName>
+git add <file_name>
 
 # 工作区到暂存区（全部变动文件）
 git add .
@@ -140,23 +143,23 @@ git add .
 
 ```bash
 # 暂存区到仓库区
-git commit -m '<Comment>'
+git commit -m '<comment>'
 ```
 
 ### 仓库区 $\xrightarrow[]{\text{push}}$ 服务器
 
 ```bash
 # 仓库区到云服务器（常规方法）
-git push <RemoteName> <BranchName>
+git push <remote_name> <branch_name>
 
 # 仓库区到云服务器（首次推送时需要指定上游分支，--set-upstream 可简写为 -u）
-git push --set-upstream <RemoteName> <BranchName>
+git push --set-upstream <remote_name> <branch_name>
 
 # 仓库区到云服务器（已配置默认推送地址后）
 git push
 
 # 强制覆盖推送（--force 可简写为 -f）
-git push --force <RemoteName> <BranchName>
+git push --force <remote_name> <branch_name>
 ```
 
 ## 回溯
@@ -165,14 +168,14 @@ git push --force <RemoteName> <BranchName>
 
 ```bash
 # 取消修改
-git checkout -- <FileName>
+git checkout -- <file_name>
 ```
 
 ### 工作区 $\xleftarrow[]{\text{reset}}$ 暂存区
 
 ```bash
 # 取消 add，默认为 --mixed 模式，即保存修改但是从暂存区到工作区
-git reset <FileName>
+git reset <file_name>
 ```
 
 ### 暂存区 $\xleftarrow[]{\text{reset}}$ 仓库区
@@ -193,10 +196,10 @@ git commit --amend
 
 ```bash
 # 取消某些文件或文件夹的版本管理 (add/commit)，但依然保留在工作区
-git rm --cached <FileName>  # 加 -r 表示递归处理文件夹
+git rm --cached <file_name>  # 加 -r 表示递归处理文件夹
 git commit -m 'remove xxx file'
 git push
-# 之后在 .gitignore 中增加上述 <FileName>
+# 之后在 .gitignore 中增加上述 <file_name>
 ```
 
 !!! tip
@@ -210,7 +213,7 @@ git push
 ```bash
 git filter-branch \
     --force \
-    --index-filter 'git rm --cached --ignore-unmatch <FilePath>' \
+    --index-filter 'git rm --cached --ignore-unmatch <file_path>' \
     --prune-empty \
     --tag-name-filter cat -- --all
 ```
@@ -218,7 +221,7 @@ git filter-branch \
 最后在本地强制推送即可远程同步：
 
 ```bash
-git push --force <RemoteName> <BranchName>
+git push --force <remote_name> <branch_name>
 ```
 
 ## 分支
@@ -229,10 +232,10 @@ Git 分支可以说是其最核心的功能，适用于多人协作、多功能�
 
 ```bash
 # 创建分支
-git branch <BranchName>
+git branch <branch_name>
 
 # 远程同步
-git push <RemoteName> <BranchName>
+git push <remote_name> <branch_name>
 ```
 
 ### 合并分支
@@ -254,13 +257,13 @@ git merge dev
 
 ```bash
 # 修改名称（本质上是在本地创建了一个新分支，并且删除了老分支）
-git branch -m <OldName> <NewName>
+git branch -m <old_name> <new_name>
 
 # 远程同步新分支
-git push <RemoteName> <NewName>
+git push <remote_name> <new_name>
 
 # 远程删除老分支
-git push <RemoteName> --delete <OldName>
+git push <remote_name> --delete <old_name>
 ```
 
 注意：如果待改名的分支为远程保护分支，则需要先在远程服务商那里调整保护分支。
@@ -269,13 +272,13 @@ git push <RemoteName> --delete <OldName>
 
 ```bash
 # 切换到另一个分支（必须）
-git switch <AnotherBranchName>
+git switch <another_branch_name>
 
 # 本地删除老分支
-git branch -d <BranchName>
+git branch -d <branch_name>
 
 # 远程删除老分支
-git push <RemoteName> --delete <BranchName>
+git push <remote_name> --delete <branch_name>
 ```
 
 ## 查看
@@ -303,13 +306,13 @@ git reflog
 
 ```bash
 # 查看「工作区」与「暂存区」的差异：指定文件
-git diff <FileName>
+git diff <file_name>
 
 # 查看「工作区」与「暂存区」的差异：所有文件
 git diff
 
 # 查看「暂存区」与「仓库区」的差异：指定文件
-git diff --cached <FileName>
+git diff --cached <file_name>
 
 # 查看「暂存区」与「仓库区」的差异：所有文件
 git diff --cached
