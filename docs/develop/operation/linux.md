@@ -618,6 +618,15 @@ htop
 btop
 ```
 
+### 搜索进程
+
+可以使用 [lsof](https://github.com/lsof-org/lsof) 工具实现。
+
+```bash
+# 按照端口号查询
+lsof -i :<port>
+```
+
 ### 终止进程 kill
 
 如果想要中断一个并行/并发任务，在终端输入 `Ctrl+C` 往往是无效的，因为 `Ctrl+C` 一次只能结束一个进程/线程。我们可以直接用 `taskkill` 或 `pkill` 终止对应程序的所有进程。
