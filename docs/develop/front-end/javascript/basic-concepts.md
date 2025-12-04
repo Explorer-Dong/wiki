@@ -1,5 +1,6 @@
 ---
 title: 基本概念
+status: new
 ---
 
 JavaScript 是一种具有函数优先特性的轻量级、解释型或者说即时编译型的编程语言。虽然作为 Web 页面中的脚本语言被人所熟知，但是它也被用到了很多非浏览器环境中，例如 Node.js、Apache CouchDB、Adobe Acrobat 等。进一步说，JavaScript 是一种基于原型、多范式、单线程的动态语言，并且支持面向对象、命令式和声明式（如函数式编程）风格 [^MDN]。
@@ -10,23 +11,23 @@ JavaScript 是一种具有函数优先特性的轻量级、解释型或者说即
 
 无论说 JavaScript 是解释型还是编译型语言，总要从高级语言转换为低级语言从而运行在 CPU 上。这里介绍一款常见的转换软件：Node。
 
-### 安装
+你可以选择直接去 [Node 官网](https://nodejs.org/zh-cn) 进行下载与安装，但我建议你使用 [nvm](#管理解释器) 来管理 Node。因为直接下载 Node 并安装的话，权限会不够，等到全局运行 Node 时会出现权限错误 [^install-node-directly]。
 
-强烈建议使用 [nvm](#nvm) 来下载并管理 Node（下文会详细介绍）。因为直接下载 Node 并安装的话，权限会不够，等到全局运行 Node 时会出现权限错误。这是官网原话 [^des]：
+[^install-node-directly]: To publish and install packages to and from the public npm registry, you must install Node.js and the npm command line interface using either a Node version manager or a Node installer. **We strongly recommend using a Node version manager to install Node.js and npm.** We do not recommend using a Node installer, since the Node installation process installs npm in a directory with local permissions and can cause permissions errors when you run npm packages globally. [CLI >> Configuring >> Install | npm Docs - (docs.npmjs.com)](https://docs.npmjs.com/cli/v11/configuring-npm/install#description)
 
-[^des]: [CLI >> Configuring >> Install | npm Docs - (docs.npmjs.com)](https://docs.npmjs.com/cli/v11/configuring-npm/install#description)
+## 包
 
-> To publish and install packages to and from the public npm registry, you must install Node.js and the npm command line interface using either a Node version manager or a Node installer. **We strongly recommend using a Node version manager to install Node.js and npm.** We do not recommend using a Node installer, since the Node installation process installs npm in a directory with local permissions and can cause permissions errors when you run npm packages globally.
+与其他语言类似，JavaScrip 也有自己的社区与包（库）的共享平台。
 
-当然，如果你觉得无妨，还是可以直接去 [Node 官网](https://nodejs.org/zh-cn) 进行下载与安装。
+## 环境管理
 
-最后不要忘了给 Node 和 nvm 添加环境变量。
+### 管理虚拟环境
 
-### nvm
+Node 的策略就是在项目根目录下生成一个 `node_modules` 文件夹来存储所有的 JS 包。
 
-即 Node Version Manager，Node 版本管理工具。使用该工具可以很方便的在一台机器上管理各种不同的 Node 版本，从而应对不同的开发需求。
+### 管理解释器
 
-Windows 平台有专门的 [nvm-windows](https://github.com/coreybutler/nvm-windows)，下载安装后即可作为 CLI 进行使用，可以使用 `nvm --version` 查看版本，使用 `nvm` 查看基本帮助手册。常用命令如下：
+借助 Node 版本管理工具 (node version manager, nvm)，可以很方便的在一台机器上管理各种不同的 Node 版本，从而应对不同的开发需求。Windows 平台有专门的 [nvm-windows](https://github.com/coreybutler/nvm-windows)，下载安装后即可作为 CLI 进行使用（不要忘了给 Node 和 nvm 添加环境变量）。
 
 查看当前可以下载的 Node 版本：
 
@@ -58,11 +59,7 @@ nvm list
 nvm use <version>
 ```
 
-## 包
-
-与其他语言类似，JavaScrip 也有自己的社区与包（库）的共享平台。同样的，就有对应的环境隔离策略，也就是所谓的虚拟环境。如果一个项目需要使用特定版本的 Node 或特定版本的 JS 包，就需要使用虚拟环境。Node 的策略就是在项目根目录下生成一个 `node_modules` 文件夹来存储所有的 JS 包。
-
-### npm
+### 管理包
 
 Node 包管理工具 (node package manager, npm) 一般会随着 Node 一起安装。也可以去 [官网](https://github.com/npm/cli) 手动安装。常用命令如下（加上 `-g` 参数就表示全局，否则仅针对当前项目）：
 
@@ -82,6 +79,25 @@ npm install <package>
 
 ```bash
 npm uninstall <package>
+```
+
+显示所有配置：
+
+```bash
+npm config ls --json
+```
+
+自定义配置：
+
+!!! tip
+    所有自定义的配置都会持久化在 `~/.npmrc` 文本文件中，形式是键值对。
+
+```bash
+# 删除缓存
+npm cache clean --force
+
+# 自定义缓存存储目录
+npm config set cache <path/to/target/cache/folder>
 ```
 
 ### npx

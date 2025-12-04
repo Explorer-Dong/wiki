@@ -9,11 +9,11 @@ status: new
 
 安装 Python 的方法有很多，主要有以下几种：
 
-- 【新人小白推荐】基于 [python 安装包](https://www.python.org/downloads/) 管理 Python；
+- 【新人小白推荐】基于 [Python 安装包](https://www.python.org/downloads/) 管理 Python；
 - 【数据科学推荐】基于 conda 管理 Python；
 - 【现代工程推荐】基于 uv 管理 Python。
 
-后两种方法详见 [项目管理](#项目管理)。
+后两种方法详见 [环境管理](#环境管理)。
 
 ## 解释器
 
@@ -197,6 +197,9 @@ graph TB
     
     # 清空缓存
     pip cache purge
+    
+    # 配置缓存路径
+    pip config set global.cache-dir <path/to/cache/folder>
     ```
 
 === "conda"
@@ -217,6 +220,9 @@ graph TB
     
     # 清空缓存
     uv cache clean
+    
+    # 配置缓存路径
+    # 在环境变量中设置 UV_CACHE_DIR
     ```
 
 ### 管理虚拟环境
