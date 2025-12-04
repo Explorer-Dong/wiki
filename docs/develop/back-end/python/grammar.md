@@ -1,8 +1,9 @@
 ---
 title: 语法基础
+status: new
 ---
 
-本文介绍 Python 的语法基础，即不 `import` 任何包的情况下需要涉及到的内容，标准文档见 [Python Docs](https://docs.python.org/3/) 官网。
+本文介绍 Python 的语法基础，即不 `import` 任何包的情况下需要涉及到的内容，标准文档见 [Reference - Python Docs](https://docs.python.org/zh-cn/3.14/reference/index.html) 官网。
 
 ## 数据类型
 
@@ -185,6 +186,79 @@ def greet(name):
 message = greet("Alice")
 print(message)  # Hello, Alice
 ```
+
+## 解包机制
+
+Python 中的解包机制让参数传递变得更灵活。解包分成两类：
+
+* 函数定义处，收集参数。`*args` 用来接收多余的「位置参数」，而 `**kwargs` 用来接收多余的「关键字参数」；
+* 函数调用处，展开参数。`*` 用来展开序列（可迭代对象），`**` 用来展开字典。
+
+解包机制的本质，是让 Python 的参数系统脱离固定形态，转而以更抽象的方式处理数据结构，使得语言表达能力在工程层面保持灵活却不混乱。
+
+### `*args`
+
+函数定义处，用于接收任意数量的「位置参数」并将它们收集为一个元组：
+
+```python
+def add_all(x, *args):
+    print(type(args))  # <class 'tuple'>
+    total = 0
+    for value in args:
+        total += value
+    return total
+
+print(add_all(1, 2, 3))  # 5
+print(add_all(1, 2, 3, 4))  # 9
+```
+
+函数调用处，把一个序列展开为多个位置参数：
+
+```python
+def add_all(*args):
+    total = 0
+    for value in args:
+        total += value
+    return total
+
+nums = [1, 2, 3]  # 或 set、tuple 等可迭代对象
+print(add_all(*nums))  # 等价于 add_all(1, 2, 3)
+```
+
+### `**kwargs`
+
+函数定义处，用于接收任意数量的「关键字参数」并将它们组织为一个字典：
+
+```python
+def describe(**kwargs):
+    print(type(kwargs))  # <class 'dict'>
+    print(kwargs)  # {'name': 'Alice', 'age': 18}
+
+describe(name="Alice", age=18)
+```
+
+函数调用处，把一个字典展开为多个关键字参数：
+
+```python
+def f(**kwargs):
+    print(kwargs)  # {'name': 'Bob', 'city': 'Singapore'}
+
+info = {"name": "Bob", "city": "Singapore"}
+f(**info)  # 等价于 f(name="Bob", city="Singapore")
+```
+
+!!! tip
+
+    字典解包是一种清晰、稳定、可扩展的方式，在 Pydantic、FastAPI 等框架中极为常见。例如，在构造 Pydantic 模型时，通常会将 JSON 反序列化得到的字典直接展开，模型内部再对字段进行验证：
+    
+    ```python
+    class User(BaseModel):
+        name: str
+        age: int
+    
+    data = {"name": "Tom", "age": 20}
+    user = User(**data)
+    ```
 
 ## 异常处理
 
