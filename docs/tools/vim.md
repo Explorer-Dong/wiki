@@ -2,9 +2,41 @@
 title: Vim
 ---
 
-Vim 是一款编辑器，旨在让程序员脱离鼠标，沉浸式编码。
+[Vim](https://vimcdoc.sourceforge.net/) 是一款编辑器，旨在让程序员脱离鼠标，沉浸式编码。本文就来简单介绍一下 Vim。
 
-本文介绍 [Vim](https://vimcdoc.sourceforge.net/) 的基本使用方法。
+## 软件配置
+
+### 安装 vim
+
+有些系统自带的 Vim 可能会缺少一些功能，或者干脆就没有 Vim，直接安装即可：
+
+```bash
+# Ubuntu/Debian
+apt install vim-gtk3
+```
+
+### 查看 vim 信息
+
+```bash
+vim --version
+```
+
+使用上述命令可以看到 vim 的所有信息，包括软件编译信息、功能支持列表、配置文件路径等等。
+
+### 常见 vim 配置
+
+使用 `vim --version` 找到配置文件路径，然后编辑配置文件：
+
+```bash
+# 显示行号
+set number
+
+# 显示相对行号
+set relativanumber
+
+# 高亮搜索结果
+set hlsearch
+```
 
 ## 基本命令
 
@@ -103,28 +135,3 @@ graph LR
 
 - `x`：剪切选中目标。
 - `y`：复制选中目标。
-
-## 软件配置
-
-下面介绍 vim 的常见配置。
-
-### 查看 vim 信息
-
-```bash
-vim --version
-```
-
-使用上述命令可以看到 vim 配置文件所在位置，例如 Git Bash 的系统 vimrc 文件为 `/etc/vimrc`，用户 vimrc 文件为 `$HOME/.vimrc`。
-
-### 常见 vim 配置
-
-```bash
-# 显示行号
-set number
-
-# 显示相对行号
-set relativanumber
-
-# 高亮搜索结果
-set hlsearch
-```
