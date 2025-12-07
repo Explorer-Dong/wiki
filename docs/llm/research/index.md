@@ -2,6 +2,8 @@
 title: 模型研究
 ---
 
+[CS 336: Language Modeling from Scratch](https://stanford-cs336.github.io/spring2025/)
+
 设计更通用、更稳健、更高效的大模型。
 
 *注：每篇文章建议包含：动机 → 方法 → 关键公式/伪码 → 实验设置 → 结论与边界 → 复现要点与常见坑。

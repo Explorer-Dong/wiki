@@ -214,8 +214,8 @@ nav:
       - 自然语言处理:
         - base/ai/natural-language-processing/index.md
         - base/ai/natural-language-processing/word-embedding.md
-        - base/ai/natural-language-processing/sequence-classification.md
-        - base/ai/natural-language-processing/sequence-generation.md
+        - base/ai/natural-language-processing/text-classification.md
+        - base/ai/natural-language-processing/text-generation.md
       - 计算机视觉:
         - base/ai/computer-vision/index.md
         - base/ai/computer-vision/image-classification.md
@@ -321,7 +321,7 @@ nav:
         - develop/back-end/python/basic-concepts.md
         - develop/back-end/python/grammar.md
         - develop/back-end/python/std-lib.md
-        - develop/back-end/python/concurrency-and-parallelism.md
+        - develop/back-end/python/concurrent-lib.md
     - 数据库:
       - develop/database/index.md
       - develop/database/mysql.md
@@ -344,6 +344,7 @@ nav:
         - llm/infra/training-framework/pytorch.md
     - 模型研究:
       - llm/research/index.md
+      - llm/research/transformer.md
     - 下游应用:
       - llm/downstream/index.md
   - 实用工具:
