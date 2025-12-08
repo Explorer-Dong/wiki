@@ -282,12 +282,29 @@ class Dog:
     def __init__(self, name, age):
         self.name = name
         self.age = age
+    
+    # 强私有方法（前置双下划线）
+    def __calculate_dog_years(self):
+        """将狗的年龄转换为人类年龄"""
+        return self.age * 7
+    
+    # 公有方法
+    def get_human_age(self):
+        # 在类内部可以正常调用
+        human_age = self.__calculate_dog_years()
+        return f"{self.name} is {human_age} years old in human years."
 
-    def bark(self):
-        return f"{self.name} says woof!"
 
 dog = Dog("Buddy", 3)
-print(dog.bark())  # Buddy says woof!
+
+# 调用公有方法
+print(dog.get_human_age())  # Buddy is 21 years old in human years
+
+# 调用私有方法（报错）
+print(dog.__calculate_dog_years())  # AttributeError
+
+# 强制调用私有方法（不推荐）
+print(dog._Dog__calculate_dog_years())  # 21
 ```
 
 ## 迭代器与生成器
