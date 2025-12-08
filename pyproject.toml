@@ -5,6 +5,7 @@ description = "A systematic learning note knowledge base centered on computers a
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+    "click==8.2.1",
     "mkdocs>=1.6.1",
     "mkdocs-git-committers-plugin-2>=2.5.0",
     "mkdocs-git-revision-date-localized-plugin>=1.5.0",
