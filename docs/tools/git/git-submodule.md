@@ -57,7 +57,7 @@ submodule 并不会自动同步最新代码，需要手动更新。
 
 ```bash
 # 进入子仓库目录
-cd <submodule_path>
+cd <submodule>
 
 # 同步代码
 git pull <submodule_remote_name> <submodule_branch>
@@ -66,10 +66,12 @@ git pull <submodule_remote_name> <submodule_branch>
 ## 删除 submodule
 
 ```bash
-# 注销子仓库
-git submodule deinit -f <submodule_local_path>
-
 # 删除子仓库
-git rm -f <submodule_local_path>
-```
+git rm -rf <submodule>
 
+# 删除子仓库缓存
+rm -rf .git/modules/<submodule>
+
+# 删除子仓库配置
+git config -f .git/config --remove-section submodule.<submodule>
+```
