@@ -332,6 +332,7 @@ nav:
       - develop/operation/linux.md
       - develop/operation/nginx.md
       - develop/operation/docker.md
+      - develop/operation/ci-cd.md
   - 大模型:
     - llm/index.md
     - 基础设施:
