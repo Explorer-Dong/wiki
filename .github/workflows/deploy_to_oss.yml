@@ -5,31 +5,36 @@ on: [push, pull_request]
 jobs:
   main:
     runs-on: ubuntu-latest
+    env:
+      PYTHONWARNINGS: "ignore::DeprecationWarning"  # prevent "mkdocs unslugify" warning
+      MKDOCS_GIT_COMMITTERS_APIKEY: ${{ secrets.MKDOCS_GIT_COMMITTERS_APIKEY }}  # prevent git-committers 403 rate limit exceeded
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v6
+      with:
+        fetch-depth: 0  # fetch all commit history
 
     - name: Setup python
       uses: actions/setup-python@v6
       with:
         python-version: '3.14.2'
-
+    
     - name: Setup uv
       uses: astral-sh/setup-uv@v7
       with:
         activate-environment: "true"
-
-    - name: Install dependence
+    
+    - name: Install python dependence
       run: uv sync
     
     - name: Build website
       run: mkdocs build -f mkdocs.yml
     
-    - name: Install aliyun CLI
+    - name: Setup Aliyun CLI
       uses: aliyun/setup-aliyun-cli-action@v1
     
-    - name: Config aliyun CLI
+    - name: Config Aliyun CLI
       run: |
         aliyun configure set \
           --mode AK \
