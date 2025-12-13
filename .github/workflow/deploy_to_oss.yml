@@ -1,0 +1,44 @@
+name: Deploy Website to Aliyun OSS
+
+on: [push, pull_request]
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v6
+
+    - name: Setup python
+      uses: actions/setup-python@v6
+      with:
+        python-version: '3.14.2'
+
+    - name: Setup uv
+      uses: astral-sh/setup-uv@v7
+      with:
+        activate-environment: "true"
+
+    - name: Install dependence
+      run: uv sync
+    
+    - name: Build website
+      run: mkdocs build -f mkdocs.yml
+    
+    - name: Install aliyun CLI
+      uses: aliyun/setup-aliyun-cli-action@v1
+    
+    - name: Config aliyun CLI
+      run: |
+        aliyun configure set \
+          --mode AK \
+          --region ${{ vars.REGION }} \
+          --access-key-id ${{ secrets.ALIYUN_ACCESS_KEY_ID  }} \
+          --access-key-secret ${{ secrets.ALIYUN_ACCESS_KEY_SECRET  }}
+
+    - name: Operate Aliyun OSS
+      run: |
+        aliyun ossutil rm -r oss://wiki-web-shanghai/ -f
+        aliyun ossutil cp oss://public-assets-shanghai/files/BingSiteAuth.xml oss://wiki-web-shanghai/
+        aliyun ossutil cp -r ./site/ oss://wiki-web-shanghai/
