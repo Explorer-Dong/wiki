@@ -1,3 +1,5 @@
+# 本工作流的详细中文解析见：<https://wiki.dwj601.cn/develop/operation/ci-cd/#快速上手>
+
 name: Deploy Website to Aliyun OSS
 
 on: [push, pull_request]
@@ -5,9 +7,10 @@ on: [push, pull_request]
 jobs:
   main:
     runs-on: ubuntu-latest
+    
     env:
-      PYTHONWARNINGS: "ignore::DeprecationWarning"  # prevent "mkdocs unslugify" warning
-      MKDOCS_GIT_COMMITTERS_APIKEY: ${{ secrets.MKDOCS_GIT_COMMITTERS_APIKEY }}  # prevent git-committers 403 rate limit exceeded
+      PYTHONWARNINGS: "ignore::DeprecationWarning"  # prevent "mkdocs uslugify" warning
+      MKDOCS_GIT_COMMITTERS_APIKEY: ${{ secrets.MKDOCS_GIT_COMMITTERS_APIKEY }}  # prevent "git-committers 403 rate limit exceeded" error
 
     steps:
     - name: Checkout repository
