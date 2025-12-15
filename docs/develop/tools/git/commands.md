@@ -53,32 +53,10 @@ git config --unset https.proxy
 
 ### 配置服务器
 
-连接远程服务器：
-
 ```bash
+# 连接远程服务器
 git remote add <remote_name> <remote_url>
-```
 
-!!! tip
-
-    上述连接远程服务器的过程中 `remote_url` 参数有两种协议可选：
-    
-    1. HTTPs 协议，每次和远程交互时都需要输入账户名和密码，除非在本地做了用户名和密码的持久化；
-    2. Git 协议，需要配置 ssh 密钥对。配置好后需要将公钥上传 GitHub 或你正在用的代码托管平台，然后在本地指定私钥。这种方法不用每次输入用户名和密码，比较方便。
-    
-    指定私钥的方式有两种：
-    
-    1. 【永久】编写 ssh config 文件，详见 ssh config；
-    2. 【临时】设置环境变量 `GIT_SSH_COMMAND="ssh -i </path/to/your_private_key>"`。
-    
-    之后就可以正常使用 Git 命令了。
-
-理论上使用 https 连接每次都要手动输入用户名和密码，但在 Windows 有一个凭据管理器，会自动缓存用户名和密码，从而避免了使用 https 连接时每次都要输入用户名和密码，该功能可禁用：https://stackoverflow.com/questions/37182847/how-do-i-disable-git-credential-manager-for-windows/37185202#37185202
-
-
-其他常见用法：
-
-```bash
 # 查看所有连接的远程
 git remote -v
 
@@ -132,35 +110,6 @@ git switch <branch_name>
 git checkout <branch_name>
 ```
 
-假设你现在基于克隆的代码进行了开发，那么在推送到服务器之前，需要和「远程可能更新的代码」进行合并，当然如果远程没有更新代码，这一步就没有必要。但这是一个好习惯，可以避免潜在的 [分支冲突](./collaboration.md#合并冲突)。合并方法如下：
-
-=== "远程更新，本地未更新"
-
-    === "方法一"
-    
-        ```bash
-        # 抓取复制远程代码
-        git fetch <remote_name> <branch_name>
-    
-        # 更新本地分支
-        git merge <branch_name>
-        ```
-    
-    === "方法二"
-    
-        ```bash
-        # 直接使用 pull 命令，等价于上述方法一的两步。即先抓取，后合并分支
-        git pull
-        ```
-
-=== "远程更新，本地也更新"
-
-    ```bash
-    # 在将远程代码与本地合并后，再将个人修改的代码推送到远程
-    git pull
-    git push
-    ```
-
 ### 工作区 $\xrightarrow[]{\text{add}}$ 暂存区
 
 ```bash
@@ -179,6 +128,30 @@ git commit -m '<comment>'
 ```
 
 ### 仓库区 $\xrightarrow[]{\text{push}}$ 服务器
+
+在推送到服务器之前，需要和远程「可能更新的代码」进行合并，合并方法如下：
+
+=== "方法一"
+
+    ```bash
+    # 抓取远程代码
+    git fetch <remote_name> <branch_name>
+    
+    # 更新本地分支
+    git merge <branch_name>
+    ```
+
+=== "方法二"
+
+    ```bash
+    # 直接使用 pull 命令，等价于上述方法一的两步。即：先抓取，后合并
+    git pull
+    ```
+
+!!! tip
+    那如果远程没变动，我上面一步不就是多此一举了吗？是的，但这是一个好习惯 😉。
+
+之后就可以安心 push 了：
 
 ```bash
 # 仓库区到云服务器（常规方法）
@@ -272,7 +245,7 @@ git push <remote_name> <branch_name>
 
 ### 合并分支
 
-假设在 dev 分支进行试验性开发，在 main 分支进行稳定性发布。那么在确保 dev 分支没问题后需要合并到 main 分支，就需要使用 Git 的分支合并功能了：
+假设在 dev 分支进行试验性开发，在 main 分支进行稳定性发布。那么在确保 dev 分支没问题后需要合并到 main 分支，就需要使用 Git 的分支合并功能了。
 
 ```bash
 # 将当前分支切换到 main 分支
@@ -281,9 +254,6 @@ git switch main
 # 接着将 dev 分支合并到 main 分支
 git merge dev
 ```
-
-!!! tip
-    上述操作仅针对独立开发者，如果涉及到了多人协作开发，那么分支合并就又有别的讲究，见 [多人协作那些事](./collaboration.md#分支合并)。
 
 ### 修改分支名称
 

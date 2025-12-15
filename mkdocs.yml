@@ -332,7 +332,6 @@ nav:
       - develop/operation/linux.md
       - develop/operation/nginx.md
       - develop/operation/docker.md
-      - develop/operation/ci-cd.md
     - 工具:
       - develop/tools/index.md
       - IDE:
@@ -341,10 +340,10 @@ nav:
         - develop/tools/ide/idle.md
       - Git:
         - develop/tools/git/commands.md
-        - develop/tools/git/collaboration.md
-        - develop/tools/git/self-define-command.md
         - develop/tools/git/lfs.md
         - develop/tools/git/submodule.md
+        - develop/tools/git/github.md
+        - develop/tools/git/branch-conflict.md
       - 杂项:
         - develop/tools/others/windows.md
         - develop/tools/others/vim.md
