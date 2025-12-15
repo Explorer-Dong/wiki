@@ -17,36 +17,9 @@ title: GNU/Linux
 
 ### Shell 与 Terminal
 
-Terminal 是一个 GUI 界面，让用户直接和操作系统进行交互，而 Shell 是一个解释器，负责执行用户输入的各种命令。
+Terminal 是一个 GUI 界面，让用户直接和操作系统进行交互，而 [Shell](./shell.md) 是一个解释器，负责执行用户输入的各种命令。
 
 常见的 Shell 解释器是 bash，当然也有 fish、zsh 等。
-
-下面的程序演示了如何利用 bash 查询 $[0,100]$ 范围内的所有质数：
-
-```bash
-#!/bin/bash
-
-# 判断一个数是否是质数的函数
-is_prime() {
-  local num=$1
-  if ((num <= 1)); then
-    return 1
-  fi
-  for ((i = 2; i <= num / 2; i++)); do
-    if ((num % i == 0)); then
-      return 1  # 不是质数
-    fi
-  done
-  return 0  # 是质数
-}
-
-# 打印 0 到 100 之间的所有质数
-for ((n = 0; n <= 100; n++)); do
-  if is_prime $n; then
-    echo $n
-  fi
-done
-```
 
 ### 文件系统
 

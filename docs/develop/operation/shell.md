@@ -1,0 +1,168 @@
+---
+title: Shell
+---
+
+本文记录 Shell 的学习笔记。
+
+## 基本概念
+
+Shell 是一个用 C 语言编写的程序，是用户与 Linux / Unix 操作系统之间的接口。
+
+它既是一种命令语言，交互式解释和执行用户输入的命令；又是一种程序设计语言，定义了各种变量和参数，并提供了许多在高级语言中才具有的控制结构。
+
+从系统架构上看，Shell 位于用户空间，负责将用户输入的命令解析、展开，并通过系统调用交给内核执行。
+
+### 解释器
+
+Shell 采用解释执行模型，不需要编译即可运行。常见实现包括：
+
+- Bash (Bourne Again Shell)：Linux 发行版默认 Shell，兼容性最好；
+- Zsh (Z Shell)：交互体验和可定制性更强，常用于开发环境。
+
+不同 Shell 在交互功能和扩展语法上存在差异，但基础语法高度相似，本文以 Bash 为默认讨论对象。
+
+### 脚本
+
+将一系列 Shell 命令写入文件并顺序执行，即构成 Shell 脚本，通常以 `.sh` 作为扩展名。
+
+脚本的常见执行方式包括：
+
+- 直接指定解释器：
+
+    ```bash
+    bash script.sh
+    ```
+
+- 作为可执行文件：
+
+    ```bash
+    chmod +x script.sh
+    ./script.sh
+    ```
+
+    该方法依赖脚本首行的 [Shebang](https://zh.wikipedia.org/wiki/Shebang)，用于声明解释器路径，例如：
+
+    ```bash
+    #!/bin/bash
+    ```
+
+## 语法基础
+
+### 变量与引用
+
+Shell 中的变量是弱类型，以字符串为主。例如：
+
+```bash
+# 定义变量（等号两侧不能有空格，不然就被识别为空格了）
+name="shell"
+
+# 引用变量
+echo $name  # shell
+
+# 引用变量（推荐加花括号来避免歧义）
+echo ${name}  # shell
+
+# 引用变量（单引号无效，双引号有效）
+echo 'hello $name'  # hello $name
+echo "hello $name"  # hello shell
+```
+
+### 环境变量 export
+
+使用 `export` 将变量添加环境变量：
+
+```bash
+# 将 CUDE_VISIBLE_DEVICES=0,1 添加到当前会话
+export CUDE_VISIBLE_DEVICES="0,1"
+
+# 将 /custom/bin 添加到系统路径
+export PATH="$PATH:/custom/bin"
+```
+
+### 命令定义简写 alias 
+
+alias 用于为常用命令定义简写：
+
+```bash
+alias ll='ls -alF'
+alias gs='git status'
+```
+
+取消 alias：
+
+```bash
+unalias ll
+```
+
+alias 只在当前 Shell 会话中生效，可以写入 `~/.bashrc` 来持久化。
+
+### 分支
+
+```bash
+if [ "$a" -gt 10 ]; then
+    echo "large"
+elif [ "$a" -gt 5 ]; then
+    echo "medium"
+else
+    echo "small"
+fi
+```
+
+注意：
+
+- `[ ... ]` 两侧必须有空格
+- 字符串比较与数字比较使用不同运算符
+
+### 循环
+
+```bash
+for file in *.sh; do
+    echo $file
+done
+```
+
+```bash
+while read line; do
+    echo $line
+done < file.txt
+```
+
+### 函数
+
+Shell 支持函数，用于封装逻辑、提升复用性，例如：
+
+```bash
+# 定义函数
+run() {
+    echo "You are running $1 with $2 parameter."
+}
+
+# 调用函数
+run train.py use_fsdp  # You are running train.py with use_fsdp parameter.
+```
+
+函数形参通过位置 `$1`、`$2` 的方式引用。
+
+### 完整脚本示例
+
+```bash
+#!/bin/bash
+
+set -e
+
+log() {
+    echo "[$(date '+%F %T')] $1"
+}
+
+for file in "$@"; do
+    if [ -f "$file" ]; then
+        log "processing $file"
+    else
+        log "skip $file"
+    fi
+done
+```
+
+## 总结
+
+在实际工程中，简单逻辑用 Shell 脚本，复杂逻辑交给 Python / Go 等高级编程语言。

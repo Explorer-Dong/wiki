@@ -330,6 +330,7 @@ nav:
     - 运维:
       - develop/operation/index.md
       - develop/operation/linux.md
+      - develop/operation/shell.md
       - develop/operation/nginx.md
       - develop/operation/docker.md
     - 工具:
