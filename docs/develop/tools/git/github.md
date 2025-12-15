@@ -4,6 +4,59 @@ title: GitHub 常见用法
 
 [GitHub](https://github.com) 是世界上最大的代码托管平台，于 2018 年被微软收购。基于 GitHub 可以做很多好玩的事，下面讲讲其常见用法。
 
+## 身份鉴权
+
+分布式代码管理意味着需要代码托管平台，这就不可避免的要解决客户端与平台的身份鉴权问题。
+
+常见的鉴权方式有两种：
+
+- 【不推荐】密码鉴权。即通过用户名和账户密码来和平台交互。[GitHub 在 2021 年禁用了该鉴权方式](https://github.blog/changelog/2021-08-12-git-password-authentication-is-shutting-down/) 来确保安全性，其他平台可能还可以使用（例如 CODING）。这种方法在每次交互时都需要输入用户名和密码。
+- 【推荐】token-based 鉴权。这是目前身份鉴权的最佳实践，可以针对场景或开发人员定制不同权限的 token，确保了资源的安全性和操作的可控性。GitHub 目前支持：personal access token、ssh、OAuth、GitHub App installation token 等鉴权方式。针对个人开发者，这里讨论 personal access token 和 ssh 两种 token-based 鉴权方式。
+
+### 方案一：personal access token
+
+**创建 personal access token**。方式很简单，进入 [GitHub Settings](https://github.com/settings/apps) 界面后选择 Fine-grained tokens 或 Tokens (classic) 中的一种即可。两者的主要区别是，Fine-grained tokens 可以针对仓库做更细粒度的权限控制。
+
+配置好 token 权限后，保存生成的 token 即可。之后请使用 HTTPs 协议 [配置](./commands.md#配置服务器) 远程仓库，例如：
+
+```bash
+git clone https://github.com/Explorer-Dong/wiki.git
+```
+
+**配置 personal access token 的存储行为**。可以通过配置 `credential.helper` 参数来控制存储行为。例如：
+
+```bash
+git config credential.helper <mode>
+```
+
+主要有以下几种存储 mode：
+
+- 【可选】不存储。参数为空字符串即可，此后每次和云平台交互都需要手动输入用户名和 token 或密码；
+- 【可选】cache 模式。让 token 保存在内存中一段时间，不写入磁盘；
+- 【Windows/macOS/Linux 可选】manager 模式。在额外安装 [GCM](https://github.com/git-ecosystem/git-credential-manager) 后才能启用（可以额外安装，也可以在安装 Git 时勾上 GCM 选项一起安装）。在 Windows 中该模式会将 token 存储在「凭据管理器」中；
+- 【Windows 默认】wincred 模式。Windows 上的默认加密存储方式，也是存储在「凭据管理器」中，和 manager 的区别是 wincred 不会加密用户名；
+- 【不推荐】store 模式。将 token 以明文的方式存储在磁盘 `~/.git-credentials` 文件中，这很危险，不推荐这种用法；
+- 【macOS 可选】osxkeychain 模式。macOS 上的加密存储方式。
+
+!!! tip
+    token 或密码的存储属于 Git 的行为，准确地说是 [Git 凭证管理器 (Git Credential Manager, GCM)](https://git-scm.com/book/zh/v2/Git-工具-凭证存储) 的行为，与 GitHub 无关。
+
+### 方案二：ssh
+
+使用 ssh 进行鉴权就很简单了。[创建密钥对](../others/ssh.md#客户端生成密钥对) 后把公钥上传到 [GitHub](https://github.com/settings/keys)，然后本地 [配置 ssh config](../others/ssh.md#ssh-config) 让对应的私钥指向 `github.com` 即可。
+
+之后请使用 git 协议 [配置](./commands.md#配置服务器) 远程仓库，例如：
+
+```bash
+git clone git@github.com:Explorer-Dong/wiki.git
+```
+
+### 技术选型
+
+如果在本地开发，怎么方便怎么来，反正 token 不会泄露（应该？）。
+
+如果在远程开发，特别是服务器不属于你的情况下，我不建议用 ssh（因为你得把私钥传到服务器才能用，这你敢？反正我不敢），我更推荐用 personal access token，并且不要持久化 token，每次交互就老老实实输入用户名和 token。
+
 ## 给其他人的仓库贡献代码
 
 不是每个人都有权限直接对远程仓库进行推送操作，GitHub 设计了一种名为 Pull Request 的功能，让仓库拥有者自行审核其他人对仓库的改动，从而决定是否要将这些改动 merge 进来。该操作的逻辑如下图所示：

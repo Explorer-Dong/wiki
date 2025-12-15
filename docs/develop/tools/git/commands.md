@@ -18,8 +18,16 @@ title: Git 常用命令
 使用 Git 之前需要进行基本的配置才能使用。一般流程是：
 
 1. 在当前项目目录初始化 Git 仓库：`git init`；
-2. 查看当前项目配置：`git config --list`；
-3. 确定项目配置级别：添加 `--global` 参数表示全局级配置，否则为项目级配置。
+
+2. 确定项目配置级别。一共有三个级别：
+
+    - 不添加级别参数表示项目级，配置文件存储在 `./.git/config` 中；
+    - 添加 `--global` 参数表示用户级配置，配置文件存储在 `~/.gitconfig` 中；
+    - 添加 `--system` 参数表示系统级配置，Linux 配置文件存储在 `/etc/gitconfig` 中，Windows 配置文件存储在 `<X:\path\to>\Git\etc\gitconfig` 中。
+
+    根据场景选择合适的配置级别。
+
+3. 查看当前配置：`git config --list`。
 
 ### 配置个人信息
 
