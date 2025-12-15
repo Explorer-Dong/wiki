@@ -244,6 +244,162 @@ Ctrl+b d
 Ctrl+b 滚轮
 ```
 
+### 下载器 wget
+
+wget 是 Linux 系统中自带的命令行下载工具，支持 HTTP/HTTPS、FTP 等协议，功能丰富且使用简单。适合用于单文件的下载，支持断点续传、递归下载。
+
+!!! tip "Wget on Windows"
+    Windows 上可以下载 [Windows binaries of GNU Wget](https://eternallybored.org/misc/wget/) 二进制程序来使用。
+
+单个文件下载最基本的命令格式是：
+
+```bash
+wget [url]
+```
+
+常用参数如下（更多内容可通过 `wget --help` 查看）：
+
+- 指定输出文件名：
+
+    ```bash
+    wget -O myfile.txt [url]
+    ```
+
+- 指定下载文件的保存目录：
+
+    ```bash
+    wget -P /path/to/directory [url]
+    ```
+
+- 批量下载指定文件中所有 url 对应的内容：
+
+    ```bash
+    wget -i urls.txt
+    ```
+
+- **断点续传**：
+
+    ```bash
+    wget -c [url]
+    
+    # 尝试 5 次
+    wget -c -t 5 [url]
+    ```
+
+- **递归下载**：
+
+    ```bash
+    wget -r [url]
+    
+    # 下载一个网站中的所有以 .pdf 为后缀的文件
+    wget -r -A.pdf [url]
+    ```
+
+- 后台下载：
+
+    ```bash
+    # 下载的日志会被保存到 wget.log 文件中
+    wget -b [url]
+    ```
+
+### 高性能下载器 aria2
+
+[aria2](https://github.com/aria2/aria2) 是一款轻量级、高性能的命令行下载工具，支持 HTTP/HTTPS、FTP、SFTP 等常见协议，和 [wget](#下载器-wget) 相比最大的优势在于可以多线程下载。
+
+!!! note "安装 aria2"
+
+    === "Ubuntu"
+    
+        ```bash
+        apt update && apt install aria2
+        ```
+    
+    === "CentOS"
+    
+        ```bash
+        yum update && yum install aria2
+        ```
+    
+    === "macOS"
+    
+        ```bash
+        brew install aria2
+        ```
+    
+    === "Windows"
+    
+        在 aria2 的 [GitHub Release](https://github.com/aria2/aria2/releases) 界面下载对应的版本即可。
+
+单个文件下载最基本的命令格式是（单线程）：
+
+```bash
+aria2c <URL>
+```
+
+常用参数如下（更多内容可通过 `aria2c --help` 查看）：
+
+- **多线程下载**：
+
+    ```bash
+    # aria2 会将文件分成多个部分并通过不同的连接进行下载，例如 4 线程
+    aria2c -x 4 <URL>
+    ```
+
+    !!! warning
+        多线程下载仅适用于单线程跑不满下行带宽的场景，线程开多了容易被误判为爬虫从而被封禁 IP。
+
+- **断点续传**：
+
+    ```bash
+    aria2c -c <URL>
+    ```
+
+- 下载多个文件：
+
+    ```bash
+    aria2c -i urls.txt
+    ```
+
+!!! tip "wget vs. aria2"
+
+    以服务器下载 HuggingFace [某个 9GB 单文件](https://huggingface.co/datasets/jingyaogong/minimind_dataset/blob/main/sft_2048.jsonl) 为例：
+    
+    | 工具  | 线程数 | 时间开销（秒） | 平均下行带宽（MB/s） |
+    | :---: | :----: | :------------: | :------------------: |
+    | wget  |   1    |      604       |         21.3         |
+    | aria2 |   1    |      266       |          32          |
+    | aria2 |   2    |      141       |          60          |
+    | aria2 |   4    |       87       |          98          |
+    | aria2 |   8    |       71       |         121          |
+    
+    实验结果如上表所示，可以得到以下两个结论：
+    
+    - 当达到平均下行带宽峰值（约 125MB/s）后，提升线程数就无法再提速了。
+    - aria2 的单线程下载性能明显高于 wget。
+
+### 文件传输工具 scp
+
+在计算机网络应用层中，我们介绍了安全复制协议 [SCP](../../base/cs/computer-network/application-layer.md#scp-协议)，基于该协议，工程师开发了安全复制程序——scp，用来作为点对点的数据加密传输工具。
+
+该程序就两个核心用法：
+
+- 拉取数据：
+
+    ```bash
+    scp user@xxx.xxx.xxx.xxx:/path/to/source /path/to/target
+    ```
+
+- 推送数据：
+
+    ```bash
+    scp /path/to/source user@xxx.xxx.xxx.xxx:/path/to/target
+    ```
+
+常见参数：
+
+- 使用 `-P <port>` 指定端口；
+- 使用 `-r` 表示在文件夹下递归。
+
 ## 文件管理
 
 ### 改变目录 cd
