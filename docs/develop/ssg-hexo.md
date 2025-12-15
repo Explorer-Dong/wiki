@@ -205,7 +205,7 @@ GitHub Pages 按照上述工作流的指令，检测到 push 后开始执行，�
 
 由于 GitHub Pages 服务使用的服务器在美国，不用魔法访问速度过慢，国内平替 Gitee Pages 已经停止服务了，综合考虑还是部署到大陆的服务器上。当然这前提是你已经拥有一台大陆「备案」的 [云服务器](https://www.aliyun.com/product/ecs?userCode=jpec1z57) 和一个 [域名](https://wanwang.aliyun.com/domain/)。如果觉得备案太麻烦，可以考虑入手一台香港服务器。
 
-假设你已经有了一台云服务器。为了简化后续文件上传操作，需要建立本地机和云服务器的 [SSH](../tools/transfer.md#ssh) 连接。下面将基于 [Git Hooks](https://githooks.com/) 工具，介绍如何将自己的 Hexo 静态网站部署到阿里云服务器上。
+假设你已经有了一台云服务器。为了简化后续文件上传操作，需要建立本地机和云服务器的 [SSH](./tools/ssh.md) 连接。下面将基于 [Git Hooks](https://githooks.com/) 工具，介绍如何将自己的 Hexo 静态网站部署到阿里云服务器上。
 
 1）域名解析。我们需要将域名指向自己服务器的 IP，下图中记录值即你的云服务器 IP 地址：
 
@@ -282,7 +282,7 @@ Git Hooks 的工作原理与 GitHub Workflow 类似，都可以在我们做出�
 
 ### 基于最朴素的方法
 
-同样需要先配置好 [SSH](../tools/transfer.md#ssh) 和 [Nginx](./operation/nginx.md)。接下来就两步：
+同样需要先配置好 [SSH](./tools/ssh.md) 和 [Nginx](./operation/nginx.md)。接下来就两步：
 
 1）打包网站。将 Markdown 文件转化为 HTML 文件：
 

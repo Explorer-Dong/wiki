@@ -53,10 +53,32 @@ git config --unset https.proxy
 
 ### 配置服务器
 
-```bash
-# 连接远程服务器
-git remote add <remote_name> <remote_url>
+连接远程服务器：
 
+```bash
+git remote add <remote_name> <remote_url>
+```
+
+!!! tip
+
+    上述连接远程服务器的过程中 `remote_url` 参数有两种协议可选：
+    
+    1. HTTPs 协议，每次和远程交互时都需要输入账户名和密码，除非在本地做了用户名和密码的持久化；
+    2. Git 协议，需要配置 ssh 密钥对。配置好后需要将公钥上传 GitHub 或你正在用的代码托管平台，然后在本地指定私钥。这种方法不用每次输入用户名和密码，比较方便。
+
+    指定私钥的方式有两种：
+    
+    1. 【永久】编写 ssh config 文件，详见 ssh config；
+    2. 【临时】设置环境变量 `GIT_SSH_COMMAND="ssh -i </path/to/your_private_key>"`。
+
+    之后就可以正常使用 Git 命令了。
+
+理论上使用 https 连接每次都要手动输入用户名和密码，但在 Windows 有一个凭据管理器，会自动缓存用户名和密码，从而避免了使用 https 连接时每次都要输入用户名和密码，该功能可禁用：https://stackoverflow.com/questions/37182847/how-do-i-disable-git-credential-manager-for-windows/37185202#37185202
+
+
+其他常见用法：
+
+```bash
 # 查看所有连接的远程
 git remote -v
 
@@ -70,7 +92,7 @@ git remote set-url <remote_name> <new_url>
 git remote set-url --add <another_remote_name> <another_remote_url>
 
 # 删除远程
-git remote rm <remote_name>
+git remote remove <remote_name>
 ```
 
 ### 配置中文转义
@@ -98,7 +120,7 @@ git checkout -t <remote_name>/<branch_name>
 ```
 
 !!! tip
-    使用 SSH 协议克隆项目需要本地额外进行 [ssh](../transfer.md#ssh) 配置。
+    使用 SSH 协议克隆项目需要本地额外进行 [ssh](../ssh.md) 配置。
 
 假设基于克隆的代码进行了开发，那么在推送到服务器之前，需要和「远程可能更新的代码」进行合并，当然如果远程没有更新代码，这一步就没有必要，但这是一个好习惯，可以避免潜在的 [分支冲突](./collaboration.md#合并冲突) 问题。
 

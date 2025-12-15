@@ -38,22 +38,6 @@ title: 首页
 
     [:octicons-arrow-right-24: 开始阅读](./llm/index.md)
 
--   :material-tools:{ .lg .middle } **实用工具**
-
-    ---
-
-    开发环境、实用软件等工具配置。
-
-    [:octicons-arrow-right-24: 开始阅读](./tools/index.md)
-
--   :material-account-group-outline:{ .lg .middle } **参与贡献**
-
-    ---
-
-    一起参与到项目的完善中。
-
-    [:octicons-arrow-right-24: 开始阅读](./contributing.md)
-
 </div>
 
 如果您能参与到知识的传播中，我们将会非常欢迎，具体的贡献方法请见 [贡献指南](./contributing.md)。下图是本项目的协作者名单：

@@ -333,6 +333,22 @@ nav:
       - develop/operation/nginx.md
       - develop/operation/docker.md
       - develop/operation/ci-cd.md
+    - 工具:
+      - develop/tools/index.md
+      - develop/tools/windows.md
+      - develop/tools/vim.md
+      - develop/tools/wsl2.md
+      - develop/tools/ssh.md
+      - IDE:
+        - develop/tools/ide/jetbrains.md
+        - develop/tools/ide/devcpp.md
+        - develop/tools/ide/idle.md
+      - Git:
+        - develop/tools/git/commands.md
+        - develop/tools/git/collaboration.md
+        - develop/tools/git/self-define-command.md
+        - develop/tools/git/lfs.md
+        - develop/tools/git/submodule.md
   - 大模型:
     - llm/index.md
     - 基础设施:
@@ -353,22 +369,5 @@ nav:
       - llm/research/transformer.md
     - 下游应用:
       - llm/downstream/index.md
-  - 实用工具:
-    - tools/index.md
-    - tools/windows.md
-    - tools/transfer.md
-    - tools/battery-info-view.md
-    - tools/vim.md
-    - tools/wsl2.md
-    - IDE:
-      - tools/ide/jetbrains.md
-      - tools/ide/devcpp.md
-      - tools/ide/idle.md
-    - Git:
-      - tools/git/git-commands.md
-      - tools/git/git-self-define-command.md
-      - tools/git/git-lfs.md
-      - tools/git/git-submodule.md
-      - tools/git/collaboration.md
   - contributing.md
   - 站长博客: https://blog.dwj601.cn/
