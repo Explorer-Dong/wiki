@@ -65,12 +65,12 @@ git remote add <remote_name> <remote_url>
     
     1. HTTPs 协议，每次和远程交互时都需要输入账户名和密码，除非在本地做了用户名和密码的持久化；
     2. Git 协议，需要配置 ssh 密钥对。配置好后需要将公钥上传 GitHub 或你正在用的代码托管平台，然后在本地指定私钥。这种方法不用每次输入用户名和密码，比较方便。
-
+    
     指定私钥的方式有两种：
     
     1. 【永久】编写 ssh config 文件，详见 ssh config；
     2. 【临时】设置环境变量 `GIT_SSH_COMMAND="ssh -i </path/to/your_private_key>"`。
-
+    
     之后就可以正常使用 Git 命令了。
 
 理论上使用 https 连接每次都要手动输入用户名和密码，但在 Windows 有一个凭据管理器，会自动缓存用户名和密码，从而避免了使用 https 连接时每次都要输入用户名和密码，该功能可禁用：https://stackoverflow.com/questions/37182847/how-do-i-disable-git-credential-manager-for-windows/37185202#37185202
@@ -109,20 +109,30 @@ git config --global core.quotepath false
 从服务器克隆仓库到本地：
 
 ```bash
-# 拉取默认的 main 分支
+# 克隆默认分支
 git clone <remote_url> [<project_name>]
 
 # 克隆指定分支
 git clone -b <branch_name> <remote_url> [<project_name>]
 
-# 拉取其余的分支
-git checkout -t <remote_name>/<branch_name>
+# 查看仓库的所有分支
+git branch -r
+
+# 查看本地已追踪远程的分支
+git branch -v
 ```
 
-!!! tip
-    使用 SSH 协议克隆项目需要本地额外进行 [ssh](../ssh.md) 配置。
+你可能注意到  显示的分支数远少于  显示的分支数，这是因为 Git 设计为只有在本地显式追踪远程分支，才能进行后续的提交。本地显式追踪远程分支的方法如下：
 
-假设基于克隆的代码进行了开发，那么在推送到服务器之前，需要和「远程可能更新的代码」进行合并，当然如果远程没有更新代码，这一步就没有必要，但这是一个好习惯，可以避免潜在的 [分支冲突](./collaboration.md#合并冲突) 问题。
+```bash
+# 显式追踪指定的远程分支（新写法）
+git switch <branch_name>
+
+# 显式追踪指定的远程分支（老写法）
+git checkout <branch_name>
+```
+
+假设你现在基于克隆的代码进行了开发，那么在推送到服务器之前，需要和「远程可能更新的代码」进行合并，当然如果远程没有更新代码，这一步就没有必要。但这是一个好习惯，可以避免潜在的 [分支冲突](./collaboration.md#合并冲突)。合并方法如下：
 
 === "远程更新，本地未更新"
 

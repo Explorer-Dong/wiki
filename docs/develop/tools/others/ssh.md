@@ -5,7 +5,7 @@ title: ssh
 !!! tip
     但凡涉及到加密连接，几乎都有 ssh 的身影，这里就单独写一篇文章来记录她。
 
-在计算机网络应用层中，我们介绍了安全外壳协议 [SSH](../../base/cs/computer-network/application-layer.md#ssh-协议)。基于该协议，工程师开发了加密传输程序——[ssh](https://www.openssh.org/manual.html)，作为客户端和服务器之间的加密连接工具。
+在计算机网络应用层中，我们介绍了安全外壳协议 [SSH](../../../base/cs/computer-network/application-layer.md#ssh-协议)。基于该协议，工程师开发了加密传输程序——[ssh](https://www.openssh.org/manual.html)，作为客户端和服务器之间的加密连接工具。
 
 ## 连接方式
 
@@ -61,6 +61,21 @@ ssh -i /path/to/private_key <user_name>@xxx.xxx.xxx.xxx  # 服务器 ip 地址
 
 ## FAQ
 
+### ssh config
+
+如果自定义了密钥文件名，那么使用某些基于 ssh 的程序可能会报「找不到私钥」的错，此时就需要配置服务和私钥的对应关系。
+
+例如，[Git](../git/commands.md) 在使用 git 协议和远程仓库进行交互时，就需要通过 ssh 进行加密，如果我们自定义了密钥文件名，Git 就会找不到对应的私钥从而交互失败。
+
+我们可以在 `~/.ssh/config` 中进行配置：
+
+```bash
+Host e.coding.net  # 服务对应的域名或 IP
+    HostName e.coding.net  # 服务对应的域名或 IP
+    User git  # 服务用户名，一般都是 git
+    IdentityFile ~/.ssh/key_work  # 本地私钥路径
+```
+
 ### 私钥 too open 问题
 
 如果你的私钥不是通过 ssh-gen 生成的，请确保私钥文件的权限为 400 或 600，否则 ssh 将忽略该私钥，因为权限过高，ssh 会认为这不安全，警告如下：
@@ -73,23 +88,8 @@ load key "<your_private_key>": bad permisions
 Permission denied (publickey)
 ```
 
-只需要使用 [chmod](../operation/linux.md#改变权限-chmod) 命令将私钥权限修改为 400 或 600 即可：
+只需要使用 [chmod](../../operation/linux.md#改变权限-chmod) 命令将私钥权限修改为 400 或 600 即可：
 
 ```bash
 chmod </path/to/your_private_key> 600
-```
-
-### ssh config
-
-如果自定义了密钥文件名，那么使用某些基于 ssh 的程序可能会报「找不到私钥」的错，此时就需要配置服务和私钥的对应关系。
-
-例如，[Git](../tools/git/commands.md) 在使用 git 协议和远程仓库进行交互时，就需要通过 ssh 进行加密，如果我们自定义了密钥文件名，Git 就会找不到对应的私钥从而交互失败。
-
-我们可以在 `~/.ssh/config` 中进行配置：
-
-```bash
-Host e.coding.net  # 服务对应的域名或 IP
-    HostName e.coding.net  # 服务对应的域名或 IP
-    User git  # 服务用户名，一般都是 git
-    IdentityFile ~/.ssh/key_work  # 本地私钥路径
 ```
