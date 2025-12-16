@@ -1,8 +1,8 @@
 # ==================== 站点配置 ====================
-site_name: 开放知识社群
+site_name: CS/AI 技术博客
 site_url: https://wiki.dwj601.cn/
 repo_url: https://github.com/Explorer-Dong/wiki
-repo_name: Open Wiki Community
+repo_name: Explorer-Dong/wiki
 edit_uri: edit/main/docs/
 copyright: '&copy; 2025 Explorer Dong · <a href="https://beian.miit.gov.cn/">苏ICP备2024087610号-1</a>'
 

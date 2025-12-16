@@ -1,7 +1,7 @@
 [project]
-name = "Open-Wiki-Community"
-version = "0.0.1"
-description = "A systematic learning note knowledge base centered on computers and artificial intelligence."
+name = "CS-and-AI-Technical-Blog"
+version = "0.0.2"
+description = "A systematic technical blog centered on computers and artificial intelligence."
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
