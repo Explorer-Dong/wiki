@@ -7,7 +7,8 @@
   <a title="Python Version" href="https://python.org" target="_blank"><img src="https://img.shields.io/badge/Python-3.11+-aff" alt="Python Version"></a>
   <a title="Mkdocs Material Version" href="https://squidfunk.github.io/mkdocs-material/" target="_blank"><img src="https://img.shields.io/badge/Mkdocs_Material-9.x-purple" alt="Mkdocs Material"></a>
   <a title="Ask DeepWiki" href="https://deepwiki.com/Explorer-Dong/wiki" target="_blank"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
-  <a title="License" href="https://github.com/Explorer-Dong/wiki/blob/main/LICENSE" target="_blank"><img src="https://img.shields.io/github/license/Explorer-Dong/wiki.svg?style=flat" alt="License"></a>
+  <a title="GitHub Actions Workflow Status" href="https://github.com/Explorer-Dong/wiki" target="_blank"><img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/Explorer-Dong/wiki/deploy_to_oss.yml?label=Deploy"></a>
+  <a title="License" href="https://github.com/Explorer-Dong/wiki/blob/main/LICENSE" target="_blank"><img src="https://img.shields.io/github/license/Explorer-Dong/wiki.svg?style=flat&label=License" alt="License"></a>
 </p>
 
 <p align="center">
