@@ -3,55 +3,7 @@ title: PyTorch
 status: new
 ---
 
-本文记录 [PyTorch](https://pytorch.org/docs/stable/index.html) 的基本用法。
-
-## 环境配置与系统信息
-
-### 查看系统信息
-
-```bash
-python -m torch.utils.collect_env
-```
-
-### 指定可见 GPU
-
-让系统只关注特定的显卡：
-
-```bash
-CUDA_VISIBLE_DEVICES=0,1 python main.py
-```
-
-假设一机八卡，此时 torch 只会找到其中编号为 0 和 1 的卡。
-
-### 分布式训练环境变量
-
-分布式推理中`int(os.getenv("WORLD_SIZE"))` 等于 `torchrun` 中所有参与进程的总数，比如两台机器，每台机器 8 张卡，那么运行
-
-```bash
-torchrun \
-  --nnodes=2 \
-  --nproc_per_node=8 \
-  --node_rank=0 \
-  --master_addr=10.0.0.1 \
-  --master_port=23456 \
-  train.py
-```
-
-后`os.getenv("WORLD_SIZE")` 就是 16。
-
-使用 torchrun 后，需要给每一个进程分配线程数，否则可能会警告并默认给每一个进程分配 1 个线程：
-
-```text
-W1114 17:59:52.294000 3097815 torch/distributed/run.py:774] *****************************************
-W1114 17:59:52.294000 3097815 torch/distributed/run.py:774] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
-W1114 17:59:52.294000 3097815 torch/distributed/run.py:774] *****************************************
-```
-
-显式指定即可：
-
-```bash
-OMP_NUM_THREADS=8 torchrun xxx.py
-```
+本文记录 [PyTorch](https://github.com/pytorch/pytorch) 的基本用法。
 
 ## 张量基础
 
@@ -646,12 +598,85 @@ class CustomLoss(nn.Module):
 criterion = CustomLoss(weight=0.5)
 ```
 
-## 九、分布式训练进阶
+## 分布式
 
-### 9.1 DataParallel（单机多卡）
+在深度学习模型日益庞大的今天，单卡往往显得力不从心。PyTorch 提供了强大的分布式支持，旨在解决这一问题。
+
+### 基本概念
+
+分布式本质上是多个进程之间的协同工作，有以下几个常见的术语：
+
+- 节点 (Node)：物理主机。比如你有一台服务器，它就是一个 Node；如果有两台服务器互联，就是两个 Nodes；
+- 总进程数 (World Size)：全局的总进程数。通常情况下，World Size = Node 数量 $\times$ 每个 Node 的 GPU 数量；
+- 全局进程号 (Rank)：整个分布式任务中的进程唯一序号（0 到 World Size - 1）。Rank 0 通常被称为主进程（Master），负责协调工作。
+- 本地进程号 (Local Rank)：当前节点内的进程唯一序号。例如单机 8 卡，Local Rank 就是 0-7；
+- 进程组 (Process Group)：进程的子集。默认情况下，所有进程都在一个默认组中，但也可以创建子组进行特定的通信。
+
+分布式离不开进程间通信。PyTorch 底层主要依赖以下几种通信模式：
+
+- Broadcast：将数据从一个节点广播到所有其他节点；
+- Scatter 与 Gather：将数据切分分发给各节点，以及从各节点收集数据拼凑在一起；
+- All-Reduce：所有节点的数据进行规约（如求和、平均），并将结果返回给所有节点。在梯度更新中，我们依靠它来同步各卡的梯度。
+
+分布式策略：
+
+- 数据并行 (Data Parallelism, DP)。模型在每张卡上都有一份副本，数据被切分，每张卡处理不同的数据，最后同步梯度；
+- 张量并行。
+
+分布式启动方式：
+
+```bash
+torchrun --nproc_per_node=4 train.py
+```
+
+之后可以加载分布式的环境变量，例如：
 
 ```python
-# 简单的数据并行
+rank = int(os.getenv("RANK", 0))
+local_rank = int(os.getenv("LOCAL_RANK", 0))
+world_size = int(os.getenv("WORLD_SIZE", 1))
+```
+
+使用 `torchrun` 启动多进程后，如果未显式设置 `OMP_NUM_THREADS`，PyTorch 会为了避免 CPU 过载，自动将其设为 1，并打印如下警告：
+
+```text
+W1114 17:59:52.294000 3097815 torch/distributed/run.py:774] *****************************************
+W1114 17:59:52.294000 3097815 torch/distributed/run.py:774] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W1114 17:59:52.294000 3097815 torch/distributed/run.py:774] *****************************************
+```
+
+`OMP_NUM_THREADS` 是 [OpenMP 的标准环境变量](https://learn.microsoft.com/zh-cn/cpp/parallel/openmp/4-environment-variables?view=msvc-170#42-omp_num_threads)。由于 PyTorch 底层的很多 CPU 算子（比如矩阵乘法、卷积等）是基于 OpenMP 实现并行的，这个变量决定了：每个进程在执行这些算子时可以使用的线程数。
+
+可以在终端启动时设置（最推荐）
+
+```bash
+OMP_NUM_THREADS=1 torchrun --nproc_per_node=8 train.py
+```
+
+也可以在 Python 脚本顶部设置：
+
+```python
+import os
+os.environ["OMP_NUM_THREADS"] = "1"
+import torch
+# ... 其他代码
+```
+
+参数大小的设置视情况而定：
+
+| 场景           | 推荐值   | 理由                                                         |
+| -------------- | -------- | ------------------------------------------------------------ |
+| 常规分布式场景 | 1 或 2   | 绝大多数深度学习任务的瓶颈在 GPU，CPU 主要负责 Data Loading。设置较小的值可以减少线程竞争。 |
+| 数据增强复杂   | 4 或 8   | 如果你的 `DataLoader` 中 `num_workers` 较多，或者有复杂的 CPU 计算，可以适当增加。 |
+| CPU 训练       | 核心总数 | 只有在纯 CPU 训练且单进程时才设为最大。                      |
+
+### DP
+
+数据并行 (DataParallel, DP) 是 PyTorch 早期提供的「单机多卡」数据并行方案。它基于单进程多线程，主 GPU 负责分发数据、收集输出、计算 Loss 并分发梯度。由于 Python GIL 限制了多线程的效率，且主 GPU 负载过重导致显存负载不均衡，目前已不推荐用于生产环境。
+
+简单的数据并行：
+
+```python
 if torch.cuda.device_count() > 1:
     print(f"使用 {torch.cuda.device_count()} 个 GPU")
     model = nn.DataParallel(model)
@@ -659,58 +684,69 @@ if torch.cuda.device_count() > 1:
 model.to(device)
 ```
 
-### 9.2 DistributedDataParallel（推荐）
+### DDP
+
+分布式数据并行 (DistributedDataParallel, DDP) 是目前最通用的方案，不仅可以「单机多卡」，还可以「多机多卡」。它给每个 GPU 单独启动一个进程，规避了 GIL 限制，速度更快。同时采用环状通信 (Ring All-Reduce) 算法，让所有 GPU 协同同步梯度，没有中心瓶颈，显存占用更均衡。
+
+示例程序：
 
 ```python
 import torch.distributed as dist
 from torch.nn.parallel import DistributedDataParallel as DDP
 
-def setup(rank, world_size):
-    dist.init_process_group("nccl", rank=rank, world_size=world_size)
-    torch.cuda.set_device(rank)
+from models import YourModel
 
-def cleanup():
-    dist.destroy_process_group()
+def train_ddp(local_rank, rank, world_size):
+    # ==============================
+    # 初始化分布式环境
+    # ==============================
 
-def train_ddp(rank, world_size):
-    setup(rank, world_size)
+    # 将当前进程绑定到对应的 GPU
+    torch.cuda.set_device(local_rank)
+    # 初始化进程组，确定数据通信方式
+    dist.init_process_group(
+        backend="nccl",  # GPU 间的通信后端
+        init_method="env://",  # 从环境变量中读取地址端口信息，如 MASTER_ADDR, MASTER_PORT
+        rank=rank,  # 全局进程编号
+        world_size=world_size  # 总进程数
+    )
     
-    model = CNN().to(rank)
-    model = DDP(model, device_ids=[rank])
-    
-    # 使用 DistributedSampler
+    # ==============================
+    # 训练一条龙：数据 & 模型 & 损失
+    # ==============================
+
+    # dataloader
     from torch.utils.data.distributed import DistributedSampler
     sampler = DistributedSampler(train_dataset, num_replicas=world_size, rank=rank)
     train_loader = DataLoader(train_dataset, batch_size=32, sampler=sampler)
     
-    # 训练循环
+    # model
+    model = YourModel().to(rank)
+    model = DDP(model, device_ids=[rank])
+    
+    # loss
     for epoch in range(num_epochs):
         sampler.set_epoch(epoch)  # 打乱数据
         for data, target in train_loader:
-            # 训练代码
             pass
     
-    cleanup()
+    # ==============================
+    # 销毁分布式环境
+    # ==============================
 
-# 使用 torchrun 启动
-# torchrun --nproc_per_node=4 train.py
+    # 等待当前设备上的所有 CUDA 任务都执行完（针对当前进程对 CUDA 的异步调用）
+    torch.cuda.synchronize()
+    # 确保所有进程都到达当前位置（针对所有进程的分布式策略）
+    dist.barrier()
+    # 销毁进程组（针对所有进程的分布式策略）
+    dist.destroy_process_group()
 ```
 
-### 9.3 梯度累积
+### FSDP
 
-```python
-accumulation_steps = 4
+当模型参数大到单张显卡（甚至单机）都放不下时，DDP 就无能为力了，因为 DDP 要求每张卡都必须存储一份完整的模型参数。这时我们需要 FSDP (Fully Sharded Data Parallel)。
 
-for i, (data, target) in enumerate(train_loader):
-    outputs = model(data)
-    loss = criterion(outputs, target)
-    loss = loss / accumulation_steps  # 归一化损失
-    loss.backward()
-    
-    if (i + 1) % accumulation_steps == 0:
-        optimizer.step()
-        optimizer.zero_grad()
-```
+FSDP 的核心思想是「切分一切」,除了数据，优化器状态、梯度，甚至模型都能切。它源自微软的 ZeRO (Zero Redundancy Optimizer) 理念。当然代价就是数据通信时延增加了，这是没办法的事情（时间换空间）。
 
 ## 十、调试与性能优化
 
@@ -820,6 +856,22 @@ for name, param in model.named_parameters():
     print(f"{name}: {param.numel():,} 参数")
 ```
 
+### 查看系统信息
+
+```bash
+python -m torch.utils.collect_env
+```
+
+### 指定可见 GPU
+
+让系统只关注特定的显卡：
+
+```bash
+CUDA_VISIBLE_DEVICES=0,1 python main.py
+```
+
+假设一机八卡，此时 torch 只会找到其中编号为 0 和 1 的卡。
+
 ## 十二、常见问题与解决方案
 
 ### 12.1 内存不足（OOM）
@@ -896,10 +948,3 @@ class EarlyStopping:
             self.counter = 0
         return False
 ```
-
-## 参考资源
-
-- [PyTorch 官方文档](https://pytorch.org/docs/stable/index.html)
-- [PyTorch 教程](https://docs.pytorch.org/tutorials/)
-- [PyTorch 论坛](https://discuss.pytorch.org/)
-- [PyTorch GitHub](https://github.com/pytorch/pytorch)
