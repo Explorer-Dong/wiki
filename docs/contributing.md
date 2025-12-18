@@ -47,7 +47,7 @@ cd wiki
 
 2）配置 Python 环境：
 
-=== "基于 `uv`"
+=== "`uv`"
 
     安装项目依赖：
 
@@ -57,19 +57,15 @@ cd wiki
 
     激活虚拟环境：
 
-    === "Windows"
+    ```bash
+    # Windows
+    source .venv/Script/activate
 
-        ```bash
-        source .venv/Script/activate
-        ```
+    # Linux
+    source .venv/bin/activate
+    ```
 
-    === "Linux"
-
-        ```bash
-        source .venv/bin/activate
-        ```
-
-=== "基于 `pip`"
+=== "`pip`"
 
     创建 Python 虚拟环境：
 
@@ -79,17 +75,13 @@ cd wiki
 
     激活虚拟环境：
 
-    === "Windows"
-
-        ```bash
-        source .venv/Script/activate
-        ```
-
-    === "Linux"
-
-        ```bash
-        source .venv/bin/activate
-        ```
+    ```bash
+    # Windows
+    source .venv/Script/activate
+    
+    # Linux
+    source .venv/bin/activate
+    ```
 
     安装项目依赖：
 
@@ -97,15 +89,21 @@ cd wiki
     pip install -r requirements.txt
     ```
 
-3）启动本地服务：
+3）编辑内容：
+
+现在你就可以进行修改或新增文件，具体规范见 [行文规范](#行文规范)。之后请启动本地预览服务，来查看自己的内容是否可以被正常渲染：
 
 ```bash
+# 目前最稳定的工具
 mkdocs serve -f local.yml
+
+# 更快的预览工具，但是部分功能不支持，仅适用本地预览
+zensical serve -f mkdocs.yml
 ```
 
-之后你就可以进行修改或新增文件，具体规范见 [行文规范](#行文规范)。
+4）推送仓库：
 
-4）推送到你的仓库后点击右上角的 Contribute 按钮发起 Pull Request：
+最后请将你的代码推送到仓库，然后点击右上角的 Contribute 按钮发起 Pull Request：
 
 ![推送到你的仓库后点击右上角的 Contribute 按钮发起 Pull Request](https://cdn.dwj601.cn/images/20251020220221619.png)
 

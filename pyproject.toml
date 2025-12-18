@@ -1,7 +1,7 @@
 [project]
 name = "CS-and-AI-Technical-Blog"
 version = "0.0.2"
-description = "A systematic technical blog centered on computers and artificial intelligence."
+description = "A systematic technical blog (wiki) centered on computers and artificial intelligence."
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
@@ -12,4 +12,5 @@ dependencies = [
     "mkdocs-glightbox>=0.5.2",
     "mkdocs-material>=9.7.0",
     "mkdocs-toggle-sidebar-plugin>=0.0.9",
+    "zensical>=0.0.11",
 ]
