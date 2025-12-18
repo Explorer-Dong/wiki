@@ -204,8 +204,8 @@ jobs:
         aliyun configure set \
           --mode AK \
           --region ${{ vars.REGION }} \
-          --access-key-id ${{ secrets.ALIYUN_ACCESS_KEY_ID  }} \
-          --access-key-secret ${{ secrets.ALIYUN_ACCESS_KEY_SECRET  }}
+          --access-key-id ${{ secrets.ALIYUN_ACCESS_KEY_ID }} \
+          --access-key-secret ${{ secrets.ALIYUN_ACCESS_KEY_SECRET }}
 
       # 执行阿里云 CLI 的一些命令
     - name: Operate Aliyun OSS

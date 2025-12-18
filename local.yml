@@ -1,11 +1,14 @@
-# MkDocs 提供 yaml 文件的继承功能
-# 启动命令：
-#   mkdocs serve -q -f ./local.yml
 # 本文件的意义是：
 #   1. 本地热启动时不加载耗时过多的插件
 #   2. 自定义一些试验中的额外样式和脚本
+# 启动命令：
+#   1. 最简启动：mkdocs serve -f local.yml
+#   2. 完整启动：mkdocs serve -f mkdocs.yml
+#   3. 最快启动：zensical serve -f mkdocs.yml
 
-INHERIT: ./mkdocs.yml
+
+# 继承功能，MkDocs 独有
+INHERIT: mkdocs.yml
 
 plugins:
   - meta
