@@ -1,11 +1,4 @@
-# git commiter 的缓存
 .cache
-
-# Python 虚拟环境
 .venv
-
-# 编译出来的前端文件
 site
-
-# 草稿文章
-_*.md
+uv.lock
