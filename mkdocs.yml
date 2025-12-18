@@ -326,7 +326,6 @@ nav:
     - 数据库:
       - develop/database/index.md
       - develop/database/mysql.md
-      - develop/database/opengauss.md
       - develop/database/redis.md
     - 运维:
       - develop/operation/index.md
