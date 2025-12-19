@@ -3,6 +3,9 @@ title: Transformer
 status: new
 ---
 
+!!! tip
+    推荐一个很直观的 Transformer 可视化交互网站：[Transformer Explainer](https://poloclub.github.io/transformer-explainer/)。
+
 Transformer 是现代 NLP 和大规模生成式模型的基础结构，其突破点在于：完全基于注意力机制建模序列，无需递归结构，从而获得全局依赖建模能力与完全并行的计算特性。本文从产生背景、模型结构和对比总结三个角度，层层展开 Transformer 的设计逻辑及核心价值。
 
 ## 产生背景

@@ -3,7 +3,16 @@ title: 深度学习导读
 status: new
 ---
 
-本文记录深度学习入门笔记。主要参考邱锡鹏老师的 [神经网络与深度学习](https://nndl.github.io/)，部分参考 [Karpathy 的教学视频](https://space.bilibili.com/3129054/lists/874339)、李沐老师的 [Dive into DeepLearning](https://zh.d2l.ai/index.html)。代码实现框架为 [PyTorch](https://pytorch.org/docs/stable/index.html)。
+本文记录深度学习入门笔记。
+
+一些资源：
+
+- 邱锡鹏老师的 *神经网络与深度学习*：[官网](https://nndl.github.io/) [教材 PDF](https://nndl.github.io/nndl-book.pdf)
+- OpenAI 初创成员 Andrej Karpathy 的教学视频 *Neural Networks: Zero to Hero*，以语言模型为主：[中文翻译视频](https://space.bilibili.com/3129054/lists/874339) [源视频](https://www.youtube.com/playlist?list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ) [代码](https://github.com/karpathy/nn-zero-to-hero)；
+- 深度学习 Python 框架 *PyTorch*：[开源仓库](https://github.com/pytorch/pytorch) [英文文档](https://pytorch.org/docs/stable/index.html) [中文文档（非官方）](https://pytorch.ac.cn/docs/stable/index.html)。
+- 神经网络可视化工具 *Netron*：[开源地址](https://github.com/lutzroeder/netron)
+
+上述资源的使用顺序推荐：先快速浏览 *神经网络与深度学习*，理解基本的神经网络原理，期间务必拿 *PyTorch* 进行实现，并辅以 *Netron* 进行可视化理解。最后可以观看 *Neural Networks: Zero to Hero* 来初步入门语言模型。
 
 **深度学习是什么**？相较于机器学习中「手动提取特征」从而进行之后的下游任务，深度学习则直接规避了手动提取特征的人工干预，直接让模型自动提取数据特征并进行之后的下游任务，从而实现所谓「端到端」的任务范式。这里的自动提取特征也被叫做「表示学习」，具体流程如下图所示：
 

@@ -2,6 +2,6 @@
 title: 软件开发专栏简介
 ---
 
-本专栏介绍「软件开发」相关知识。欢迎评论与补充🤗。
+本专栏介绍「软件开发」相关知识。欢迎评论与补充 🤗。可以简单阅读 [developer-roadmap](https://github.com/kamranahmedse/developer-roadmap) 来预览一些开发路线图。就用一个很好玩的梗图作为本专栏的封面图吧 😉：
 
 ![WTF](https://cdn.dwj601.cn/images/20251206211619682.png)
