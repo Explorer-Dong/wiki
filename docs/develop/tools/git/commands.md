@@ -21,7 +21,7 @@ title: Git 常用命令
 
 2. 确定项目配置级别。一共有三个级别：
 
-    - 不添加级别参数表示项目级，配置文件存储在 `./.git/config` 中；
+    - 添加 `--local` 参数表示项目级配置（默认级别），配置文件存储在 `.git/config` 中；
     - 添加 `--global` 参数表示用户级配置，配置文件存储在 `~/.gitconfig` 中；
     - 添加 `--system` 参数表示系统级配置，Linux 配置文件存储在 `/etc/gitconfig` 中，Windows 配置文件存储在 `<X:\path\to>\Git\etc\gitconfig` 中。
 
@@ -173,6 +173,9 @@ git push
 
 # 强制覆盖推送（--force 可简写为 -f）
 git push --force <remote_name> <branch_name>
+
+# 一次性推送所有分支
+git push --all <remote_name>
 ```
 
 ## 回溯
