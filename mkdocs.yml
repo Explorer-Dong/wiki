@@ -82,7 +82,7 @@ markdown_extensions:
       toc_depth: 3                # 显示目录深度
       title: 本页目录                 # 目录标题
       permalink_title: 页面定位   # 链接标题
-      slugify: !!python/name:pymdownx.slugs.uslugify  # 禁止重写标题，借鉴 oi-wiki 的配置
+      slugify: !!python/object/apply:pymdownx.slugs.slugify {kwds: {case: lower}}
   # 数学公式
   - pymdownx.arithmatex:
       generic: true
