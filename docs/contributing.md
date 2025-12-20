@@ -41,7 +41,7 @@ title: 参与贡献
 1）克隆仓库到本地：
 
 ```bash
-https://github.com/Explorer-Dong/wiki.git
+git clone https://github.com/Explorer-Dong/wiki.git
 cd wiki
 ```
 
