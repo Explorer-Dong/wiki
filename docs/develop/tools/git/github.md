@@ -15,13 +15,11 @@ title: GitHub 常见用法
 
 ### 方案一：personal access token
 
-**创建 personal access token**。方式很简单，进入 [GitHub Settings](https://github.com/settings/apps) 界面后选择 Fine-grained tokens 或 Tokens (classic) 中的一种即可。两者的主要区别是，Fine-grained tokens 可以针对仓库做更细粒度的权限控制。
+**创建 personal access token**。方式很简单：
 
-配置好 token 权限后，保存生成的 token 即可。之后请使用 HTTPs 协议 [配置](./commands.md#配置服务器) 远程仓库，例如：
-
-```bash
-git clone https://github.com/Explorer-Dong/wiki.git
-```
+1. 进入 [GitHub Settings](https://github.com/settings/apps) 界面后选择 Fine-grained tokens 或 Tokens (classic) 中的一种（Fine-grained tokens 可以针对仓库做更细粒度的权限控制）；
+2. 配置好 token 的权限与名称；
+3. 保存生成的 token（只会出现一次）。
 
 **配置 personal access token 的存储行为**。可以通过配置 `credential.helper` 参数来控制存储行为。例如：
 
@@ -45,17 +43,24 @@ git config credential.helper <mode>
 
 使用 ssh 进行鉴权就很简单了。[创建密钥对](../others/ssh.md#客户端生成密钥对) 后把公钥上传到 [GitHub](https://github.com/settings/keys)，然后本地 [配置 ssh config](../others/ssh.md#ssh-config) 让对应的私钥指向 `github.com` 即可。
 
-之后请使用 git 协议 [配置](./commands.md#配置服务器) 远程仓库，例如：
+### 与代码托管平台的连接方式
+
+使用 HTTPs 协议克隆远程仓库，例如：
+
+```bash
+git clone https://github.com/Explorer-Dong/wiki.git
+```
+
+使用 SSH 协议连接远程仓库，例如：
 
 ```bash
 git clone git@github.com:Explorer-Dong/wiki.git
 ```
 
-### 技术选型
+具体用哪一种取决于你的开发场景，主要就以下两种：
 
-如果在本地开发，怎么方便怎么来，反正 token 不会泄露（应该？）。
-
-如果在远程开发，特别是服务器不属于你的情况下，我不建议用 ssh（因为你得把私钥传到服务器才能用，这你敢？反正我不敢），我更推荐用 personal access token，并且不要持久化 token，每次交互就老老实实输入用户名和 token。
+- 本地开发。怎么方便怎么来，反正 token 不会泄露（应该？）；
+- 远程开发，特别是服务器不属于你的情况下，不建议用 ssh（因为你得把私钥传到服务器才能用，这你敢？反正我不敢），我更推荐用 personal access token，并且不要持久化 token，每次交互就老老实实输入用户名和 token。
 
 ## 给其他人的仓库贡献代码
 
