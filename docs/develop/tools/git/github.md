@@ -193,11 +193,11 @@ jobs:
     - name: Build website
       run: mkdocs build -f mkdocs.yml
     
-      # 安装阿里云 CLI（用的现成的 action）
+      # 安装 Aliyun CLI（用的现成的 action）
     - name: Setup Aliyun CLI
       uses: aliyun/setup-aliyun-cli-action@v1
     
-      # 配置阿里云 CLI
+      # 配置 Aliyun CLI
       # 注意：由于该数据为敏感数据，所以需要在 GitHub 提前配置，在这里以变量的形式读取
     - name: Config Aliyun CLI
       run: |
@@ -207,12 +207,21 @@ jobs:
           --access-key-id ${{ secrets.ALIYUN_ACCESS_KEY_ID }} \
           --access-key-secret ${{ secrets.ALIYUN_ACCESS_KEY_SECRET }}
 
-      # 执行阿里云 CLI 的一些命令
-    - name: Operate Aliyun OSS
+      # 基于 Aliyun CLI 将网页部署到 OSS
+    - name: Deploy to Aliyun OSS
       run: |
-        aliyun ossutil rm -r oss://wiki-web-shanghai/ -f
-        aliyun ossutil cp oss://public-assets-shanghai/files/BingSiteAuth.xml oss://wiki-web-shanghai/
-        aliyun ossutil cp -r ./site/ oss://wiki-web-shanghai/
+        aliyun ossutil rm -r ${{ vars.WEB_OSS_PATH }} -f
+        aliyun ossutil cp oss://public-assets-shanghai/files/BingSiteAuth.xml ${{ vars.WEB_OSS_PATH }}
+        aliyun ossutil cp -r ./site/ ${{ vars.WEB_OSS_PATH }}
+    
+      # 基于 Aliyun CLI 刷新 CDN 缓存
+    - name: Refresh Aliyun CDN
+      run: |
+        aliyun cdn RefreshObjectCaches \
+          --region ${{ vars.REGION }} \
+          --ObjectPath ${{ vars.WEB_DIRECTORY }} \
+          --ObjectType Directory \
+          --Force false
 ```
 
 整个执行流程是：
@@ -234,14 +243,15 @@ jobs:
         5. 构建 Web 静态页面；
         6. 安装 [Aliyun CLI](https://github.com/aliyun/aliyun-cli)；
         7. 配置 Aliyun CLI；
-        8. 执行 Aliyun CLI 的一些命令（部署）。
+        8. 基于 Aliyun CLI 将网页部署到 OSS；
+        9. 基于 Aliyun CLI 刷新 CDN 缓存。
 
         如果任一步失败，job 立即终止，整个工作流标记为失败。
 
-注意到在配置 Aliyun CLI 时有一个 `${{ <type>.<key> }}` 语法。这是 GitHub Runner 引用用户额外配置的 GitHub Actions 变量的语法。GitHub Actions 仓库级变量一共有两类：
+注意到在配置 Aliyun CLI 时有一个 `${{ <type>.<key> }}` 语法。这是 GitHub Runner 引用用户额外配置的 GitHub Actions 变量的语法，分用户级和仓库级，这里用的是仓库级。GitHub Actions 仓库级变量一共有两类：
 
-- 仓库私有变量。作为密文保存，可通过 `${{ secrets.<private_var_name> }}` 的方式引用（同仓库的 Collaborator 可以看到，注意安全哟）；
-- 仓库公开变量。作为明文保存，可通过 `${{ vars.<public_var_name> }}` 的方式引用。
+- [仓库私有变量](https://docs.github.com/zh/actions/how-tos/write-workflows/choose-what-workflows-do/use-secrets)。作为密文保存，可通过 `${{ secrets.<private_var_name> }}` 的方式引用（同仓库的 Collaborator 可以看到，注意安全哟）；
+- [仓库公开变量](https://docs.github.com/zh/actions/how-tos/write-workflows/choose-what-workflows-do/use-variables)。作为明文保存，可通过 `${{ vars.<public_var_name> }}` 的方式引用。
 
 在仓库的 Settings 中的 Secrets and variables 中的 actions 中配置变量：
 

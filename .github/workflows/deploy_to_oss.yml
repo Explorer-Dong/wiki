@@ -1,4 +1,4 @@
-# 本工作流的详细中文解析见：<https://wiki.dwj601.cn/develop/operation/ci-cd/#快速上手>
+# 本工作流的详细中文解析见：https://wiki.dwj601.cn/develop/tools/git/github/#github-actions
 
 name: Deploy Website to Aliyun OSS
 
@@ -45,8 +45,16 @@ jobs:
           --access-key-id ${{ secrets.ALIYUN_ACCESS_KEY_ID  }} \
           --access-key-secret ${{ secrets.ALIYUN_ACCESS_KEY_SECRET  }}
 
-    - name: Operate Aliyun OSS
+    - name: Deploy to Aliyun OSS
       run: |
-        aliyun ossutil rm -r oss://wiki-web-shanghai/ -f
-        aliyun ossutil cp oss://public-assets-shanghai/files/BingSiteAuth.xml oss://wiki-web-shanghai/
-        aliyun ossutil cp -r ./site/ oss://wiki-web-shanghai/
+        aliyun ossutil rm -r ${{ vars.WEB_OSS_PATH }} -f
+        aliyun ossutil cp oss://public-assets-shanghai/files/BingSiteAuth.xml ${{ vars.WEB_OSS_PATH }}
+        aliyun ossutil cp -r ./site/ ${{ vars.WEB_OSS_PATH }}
+    
+    - name: Refresh Aliyun CDN
+      run: |
+        aliyun cdn RefreshObjectCaches \
+          --region ${{ vars.REGION }} \
+          --ObjectPath ${{ vars.WEB_DIRECTORY }} \
+          --ObjectType Directory \
+          --Force false

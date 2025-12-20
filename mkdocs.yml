@@ -9,6 +9,7 @@ copyright: '&copy; 2025 Explorer Dong · <a href="https://beian.miit.gov.cn/">�
 
 # ==================== 主题配置 ====================
 theme:
+  # variant: classic
   name: material
   language: zh
   custom_dir: overrides
