@@ -7,6 +7,11 @@ edit_uri: edit/main/docs/
 copyright: '&copy; 2025 Explorer Dong · <a href="https://beian.miit.gov.cn/">苏ICP备2024087610号-1</a>'
 
 
+# ==================== 预览配置 ====================
+watch:
+  - overrides/
+
+
 # ==================== 主题配置 ====================
 theme:
   # variant: classic

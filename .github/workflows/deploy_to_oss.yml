@@ -1,4 +1,4 @@
-# 本工作流的详细中文解析见：https://wiki.dwj601.cn/develop/tools/git/github/#github-actions
+# 本工作流的详细中文解析见：https://wiki.dwj601.cn/develop/tools/git/github/#快速上手
 
 name: Deploy Website to Aliyun OSS
 
@@ -9,7 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     
     env:
-      PYTHONWARNINGS: "ignore::DeprecationWarning"  # prevent "mkdocs uslugify" warning
       MKDOCS_GIT_COMMITTERS_APIKEY: ${{ secrets.MKDOCS_GIT_COMMITTERS_APIKEY }}  # prevent "git-committers 403 rate limit exceeded" error
 
     steps:

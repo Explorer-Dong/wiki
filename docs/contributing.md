@@ -94,11 +94,11 @@ cd wiki
 现在你就可以进行修改或新增文件，具体规范见 [行文规范](#行文规范)。之后请启动本地预览服务，来查看自己的内容是否可以被正常渲染：
 
 ```bash
-# 目前最稳定的工具
-mkdocs serve -f local.yml
+# 最稳定的预览工具
+mkdocs serve
 
-# 更快的预览工具，但是部分功能不支持，仅适用本地预览
-zensical serve -f mkdocs.yml
+# 更快速的预览工具（部分功能不支持）
+zensical serve
 ```
 
 4）推送仓库：
