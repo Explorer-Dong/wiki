@@ -139,7 +139,7 @@ action 是可复用的步骤封装，可以理解为“流水线里的函数”�
 ### 快速上手
 
 !!! note "CI/CD 需求"
-    利用 GitHub Actions 将静态网站部署到 Aliyun OSS 上（这也是本网站 [目前的部署方法](https://github.com/Explorer-Dong/wiki/tree/main/.github/workflows) 哟 😉）。
+    利用 GitHub Actions 将静态网站部署到 Aliyun OSS 上（这也是本网站目前的 [部署方法](https://github.com/Explorer-Dong/wiki/blob/main/.github/workflows/deploy_to_oss.yml) 哟 😉）。
 
 !!! tip
     如果你用的是 VSCode 编写工作流，可以安装 GitHub 自己开发的 [Actions 插件](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-github-actions) 获得更好的编辑体验。
@@ -161,7 +161,6 @@ jobs:
     runs-on: ubuntu-latest
     # 环境变量
     env:
-      PYTHONWARNINGS: "ignore::DeprecationWarning"  # prevent "mkdocs unslugify" warning
       MKDOCS_GIT_COMMITTERS_APIKEY: ${{ secrets.MKDOCS_GIT_COMMITTERS_APIKEY }}  # prevent git-committers 403 rate limit exceeded
 
     # 具体的工作步骤
