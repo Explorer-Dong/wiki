@@ -3,9 +3,67 @@ title: Windows
 icon: material/microsoft-windows
 ---
 
-对一些 Windows 11 上常见问题和需求进行自定义配置。
+本文介绍 Windows 11 的常见用法。
 
-## 使用微软输入法快捷输入「」符号
+## 基本概念
+
+### 大小写敏感问题
+
+Windows 上是不区分大小写的（即大小写不敏感）。比如 `main.py` 和 `Main.py` 不能存在于同一个文件夹下：
+
+![Windows 大小写不敏感](https://cdn.dwj601.cn/images/20251221152025.png)
+
+而 [Linux](./linux.md) 上是区分大小写的（即大小写敏感）。那么比如 `main.py` 和 `Main.py` 就存在于同一个文件夹下，表示两个不同的文件：
+
+![Linux 大小写敏感](https://cdn.dwj601.cn/images/20251221153013.png)
+
+## 文件管理
+
+### 打印目录内容 Get-ChildItem
+
+```powershell
+Get-ChildItem
+
+# 简写
+ls
+
+# 简写
+dir
+```
+
+### 新建文件 New-Item
+
+```powershell
+New-Item <file>
+```
+
+添加 `-ItemType Directory` 参数表示新建文件夹：
+
+```powershell
+New-Item <folder> -ItemType Directory
+```
+
+### 删除文件 Remove-Item
+
+```powershell
+Remove-Item <file>
+
+# 简写
+rm <file>
+```
+
+添加 `-Recurse` 参数表示删除文件夹：
+
+```powershell
+Remove-Item <folder> -Recurse
+
+# 简写
+rm -r <folder>
+```
+
+## 常见配置
+
+### 微软输入法快捷输入「」符号
 
 Windows 自带的微软输入法挺好用的，至少不会出现兼容性问题。为了避免不同版本的配置路径可能不同的问题，读者可以直接在设置中搜索「拼音」并选择「简体中文拼音输入法设置」：
 
@@ -17,7 +75,7 @@ Windows 自带的微软输入法挺好用的，至少不会出现兼容性问题
 
 *注：上述路径可能会随着 Windows 的版本而有所变化，读者可自行寻找类似的字段进行修改。
 
-## 删除文件打开选项中失效的选项
+### 删除文件打开选项中的失效项
 
 你一定遇到过文件的打开选项中包含了你已经卸载的软件，如下图所示：
 
@@ -45,7 +103,7 @@ wmic useraccount get name,sid
 
 完美，强迫症狂喜。
 
-## 禁止 Windows 更新
+### 禁止 Windows 更新
 
 想要禁用 Windows 的更新，可以按照如下操作进行：
 
@@ -57,13 +115,3 @@ wmic useraccount get name,sid
 ![暂停更新显示到 500 周](https://cdn.dwj601.cn/images/20250928102032578.png)
 
 ![最终效果](https://cdn.dwj601.cn/images/20250928102407969.png)
-
-## 大小写敏感问题
-
-Windows 上是不区分大小写的（即大小写不敏感）。比如 `main.py` 和 `Main.py` 不能存在于同一个文件夹下：
-
-![Windows 大小写不敏感](https://cdn.dwj601.cn/images/20251221152025.png)
-
-而 [Linux](./linux.md) 上是区分大小写的（即大小写敏感）。那么比如 `main.py` 和 `Main.py` 就存在于同一个文件夹下，表示两个不同的文件：
-
-![Linux 大小写敏感](https://cdn.dwj601.cn/images/20251221153013.png)

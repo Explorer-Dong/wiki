@@ -390,7 +390,12 @@ cd ../
 ls
 ```
 
-`-l` 参数即 long listing format，表示打印详细信息，`-h` 参数即 human-readable，会使得结果更加可读，例如占用存储空间加上单位等等。
+参数说明：
+
+- 打印详细信息：`-l`，即 long listing format；
+- 使结果更可读：`-h`，即 human-readable；
+- 打印全部信息：`-a`；
+- 打印 `inode` 信息：`-i`。
 
 ### 打印当前路径 pwd
 
