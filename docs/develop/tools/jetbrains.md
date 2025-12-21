@@ -1,5 +1,6 @@
 ---
 title: Jetbrains
+icon: simple/jetbrains
 ---
 
 本文记录 Jetbrains 系列软件的使用指南。

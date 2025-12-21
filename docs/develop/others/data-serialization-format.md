@@ -1,6 +1,6 @@
 ---
 title: 数据序列化格式
-icon: material/code-json
+icon: simple/toml
 ---
 
 本文介绍数据序列化 (data serialization) 的一些基本格式。所谓数据序列化，就是把内存中的数据结构（如对象、字典、数组）转化为可以存储或传输的文本或二进制形式。反过来，再把这种序列化格式的数据解析读取到内存的过程称为反序列化 (deserialization)。

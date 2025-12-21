@@ -41,7 +41,7 @@ git config credential.helper <mode>
 
 ### 方案二：ssh
 
-使用 ssh 进行鉴权就很简单了。[创建密钥对](../others/ssh.md#客户端生成密钥对) 后把公钥上传到 [GitHub](https://github.com/settings/keys)，然后本地 [配置 ssh config](../others/ssh.md#ssh-config) 让对应的私钥指向 `github.com` 即可。
+使用 ssh 进行鉴权就很简单了。[创建密钥对](../ssh.md#客户端生成密钥对) 后把公钥上传到 [GitHub](https://github.com/settings/keys)，然后本地 [配置 ssh config](../ssh.md#ssh-config) 让对应的私钥指向 `github.com` 即可。
 
 ### 与代码托管平台的连接方式
 

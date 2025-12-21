@@ -320,7 +320,7 @@ print(result)  # [4, 1, 2]
 
 ## json
 
-`json` 库用于处理 [JSON](../../data-serialization-format.md) 格式数据。
+`json` 库用于处理 [JSON](../../others/data-serialization-format.md) 格式数据。
 
 写入 JSON 文件：
 

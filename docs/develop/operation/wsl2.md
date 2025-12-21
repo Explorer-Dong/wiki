@@ -1,5 +1,6 @@
 ---
 title: WSL2
+icon: wsl
 ---
 
 本文介绍 WSL 的基本使用方法，一切的疑问都可以在 [官方文档](https://learn.microsoft.com/zh-cn/windows/wsl/) 中找到。

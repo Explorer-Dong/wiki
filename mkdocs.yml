@@ -311,8 +311,6 @@ nav:
       - ds-and-algo/lan-qiao-cup/14th-python-a.md
   - 软件开发:
     - develop/index.md
-    - develop/data-serialization-format.md
-    - develop/ssg-hexo.md
     - 前端:
       - develop/front-end/index.md
       - develop/front-end/html.md
@@ -340,16 +338,20 @@ nav:
       - develop/operation/index.md
       - develop/operation/linux.md
       - develop/operation/windows.md
+      - develop/operation/wsl2.md
       - develop/operation/shell.md
       - develop/operation/nginx.md
       - develop/operation/docker.md
     - 工具:
       - develop/tools/index.md
-      - IDE:
-        - develop/tools/ide/index.md
-        - develop/tools/ide/jetbrains.md
-        - develop/tools/ide/devcpp.md
-        - develop/tools/ide/idle.md
+      - develop/tools/hexo.md
+      - develop/tools/ssh.md
+      - develop/tools/jetbrains.md
+      - 编辑器:
+        - develop/tools/editor/index.md
+        - develop/tools/editor/devcpp.md
+        - develop/tools/editor/idle.md
+        - develop/tools/editor/vim.md
       - Git:
         - develop/tools/git/index.md
         - develop/tools/git/commands.md
@@ -357,11 +359,8 @@ nav:
         - develop/tools/git/submodule.md
         - develop/tools/git/github.md
         - develop/tools/git/branch-conflict.md
-      - 杂项:
-        - develop/tools/others/index.md
-        - develop/tools/others/vim.md
-        - develop/tools/others/wsl2.md
-        - develop/tools/others/ssh.md  
+    - 杂项:
+      - develop/others/data-serialization-format.md
   - 大模型:
     - llm/index.md
     - 基础设施:

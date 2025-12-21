@@ -1,9 +1,9 @@
 ---
-title: 静态网站生成器 (Hexo)
+title: Hexo
 icon: simple/hexo
 ---
 
-我比较喜欢按照树的结构体系化地整理电子笔记，我一般将其称为知识库 (Wiki)，让我产生「将知识库搭建为在线网站」这个想法主要有以下几个原因：
+我比较喜欢按照树的结构体系化地整理电子笔记，我一般将其称为知识库 (Wiki)，个人色彩强一点的话也可以叫做技术博客。让我产生「将知识库搭建为在线网站」这个想法主要有以下几个原因：
 
 - 分享笔记时，如果直接发文件不能实时更新，依托在线笔记软件也不够优雅，比如飞书的链接不能自定义、GitHub 有网络限制等；
 - 整理笔记时，以网站的形式呈现内容在架构上会更加清晰，更有助于我对笔记进行修改、润色和链接；
@@ -12,7 +12,7 @@ icon: simple/hexo
 所以索性直接将笔记打包成网站部署到大陆的服务器上。现在「以内容为主」的主流建站模式及其特点如下：
 
 1. 有后端：[WordPress](https://cn.wordpress.org/) 等。用在知识库上显得有些大材小用，也不太适合多人编辑进行开源；
-2. 无后端：[Hexo](https://hexo.io/zh-cn/)、[Mkdocs](https://www.mkdocs.org/)、[VuePress](https://v2.vuepress.vuejs.org/zh/)、[Gatsby](https://www.gatsbyjs.com/docs) 等。很适合更新不怎么频繁的中小型知识库场景，原理就是利用 [静态站点生成器](https://developer.mozilla.org/zh-CN/docs/Glossary/SSG) (static site generator, SSG)，将写好的 Markdown 文件转换为 HTML 文件供浏览器渲染。作者只需关注文章的内容本身，即可在极短的时间内构建一个所有人都可以访问的博客网站。
+2. 无后端：[Hexo](https://hexo.io/zh-cn/)、[Mkdocs](https://www.mkdocs.org/)、[VuePress](https://v2.vuepress.vuejs.org/zh/)、[Gatsby](https://www.gatsbyjs.com/docs) 等。很适合更新不怎么频繁的中小型知识库场景，原理就是利用 [静态站点生成器](https://developer.mozilla.org/zh-CN/docs/Glossary/SSG) (Static Site Generator, SSG)，将写好的 Markdown 文件转换为 [HTML](../front-end/html.md)、[CSS](../front-end/css.md) 和 [JavaScript](../front-end/javascript/index.md) 文件供浏览器渲染。作者只需关注文章的内容本身，即可在极短的时间内构建一个可供外网访问的网站。
 
 本文就以 Hexo 为例讲解如何从零开始搭建一个自己的知识库网站。掌握了该方法，其余的 SSG 逻辑都是类似的，也就一通百通了。
 
@@ -206,7 +206,7 @@ GitHub Pages 按照上述工作流的指令，检测到 push 后开始执行，�
 
 由于 GitHub Pages 服务使用的服务器在美国，不用魔法访问速度过慢，国内平替 Gitee Pages 已经停止服务了，综合考虑还是部署到大陆的服务器上。当然这前提是你已经拥有一台大陆「备案」的 [云服务器](https://www.aliyun.com/product/ecs?userCode=jpec1z57) 和一个 [域名](https://wanwang.aliyun.com/domain/)。如果觉得备案太麻烦，可以考虑入手一台香港服务器。
 
-假设你已经有了一台云服务器。为了简化后续文件上传操作，需要建立本地机和云服务器的 [SSH](./tools/others/ssh.md) 连接。下面将基于 [Git Hooks](https://githooks.com/) 工具，介绍如何将自己的 Hexo 静态网站部署到阿里云服务器上。
+假设你已经有了一台云服务器。为了简化后续文件上传操作，需要建立本地机和云服务器的 [SSH](./ssh.md) 连接。下面将基于 [Git Hooks](https://githooks.com/) 工具，介绍如何将自己的 Hexo 静态网站部署到阿里云服务器上。
 
 1）域名解析。我们需要将域名指向自己服务器的 IP，下图中记录值即你的云服务器 IP 地址：
 
@@ -225,7 +225,7 @@ passwd git
 git ALL=(ALL:ALL) ALL
 ```
 
-然后安装并配置 [Nginx](./operation/nginx.md)，确保外网也可以访问服务器。
+然后安装并配置 [Nginx](../operation/nginx.md)，确保外网也可以访问服务器。
 
 3）创建 Git Hooks。与 GitHub Pages 自动部署的工作流逻辑类似，我们将静态文件推送到云服务器后，需要让云服务器帮我们持续部署。我们可以借助 Git Hooks 的功能来实现：
 
@@ -283,7 +283,7 @@ Git Hooks 的工作原理与 GitHub Workflow 类似，都可以在我们做出�
 
 ### 基于最朴素的方法
 
-同样需要先配置好 [SSH](./tools/others/ssh.md) 和 [Nginx](./operation/nginx.md)。接下来就两步：
+同样需要先配置好 [SSH](./ssh.md) 和 [Nginx](../operation/nginx.md)。接下来就两步：
 
 1）打包网站。将 Markdown 文件转化为 HTML 文件：
 
