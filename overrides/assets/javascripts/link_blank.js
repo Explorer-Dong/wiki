@@ -1,20 +1,22 @@
-function link_blank() {
-    // 获取当前页面的域名
-    const currentHostname = window.location.hostname;
+// 使用 MkDocs Material 提供的订阅模式
+document$.subscribe(function() {
+  const currentHostname = window.location.hostname;
+  const allLinks = document.querySelectorAll("a[href]");
 
-    // 选择文档中所有的 a 标签
-    const allLinks = document.querySelectorAll("a[href]");
-
-    // 给外链添加 _blank 属性
-    allLinks.forEach(link => {
-        const linkUrl = new URL(link.href);
-        if (linkUrl.protocol === "http:" || linkUrl.protocol === "https:") {
-            if (linkUrl.hostname !== currentHostname) {
-                link.setAttribute("target", "_blank");
-            }
-        }
-    });
-}
-
-// 在页面加载完成后执行
-window.addEventListener("load", link_blank);
+  allLinks.forEach(link => {
+    try {
+      const linkUrl = new URL(link.href);
+      // 判断是否为外链：协议为 http/https 且 域名不一致
+      if (
+        (linkUrl.protocol === "http:" || linkUrl.protocol === "https:") &&
+        linkUrl.hostname !== currentHostname
+      ) {
+        link.setAttribute("target", "_blank");
+        // 建议同时添加 rel="noopener" 以增强安全性
+        link.setAttribute("rel", "noopener");
+      }
+    } catch (e) {
+      // 忽略无效或相对路径解析错误
+    }
+  });
+});

@@ -51,6 +51,10 @@ theme:
     - navigation.indexes           # 不显示分类索引首页
     - navigation.top               # 顶部导航栏
     - navigation.path              # 路径导航
+    - navigation.instant           # 优化内链跳转行为（取消部分资源的加载）
+    - navigation.instant.preview   # 预加载内链
+    - navigation.instant.prefetch  # 优化外链跳转行为（鼠标悬浮预加载）
+    - navigation.instant.progress  # 显式外链预加载进度
     - navigation.footer            # 页脚
     - content.code.copy            # 代码块复制按钮
     - content.code.select          # 代码块选中行
