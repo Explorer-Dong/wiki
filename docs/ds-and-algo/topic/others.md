@@ -1,5 +1,5 @@
 ---
-title: 杂项
+title: 其他
 icon: ellipsis-solid
 ---
 
