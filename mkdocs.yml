@@ -339,6 +339,7 @@ nav:
     - 运维:
       - develop/operation/index.md
       - develop/operation/linux.md
+      - develop/operation/windows.md
       - develop/operation/shell.md
       - develop/operation/nginx.md
       - develop/operation/docker.md
@@ -358,7 +359,6 @@ nav:
         - develop/tools/git/branch-conflict.md
       - 杂项:
         - develop/tools/others/index.md
-        - develop/tools/others/windows.md
         - develop/tools/others/vim.md
         - develop/tools/others/wsl2.md
         - develop/tools/others/ssh.md  

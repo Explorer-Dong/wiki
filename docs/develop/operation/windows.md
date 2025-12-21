@@ -1,5 +1,6 @@
 ---
 title: Windows
+icon: material/microsoft-windows
 ---
 
 对一些 Windows 11 上常见问题和需求进行自定义配置。
@@ -56,3 +57,13 @@ wmic useraccount get name,sid
 ![暂停更新显示到 500 周](https://cdn.dwj601.cn/images/20250928102032578.png)
 
 ![最终效果](https://cdn.dwj601.cn/images/20250928102407969.png)
+
+## 大小写敏感问题
+
+Windows 上是不区分大小写的（即大小写不敏感）。比如 `main.py` 和 `Main.py` 不能存在于同一个文件夹下：
+
+![Windows 大小写不敏感](https://cdn.dwj601.cn/images/20251221152025.png)
+
+而 [Linux](./linux.md) 上是区分大小写的（即大小写敏感）。那么比如 `main.py` 和 `Main.py` 就存在于同一个文件夹下，表示两个不同的文件：
+
+![Linux 大小写敏感](https://cdn.dwj601.cn/images/20251221153013.png)
