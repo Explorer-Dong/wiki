@@ -1,6 +1,7 @@
 ---
 title: 数据库
 status: new
+icon: material/database
 ---
 
 ## 前言

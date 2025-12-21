@@ -1,5 +1,6 @@
 ---
 title: 数学
+icon: material/math-compass
 ---
 
 ## 数论

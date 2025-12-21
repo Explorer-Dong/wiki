@@ -1,5 +1,6 @@
 ---
 title: 代码模板 (C++)
+icon: simple/cplusplus
 ---
 
 !!! tip

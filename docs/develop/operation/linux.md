@@ -1,5 +1,6 @@
 ---
 title: GNU/Linux
+icon: simple/linux
 ---
 
 本文记录 GNU/Linux 的学习笔记。其实是学习 GNU 中的各种命令，Linux 内核的东西应该不会碰到。以 Ubuntu 发行版为主。

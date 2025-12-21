@@ -1,5 +1,6 @@
 ---
 title: Nginx
+icon: simple/nginx
 ---
 
 本文记录 [Nginx](https://nginx.org/) 的学习笔记。

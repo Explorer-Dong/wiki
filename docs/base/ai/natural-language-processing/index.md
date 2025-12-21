@@ -1,5 +1,6 @@
 ---
 title: 自然语言处理导读
+icon: material/translate
 ---
 
 本文记录自然语言处理的学习笔记。参考 CS 224N [主页](https://web.stanford.edu/class/cs224n/index.html) [视频](https://www.bilibili.com/video/BV1U5RNYgEfp)。

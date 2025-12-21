@@ -1,6 +1,7 @@
 ---
 title: 机器学习导读
 status: new
+icon: material/chart-line
 ---
 
 > 科学发展范式：实验科学 $\to$ 理论科学 $\to$ 计算科学 $\to$ 数据科学。

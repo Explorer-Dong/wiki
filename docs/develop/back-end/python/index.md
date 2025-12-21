@@ -1,6 +1,6 @@
 ---
-title: 基本概念
-status: new
+title: Python 导读
+icon: material/language-python
 ---
 
 本文记录 [Python](https://www.python.org/) 的基本概念。
@@ -27,7 +27,7 @@ Python 是一门解释型语言，代码不会被提前编译成机器码，而�
 
 ## 包
 
-Python 以包 (Package) 的形式组织不同的功能模块，每一个 `.py` 文件就是一个模块，模块中含有对应的类和函数。可以简单地将 Python 中的包与 [C++ 中的命名空间](../cpp/basic-concepts.md#命名空间) 类比——同一个包中不可出现同名模块，不同的包中可以出现同名模块。
+Python 以包 (Package) 的形式组织不同的功能模块，每一个 `.py` 文件就是一个模块，模块中含有对应的类和函数。可以简单地将 Python 中的包与 [C++ 中的命名空间](../cpp/index.md#命名空间) 类比——同一个包中不可出现同名模块，不同的包中可以出现同名模块。
 
 Python Package 的基本结构如下图所示：
 

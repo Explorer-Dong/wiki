@@ -1,5 +1,6 @@
 ---
 title: 操作系统导读
+icon: simple/apachedolphinscheduler
 ---
 
 ![课程封面](https://cdn.dwj601.cn/images/OS.png)

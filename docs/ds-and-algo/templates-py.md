@@ -1,5 +1,6 @@
 ---
 title: 代码模板 (Python)
+icon: material/language-python
 ---
 
 !!! tip

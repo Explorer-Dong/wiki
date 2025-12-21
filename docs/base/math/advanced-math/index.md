@@ -1,6 +1,7 @@
 ---
 title: 高等数学导读
 status: new
+icon: material/math-integral
 ---
 
 本文记录高等数学的学习笔记。由于笔记产生于大学生数竞 [^comp] [^comp2] 以及速成阶段 [^origin]，内容只涉及微积分。下图展示了数学分析（高等数学）的知识体系 [^arch]，感兴趣的小伙伴可以对本专栏进行补充。

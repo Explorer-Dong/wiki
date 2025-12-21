@@ -1,5 +1,6 @@
 ---
 title: 计算几何
+icon: material/vector-polygon
 ---
 
 ### 例：最小曼哈顿距离

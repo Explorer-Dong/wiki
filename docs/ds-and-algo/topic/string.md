@@ -1,5 +1,6 @@
 ---
 title: 字符串
+icon: material/format-text
 ---
 
 字符串可以看做一种顺序存储且元素为字符的顺序表。

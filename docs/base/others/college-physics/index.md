@@ -1,6 +1,7 @@
 ---
 title: 大学物理
 status: new
+icon: material/magnet
 ---
 
 ## 第九章 振动

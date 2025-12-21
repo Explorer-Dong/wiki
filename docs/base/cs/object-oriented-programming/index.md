@@ -1,6 +1,7 @@
 ---
 title: 面向对象程序设计
 status: new
+icon: material/human
 ---
 
 ## 前言

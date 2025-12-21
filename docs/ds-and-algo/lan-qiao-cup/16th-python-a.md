@@ -1,5 +1,6 @@
 ---
 title: 第 16 届 Python A 组（省赛）
+icon: material/medal-outline
 ---
 
 !!! tip

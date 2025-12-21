@@ -1,5 +1,6 @@
 ---
 title: 数字图像处理
+icon: simple/opencv
 ---
 
 本文介绍数字图像处理 [^ref-book] 的入门笔记。旨在学习「数字图像的基本知识」以及「传统的图像处理算法」，为后续的计算机视觉等领域知识打好基础。本文涉及到的代码有 [MATLAB (R2023a)](https://ww2.mathworks.cn/help/images/index.html) 和 [Python (opencv == 4.10.0)](https://docs.opencv.org/4.10.0/d2/d96/tutorial_py_table_of_contents_imgproc.html) 两种。

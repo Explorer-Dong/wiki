@@ -1,5 +1,6 @@
 ---
 title: 杂项
+icon: ellipsis-solid
 ---
 
 ## 图的遍历

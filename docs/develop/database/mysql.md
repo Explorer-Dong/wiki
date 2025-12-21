@@ -1,6 +1,7 @@
 ---
 title: MySQL
 status: new
+icon: simple/mysql
 ---
 
 本文介绍 MySQL 的学习笔记。以 Linux 发行版 Ubuntu 为例。

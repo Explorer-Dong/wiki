@@ -1,6 +1,7 @@
 ---
 title: Docker
 status: new
+icon: simple/docker
 ---
 
 本文记录 Docker 的入门笔记。更详细的内容见 [Docker 官方文档](https://docs.docker.com/)。

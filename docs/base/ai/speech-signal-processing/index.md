@@ -1,6 +1,7 @@
 ---
 title: 语音信号处理
 status: new
+icon: microphone-message
 ---
 
 本文记录语音信号处理的入门学习笔记。部分参考内容如下：

@@ -1,5 +1,6 @@
 ---
 title: 英语语法导读
+icon: material/pencil-ruler
 ---
 
 ![英语语法的 3 大组成部分](https://cdn.dwj601.cn/images/20250503200040268.png)

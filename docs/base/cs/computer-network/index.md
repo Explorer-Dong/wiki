@@ -1,5 +1,6 @@
 ---
 title: 计算机网络导读
+icon: material/ip-network
 ---
 
 本文记录计算机网络 [^book] [^xiaolin] 的学习笔记。实验平台为学院自建服务 [^self-server]，读者可前往头歌 [^touge] 复现实验。

@@ -1,5 +1,6 @@
 ---
 title: 计算机视觉导读
+icon: material/camera-party-mode
 ---
 
 本文记录计算机视觉的学习笔记。理论部分参考 *Computer Vision: Algorithms and Applications, 2nd Edition* [^cv-2nd] 和 *计算机视觉理论与实践* [^book]；实践部分参考 *动手学深度学习* [^d2l]；

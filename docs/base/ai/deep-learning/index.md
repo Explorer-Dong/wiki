@@ -1,6 +1,7 @@
 ---
 title: 深度学习导读
 status: new
+icon: octicons/ai-model-24
 ---
 
 本文记录深度学习入门笔记。

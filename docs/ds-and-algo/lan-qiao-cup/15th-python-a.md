@@ -1,5 +1,6 @@
 ---
 title: 第 15 届 Python A 组（省赛）
+icon: material/medal-outline
 ---
 
 ## T1 拼正方形 (5'/5')

@@ -1,6 +1,7 @@
 ---
 title: Redis
 status: new
+icon: simple/redis
 ---
 
 本文记录 [Redis](https://redis.io) 的学习笔记。

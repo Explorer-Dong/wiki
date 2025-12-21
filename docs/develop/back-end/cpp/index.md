@@ -1,5 +1,6 @@
 ---
-title: 基本概念
+title: C++ 导读
+icon: simple/cplusplus
 ---
 
 本文介绍 C++ 的一些基本概念。

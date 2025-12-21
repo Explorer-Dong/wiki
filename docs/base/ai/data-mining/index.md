@@ -1,5 +1,6 @@
 ---
 title: 数据挖掘导读
+icon: person-digging-solid
 ---
 
 > 数据挖掘 (Data Mining, DM) 又称数据库中的知识发现 (Knowledge Discover in Database, KDD)，是指利用机器学习和统计分析从大型数据集中发现模式和其他有价值信息的过程。

@@ -1,6 +1,7 @@
 ---
 title: 优化方法导读
 status: new
+icon: material/chart-bell-curve
 ---
 
 本文记录优化方法的学习笔记，教材参考《最优化方法》 [^book]、《统计计算》 [^book2]、《最优化：建模、算法与理论》 [^book3]。

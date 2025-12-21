@@ -1,5 +1,6 @@
 ---
 title: 第 14 届 Python A 组（省赛）
+icon: material/medal-outline
 ---
 
 ## T1 特殊日期 (5'/5')

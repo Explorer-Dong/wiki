@@ -1,5 +1,6 @@
 ---
 title: Shell
+icon: material/bash
 ---
 
 本文记录 Shell 的学习笔记。

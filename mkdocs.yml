@@ -95,6 +95,9 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji 
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      options:
+        custom_icons:
+          - overrides/.icons
   # mermaid
   - pymdownx.superfences:
       custom_fences:
@@ -315,16 +318,16 @@ nav:
       - develop/front-end/html.md
       - develop/front-end/css.md
       - JavaScript:
-        - develop/front-end/javascript/basic-concepts.md
+        - develop/front-end/javascript/index.md
         - develop/front-end/javascript/grammar.md
     - 后端:
       - develop/back-end/index.md
       - C++:
-        - develop/back-end/cpp/basic-concepts.md
+        - develop/back-end/cpp/index.md
         - develop/back-end/cpp/grammar.md
         - develop/back-end/cpp/std-lib.md
       - Python:
-        - develop/back-end/python/basic-concepts.md
+        - develop/back-end/python/index.md
         - develop/back-end/python/grammar.md
         - develop/back-end/python/std-lib.md
         - develop/back-end/python/async-lib.md
@@ -342,16 +345,19 @@ nav:
     - 工具:
       - develop/tools/index.md
       - IDE:
+        - develop/tools/ide/index.md
         - develop/tools/ide/jetbrains.md
         - develop/tools/ide/devcpp.md
         - develop/tools/ide/idle.md
       - Git:
+        - develop/tools/git/index.md
         - develop/tools/git/commands.md
         - develop/tools/git/lfs.md
         - develop/tools/git/submodule.md
         - develop/tools/git/github.md
         - develop/tools/git/branch-conflict.md
       - 杂项:
+        - develop/tools/others/index.md
         - develop/tools/others/windows.md
         - develop/tools/others/vim.md
         - develop/tools/others/wsl2.md

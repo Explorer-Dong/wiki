@@ -1,6 +1,7 @@
 ---
 title: 数字逻辑电路
 status: new
+icon: octicons/file-binary-16
 ---
 
 ## 1 概论

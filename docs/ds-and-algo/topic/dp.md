@@ -1,5 +1,6 @@
 ---
 title: 动态规划
+icon: material/view-grid-plus-outline
 ---
 
 动态规划 (Dynamic Programming, DP) 算法是一种利用子问题的解来求解原问题的解的策略，本质是一种 [DAG](./graph.md#拓扑问题) 上的运算。推荐阅读 *动态规划杂谈* [^talk] 来对动态规划有一个更深刻的认知。
