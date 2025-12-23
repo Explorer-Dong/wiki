@@ -1,6 +1,7 @@
 ---
 title: PyTorch
 status: new
+icon: simple/pytorch
 ---
 
 本文记录 [PyTorch](https://github.com/pytorch/pytorch) 的基本用法。

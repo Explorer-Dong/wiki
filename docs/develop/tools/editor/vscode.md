@@ -1,5 +1,6 @@
 ---
 title: VSCode
+icon: material/microsoft-visual-studio-code
 ---
 
 [VSCode](https://code.visualstudio.com/) 是微软开发并开源的编辑器，比较适合一些轻量项目的开发工具。

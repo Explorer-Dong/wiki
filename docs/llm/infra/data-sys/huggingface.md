@@ -1,5 +1,6 @@
 ---
 title: Hugging Face
+icon: simple/huggingface
 ---
 
 本文介绍 [Hugging Face](https://huggingface.co/) 的一些概念与用法。

@@ -1,6 +1,7 @@
 ---
 title: 数据分析库
 status: new
+icon: simple/pandas
 ---
 
 本文记录 [Pandas](https://pandas.pydata.org/) 的用法。

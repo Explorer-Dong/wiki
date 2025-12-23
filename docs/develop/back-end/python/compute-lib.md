@@ -1,6 +1,7 @@
 ---
 title: 科学计算库
 status: new
+icon: simple/numpy
 ---
 
 本文介绍 [NumPy](https://numpy.org/) 的用法。

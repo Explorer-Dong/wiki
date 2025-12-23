@@ -1,6 +1,7 @@
 ---
 title: 常用标准库
 status: new
+icon: material/shield-bug
 ---
 
 ## I/O 库

@@ -1,5 +1,6 @@
 ---
 title: 数据可视化库
+icon: material/chart-scatter-plot
 ---
 
 Python 没有内置数据可视化库，但是第三方库比较丰富。本文就以 [Matplotlib](https://matplotlib.org/stable/index.html) 为例。

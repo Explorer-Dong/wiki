@@ -1,5 +1,6 @@
 ---
 title: GitHub 常见用法
+icon: material/github
 ---
 
 [GitHub](https://github.com) 是世界上最大的代码托管平台，于 2018 年被微软收购。基于 GitHub 可以做很多好玩的事，下面讲讲其常见用法。

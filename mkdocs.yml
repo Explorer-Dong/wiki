@@ -373,12 +373,16 @@ nav:
     - 基础设施:
       - llm/infra/index.md
       - 硬件生态:
+        - llm/infra/hardware-eco/index.md
         - llm/infra/hardware-eco/accelerator.md
       - 数据系统:
+        - llm/infra/data-sys/index.md
         - llm/infra/data-sys/huggingface.md
       - 训练框架:
+        - llm/infra/training-framework/index.md
         - llm/infra/training-framework/pytorch.md
       - 推理服务:
+        - llm/infra/inference-server/index.md
         - llm/infra/inference-server/sglang.md
     - 模型研究:
       - llm/research/index.md

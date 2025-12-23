@@ -1,6 +1,7 @@
 ---
-title: 网络编程
+title: 网络编程库
 status: new
+icon: simple/fastapi
 ---
 
 本文介绍 Python 网络编程相关内容。

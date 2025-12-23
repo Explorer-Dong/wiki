@@ -1,5 +1,6 @@
 ---
 title: Git 子仓库管理
+icon: octicons/file-submodule-16
 ---
 
 当项目依赖另一个仓库（例如公共工具库、第三方组件、自家多个项目共用的模块）时，可以用 [`git submodule`](https://git-scm.com/book/zh/v2/Git-工具-子模块) 将它挂载进来，而不是复制代码。这样的好处在于：

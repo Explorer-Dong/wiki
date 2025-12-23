@@ -1,5 +1,6 @@
 ---
 title: Git 常用命令
+icon: octicons/command-palette-16
 ---
 
 使用 Git 管理代码文件时，最关键的是要理解「区域」的概念。在 Git 的视角下文件有着「工作区、暂存区和仓库区」三个区域：

@@ -1,5 +1,7 @@
 ---
 title: 语法基础
+status: new
+icon: material/stairs-up
 ---
 
 本文介绍 C++ 的语法基础。即不 `include` 任何库的情况下需要掌握的内容。

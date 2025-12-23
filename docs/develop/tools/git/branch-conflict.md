@@ -1,5 +1,6 @@
 ---
 title: 详解 Git 分支冲突
+icon: material/source-branch-remove
 ---
 
 无论是本地拉取远程仓库还是远程仓库合并 Pull Request，都会出现一种情况：你的别人同时改动了同一个地方，别人先合并了，那你的改动就和别人的改动产生了冲突。

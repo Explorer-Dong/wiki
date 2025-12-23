@@ -1,5 +1,6 @@
 ---
 title: Git 大文件存储
+icon: simple/gitlfs
 ---
 
 GitHub 官方规定仓库中的文件大小不超过 100 MB [^size-limit]，此时有两种方案将大文件托管到 GitHub：

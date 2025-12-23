@@ -1,5 +1,6 @@
 ---
 title: DevCpp
+icon: simple/cplusplus
 ---
 
 为了在比赛中不因为编辑器而拖后腿，写一个配置说明。编辑器为 `Dev-C++ 5.11`。

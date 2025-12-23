@@ -1,6 +1,7 @@
 ---
 title: 常用标准库
 status: new
+icon: material/shield-bug
 ---
 
 本文按字典序介绍 Python 的常用标准库，更详尽的内容见 [Library - Python Docs](https://docs.python.org/zh-cn/3.14/library/index.html) 官方文档。

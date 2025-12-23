@@ -1,6 +1,7 @@
 ---
 title: 语法基础
 status: new
+icon: material/stairs-up
 ---
 
 本文介绍 Python 的语法基础，即不 `import` 任何包的情况下需要涉及到的内容，标准文档见 [Reference - Python Docs](https://docs.python.org/zh-cn/3.14/reference/index.html) 官网。

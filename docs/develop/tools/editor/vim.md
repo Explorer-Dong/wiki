@@ -1,5 +1,6 @@
 ---
 title: Vim
+icon: simple/vim
 ---
 
 [Vim](https://vimcdoc.sourceforge.net/) 是一款编辑器，旨在让程序员脱离鼠标，沉浸式编码。本文就来简单介绍一下 Vim。
