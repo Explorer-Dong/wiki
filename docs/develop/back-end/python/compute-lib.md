@@ -1,8 +1,19 @@
 ---
-title: NumPy
+title: 科学计算库
+status: new
 ---
 
 本文介绍 [NumPy](https://numpy.org/) 的用法。
+
+!!! quote "NumPy"
+
+    The fundamental package for scientific computing with Python.
+
+NumPy 提供：
+
+1. 包含任意同构元素的数组对象；
+2. 对数组进行快速数学运算；
+3. 线性代数、傅里叶变换、随机数生成。
 
 ## `np.array()`
 

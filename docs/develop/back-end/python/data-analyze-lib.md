@@ -1,8 +1,13 @@
 ---
-title: Pandas
+title: 数据分析库
+status: new
 ---
 
 本文记录 [Pandas](https://pandas.pydata.org/) 的用法。
+
+!!! quote "Pandas"
+
+    Pandas is a fast, powerful, flexible and easy to use open source data analysis and manipulation tool, built on top of the Python programming language.
 
 Pandas 的基本数据结构由 DataFrame 和 Series 组成，这也是 Pandas 的核心所在。
 

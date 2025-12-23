@@ -333,6 +333,8 @@ nav:
         - develop/back-end/python/std-lib.md
         - develop/back-end/python/async-lib.md
         - develop/back-end/python/network-lib.md
+        - develop/back-end/python/compute-lib.md
+        - develop/back-end/python/data-analyze-lib.md
         - develop/back-end/python/visual-lib.md
     - 数据库:
       - develop/database/index.md
@@ -375,8 +377,6 @@ nav:
       - 数据系统:
         - llm/infra/data-sys/huggingface.md
       - 训练框架:
-        - llm/infra/training-framework/numpy.md
-        - llm/infra/training-framework/pandas.md
         - llm/infra/training-framework/pytorch.md
       - 推理服务:
         - llm/infra/inference-server/sglang.md
