@@ -1,31 +1,24 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const mdContentDivs = document.querySelectorAll(".md-content");
+document$.subscribe(() => {
+    const container = document.querySelector(".md-content__inner.md-typeset");
+    if (!container) return;
 
-  mdContentDivs.forEach((mdDiv) => {
-    const imageLinks = mdDiv.querySelectorAll("a > img[alt]");
+    const images = container.querySelectorAll("img");
 
-    imageLinks.forEach((img) => {
-      // 跳过贡献者头像图片，位于 <aside class="md-source-file"> 内部的 img
-      if (img.closest("aside.md-source-file")) {
-        return;
-      }
+    images.forEach((img) => {
+        const altText = img.getAttribute("alt");
+        if (!altText) return;
 
-      const altText = img.getAttribute("alt");
-      const aTag = img.parentElement;
+        // 避免重复插入
+        if (img.dataset.hasCaption === "true") return;
 
-      // 避免重复插入
-      const alreadyInserted = aTag.nextElementSibling;
-      if (
-        altText.trim() !== "" &&
-        aTag &&
-        aTag.tagName.toLowerCase() === "a" &&
-        !(alreadyInserted && alreadyInserted.classList.contains("markdown-img-caption"))
-      ) {
         const caption = document.createElement("div");
         caption.className = "markdown-img-caption";
         caption.textContent = altText;
-        aTag.insertAdjacentElement("afterend", caption);
-      }
+
+        // 插入到图片后面
+        img.insertAdjacentElement("afterend", caption);
+
+        // 标记已处理
+        img.dataset.hasCaption = "true";
     });
-  });
 });

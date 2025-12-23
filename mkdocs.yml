@@ -131,11 +131,9 @@ extra_javascript:
   # 外链跳转
   - assets/javascripts/link_blank.js
   # 百度统计
-  - assets/javascripts/baidu_tongji.js
+  - assets/javascripts/analytics_baidu.js
   # 解析图片的 alt 属性
   - assets/javascripts/show_img_alt.js
-  # 首页脚本（暂时不用，会出现屏幕闪烁的情况）
-  # - assets/javascripts/homepage.js
 extra_css:
   # KaTeX
   - https://registry.npmmirror.com/katex/0.16.21/files/dist/katex.min.css
