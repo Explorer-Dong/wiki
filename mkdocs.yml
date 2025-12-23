@@ -353,6 +353,7 @@ nav:
         - develop/tools/editor/devcpp.md
         - develop/tools/editor/idle.md
         - develop/tools/editor/vim.md
+        - develop/tools/editor/vscode.md
       - Git:
         - develop/tools/git/index.md
         - develop/tools/git/commands.md
