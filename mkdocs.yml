@@ -105,7 +105,7 @@ markdown_extensions:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
-  # 代码高亮
+  # 行内代码高亮
   - pymdownx.highlight:
       # auto_title: true           # 自动标题
       use_pygments: true         # 第三方库增强
@@ -113,6 +113,8 @@ markdown_extensions:
       linenums: true             # 显示行号
       anchor_linenums: true      # 行号锚点
       line_spans: __span         # 行号容器（移动端适配）
+  # 行间代码高亮
+  - pymdownx.inlinehilite
   # 任务列表
   - pymdownx.tasklist:
       custom_checkbox: true
@@ -331,6 +333,7 @@ nav:
         - develop/back-end/python/std-lib.md
         - develop/back-end/python/async-lib.md
         - develop/back-end/python/network-lib.md
+        - develop/back-end/python/visual-lib.md
     - 数据库:
       - develop/database/index.md
       - develop/database/mysql.md
@@ -374,7 +377,6 @@ nav:
       - 训练框架:
         - llm/infra/training-framework/numpy.md
         - llm/infra/training-framework/pandas.md
-        - llm/infra/training-framework/matplotlib.md
         - llm/infra/training-framework/pytorch.md
       - 推理服务:
         - llm/infra/inference-server/sglang.md
