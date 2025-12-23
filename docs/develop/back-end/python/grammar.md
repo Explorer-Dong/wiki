@@ -32,21 +32,37 @@ is_active: bool = True
 
 ### 字符串
 
-```python
-# 基本用法
-info: str = "Alice"
+基本用法：
 
-# python 会对其中的特殊字符转义，例如 \t 会被转义为一个 tab
+```python
+info: str = "Alice"
+```
+
+字符转义：
+
+```python
 info = "hello\tworld"  # hello    world
 
-# r 表示输出原始 (row) 内容，不会对其中的内容进行转义
 info = r"hello\tworld"  # hello\tworld
-
-# 字符模板
-age = 18
-info = (f"My age is {age}, "
-        f"and you?")  # My age is 18, and you?
 ```
+
+其中：
+
+- python 会对其中的特殊字符转义，例如 `\t` 会被转义为一个 tab；
+- `r` 表示输出原始内容，不会对其中的内容进行转义。
+
+字符模板 (f-string)：
+
+```python
+age = 18.88
+info = (f"My age is {age:.1f}, "
+        f"and you?")  # My age is 18.9, and you?
+```
+
+其中：
+
+- 跨行字符串可以使用小括号包裹；
+- 模板中 `:.1f` 表示给浮点数四舍五入保留 1 位小数。
 
 ### 列表
 
