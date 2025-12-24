@@ -268,11 +268,18 @@ git remote -v
 ### 配置远程仓库
 
 ```bash
-# 添加远程仓库（同时有 fetch 和 push 权限）
+# 添加远程仓库（同时具备 fetch 和 push 权限）
 git remote add <remote_name> <remote_url>
+```
 
-# 添加只有 push 权限的远程仓库
-git remote set-url --add <another_remote_name> <another_remote_url>
+如果希望代码同步到多个仓库，可以添加 push 源：
+
+```bash
+# 添加 push 源
+git remote set-url --add <remote_name> <another_remote_url>
+
+# 删除 push 源
+git remote set-url --delete <remote_name> <another_remote_url>
 ```
 
 ### 删除远程仓库
