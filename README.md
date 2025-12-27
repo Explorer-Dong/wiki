@@ -3,9 +3,9 @@
 </p>
 
 <p align="center">
-  <a title="GitHub Stars" href="https://github.com/Explorer-Dong/wiki/stargazers" target="_blank"><img alt="GitHub Stars" src="https://img.shields.io/github/stars/Explorer-Dong/wiki"></a>
+  <a title="GitHub Stars" href="https://github.com/Explorer-Dong/wiki/stargazers" target="_blank"><img alt="GitHub Stars" src="https://img.shields.io/github/stars/Explorer-Dong/wiki?style=flat&label=GitHub%20Stars"></a>
   <a title="Python Version" href="https://python.org" target="_blank"><img src="https://img.shields.io/badge/Python-3.11+-aff" alt="Python Version"></a>
-  <a title="Mkdocs Material Version" href="https://squidfunk.github.io/mkdocs-material/" target="_blank"><img src="https://img.shields.io/badge/Mkdocs_Material-9.x-purple" alt="Mkdocs Material"></a>
+  <a title="Mkdocs Material Version" href="https://squidfunk.github.io/mkdocs-material/" target="_blank"><img src="https://img.shields.io/badge/Mkdocs_Material-9.7+-purple" alt="Mkdocs Material"></a>
   <a title="Ask DeepWiki" href="https://deepwiki.com/Explorer-Dong/wiki" target="_blank"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
   <a title="GitHub Actions Workflow Status" href="https://github.com/Explorer-Dong/wiki/actions/workflows/deploy_to_oss.yml" target="_blank"><img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/Explorer-Dong/wiki/deploy_to_oss.yml?label=Deploy"></a>
   <a title="License" href="https://github.com/Explorer-Dong/wiki/blob/main/LICENSE" target="_blank"><img src="https://img.shields.io/github/license/Explorer-Dong/wiki.svg?style=flat&label=License" alt="License"></a>
@@ -23,7 +23,7 @@
 
 本项目托管笔者的技术博客，围绕「计算机」与「人工智能」两大主题，展开以下四个板块：
 
-- **基础知识**：数学、人工智能、计算机等基础知识；
+- **基础知识**：人工智能、计算机、数学等基础知识；
 - **数据结构与算法**：数据结构、动态规划、图论等经典算法；
 - **软件开发**：前端、后端、运维等开发方法；
 - **大模型**：基础设施、模型架构、下游应用等研究内容。
