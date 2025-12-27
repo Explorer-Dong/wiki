@@ -10,7 +10,7 @@ title: 应用层
 
 1. 基础设施类：例如域名系统 (Domain Name System, DNS)、动态主机配置协议 (Dynamic Host Configuration Protocol, DHCP)；
 2. 应用架构类：
-    - 客户端-服务器架构 (Client-Server, C/S)，例如远程登陆协议 (Telecommunication Network, TELNET)、电子邮件协议 (SMTP/POP3/IMAP)、超文本传输协议 (HTTP)、文件传输协议 (File Transfer Protocol, FTP) 等；
+    - 客户端-服务器架构 (Client-Server, C/S)，例如远程登陆协议 (Telecommunication Network, TELNET)、电子邮件协议 (SMTP / POP3 / IMAP)、超文本传输协议 (HTTP)、文件传输协议 (File Transfer Protocol, FTP) 等；
     - 对等架构 (Peer-to-Peer, P2P)，即 P2P 协议；
     - 混合架构 (C/S & P2P)；
 3. 网络管理类：简单网络管理协议 (Simple Network Management Protocol, SNMP)。
@@ -99,53 +99,111 @@ SFTP 支持丰富的文件操作，包括目录遍历、断点续传、文件删
 
 ## HTTP 协议
 
-为了更快速的响应小文件，超文本传输协议 (HyperText Transfer Protocol, HTTP) 被设计了出来，其使用 HTML 文本来统一内容，客户端基于 HTML 解释器（例如浏览器）进行解析供人类查看。工作流程如下图所示：
+为了更快速地响应小文件，超文本传输协议 (HyperText Transfer Protocol, HTTP) 被设计了出来。它以 [HTML](../../../develop/front-end/html.md) 作为统一内容载体，客户端基于解释器（如浏览器）解析并呈现给用户。HTTP 工作在应用层，传输层使用 TCP 协议，服务器默认监听 80 端口（HTTPS 为 443）。
 
-![HTTP 超文本传输工作流程](https://cdn.dwj601.cn/images/20250628162119647.png)
+HTTP 核心特性是无状态。服务器不会保存客户端的历史请求状态，每个请求都被视为相互独立。这样实现简单、易扩展、容错性好，但是同一客户端的重复请求会带来额外开销，实际工程中通常通过 Cookie 等机制在应用层模拟状态。
 
-HTTP 协议在传输层通常使用 TCP 协议，服务器端默认启用 80 端口监听 HTTP 连接。
+HTTP 协议通过「**请求-响应**」模式来完成信息传递，基本工作流程如下图所示：
 
-HTTP 为无状态协议，服务器端不保留之前请求的状态信息，尽管这降低了效率，但是不用维护历史信息也不用在客户端或服务器出现故障时保持状态的一致性，使得实现更简单。其中：
+![HTTP 基本工作流程](https://cdn.dwj601.cn/images/20250628162119647.png)
 
-1. HTTP/1.0 (1996)：非持久连接；
-2. HTTP/1.1 (1999)：支持长连接和流水线机制，缓存策略优化、部分资源请求及断点续传；
-3. HTTPS (HTTP + SSL/TLS, 2008)：增加 SSL/TLS 层，在 TCP 之上提供安全机制；
-4. HTTP/2.0 (2015、2020)：增加二进制格式、TCP 多路复用、头压缩、服务端推送等功能，提高带宽利用率、降低延迟。
 
-假设请求了一个含有两个图片 URL 的网页，HTTP/1.0、HTTP/1.1、HTTP/1.1-Pipeline 工作流程如下图所示：
+**HTTP 请求** 由「请求行、请求头、请求体（可选）」三部分组成。具体地：
 
-![HTTP/1.0、HTTP/1.1、HTTP/1.1-Pipeline 工作流程，假设请求了一个含有两个图片 URL 的网页](https://cdn.dwj601.cn/images/20250628163355584.png)
+- 请求行：由 [请求方法](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Reference/Methods)、资源路径和协议版本组成，用于描述对什么资源、做什么操作；
+- 请求头：以键值对的形式描述元信息，例如目标主机、数据格式和认证信息等；
+- 请求体：这是可选的，用于承载要提交的资源表示，在 GET 请求中通常不存在，在 POST / PUT / PATCH 中较为常见。
 
-HTTP 请求报文中包含了对文档对象的操作方法，部分操作如下表所示：
+**HTTP 响应** 由「状态行、响应头、响应体」三部分组成，表示服务器对请求的处理结果。具体地：
 
-| 方法/操作 | 含义                             |
-| :--------: | :------------------------------- |
-| GET        | 请求读取由 URL 所标志的信息       |
-| POST       | 给添加信息（例如注释）         |
-| OPTION     | 请求一些选项的信息               |
-| HEAD       | 请求读取由 URL 所标志的信息的首部 |
-| PUT        | 在指明的 URL 下存储一个文档       |
-| DELETE     | 删除指明的 URL 所标志的资源       |
-| TRACE      | 用来进行环回测试的请求报文       |
-| CONNECT    | 用于代理服务器                   |
+- 状态行：包含协议版本、[状态码](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Reference/Status) 以及原因短语，用于快速表明请求结果；
+- 响应头：同样以键值对的形式描述元信息，例如返回数据的类型、长度以及资源位置等；
+- 响应体：返回新创建资源的表示，供客户端进一步使用。
 
-HTTP 响应报文中包含了服务器的响应状态，用状态码来表示，主要有以下几类状态码：
+=== "HTTP **请求** 示例"
 
-- 1xx 表示通知信息的，如请求收到了或正在进行处理；
-- 2xx 表示成功，如接受或知道了；
-- 3xx 表示重定向，表示要完成请求还必须采取进一步的行动；
-- 4xx 表示客户的差错，如请求中有错误的语法或不能完成；
-- 5xx 表示服务器的差错，如服务器失效无法完成请求。
+    ```http
+    # 请求行
+    POST /users HTTP/1.1
 
-典型状态码如下：
+    # 请求头
+    Host: api.example.com
+    Content-Type: application/json
+    Authorization: Bearer eyJhbGciOi...
+    Content-Length: 32
 
-- 200 OK。请求成功，被请求的对象包含在该响应的数据部分；
-- 301 Moved Permanently。请求的对象被移走，新的位置在响应中通过 Location: 给出；
-- 400 Bad Request。服务器不能解释请求报文；
-- 404 Not Found。服务器中找不到请求的文档；
-- 505 HTTP Version Not Supported。服务器不支持相应的 HTTP 版本。
+    # 请求体
+    {
+      "name": "Alice",
+      "age": 18
+    }
+    ```
 
-## SMTP/POP/IMAP 协议
+=== "HTTP **响应** 示例"
+
+    ```http
+    # 状态行
+    HTTP/1.1 201 Created
+
+    # 响应头
+    Content-Type: application/json
+    Content-Length: 58
+    Location: /users/123
+
+    # 响应体
+    {
+        "id": 123,
+        "name": "Alice",
+        "age": 18
+    }
+    ```
+
+## WebSocket 协议
+
+WebSocket 是一种基于 TCP 的 **全双工** 通信协议，从 HTTP 升级而来。它主要被用于 **在客户端和服务器之间建立持久连接**，解决 HTTP 在实时通信场景下的性能与语义不足。
+
+在实时通信场景下，HTTP 协议通常只能采用轮询，这种方案存在明显问题：大量无效请求、服务器压力大、延迟不可控。WebSocket 应运而生，它无请求-响应限制，一旦连接建立，客户端和服务器可以随时主动发送数据。这减少了 TCP 连接建立和 HTTP 头部重复传输的成本，实时性强、延迟低。
+
+形式上，客户端首先以普通 HTTP 请求向服务器发起连接，在请求头中声明 `Upgrade: websocket`，表达希望将当前连接切换为 WebSocket 协议。服务器校验请求后，返回状态码 `101 Switching Protocols`，表示同意升级，此时这条连接从 HTTP 请求-响应模型切换为 WebSocket 的双向通信模型。双方不再发送 HTTP 报文，而是基于 WebSocket Frame 进行通信。数据以二进制帧的形式在同一条连接中双向流动，既可以是文本消息，也可以是任意二进制数据。
+
+=== "WebSocket **请求** 示例"
+
+    ```http
+    # HTTP 请求行
+    GET /chat HTTP/1.1
+
+    # HTTP 请求头
+    Host: example.com
+    Upgrade: websocket
+    Connection: Upgrade
+    Sec-WebSocket-Key: xxx
+    Sec-WebSocket-Version: 13
+    ```
+
+=== "WebSocket **响应** 示例"
+
+    ```http
+    # HTTP 状态行
+    HTTP/1.1 101 Switching Protocols
+
+    # HTTP 响应头
+    Upgrade: websocket
+    Connection: Upgrade
+    Sec-WebSocket-Accept: yyy
+    ```
+
+!!! tip "HTTP vs. WebSocket"
+
+    从通信模型上看，HTTP 是典型的请求-响应协议，连接可以是短暂的，也可以通过 Keep-Alive 复用，但服务器始终只能被动响应客户端请求；而 WebSocket 是长连接的全双工协议，连接建立后双方地位对等，服务器可以主动推送数据，协议头开销也更小，因此实时性更强。
+
+    在工程实践中，二者通常协同使用而非相互替代：
+
+    - HTTP 负责资源型接口与控制类操作，例如登录鉴权、配置下发、REST API；
+    - WebSocket 则作为持续存在的数据通道，用于承载实时消息、状态变更或事件流。
+
+    例如，客户端先通过 HTTP 获取访问凭证并完成鉴权，再使用同一凭证建立 WebSocket 连接，用于接收实时通知或推送数据。这种分工能够同时兼顾系统的可维护性与高实时性。
+
+## SMTP / POP / IMAP 协议
 
 为了提供通信功能，电子邮件协议被设计了出来。与 HTTP 请求-响应的及时通信模型不同，电子邮件是基于存储-转发的异步架构进行的。因此一个电子邮件的系统主要由用户代理和消息传输代理两部分组成：
 
