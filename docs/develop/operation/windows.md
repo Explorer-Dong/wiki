@@ -115,3 +115,25 @@ wmic useraccount get name,sid
 ![暂停更新显示到 500 周](https://cdn.dwj601.cn/images/20250928102032578.png)
 
 ![最终效果](https://cdn.dwj601.cn/images/20250928102407969.png)
+
+### 编辑本地 DNS 文件
+
+在部分网络情况下（比如校园网），有些网站因为各种因素而无法访问。在排除了 [GFW](https://baike.c114.com.cn/view.php?id=23004-44A3EE4E) 以及网站自身因素的情况下，大抵就是 [DNS](../../base/cs/computer-network/application-layer.md#dns-协议) 出问题了——上游网络的 DNS 服务因为各种原因（DNS 劫持、DNS 污染等）导致我们无法获得网站域名的真实 IP。
+
+我们可以修改本地 DNS 映射来解决问题。
+
+首先需要查询出网站域名对应的 IP 地址，随便选一个查 IP 的网站即可，这里以 [ip138](https://www.ip138.com) 为例：
+
+![查询域名对应的 IP 地址](https://cdn.dwj601.cn/images/20251228102121565.png)
+
+查出结果后，我们编辑 `C:\Windows\System32\drivers\etc\hosts` 文件，在末尾添加以下内容：
+
+```text
+140.82.116.3 github.com
+
+# 或者
+
+20.205.243.166 github.com
+```
+
+之后就可以相对正常地访问对应网站了。如果还是不行，那就考虑使用魔法吧。
