@@ -79,29 +79,24 @@ Windows 自带的微软输入法挺好用的，至少不会出现兼容性问题
 
 你一定遇到过文件的打开选项中包含了你已经卸载的软件，如下图所示：
 
-![文件的打开选项中包含了你已经卸载的软件](https://cdn.dwj601.cn/images/20250928102727735.png)
+![文件的打开选项中包含了你已经卸载的软件](https://cdn.dwj601.cn/images/20251229103556431.png)
 
 如果有一些强迫症的话，可以考虑删除这个选项。具体操作如下：
 
-进入 `计算机\HKEY_USERS\<SID>\Software\Classes` 路径，找到 `<file>_auto_file` 选项，直接删除即可。其中 SID 可以使用以下命令查找：
+1）按下 `Windows + S` 进入搜索模式，输入注册表编辑器：
 
-```bash
-wmic useraccount get name,sid
+![选择：注册表编辑器](https://cdn.dwj601.cn/images/20251229102836231.png)
+
+2）进入注册表以下路径：
+
+```text
+计算机\HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts
 ```
 
-我的计算机输出结果如下：
+找到对应的文件后缀，例如示例中的 `.json` 后缀，然后进入 OpenWithList 子文件夹，删除其中失效的打开项，并修改 `MRUList` 的值为对应项即可。
 
-![终端输出结果](https://cdn.dwj601.cn/images/20250319124515341.png)
-
-那么注册表中我寻找的路径就是：
-
-![我的注册表中的寻找路径](https://cdn.dwj601.cn/images/20250319124608769.png)
-
-最终效果如下：
-
-![最终效果](https://cdn.dwj601.cn/images/20250928111612988.png)
-
-完美，强迫症狂喜。
+!!! warning
+    有时上述方法无法成功，可以考虑全局搜索失效的启动项名称，然后逐个删除。但这是危险行为，请谨慎操作。
 
 ### 禁止 Windows 更新
 
