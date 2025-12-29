@@ -92,5 +92,5 @@ Permission denied (publickey)
 只需要使用 [chmod](../operation/linux.md#改变权限-chmod) 命令将私钥权限修改为 400 或 600 即可：
 
 ```bash
-chmod </path/to/your_private_key> 600
+chmod 600 </path/to/your_private_key>
 ```
