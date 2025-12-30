@@ -143,57 +143,20 @@ async def read_item(item_id: int):
 
 ## Pydantic
 
-[Pydantic](https://docs.pydantic.dev/latest/) 是 Python 中比较流行的数据验证库，FastAPI 也 [基于](https://fastapi.tiangolo.com/features/#pydantic-features) Pydantic 开发，所以有必要了解 Pydantic 的一些基本内容。
+[Pydantic](https://docs.pydantic.dev/latest/) 是 Python 中一个比较流行的数据验证库，FastAPI 也 [基于](https://fastapi.tiangolo.com/features/#pydantic-features) Pydantic 开发。
 
-### 定义数据模型
+### 数据模型
 
-```python hl_lines="6-10 18-19"
-from datetime import datetime
-
-from pydantic import BaseModel, PositiveInt
-
-
-class User(BaseModel):
-    id: int  # 必填
-    name: str = "John Doe"  # 默认为 John Doe 字符串
-    signup_ts: datetime | None  # 可选
-    tastes: dict[str, PositiveInt]  # 必填
-
-
-external_data = {
-    "id": 123,
-    "signup_ts": datetime.now(),
-    "tastes": {
-        "wine": 9,
-        b"cheese": 7,  # 会被自动验证，验证通过后被转换为正整数
-        "cabbage": "1",  # 同上
-    },
-}
-
-# 实例化
-user = User(**external_data)
-
-# 访问 Pydantic 数据模型中的字段
-print(user.id)  # 123
-print(user.name)  # John Doe
-print(user.signup_ts)  # 2025-12-29 22:13:30.835437
-print(user.tastes)  # {'wine': 9, 'cheese': 7, 'cabbage': 1}
-```
-
-### 数据传递
-
-数据模型之间的数据传递比较常见，Pydantic 提供了数据导出和数据导入的方法，自动验证与过滤字段。
-
-数据模型：
+一般来说，数据模型都继承自 Pydantic 的 `BaseModel` 类，从而获得其数据验证等全部功能。
 
 ```python
 from pydantic import BaseModel
 
 
 class MetaData(BaseModel):
-    task_id: str
-    status: str
-    video_url: str | None = None
+    task_id: str  # 必填字段
+    status: str | None  # 选填字段
+    video_url: str | None = None  # 选填字段，默认为 None
 
 
 class SmallData(BaseModel):
@@ -203,32 +166,59 @@ class SmallData(BaseModel):
 
 
 small = SmallData(
-    task_id="1",
-    status="success",
+    task_id=b"1",  # 会自动从 bytes 转化为 str
+    status="created",
     image_url="xxx.xxx.xxx",
 )
+
+print(type(small.task_id), small.task_id)  # <class 'str'> 1
+print(small.status)  # created
+print(small.image_url)  # xxx.xxx.xxx
 ```
 
-导出数据：
+### 数据导出
+
+使用 `BaseModel` 的：
+
+- `model_dump()` 方法导出为 `object`；
+- `model_dump_json()` 方法导出为 `json str`：
 
 ```python hl_lines="1 5"
 x_obj = small.model_dump()
 print(type(x_obj), x_obj)
-# <class 'dict'> {'task_id': '1', 'status': 'success', 'image_url': 'xxx.xxx.xxx'}
+# <class 'dict'> {'task_id': '1', 'status': 'created', 'image_url': 'xxx.xxx.xxx'}
 
 x_str = small.model_dump_json()
 print(type(x_str), x_str)
-# <class 'str'> {"task_id":"1","status":"success","image_url":"xxx.xxx.xxx"}
+# <class 'str'> {"task_id":"1","status":"created","image_url":"xxx.xxx.xxx"}
 ```
 
-导入数据：
+### 数据导入
+
+使用 `BaseModel` 的：
+
+- `model_validate()` 方法从 `object` 导入；
+- `model_validate_json()` 方法从 `json str` 导入：
 
 ```python hl_lines="1 5"
 y_from_obj = MetaData.model_validate(x_obj)
 print(y_from_obj)
-# task_id='1' status='success' video_url=None
+# task_id='1' status='created' video_url=None
 
 y_from_str = MetaData.model_validate_json(x_str)
 print(y_from_str)
-# task_id='1' status='success' video_url=None
+# task_id='1' status='created' video_url=None
 ```
+
+### 数据更新
+
+当只需要更新数据模型中的部分字段时，可以使用 `model_copy` 方法：
+
+```python hl_lines="4"
+meta = MetaData(task_id="2", status="failed")
+print(meta)  # task_id='2' status='failed' video_url=None
+
+new_meta = meta.model_copy(update={"status": "success"})
+print(new_meta)  # task_id='1' status='success' video_url=None
+```
+
