@@ -365,7 +365,9 @@ print(result)  # [4, 1, 2]
 
 ### 写入 JSON 文件
 
-```python
+保存为 json 格式（一个完整的 JSON 对象）：
+
+```python hl_lines="10"
 import json
 
 data = [
@@ -374,23 +376,13 @@ data = [
     {"user_id": 3, "name": "李华"},
 ]
 
-# 保存为 json 格式（一个完整的 JSON 对象）
 with open("user_info.json", "w", encoding="utf-8") as f:
     json.dump(data, f, ensure_ascii=False, indent=2)
-    # ensure_ascii=False: 保留非 ASCII 字符
-    # indent=2: 缩进 2 个空格，便于阅读
+    # json.dump：将数据从内存持久化到外存
+    # ensure_ascii=False：保留非 ASCII 字符
+    # indent=2：缩进 2 个空格，便于阅读
 
-# 保存为 jsonl 格式（每行一个 JSON 对象）
-with open("user_info.jsonl", "w", encoding="utf-8") as f:
-    for user in data:
-        # 每行写一个 JSON 对象，末尾加换行符
-        json_line = json.dumps(user, ensure_ascii=False)  # object -> str
-        f.write(json_line + "\n")
-```
-
-`user_info.json`：
-
-```json
+""" user_info.json
 [
   {
     "user_id": 1,
@@ -405,36 +397,62 @@ with open("user_info.jsonl", "w", encoding="utf-8") as f:
     "name": "李华"
   }
 ]
+"""
 ```
 
-`user_info.jsonl`：
+保存为 jsonl 格式（每行一个 JSON 对象）：
 
-```json
+```python hl_lines="12 14"
+import json
+
+data = [
+    {"user_id": 1, "name": "Alice"},
+    {"user_id": 2, "name": "Bob"},
+    {"user_id": 3, "name": "李华"},
+]
+
+with open("user_info.jsonl", "w", encoding="utf-8") as f:
+    # 每行写一个 JSON 对象，末尾加换行符
+    for user in data:
+        json_line = json.dumps(user, ensure_ascii=False)
+        # json.dumps：将 object 转化为 json str
+        f.write(json_line + "\n")
+
+""" user_info.jsonl
 {"user_id": 1, "name": "Alice"}
 {"user_id": 2, "name": "Bob"}
 {"user_id": 3, "name": "李华"}
+"""
 ```
 
 ### 读取 JSON 文件
 
-```python
+读取 json 格式文件：
+
+```python hl_lines="4"
 import json
 
-# 读取 json 格式文件
 with open("user_info.json", encoding="utf-8") as f:
     json_data = json.load(f)
+    # json.load：将数据从外存加载到内存
     print(json_data)
 
 """
 [{'user_id': 1, 'name': 'Alice'}, {'user_id': 2, 'name': 'Bob'}, {'user_id': 3, 'name': '李华'}]
 """
+```
 
-# 读取 jsonl 格式文件
+读取 jsonl 格式文件：
+
+```python hl_lines="7"
+import json
+
 with open("user_info.jsonl", encoding="utf-8") as f:
     for line in f:
         line = line.strip()  # 去掉换行符
         if line:  # 跳过空行
             user = json.loads(line)
+            # json.loads：将 json str 转换为 object
             print(user)
 
 """
