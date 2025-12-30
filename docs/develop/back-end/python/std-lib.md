@@ -4,7 +4,7 @@ status: new
 icon: material/shield-bug
 ---
 
-本文按字典序介绍 Python 的常用标准库，更详尽的内容见 [Library - Python Docs](https://docs.python.org/zh-cn/3.14/library/index.html) 官方文档。
+本文按「字典序」介绍 Python 的常用标准库，更详尽的内容见 [Library - Python Docs](https://docs.python.org/zh-cn/3.14/library/index.html) 官方文档。
 
 ## argparse
 
@@ -181,6 +181,46 @@ beijing_time = utc_time.astimezone(beijing_tz)
 print(f"转换后: {beijing_time}")
 ```
 
+## enum
+
+enum 提供了枚举体，主要用来封装一些 magic number：
+
+```python
+from enum import Enum, StrEnum
+
+
+class Color(Enum):
+    RED = 1
+    GREEN = 2
+    BLUE = 3
+
+
+print(Color.RED)  # Color.RED
+print(Color.RED.name)  # RED
+print(Color.RED.value)  # 1
+```
+
+除了 magic number，magic str 也经常会遇到：
+
+```python hl_lines="7"
+class Status(StrEnum):
+    CREATED = "Task is created."
+    SUCCESS = "Task finished successfully."
+    FAILED = "Task finished failure."
+
+
+print(Status.CREATED)  # Task is created.
+print(Status.CREATED.name)  # CREATED
+print(Status.CREATED.value)  # Task is created.
+```
+
+使用枚举体的好处：
+
+- 不用每次手动硬编码；
+- 相较于直接定义宏，枚举体可以将宏集中在一起，便于管理；
+- 可以被一些 [数据校验器](./network-lib.md#pydantic) 捕获并验证；
+- 更好地利用 IDE 的智能补全。
+
 ## functools
 
 `functools` 提供了函数式编程工具。
@@ -323,27 +363,85 @@ print(result)  # [4, 1, 2]
 
 `json` 库用于处理 [JSON](../../others/data-serialization-format.md) 格式数据。
 
-写入 JSON 文件：
+### 写入 JSON 文件
 
 ```python
 import json
 
-data = {'users': [{'id': 1, 'name': 'Alice'}, {'id': 2, 'name': 'Bob'}]}
-with open('user_info.json', 'w', encoding='utf-8') as f:
-    json.dump(data, f, ensure_ascii=False, indent=2)
+data = [
+    {"user_id": 1, "name": "Alice"},
+    {"user_id": 2, "name": "Bob"},
+    {"user_id": 3, "name": "李华"},
+]
 
-# ensure_ascii=False 表示禁用 ASCII 编码，主要用于保留非英文文本
-# indent=2 表示缩进空格数
+# 保存为 json 格式（一个完整的 JSON 对象）
+with open("user_info.json", "w", encoding="utf-8") as f:
+    json.dump(data, f, ensure_ascii=False, indent=2)
+    # ensure_ascii=False: 保留非 ASCII 字符
+    # indent=2: 缩进 2 个空格，便于阅读
+
+# 保存为 jsonl 格式（每行一个 JSON 对象）
+with open("user_info.jsonl", "w", encoding="utf-8") as f:
+    for user in data:
+        # 每行写一个 JSON 对象，末尾加换行符
+        json_line = json.dumps(user, ensure_ascii=False)  # object -> str
+        f.write(json_line + "\n")
 ```
 
-读取 JSON 文件：
+`user_info.json`：
+
+```json
+[
+  {
+    "user_id": 1,
+    "name": "Alice"
+  },
+  {
+    "user_id": 2,
+    "name": "Bob"
+  },
+  {
+    "user_id": 3,
+    "name": "李华"
+  }
+]
+```
+
+`user_info.jsonl`：
+
+```json
+{"user_id": 1, "name": "Alice"}
+{"user_id": 2, "name": "Bob"}
+{"user_id": 3, "name": "李华"}
+```
+
+### 读取 JSON 文件
 
 ```python
 import json
 
-with open('data.json', 'r', encoding='utf-8') as f:
+# 读取 json 格式文件
+with open("user_info.json", encoding="utf-8") as f:
     json_data = json.load(f)
     print(json_data)
+
+"""
+[{'user_id': 1, 'name': 'Alice'}, {'user_id': 2, 'name': 'Bob'}, {'user_id': 3, 'name': '李华'}]
+"""
+
+# 读取 jsonl 格式文件
+with open("user_info.jsonl", encoding="utf-8") as f:
+    for line in f:
+        line = line.strip()  # 去掉换行符
+        if line:  # 跳过空行
+            user = json.loads(line)
+            print(user)
+
+"""
+{'user_id': 1, 'name': 'Alice'}
+{'user_id': 2, 'name': 'Bob'}
+{'user_id': 3, 'name': '李华'}
+"""
 ```
 
 ## os
