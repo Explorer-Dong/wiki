@@ -3,7 +3,7 @@ title: Windows
 icon: material/microsoft-windows
 ---
 
-本文介绍 Windows 11 的常见用法。
+本文介绍 Windows 11 的常见用法和 [常见命令](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/windows-commands)。
 
 ## 基本概念
 
@@ -61,6 +61,14 @@ Remove-Item <folder> -Recurse
 rm -r <folder>
 ```
 
+## 网络管理
+
+### 查询 DNS 信息 nslookup
+
+```powershell
+nslookup <example.com> <dns_server>
+```
+
 ## 常见配置
 
 ### 微软输入法快捷输入「」符号
@@ -111,24 +119,47 @@ Windows 自带的微软输入法挺好用的，至少不会出现兼容性问题
 
 ![最终效果](https://cdn.dwj601.cn/images/20250928102407969.png)
 
-### 编辑本地 DNS 文件
+### 配置本地 DNS 服务
 
 在部分网络情况下（比如校园网），有些网站因为各种因素而无法访问。在排除了 [GFW](https://baike.c114.com.cn/view.php?id=23004-44A3EE4E) 以及网站自身因素的情况下，大抵就是 [DNS](../../base/cs/computer-network/application-layer.md#dns-协议) 出问题了——上游网络的 DNS 服务因为各种原因（DNS 劫持、DNS 污染等）导致我们无法获得网站域名的真实 IP。
 
-我们可以修改本地 DNS 映射来解决问题。
+我们可以分别从「内存 $\to$ 外存 $\to$ 服务器」三个层级逐个配置解决问题。
 
-首先需要查询出网站域名对应的 IP 地址，随便选一个查 IP 的网站即可，这里以 [ip138](https://www.ip138.com) 为例：
+**内存级，刷新内存中的 DNS 缓存**。使用 ipconfig 工具：
+
+```powershell
+# 刷新 DNS 缓存
+ipconfig /flushdns
+
+# 查看 DNS 缓存
+ipconfig /displaydns
+```
+
+**外存级，在本地手动持久化目标域名和 IP 的映射对**。首先需要查询出目标域名的 IP，随便选一个查 IP 的网站即可，这里以 [ip138](https://www.ip138.com) 为例：
 
 ![查询域名对应的 IP 地址](https://cdn.dwj601.cn/images/20251228102121565.png)
 
-查出结果后，我们编辑 `C:\Windows\System32\drivers\etc\hosts` 文件，在末尾添加以下内容：
+接下来编辑本地域名映射文件 `C:\Windows\System32\drivers\etc\hosts`，在其末尾添加以下内容：
 
 ```text
 140.82.116.3 github.com
-
-# 或者
-
-20.205.243.166 github.com
 ```
 
-之后就可以相对正常地访问对应网站了。如果还是不行，那就考虑使用魔法吧。
+!!! warning
+    这种方法相对不那么优雅，特别是当服务供应商改变服务 IP 后，这种方法会导致服务无法访问，排查网络问题时不要忘了这一出噢 😉。
+
+**服务器级，配置 DNS 服务器地址**。Windows 默认情况下会使用 [DHCP](../../base/cs/computer-network/application-layer.md#dhcp-协议) 协议来管理 DNS，这在某些情况下很不稳定，可以考虑改为大厂提供的 DNS 服务：
+
+<img src="https://cdn.dwj601.cn/images/20251231151730251.png" alt="在 Windows 设置中编辑「DNS 服务器分配」选项" style="zoom:50%;" />
+
+阿里的 DNS 服务器 IP：
+
+```text
+223.5.5.5
+223.6.6.6
+```
+
+如果是以太网，配置方法类似：
+
+<img src="https://cdn.dwj601.cn/images/20251231152739672.png" alt="以太网的 DNS 服务器配置方法" style="zoom:50%;" />
+
