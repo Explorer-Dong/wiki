@@ -10,6 +10,7 @@ jobs:
     
     env:
       MKDOCS_GIT_COMMITTERS_APIKEY: ${{ secrets.MKDOCS_GIT_COMMITTERS_APIKEY }}  # prevent "git-committers 403 rate limit exceeded" error
+      CI: true  # CI will enable some plugins that consume time-consuming builds
 
     steps:
     - name: Checkout repository

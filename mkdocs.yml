@@ -148,11 +148,13 @@ plugins:
       lang: zh
   # 显示文章创建和修改时间
   - git-revision-date-localized:
+      enabled: !ENV [CI, false]
       enable_creation_date: true
       type: date
       timezone: Asia/Shanghai
   # 显示文章作者（头像与 GitHub Profile 链接）
   - git-committers:
+      enabled: !ENV [CI, false]
       repository: Explorer-Dong/wiki
       branch: main
   # 图片可点击放大
