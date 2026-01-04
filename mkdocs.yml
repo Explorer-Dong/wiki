@@ -387,6 +387,7 @@ nav:
     - 模型研究:
       - llm/research/index.md
       - llm/research/transformer.md
+      - llm/research/diffusion-model.md
     - 下游应用:
       - llm/downstream/index.md
   - contributing.md
