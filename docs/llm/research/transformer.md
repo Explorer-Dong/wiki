@@ -6,30 +6,22 @@ status: new
 !!! tip
     推荐一个很直观的 Transformer 可视化交互网站：[Transformer Explainer](https://poloclub.github.io/transformer-explainer/)。
 
-Transformer 是现代 NLP 和大规模生成式模型的基础结构，其突破点在于：完全基于注意力机制建模序列，无需递归结构，从而获得全局依赖建模能力与完全并行的计算特性。本文从产生背景、模型结构和对比总结三个角度，层层展开 Transformer 的设计逻辑及核心价值。
+本文介绍 Transformer 网络。
 
 ## 产生背景
 
-在使用 [RNN 完成文本生成](../../base/ai/natural-language-processing/text-generation.md) 时，RNN 的结构性限制已经十分明显：
+在 [使用 RNN 进行文本生成任务](../../base/ai/natural-language-processing/text-generation.md) 时，RNN 由于只能按时间步串行计算，导致：
 
-- 计算必须按时间步串行展开  
-- 长距离依赖必须通过链式传递，容易衰减  
-- 所有信息被压缩进单一隐状态，形成信息瓶颈  
-- 无法充分利用 GPU 的并行特性，难以扩展到大型模型  
+- 信息量上：所有信息被压缩进单一隐状态，在长距离信息传递时导致信息量急速衰减；
+- 扩展性上：无法充分利用 GPU 的并行特性，训练缓慢，难以扩展到大型模型。
 
-这些缺陷使模型无法进一步扩大规模或提升表达能力。《Attention Is All You Need》由此提出 Transformer：**让序列中任意两个 token 可以直接交互，不再依赖顺序递推结构**。
-
-这意味着模型的有效依赖路径从 RNN 的随序列长度增长，缩短为常数级，从根本上提升了建模效率与表达能力。
+[*Attention Is All You Need*](https://arxiv.org/abs/1706.03762) 应运而生。其提出的 Transformer 网络架构让序列中任意两个 token 可以直接交互，不再依赖顺序递推结构，做到了并行计算，从而可以狠狠地堆网络深度，从根本上提升了建模效率与表达能力。
 
 ## 模型结构
 
-Transformer 由 Encoder-Decoder 结构组成，每个部分包含多个堆叠的 Block。每个 Block 内部均采用一致的模式：注意力机制、前馈网络、残差连接、层归一化。
-
-整体架构如下：
+Transformer 由 Encoder-Decoder 结构组成，每个部分包含多个堆叠的 Block。每个 Block 内部均采用一致的模式：注意力机制、前馈网络、残差连接、层归一化。整体架构如下图所示：
 
 <img src="https://cdn.dwj601.cn/images/20250512083359691.jpg" alt="Transformer 模型架构" style="zoom: 50%;" />
-
-一个完整 Transformer 的关键模块如下。
 
 ### 数据流向
 
@@ -121,37 +113,25 @@ $$
 
 注意力权重、FFN 输出、残差路径都会用到 dropout，减少过拟合，有助于稳定训练。
 
-## 为什么自注意力的时间复杂度是  $O(n^2)$
+## 性能分析
 
-假设某个句子 S 的嵌入维度为 n，模型维度为 d，下面计算 Transformer 的时间复杂度。
+假设某个句子 S 的 token 数为 $n$，模型嵌入维度为 $d$（由于 $n$ 往往远大于 $d$，所以我们认为 $n$ 为变量，$d$ 为常量）。
 
-计算 Q、K、V 矩阵。n 个 token IDs 嵌入后变为 $n\times d$ 的矩阵 X，$W_Q,W_K,W_V$ 的维度均为 $d\times d$，由于 $Q=XW_Q,K=XW_K,V=XW_V$，即三个 $n\times d$ 与 $d\times d$ 叉积得到 $n\times d$ 的 Q、K、V，那么这一步的时间复杂度就是 $O(nd^2)$。
+计算 $Q,K,V$ 矩阵：
 
-计算注意力分数。对于 $\frac{QK^\top}{\sqrt{d_k}}$，即 $n\times d$ 与 $d\times n$ 叉积得到 $n\times n$ 的矩阵，时间复杂度是 $O(n^2d)$。softmax 需要对 $n\times n$ 的矩阵做归一化，时间复杂度为 $O(n^2)$。最后和 V 矩阵相乘，即 $n\times n$ 与 $n\times d$ 叉积得到 S 的 $n\times d$ 的注意力分数矩阵，时间复杂度为 $O(n^2d)$。最后再与一个 $d\times d$ 的线性层叉积得到最终 $n\times d$ 的输出，时间复杂度为 $O(nd^2)$。
+- $n$ 个 token 的嵌入表示为 $X_{n\times d}$，$W_Q,W_K,W_V$ 的维度均为 $d\times d$，那么 $Q_{n\times d}=XW_Q$ 就需要 $nd^2$ 次运算，时间复杂度为 $O(n)$；
+- $K$ 和 $V$ 的运算同理。
 
-由于 n 往往远大于 d，所以我们认为 n 为变量，d 近似为常量，所以不考虑多头机制（即会将 d 维划分为 h 个 $d_h$）的情况下，总时间复杂度就是 $O(n^2)$。
+计算注意力分数：
 
-## 对比总结
+- 对于 $\frac{QK^\top}{\sqrt{d_k}}$，需要进行 $n^2d$ 次运算，时间复杂度为 $O(n^2)$；
+- softmax 需要对 $n\times n$ 的矩阵做归一化，时间复杂度为 $O(n^2)$；
+- 将归一化后的结果和 $V$ 矩阵相乘，即 $n\times n$ 与 $n\times d$ 叉积得到 S 的 $n\times d$ 的注意力分数矩阵，时间复杂度为 $O(n^2)$；
+- 将注意力分数过一个 $d\to d$ 的线性层得到最终 $n\times d$ 的输出，时间复杂度为 $O(n)$。
 
-Transformer 的核心价值在于通过注意力机制把序列依赖从「链式传递」改为「全局直接访问」，从而实现了：
+在不考虑多头机制（即会将 $d$ 维划分为 $h$ 个 $d_h$）的情况下，总时间复杂度为 $O(n^2)$。
 
-- 全并行计算  
-- 强大的全局建模能力  
-- 随深度线性扩展的表示能力  
-- 高效利用 GPU/TPU 的矩阵运算能力  
-- 成为 BERT、GPT、LLM 的基础架构  
-
-对比 RNN：
-
-| 项目 | RNN | Transformer |
-|------|-----|-------------|
-| 计算方式 | 串行 | 全并行 |
-| 长距离依赖 | 弱 | 强 |
-| 信息瓶颈 | 存在（隐藏状态） | 无压缩瓶颈 |
-| 扩展性 | 较弱 | 极强 |
-| 大模型适配 | 限制明显 | 完全适配 |
-
-## PyTorch 实现
+## 代码实现
 
 参考：
 
