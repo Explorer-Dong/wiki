@@ -386,8 +386,11 @@ nav:
         - llm/infra/inference-server/sglang.md
     - 模型研究:
       - llm/research/index.md
-      - llm/research/transformer.md
-      - llm/research/diffusion-model.md
+      - Transformer Model:
+        - llm/research/transformer/index.md
+      - Diffusion Model:
+        - llm/research/diffusion/index.md
+        - llm/research/diffusion/turbo-diffusion.md
     - 下游应用:
       - llm/downstream/index.md
   - contributing.md

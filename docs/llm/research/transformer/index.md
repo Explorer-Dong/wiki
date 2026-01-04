@@ -10,7 +10,7 @@ status: new
 
 ## 产生背景
 
-在 [使用 RNN 进行文本生成任务](../../base/ai/natural-language-processing/text-generation.md) 时，RNN 由于只能按时间步串行计算，导致：
+在 [使用 RNN 进行文本生成任务](../../../base/ai/natural-language-processing/text-generation.md) 时，RNN 由于只能按时间步串行计算，导致：
 
 - 信息量上：所有信息被压缩进单一隐状态，在长距离信息传递时导致信息量急速衰减；
 - 扩展性上：无法充分利用 GPU 的并行特性，训练缓慢，难以扩展到大型模型。
