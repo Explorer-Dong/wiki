@@ -121,6 +121,16 @@ $$
 
 注意力权重、FFN 输出、残差路径都会用到 dropout，减少过拟合，有助于稳定训练。
 
+## 为什么自注意力的时间复杂度是  $O(n^2)$
+
+假设某个句子 S 的嵌入维度为 n，模型维度为 d，下面计算 Transformer 的时间复杂度。
+
+计算 Q、K、V 矩阵。n 个 token IDs 嵌入后变为 $n\times d$ 的矩阵 X，$W_Q,W_K,W_V$ 的维度均为 $d\times d$，由于 $Q=XW_Q,K=XW_K,V=XW_V$，即三个 $n\times d$ 与 $d\times d$ 叉积得到 $n\times d$ 的 Q、K、V，那么这一步的时间复杂度就是 $O(nd^2)$。
+
+计算注意力分数。对于 $\frac{QK^\top}{\sqrt{d_k}}$，即 $n\times d$ 与 $d\times n$ 叉积得到 $n\times n$ 的矩阵，时间复杂度是 $O(n^2d)$。softmax 需要对 $n\times n$ 的矩阵做归一化，时间复杂度为 $O(n^2)$。最后和 V 矩阵相乘，即 $n\times n$ 与 $n\times d$ 叉积得到 S 的 $n\times d$ 的注意力分数矩阵，时间复杂度为 $O(n^2d)$。最后再与一个 $d\times d$ 的线性层叉积得到最终 $n\times d$ 的输出，时间复杂度为 $O(nd^2)$。
+
+由于 n 往往远大于 d，所以我们认为 n 为变量，d 近似为常量，所以不考虑多头机制（即会将 d 维划分为 h 个 $d_h$）的情况下，总时间复杂度就是 $O(n^2)$。
+
 ## 对比总结
 
 Transformer 的核心价值在于通过注意力机制把序列依赖从「链式传递」改为「全局直接访问」，从而实现了：
@@ -141,4 +151,9 @@ Transformer 的核心价值在于通过注意力机制把序列依赖从「链�
 | 扩展性 | 较弱 | 极强 |
 | 大模型适配 | 限制明显 | 完全适配 |
 
-如果把 RNN 类比为“逐字阅读”，Transformer 则像“摊开整页随时访问任意段落”，使其在速度、建模能力和可扩展性上都具备明显优势。
+## PyTorch 实现
+
+参考：
+
+- [Transformer Model Tutorial in PyTorch: From Theory to Code](https://www.datacamp.com/tutorial/building-a-transformer-with-py-torch)
+- [hyunwoongko/transformer](https://github.com/hyunwoongko/transformer)

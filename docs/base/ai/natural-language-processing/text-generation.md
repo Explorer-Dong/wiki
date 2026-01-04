@@ -1,10 +1,11 @@
 ---
-title: 文本生成
+title: 文本生成（机器翻译）
 ---
 
-现代文本生成任务包括翻译、摘要、问答、对话等，而机器翻译（MT）是最典型的序列到序列建模场景。本文以机器翻译为切入点，从传统统计方法过渡到神经网络方法，并系统介绍 Seq2Seq 与 Attention 机制，为后续理解 Transformer 奠定基础。
+现代文本生成任务包括翻译、摘要、问答、对话等，而机器翻译 (Machine Translation
+, MT) 是最典型的序列到序列建模场景。本文以机器翻译为切入点，从传统统计方法过渡到神经网络方法，并系统介绍序列到序列 (Sequence to Sequence, Seq2Seq) 与注意力 (Attention) 机制，为后续理解 [Transformer](../../../llm/research/transformer.md) 奠定基础。
 
-## 机器翻译基本概念
+## 基本概念
 
 ### 任务定义
 

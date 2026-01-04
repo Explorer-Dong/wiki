@@ -15,4 +15,8 @@ title: 大模型专栏简介
 
 本专栏将沿着这三条主线，从底层到高层，逐步解析当代大模型体系的全貌。既关注技术本身，也讨论它们的哲学与未来走向。欢迎评论与补充🤗。
 
-![让我们恭迎 AGI 时代的到来！](https://cdn.dwj601.cn/images/202501302119120.png)
+部分参考：
+
+- [大模型技术博客 - 知乎猛猿](https://zhuanlan.zhihu.com/p/654910335)
+
+![让我们恭迎通用人工智能 (Artificial General Intelligence, AGI) 时代的到来！](https://cdn.dwj601.cn/images/202501302119120.png)
