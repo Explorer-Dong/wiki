@@ -369,6 +369,8 @@ graph TB
 
 ### 管理包
 
+如果使用了 [虚拟环境](#管理虚拟环境)，请在管理包之前提前激活虚拟环境。
+
 === "pip"
 
     查看包：
@@ -388,22 +390,29 @@ graph TB
     
     ```bash
     # 安装包
-    pip install <pkg>
+    pip install [options] <pkg>
     
     # 安装包（安装指定版本）
     pip install <pkg>==<version>
     
+    # 安装包（从文件中读取包列表）
+    pip install -r <file_name>
+    
     # 安装包（同时安装扩展）
     pip install <pkg>[<plugin>]  # 例如 pip install "imageio[ffmpeg]"
     
-    # 安装包（从 GitHub 下载，可指定分支或提交）
-    pip install git+https://github.com/<username>/<repo>.git@<branch or commit_id>
+    # 安装包（从 Git 项目下载，可指定分支或提交）
+    pip install git+https://github.com/<username>/<repo>.git[@<branch>]
+    pip install git+https://github.com/<username>/<repo>.git[@<commit_id>]
     
     # 安装包（强制安装最新版，--upgrade 可简写为 -U）
     pip install --upgrade <pkg>
     
     # 安装包（强制重新安装）
     pip install --force-reinstall <pkg>
+    
+    # 安装包（禁止独立安装，适用于非纯 Python 包）
+    pip install --no-build-isolation <pkg>
     
     # 卸载包
     pip uninstall <pkg>
@@ -436,24 +445,45 @@ graph TB
 
 === "uv"
 
-    `uv add` 会自动创建并管理虚拟环境（如果没有手动创建），因此你不需要手动执行 `python -m venv` 或 `conda create`。
-    
-    同时 uv 还会自动处理依赖冲突与解析锁定文件 `uv.lock`，保证安装可复现。
+    安装与卸载包：
     
     ```bash
     # 安装包
-    uv add <pkg>
+    uv add [options] <pkg>
+    
+    # 安装包（从文件中读取包列表）
+    uv add -r <filename>
     
     # 安装包（安装指定版本）
     uv add <pkg>==<version>
     
-    # 安装包（强制安装最新版）
-    uv add --upgrade <pkg>
-    # 等价于
-    uv add -U <pkg>
-    
     # 卸载包
     uv remove <pkg>
+    ```
+    
+    对于有前置依赖的包（禁止独立安装），可以在 `pyproject.toml` 中添加以下内容：
+    
+    ```toml hl_lines="9-10"
+    [project]
+    name = "project"
+    version = "0.1.0"
+    description = "..."
+    readme = "README.md"
+    requires-python = ">=3.12"
+    dependencies = ["cchardet", "cython", "setuptools"]
+    
+    [tool.uv]
+    no-build-isolation-package = ["cchardet"]
+    ```
+    
+    更新包：
+    
+    ```bash
+    # 更新全部包
+    uv lock --upgrade
+    
+    # 更新指定包
+    uv lock --upgrade-package <pkg>
     ```
 
 ## 代码管理🤨
