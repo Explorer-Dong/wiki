@@ -1,12 +1,12 @@
 ---
-title: Transformer
+title: Transformer Model
 status: new
 ---
 
 !!! tip
     推荐一个很直观的 Transformer 可视化交互网站：[Transformer Explainer](https://poloclub.github.io/transformer-explainer/)。
 
-本文介绍 Transformer 网络。
+本文介绍 Transformer 模型的基本原理。
 
 ## 产生背景
 
