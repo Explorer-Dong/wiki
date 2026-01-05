@@ -383,7 +383,6 @@ nav:
         - llm/infra/training-framework/pytorch.md
       - 推理服务:
         - llm/infra/inference-server/index.md
-        - llm/infra/inference-server/sglang.md
     - 模型研究:
       - llm/research/index.md
       - Transformer Model:
