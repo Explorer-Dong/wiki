@@ -124,7 +124,7 @@ apt install <package_name>:<version>
 apt remove <package_name>
 ```
 
-### 终端汉化 language-pack-zh-hans
+### 汉化 language-pack-zh-hans
 
 language-pack-zh-hans 是一个终端汉化软件包。Shell 的运行结果通过 Terminal 呈现，如果遇到都是英文的输出结果，可以进行以下操作将其转换为中文。
 
@@ -496,6 +496,38 @@ more <source>
 
 标准输出（stdout）默认是显示器。`>` 表示创建或覆盖，`>>` 表示追加。
 
+### 打包与解包 tar
+
+tar 即 tape archive，译为磁带归档。主要用来打包和解包多个文件。
+
+基本命令：
+
+```bash
+tar [options] <xxx.tar> [options] [folder_path]
+```
+
+打包文件：
+
+```bash
+tar -cvf archive.tar /path/to/source
+
+# -c 即 --create，表示创建
+# -v 即 --verbose，表示打印详细信息
+# -f 即 --file，表示指定文件
+```
+
+解包文件：
+
+```bash
+tar -xvf archive.tar -C /path/to/target
+
+# -x 即 --extract，表示解包
+# -v 即 --verbose，表示打印详细信息
+# -f 即 --file，表示指定文件
+
+# -C 即 --directory，表示指定解包出的文件存储位置
+```
+
 ### 查找 find
 
 ```bash
@@ -737,7 +769,7 @@ umask
 
 ## 进程管理
 
-### 查看进程 ps、top、htop、btop
+### 查看进程 ps / top / htop / btop
 
 ```bash
 # 静态
