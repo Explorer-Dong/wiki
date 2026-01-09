@@ -49,7 +49,7 @@ info = r"hello\tworld"  # hello\tworld
 
 其中：
 
-- python 会对其中的特殊字符转义，例如 `\t` 会被转义为一个 tab；
+- Python 会对其中的特殊字符转义，例如 `\t` 会被转义为一个 tab；
 - `r` 表示输出原始内容，不会对其中的内容进行转义。
 
 字符模板 (f-string)：
@@ -192,7 +192,7 @@ while count < 3:
     count += 1  # 增加 count 的值
 ```
 
-## **函数**
+## 函数
 
 Python 使用 `def` 关键字定义函数。
 
@@ -204,93 +204,89 @@ message = greet("Alice")
 print(message)  # Hello, Alice
 ```
 
-## 解包机制
+### 解包机制
 
 Python 中的解包机制让参数传递变得更灵活。解包分成两类：
 
-* 函数定义处，收集参数。`*args` 用来接收多余的「位置参数」，而 `**kwargs` 用来接收多余的「关键字参数」；
-* 函数调用处，展开参数。`*` 用来展开序列（可迭代对象），`**` 用来展开字典。
+- 函数定义处，收集参数。`*args` 用来接收多余的「位置参数」，而 `**kwargs` 用来接收多余的「关键字参数」；
+- 函数调用处，展开参数。`*` 用来展开序列（可迭代对象），`**` 用来展开字典。
 
 解包机制的本质，是让 Python 的参数系统脱离固定形态，转而以更抽象的方式处理数据结构，使得语言表达能力在工程层面保持灵活却不混乱。
 
-### `*args`
+位置参数的收集与展开：
 
-函数定义处，用于接收任意数量的「位置参数」并将它们收集为一个元组：
+- 函数定义处，用于接收任意数量的「位置参数」并将它们收集为一个元组：
 
-```python
-def add_all(x, *args):
-    print(type(args))  # <class 'tuple'>
-    total = 0
-    for value in args:
-        total += value
-    return total
-
-print(add_all(1, 2, 3))  # 5
-print(add_all(1, 2, 3, 4))  # 9
-```
-
-函数调用处，把一个序列展开为多个位置参数：
-
-```python
-def add_all(*args):
-    total = 0
-    for value in args:
-        total += value
-    return total
-
-nums = [1, 2, 3]  # 或 set、tuple 等可迭代对象
-print(add_all(*nums))  # 等价于 add_all(1, 2, 3)
-```
-
-### `**kwargs`
-
-函数定义处，用于接收任意数量的「关键字参数」并将它们组织为一个字典：
-
-```python
-def describe(**kwargs):
-    print(type(kwargs))  # <class 'dict'>
-    print(kwargs)  # {'name': 'Alice', 'age': 18}
-
-describe(name="Alice", age=18)
-```
-
-函数调用处，把一个字典展开为多个关键字参数：
-
-```python
-def f(**kwargs):
-    print(kwargs)  # {'name': 'Bob', 'city': 'Singapore'}
-
-info = {"name": "Bob", "city": "Singapore"}
-f(**info)  # 等价于 f(name="Bob", city="Singapore")
-```
-
-!!! tip
-
-    字典解包是一种清晰、稳定、可扩展的方式，在 Pydantic、FastAPI 等框架中极为常见。例如，在构造 Pydantic 模型时，通常会将 JSON 反序列化得到的字典直接展开，模型内部再对字段进行验证：
-    
     ```python
-    class User(BaseModel):
-        name: str
-        age: int
+    def add_all(x, *args):
+        print(type(args))  # <class 'tuple'>
+        total = 0
+        for value in args:
+            total += value
+        return total
     
-    data = {"name": "Tom", "age": 20}
-    user = User(**data)
+    print(add_all(1, 2, 3))  # 5
+    print(add_all(1, 2, 3, 4))  # 9
     ```
 
-## 异常处理
+- 函数调用处，把一个序列展开为多个位置参数：
 
-使用 `try`、`except`、`finally` 来处理可能的错误。
+    ```python
+    def add_all(*args):
+        total = 0
+        for value in args:
+            total += value
+        return total
+    
+    nums = [1, 2, 3]  # 或 set、tuple 等可迭代对象
+    print(add_all(*nums))  # 等价于 add_all(1, 2, 3)
+    ```
+
+关键字参数的收集与展开：
+
+- 函数定义处，用于接收任意数量的「关键字参数」并将它们组织为一个字典：
+
+    ```python
+    def describe(**kwargs):
+        print(type(kwargs))  # <class 'dict'>
+        print(kwargs)  # {'name': 'Alice', 'age': 18}
+    
+    describe(name="Alice", age=18)
+    ```
+
+- 函数调用处，把一个字典展开为多个关键字参数：
+
+    ```python
+    def f(**kwargs):
+        print(kwargs)  # {'name': 'Bob', 'city': 'Singapore'}
+    
+    info = {"name": "Bob", "city": "Singapore"}
+    f(**info)  # 等价于 f(name="Bob", city="Singapore")
+    ```
+
+    !!! tip
+
+        字典解包是一种清晰、稳定、可扩展的方式，在 [Pydantic](./network-lib.md#pydantic)、[FastAPI](./network-lib.md#fastapi) 等框架中极为常见。例如，在构造 Pydantic 模型时，通常会将 JSON 反序列化得到的字典直接展开，模型内部再对字段进行验证：
+
+        ```python
+        class User(BaseModel):
+            name: str
+            age: int
+
+        data = {"name": "Tom", "age": 20}
+        user = User(**data)
+        ```
+
+### lambda
+
+lambda 函数是一种简洁的匿名函数，通常用于简单的函数体。
 
 ```python
-try:
-    x = 10 / 0  # 会抛出除零异常
-except ZeroDivisionError:
-    print("不能除以零")
-finally:
-    print("执行完毕")
+square = lambda x: x**2
+print(square(5))  # 25
 ```
 
-## 面向对象
+## 类
 
 Python 是面向对象的语言，使用 `class` 关键字定义类。
 
@@ -324,6 +320,107 @@ print(dog.__calculate_dog_years())  # AttributeError
 print(dog._Dog__calculate_dog_years())  # 21
 ```
 
+## 模块
+
+模块即一个以 `.py` 为后缀的代码文件，其中可以包括类、函数、变量等任意 Python Object。
+
+### `__all__`
+
+模块内的 `__all__: list[str]` 变量用来约束当前模块暴露出去的对象。有助于明确一个模块中哪些是可以公开调用的，哪些仅仅是内部使用的。
+
+=== "使用 `__all__`"
+
+    ```python title="示例模块 cls_all.py" hl_lines="3"
+    import math
+    
+    __all__ = ["Demo", "GLOBAL_VAR"]
+    
+    GLOBAL_VAR = "hello"
+    
+    class Demo:
+        def __init__(self):
+            print(f"cos(1) = {math.cos(1)}")
+    
+    def fun():
+        print("this is function")
+    ```
+    
+    ```python title="示例调用 main.py"
+    from cls_all import *
+    
+    print(globals())
+    ```
+    
+    ```text title="程序输出（调整格式后）" hl_lines="11-12"
+    {
+        '__name__': '__main__',
+        '__doc__': None,
+        '__package__': None,
+        '__loader__': <_frozen_importlib_external.SourceFileLoader object at 0x000001EA08FAC380>,
+        '__spec__': None,
+        '__annotations__': {},
+        '__builtins__': <module 'builtins' (built-in)>,
+        '__file__': 'e:\\python\\demos\\fastapi-demo\\src\\cls_all_main.py',
+        '__cached__': None,
+        'Demo': <class 'cls_all.Demo'>,
+        'GLOBAL_VAR': 'hello'
+    }
+    ```
+
+=== "不用 `__all__`"
+
+    ```python title="示例模块 cls_all.py" hl_lines="3"
+    import math
+    
+    # __all__ = ["Demo", "GLOBAL_VAR"]
+    
+    GLOBAL_VAR = "hello"
+    
+    class Demo:
+        def __init__(self):
+            print(f"cos(1) = {math.cos(1)}")
+    
+    def fun():
+        print("this is function")
+    ```
+    
+    ```python title="示例调用 main.py"
+    from cls_all import *
+    
+    print(globals())
+    ```
+    
+    ```text title="程序输出（调整格式后）" hl_lines="11-14"
+    {
+        '__name__': '__main__',
+        '__doc__': None,
+        '__package__': None,
+        '__loader__': <_frozen_importlib_external.SourceFileLoader object at 0x0000028A84E6C380>,
+        '__spec__': None,
+        '__annotations__': {},
+        '__builtins__': <module 'builtins' (built-in)>,
+        '__file__': 'e:\\python\\demos\\fastapi-demo\\src\\cls_all_main.py',
+        '__cached__': None,
+        'math': <module 'math' (built-in)>,
+        'GLOBAL_VAR': 'hello',
+        'Demo': <class 'cls_all.Demo'>,
+        'fun': <function fun at 0x0000028A84EB0900>
+    }
+    ```
+
+## 异常处理
+
+使用 `try`、`except`、`finally` 来处理可能的错误。
+
+```python
+try:
+    x = 10 / 0  # 会抛出除零异常
+except ZeroDivisionError:
+    print("不能除以零")
+finally:
+    print("执行完毕")
+```
+
 ## 迭代器与生成器
 
 迭代器是可以遍历的对象，生成器则是使用 `yield` 来定义的惰性迭代器。
@@ -344,13 +441,4 @@ def count_up_to(limit):
 gen = count_up_to(3)
 print(next(gen))  # 1
 print(next(gen))  # 2
-```
-
-## 匿名函数
-
-Lambda 函数是一种简洁的匿名函数，通常用于简单的函数体。
-
-```python
-square = lambda x: x**2
-print(square(5))  # 25
 ```
