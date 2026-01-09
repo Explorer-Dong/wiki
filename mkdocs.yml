@@ -368,6 +368,7 @@ nav:
         - develop/tools/git/branch-conflict.md
     - 其他:
       - develop/others/data-serialization-format.md
+      - develop/others/cli-argument-format.md
   - 大模型:
     - llm/index.md
     - 基础设施:
