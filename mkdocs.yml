@@ -63,7 +63,7 @@ theme:
     - search.share                 # 社交分享按钮
     - search.suggest               # 搜索建议
     - toc.follow                   # 目录跟随滚动（需要 markdown_extensions.toc.permalink 开启）
-    - announce.dismiss             # 支持手动关闭公告
+    # - announce.dismiss             # 支持手动关闭公告
 
 
 # ==================== 语法扩展 ====================
