@@ -498,35 +498,59 @@ more <source>
 
 ### 打包与解包 tar
 
-tar 即 tape archive，译为磁带归档。主要用来打包和解包多个文件。
+tar 即 tape archive，译为磁带归档。主要用来打包和解包多个文件，适用于吞吐率较高场景下的文件传输。
 
-基本命令：
+命令格式：
 
 ```bash
 tar [options] <xxx.tar> [options] [folder_path]
 ```
 
-打包文件：
+打包：
 
-```bash
-tar -cvf archive.tar /path/to/source
+- 基本命令：
 
-# -c 即 --create，表示创建
-# -v 即 --verbose，表示打印详细信息
-# -f 即 --file，表示指定文件
-```
+    ```bash
+    tar -cvf archive.tar /path/to/source
+    # -c 即 --create，表示创建
+    # -v 即 --verbose，表示打印详细信息
+    # -f 即 --file，表示指定文件
+    ```
 
-解包文件：
+解包：
 
-```bash
-tar -xvf archive.tar -C /path/to/target
+- 基本命令：
 
-# -x 即 --extract，表示解包
-# -v 即 --verbose，表示打印详细信息
-# -f 即 --file，表示指定文件
+    ```bash
+    tar -xvf archive.tar  # 默认存储在当前目录
+    # -x 即 --extract，表示解包
+    # -v 即 --verbose，表示打印详细信息
+    # -f 即 --file，表示指定文件
+    ```
 
-# -C 即 --directory，表示指定解包出的文件存储位置
-```
+- 指定解包路径：
+
+    ```bash
+    tar -xvf archive.tar -C /path/to/target
+    # -C 即 --directory，表示指定解包出的文件存储位置
+    ```
+
+- 去掉指定层数的文件夹：
+
+    ```bash
+    tar -xvf --strip-components=1
+    # 例如 archive.tar 的内容结构为 out/**
+    # 想要去掉最外层的 out/ 文件夹，就可以添加该参数
+    ```
+
+查看：
+
+- 基本命令：
+
+    ```bash
+    tar -tf archive.tar
+    # -t 即 --list，表示罗列包的内容
+    ```
 
 ### 查找 find
 
