@@ -4,7 +4,7 @@ site_url: https://wiki.dwj601.cn/
 repo_url: https://github.com/Explorer-Dong/wiki
 repo_name: Explorer-Dong/wiki
 edit_uri: edit/main/docs/
-copyright: 'Copyright &copy; 2025 - 2026 Explorer Dong · <a href="https://beian.miit.gov.cn/">苏ICP备2024087610号-1</a>'
+copyright: '&copy; 2026 Explorer Dong · <a href="https://beian.miit.gov.cn/">苏ICP备2024087610号-1</a>'
 
 
 # ==================== 预览配置 ====================
@@ -161,7 +161,8 @@ plugins:
   - glightbox:
       auto_caption: false
   # meta 配置
-  - meta
+  - meta:
+      enabled: !ENV [CI, false]
   # 隐藏侧边栏行为
   - toggle-sidebar:
       theme: material
