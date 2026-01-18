@@ -2,7 +2,7 @@
 title: 首页
 ---
 
-![网站封面图，使用 Nano Banana Pro 制作](https://cdn.dwj601.cn/images/20251216194039247.png)
+![网站封面图，使用 Nano Banana Pro 制作](./assets/images/wiki-cover-image.png)
 
 本网站托管笔者的技术博客，围绕「计算机」与「人工智能」两大主题，展开以下四个板块：
 

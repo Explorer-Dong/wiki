@@ -1,5 +1,5 @@
 <p align="center">
-    <a title="Project Cover Image" href="https://wiki.dwj601.cn/" target="_blank"><img src="https://cdn.dwj601.cn/images/20251216194039247.png" alt="Project Cover Image"></a>
+    <a title="Project Cover Image" href="https://wiki.dwj601.cn/" target="_blank"><img src="./docs/assets/images/wiki-cover-image.png" alt="Project Cover Image"></a>
 </p>
 
 <p align="center">
