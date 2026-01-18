@@ -88,17 +88,23 @@ graph TB
 
 === "uv"
 
-    更多安装方法见 [uv](https://docs.astral.sh/uv/getting-started/installation/) 官网，这里以直接下载 [GitHub Releases](https://github.com/astral-sh/uv/releases) 中的二进制程序为例，使用 Windows 上的 Git Bash：
-    
-    ```bash
-    # 下载 uv 压缩包
-    wget https://github.com/astral-sh/uv/releases/download/0.9.9/uv-i686-pc-windows-msvc.zip
-    
-    # 解压 uv 压缩包
-    unzip file.zip -d /path/to/directory
-    
-    # 把 uv 的二进制程序所在目录放到环境变量
-    ```
+    对于 Windows 用户，最简单的方法是直接下载 uv 的二进制程序：
+
+    1. 进入 uv 的 [GitHub Releases](https://github.com/astral-sh/uv/releases) 界面；
+
+    2. 下载适合你电脑芯片的压缩包。例如对于 64 位的 Windows，选择 `uv-x86_64-pc-windows-msvc.zip` 即可；
+
+    3. 将压缩包解压后，将对应目录添加到系统环境变量中。
+
+    4. 检查是否安装成功。在终端输入以下命令：
+
+        ```bash
+        uv --version
+        ```
+
+        如果可以正常打印 uv 的版本号信息，即表示安装成功。
+
+    5. 更多安装方法见 [uv docs](https://docs.astral.sh/uv/getting-started/installation/)。
 
 基本配置方法：
 
