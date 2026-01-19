@@ -2,7 +2,8 @@
 
 name: Deploy Website to Aliyun OSS
 
-on: [push, pull_request]
+on:
+  push
 
 jobs:
   main:

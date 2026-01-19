@@ -3,7 +3,7 @@ title: GitHub 常见用法
 icon: material/github
 ---
 
-本文介绍 [GitHub](https://github.com) 的常见用法。
+本文介绍 [GitHub](https://github.com) 的常见用法，更详细的内容见官方文档 [GitHub Docs](https://docs.github.com/zh)。
 
 ## 基本概念
 
@@ -166,8 +166,9 @@ action 是可复用的步骤封装，可以理解为“流水线里的函数”�
 # 工作流名称
 name: Deploy Website to Aliyun OSS
 
-# 工作流触发事件，这里是 push 和 PR
-on: [push, pull_request]
+# 工作流触发事件，这里是 push
+on:
+  push
 
 # 所有的工作（每个工作之间并行进行）
 jobs:
