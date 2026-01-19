@@ -79,10 +79,10 @@ git config --global core.quotepath false
     ```bash
     # 克隆默认分支
     git clone <remote_url> [<project_name>]
-
+    
     # 克隆指定分支
     git clone -b <branch_name> <remote_url> [<project_name>]
-
+    
     # 此时远程仓库名称默认为 origin
     ```
 
@@ -105,6 +105,73 @@ git commit -m '<comment>'
 # 添加多个 -m 表示多行 comment
 git commit -m '<comment_line_1>' -m '<comment_line_2>'
 ```
+
+comment 需要有一些常用的规范，可以帮助其他开发者更好地了解你的改动。一般写法如下：
+
+```bash
+<type>(<scope>): <subject>
+<body>
+<footer>
+```
+
+1. **Type** (必需)
+   提交的类型：
+
+   - **feat**: 新功能
+   - **fix**: 修复bug
+   - **docs**: 文档更新
+   - **style**: 代码格式调整（不影响代码运行）
+   - **refactor**: 重构（既不是新功能也不是bug修复）
+   - **perf**: 性能优化
+   - **test**: 测试相关
+   - **build**: 构建系统或外部依赖变更
+   - **ci**: CI/CD配置变更
+   - **chore**: 其他杂项
+   - **revert**: 回滚提交
+
+2. **Scope** (可选)
+   影响范围，如模块、组件等：
+
+   - `feat(api):` - API相关功能
+   - `fix(auth):` - 认证模块修复
+   - `docs(readme):` - README文档更新
+
+3. **Subject** (必需)
+   简短描述（50字符以内）：
+
+   - 使用现在时（"add" 而不是 "added"）
+   - 首字母小写
+   - 不加句号
+
+4. **Body（正文）**：
+
+   - 可选部分，用于详细描述本次提交的内容
+
+   - 以空行与标题分隔
+
+   - 可以解释 **为什么** 要这样修改，而不仅仅是做了什么
+
+   - 通常用段落形式书写，可以使用列表
+
+   - 示例：
+
+     ```text
+     fix(api): 修复用户登录失败问题
+     
+     修复了当用户使用特殊字符密码时登录失败的问题：
+     - 改进了密码验证的正则表达式
+     - 添加了输入字符集的检查
+     - 更新了相关错误提示信息
+     ```
+
+5. **Footer（页脚）**：
+
+- 可选部分，包含与提交相关的元数据
+- 以空行与正文分隔
+- 通常包括：
+  1. **Breaking changes（重大变更）**：以 `BREAKING CHANGE:` 开头，描述不兼容的变更
+  2. **Issue references（问题引用）**：如 `Closes #123`、`Fixes #45`、`Related to #78`
+  3. **其他元数据**：如提交者信息、审查者等
 
 ### 仓库区 $\xrightarrow[]{\text{push}}$ 服务器
 
@@ -199,6 +266,119 @@ git switch main
 # 接着将 dev 分支合并到 main 分支
 git merge dev
 ```
+
+### 分支类型及命名
+
+分支命名规范在Git工作流中至关重要，它能增强团队协作效率、优化项目管理等。
+
+分支类型系统
+
+| 分支类型   | 分支名匹配规则 | 描述                                        |
+| :--------- | :------------- | :------------------------------------------ |
+| 主干分支   | master         | 与仓库设置 > 分支设置中的默认分支保持一致。 |
+| 开发分支   | develop        | 平时开发用的主分支，永远是功能最全最新      |
+| 功能分支   | feature/*      | 一般一个事项卡对应一个功能分支              |
+| 发布分支   | release/*      | 一般一次新版本的发布对应一个发布分支        |
+| 热修复分支 | hotfix/*       | 从主干分支拉出，用于线上版本的 Bug 修复     |
+
+合并方向系统
+
+规范仓库分支间的合并方向，只允许创建列表中规定方向的合并请求，列表为空则不会对仓库中的合并请求方向做限制。
+
+| 源分支     | 目标分支 | 图示                            |
+| :--------- | :------- | :------------------------------ |
+| 发布分支   | 主干分支 | release/* $\rightarrow$ master  |
+| 热修复分支 | 主干分支 | hotfix/* $\rightarrow$ master   |
+| 功能分支   | 开发分支 | feature/* $\rightarrow$ develop |
+| 发布分支   | 开发分支 | release/* $\rightarrow$ develop |
+| 热修复分支 | 开发分支 | hotfix/* $\rightarrow$ develop  |
+
+### 变基合并
+
+**Rebase**（变基）是 Git 中的一个重要操作，它可以将一个分支的提交记录“重新播放”到另一个分支上，从而**整理提交历史，使其更加线性整洁**。下图可以帮助你直观地了解它与**Merge**的差异。
+
+```
+# Merge（合并）方式
+A---B---C  master
+         \
+          D---E  feature
+合并后：
+A---B---C-------F  master
+         \     /
+          D---E
+
+# Rebase（变基）方式
+A---B---C  master
+         \
+          D---E  feature
+变基后：
+A---B---C---D'---E'  master
+```
+
+变基分为两种：普通变基和交互式变基。
+
+1. 普通变基
+   ```bash
+   # 将当前分支变基到 master 分支
+   git checkout feature
+   git rebase master
+   
+   # 等同于（显式指定目标分支）
+   git rebase master feature
+   ```
+
+2. 交互式变基
+   ```bash
+   # 修改最近3次提交
+   git rebase -i HEAD~3
+   
+   # 修改从某个提交开始的所有提交
+   git rebase -i <commit-hash>
+   ```
+
+在交互式变基中，当我们输入命令 `git rebase -i xxx` 后，会打开一个编辑器，显示类似：
+
+```
+pick a1b2c3d 添加功能A
+pick e4f5g6h 添加功能B
+pick i7j8k9l 修复bug
+```
+
+这里的每一条 `pick` 信息，都表示了一次提交。当然我们也可以修改写信息，常用选项如下：
+
+- **pick**：保留该提交
+- **reword**：修改提交信息
+- **edit**：暂停在此提交，可以修改内容
+- **squash**：合并到前一个提交中
+- **fixup**：合并但丢弃提交信息
+- **drop**：删除该提交
+
+开始变基后，由于要线性化历史信息，可能会发生冲突，此时需要手动解决冲突。如果我们无法确定合适的冲突解决方案，也可以取消本次变基。
+
+```bash
+# 1. 开始变基
+git rebase master
+
+# 2. 遇到冲突时，Git会暂停
+# 3. 手动解决冲突后
+git add <解决的文件>
+git rebase --continue
+
+# 4. 如果想取消变基
+git rebase --abort
+```
+
+### 压缩合并
+
+当我们开发一个新功能时，往往要提交很多诸如 "fix, style" 这样的改动。**Squash Merge** 可以把这些提交压缩成一次提交合并，保持目标分支整洁。
+
+```shell
+git merge --squash <BranchName>
+
+git commit -m "commit message"
+```
+
+GitHub/GitLab 有 squash merge 按钮 (在 PR/MR 界面中)
 
 ### 追踪远程分支
 
@@ -366,4 +546,23 @@ git filter-branch \
 
 ```bash
 git push --force <remote_name> <branch_name>
+```
+
+### 提交到其它分支
+
+在写代码的时候，我们可能在不合适的分支 A 中做了大量改动，并希望将这些改动提交到分支 B 中。方法如下：
+
+```shell
+git stash save "work for branch B"
+git checkout B
+git stash pop
+git add .
+git commit -m "commit message"
+```
+
+特别地，stash只会暂存已经跟踪的文件，如果需要包含其它文件，可以使用以下参数：
+
+```shell
+git stash -u  # 包含未跟踪文件
+git stash -a  # 包含所有文件（包括 .gitignore 忽略的）
 ```
