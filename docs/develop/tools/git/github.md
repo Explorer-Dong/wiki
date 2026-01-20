@@ -83,9 +83,8 @@ git clone git@github.com:Explorer-Dong/wiki.git
 
 1. 先在 GitHub 平台将目标仓库 "openai/openai-cookbook" `fork` 到自己的账号下，得到 "小明/openai-cookbook" 这个仓库；
 2. 接着将 "小明/openai-cookbook" `clone` 到本地并进行开发；
-3. 开发结束后通过 `add`、`commit` 等常规操作保存改动；
-4. 然后 `push` 到 "小明/openai-cookbook" 仓库；
-5. 最后在 GitHub 平台向 "openai/openai-cookbook" 发起 `pull request` 等到管理员审核即可。
+3. 开发结束后通过 `add`、`commit` 、`push` 等常规操作保存并提交改动；
+4. 最后在 GitHub 平台向 "openai/openai-cookbook" 发起 `pull request` 等到管理员审核即可。
 
 下面给出演示截图。
 
@@ -95,7 +94,7 @@ git clone git@github.com:Explorer-Dong/wiki.git
 
 ![fork 目标仓库](https://cdn.dwj601.cn/images/202406091618430.png)
 
-### 第二步：clone 仓库至本地
+### 第二步：克隆 fork 后的仓库
 
 进入自己的仓库，找到对应的项目并复制克隆链接。如下图所示：
 
@@ -103,13 +102,40 @@ git clone git@github.com:Explorer-Dong/wiki.git
 
 ### 第三步：编辑内容并版本管理
 
-我们将需要修改的内容完善后，进行 add 和 commit 操作即可。
+我们将需要修改的内容完善后，就按照常规的 Git 用法进行 add、commit 和 push 操作即可。
 
-### 第四步：push 至仓库
+!!! tip
+    很多仓库要求贡献者在指定分支上进行，比如不允许在 main 分支编写代码，只允许在 develop 分支上进行，读者需根据实际情况进行版本管理。
 
-此处将已经版本管理好的内容 push 到自己刚才 fork 出来的仓库即可。上述示例中需要 push 到 develop 分支上。
+### 可选步：同步 fork 后的仓库
 
-### 第五步：发起 PR 请求
+当我们基于 fork 后的仓库的某个分支进行开发时，源仓库的该分支很有可能也更新了。此时我们有两种方法同步 fork 后的仓库：
+
+方法一：直接在 GitHub 网页上使用 `Update branch` 同步分支。但这会产生一个新的提交点（默认使用 [普通合并](./commands.md#合并分支) 选项，我没找到可以调整合并方式的选项，如果有欢迎评论指出），而 `Discard <x> commits` 会删除部分提交，不太安全就不用了：
+
+![网页版 GitHub 同步 fork 的操作界面](https://cdn.dwj601.cn/images/20260120220424952.png)
+
+方法二：在本地手动使用「变基合并」的方式同步 fork 后的仓库。为了避免新增节点，我们可以使用 [变基合并](./commands.md#合并分支) 同步 fork [^sync-forked-repo-1] [^sync-forked-repo-2] 后的仓库。由于 GitHub 网页版不支持该操作，只能本地进行：
+
+[^sync-forked-repo-1]: [sync forked repository without creating a new commit](https://stackoverflow.com/questions/44583721/how-to-sync-forked-repository-without-creating-a-new-commit)
+
+[^sync-forked-repo-2]: [How to avoid merge commits when syncing a fork](https://www.everythingdevops.dev/blog/how-to-avoid-merge-commits-when-syncing-a-fork)
+
+```shell
+# 添加远程仓库地址
+git add remote upstream https://github.com/<username>/<repo_name>.git
+
+# 变基合并源分支的提交
+git pull --rebase upstream <sourcec_branch_name>
+
+# 强制推送到 fork 后的仓库
+git push origin <target_branch_name> --force
+```
+
+!!! note
+    一旦在本地使用变基合并的方法合并源分支的提交后，后续再在 GitHub 网页端使用 Sync fork 也会基于变基合并的模式更新源分支了。
+
+### 第四步：发起 PR 请求
 
 在选择合适的分支后，点击 `Contribute` 按钮即可看到 `Open pull request` 选项，点击即可发起 PR 请求。如下图所示：
 

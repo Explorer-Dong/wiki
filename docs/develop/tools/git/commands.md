@@ -136,32 +136,31 @@ git commit -m '<comment_line_1>' -m '<comment_line_2>'
 
 5. footer：页脚。包含与提交相关的元数据，以空行与正文分隔，通常包括提交者信息等。
 
+### 仓库区 $\xleftarrow[]{\text{pull}}$ 服务器
+
+如果你的仓库已经在服务器（例如 GitHub）上存储了，在多人协作时可能会有更超前的代码还没合并到你的主机上，此时你需要先合并最新的提交。
+
+基本命令：
+
+```shell
+# 普通合并
+git pull
+
+# 变基合并
+git pull --rebase
+```
+
+`git pull` 其实隐藏了中间步骤，其本质上包括两个操作步骤：
+
+```shell
+# 拉取最新的提交
+git fetch <remote_name> <branch_name>
+
+# 将最新的提交点合并到本地分支
+git merge <branch_name>
+```
+
 ### 仓库区 $\xrightarrow[]{\text{push}}$ 服务器
-
-分以下两种情况：
-
-- 如果服务器上刚创建好一个仓库，请先 [配置好本地仓库与远程仓库的连接](#配置远程仓库)，再进行后续操作；
-
-- 如果远程仓库已经创建好了，并且有本地仓库没有的新推送，请先和远程更新的内容进行合并：
-
-    === "方法一"
-
-        ```bash
-        # 抓取远程代码
-        git fetch <remote_name> <branch_name>
-        
-        # 更新本地分支
-        git merge <branch_name>
-        ```
-
-    === "方法二"
-
-        ```bash
-        # 直接使用 pull 命令，等价于上述方法一的两步。即：先抓取，后合并
-        git pull
-        ```
-
-之后就可以安心 `push` 了：
 
 ```bash
 # 仓库区到云服务器（常规方法）
@@ -255,14 +254,14 @@ Git 分支合并的类型一共有三种：普通合并 (merge)、变基合并 (
 
 ```text
 合并前
-A---B---C  main
-         \
-          D---E  feature
+A---B---C            main
+     \
+      D---------E    feature
 
 合并后：
-A---B---C-------F  main
-         \     /
-          D---E
+A---B---C---------F  main
+     \           /
+      D---------E    feature
 ```
 
 基本命令：
@@ -283,13 +282,15 @@ git merge feature
 示意图：
 
 ```text
-合并前
-A---B---C  main
-         \
-          D---E  feature
+变基合并前：
+A---B---C            main
+     \
+      D---------E    feature
 
 变基合并后：
-A---B---C---D---E  main
+A---B---C---D'---E'  main
+     \
+      D---------E    feature
 ```
 
 基本命令：
@@ -352,13 +353,15 @@ git rebase --abort
 示意图（S 即为新的提交节点）：
 
 ```text
-合并前
-A---B---C  main
-         \
-          D---E  feature
+压缩合并前：
+A---B---C           main
+     \
+      D---------E   feature
 
 压缩合并后：
-A---B---C---S  main
+A---B---C---S       main
+     \
+      D---------E   feature
 ```
 
 基本命令：
