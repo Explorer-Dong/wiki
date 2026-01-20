@@ -29,7 +29,7 @@ Git 是一款版本管理软件，适用目前绝大多数操作系统；[GitHub
 **创建 personal access token**。方式很简单：
 
 1. 进入 [GitHub Settings](https://github.com/settings/apps) 界面后选择 Fine-grained tokens 或 Tokens (classic) 中的一种（Fine-grained tokens 可以针对仓库做更细粒度的权限控制）；
-2. 配置好 token 的权限与名称；
+2. 配置好 token 的权限（Add permissions >> 勾选 Contents >> 设置 Access  为 Read and write）与名称；
 3. 保存生成的 token（只会出现一次）。
 
 **配置 personal access token 的存储行为**。可以通过配置 `credential.helper` 参数来控制存储行为。例如：
