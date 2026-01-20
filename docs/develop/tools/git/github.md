@@ -252,9 +252,12 @@ jobs:
       # 基于 Aliyun CLI 将网页部署到 OSS
     - name: Deploy to Aliyun OSS
       run: |
-        aliyun ossutil rm -r ${{ vars.WEB_OSS_PATH }} -f
-        aliyun ossutil cp oss://public-assets-shanghai/files/BingSiteAuth.xml ${{ vars.WEB_OSS_PATH }}
-        aliyun ossutil cp -r ./site/ ${{ vars.WEB_OSS_PATH }}
+        aliyun ossutil cp oss://public-assets-shanghai/files/BingSiteAuth.xml ${{ vars.WEB_OSS_PATH }} -f
+        # -f 表示强制上传
+        aliyun ossutil cp ./site/ ${{ vars.WEB_OSS_PATH }} -r -u -j 20
+        # -r 表示递归
+        # -u 表示只上传有更新的文件
+        # -j 表示任务并发量，GitHub free 用户的 GitHub Actions 最大并发量只有 20
     
       # 基于 Aliyun CLI 刷新 CDN 缓存
     - name: Refresh Aliyun CDN
@@ -283,9 +286,9 @@ jobs:
         3. 安装 uv；
         4. 配置 Python 包依赖；
         5. 构建 Web 静态页面；
-        6. 安装 [Aliyun CLI](https://github.com/aliyun/aliyun-cli)；
+        6. 安装 Aliyun CLI [code](https://github.com/aliyun/aliyun-cli) [docs](https://help.aliyun.com/zh/cli/)；
         7. 配置 Aliyun CLI；
-        8. 基于 Aliyun CLI 将网页部署到 OSS；
+        8. 基于 Aliyun CLI 将网页部署到 OSS [docs](https://help.aliyun.com/zh/oss/developer-reference/cp-upload-file) [GitHub Actions 最大并发量](https://docs.github.com/en/actions/reference/limits#job-concurrency-limits-for-github-hosted-runners)；
         9. 基于 Aliyun CLI 刷新 CDN 缓存。
 
         如果任一步失败，job 立即终止，整个工作流标记为失败。
