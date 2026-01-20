@@ -4,7 +4,7 @@ site_url: https://wiki.dwj601.cn/
 repo_url: https://github.com/Explorer-Dong/wiki
 repo_name: Explorer-Dong/wiki
 edit_uri: edit/main/docs/
-copyright: '&copy; 2026 Explorer Dong · <a href="https://beian.miit.gov.cn/">苏ICP备2024087610号-1</a>'
+copyright: '&copy; 2026 Explorer Dong'
 
 
 # ==================== 预览配置 ====================
@@ -19,8 +19,8 @@ theme:
   language: zh
   custom_dir: overrides
   # 图标
-  logo: assets/images/logo.svg
-  favicon: assets/images/logo.svg
+  logo: assets/logo.svg
+  favicon: assets/logo.svg
   icon:
     repo: fontawesome/brands/github
     edit: material/pencil 
@@ -123,22 +123,17 @@ markdown_extensions:
 # ==================== 样式注入 ====================
 extra_javascript:
   # KaTeX
-  - assets/javascripts/katex.js
   - https://registry.npmmirror.com/katex/0.16.21/files/dist/katex.min.js
   - https://registry.npmmirror.com/katex/0.16.21/files/dist/contrib/auto-render.min.js
   # mermaid
-  - https://cdn.dwj601.cn/files/mermaid.min.js
-  # 外链跳转
-  - assets/javascripts/link_blank.js
-  # 百度统计
-  - assets/javascripts/analytics_baidu.js
-  # 解析图片的 alt 属性
-  - assets/javascripts/show_img_alt.js
+  - https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.12.0/mermaid.min.js
+  # 自定义 JS 脚本
+  - assets/extra.js
 extra_css:
   # KaTeX
   - https://registry.npmmirror.com/katex/0.16.21/files/dist/katex.min.css
-  # 自定义样式
-  - assets/stylesheets/extra.css
+  # 自定义 CSS 样式
+  - assets/extra.css
 
 
 # ==================== 插件配置 ====================
@@ -188,6 +183,9 @@ extra:
     - icon: fontawesome/solid/c
       link: https://blog.csdn.net/qq_73408594
       name: CSDN
+    - icon: simple/zhihu
+      link: https://www.zhihu.com/people/dwj601
+      name: 知乎
 
 
 # ==================== 页面导航 ====================

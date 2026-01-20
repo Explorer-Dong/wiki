@@ -12,9 +12,12 @@
 .md-typeset h2 {
     /* font-weight: bold; */
     text-align: center !important;
-    border-bottom: 1px solid #ddd; /* 浅浅的下划线 */
-    padding-bottom: 0.1em;  /* 让文字和下划线保持一定间距 */
-    margin-bottom: 0.8em;  /* 和下面的内容拉开一些距离 */
+    border-bottom: 1px solid #ddd;
+    /* 浅浅的下划线 */
+    padding-bottom: 0.1em;
+    /* 让文字和下划线保持一定间距 */
+    margin-bottom: 0.8em;
+    /* 和下面的内容拉开一些距离 */
 }
 
 /* 三级标题配置 */
@@ -23,7 +26,8 @@
 }
 
 /* 外链小箭头 */
-.md-content a[target="_blank"]:not(.md-content__button):not(.md-author):not(:has(img)), .md-tabs__link[target="_blank"] {
+.md-content a[target="_blank"]:not(.md-content__button):not(.md-author):not(:has(img)),
+.md-tabs__link[target="_blank"] {
     background: url('data: image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDdCRkYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMTggMTN2NmEyIDIgMCAwIDEtMiAySDUuMDAxYTIgMiAwIDAgMS0yLTJWOGEyIDIgMCAwIDEgMi0yaDZaIi8+PHBvbHlsaW5lIHBvaW50cz0iMTUgMyAyMSAzIDIxIDkiLz48bGluZSB4MT0iMTAiIHkxPSIxNCIgeDI9IjIxIiB5Mj0iMyIvPjwvc3ZnPg==') center right no-repeat;
     padding-right: 13px;
     margin-right: 3px;
@@ -34,11 +38,10 @@
     overflow-wrap: break-word;
 }
 
-/* 限制最大代码长度 */
-/* .md-typeset pre>code {
-    max-height: 25rem;
-} */
-
+/* 页脚的社交链接在容器中垂直居中（因为额外添加了备案号一行） */
+.md-social {
+    align-items: center;
+}
 
 /* ==================== 表格 ==================== */
 /* 解决 KaTeX 表格在移动端的尾部有异常空白的问题 */
@@ -48,7 +51,8 @@
 }
 
 /* 表格元素垂直居中 */
-td, th {
+td,
+th {
     vertical-align: middle !important;
 }
 
@@ -76,11 +80,11 @@ td, th {
 
 /* 图片的 alt 内容样式 */
 .markdown-img-caption {
-  color: #888;
-  font-size: 0.9em;
-  font-style: normal;
-  text-align: center;
-  margin-top: 0.3em;
+    color: #888;
+    font-size: 0.9em;
+    font-style: normal;
+    text-align: center;
+    margin-top: 0.3em;
 }
 
 /* mermaid 居中 */
