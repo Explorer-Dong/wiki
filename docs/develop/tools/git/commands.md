@@ -519,6 +519,7 @@ git diff --cached {<file_name> | .}
 git commit --amend
 ```
 
+如果希望修改更早提交的 comment，请使用 [合并分支](#合并分支) 中的交互式变基。
 
 ### 取消 Git 管理
 
@@ -535,7 +536,8 @@ git rm --cached <file_name>  # 处理文件夹请加 -r 参数
 !!! tip
     有时我们会不小心将敏感文件加入到 Git 管理中，并且经过不断迭代，曾经的所有版本都记录了该敏感文件，那么我们就得 [在所有涉及到该敏感文件的版本中删除它](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository)。
 
-    **请务必先备份对应数据**。
+!!! warning
+    请务必先备份对应数据。
 
 ```bash
 git filter-branch \
@@ -551,28 +553,31 @@ git filter-branch \
 git push --force <remote_name> <branch_name>
 ```
 
-### 提交到其它分支
+### 临时保存更改
 
-当忘记切换分支时，我们可能会在不合适的分支 A 中做了大量改动，此时如果直接切换分支，改动并不会同步到新分支。为了将这些改动提交到正确的分支 B，我们可以使用 `git stash`：
+场景：
+
+- 当我们在开发某个分支的过程中，想要切换到其他分支做些什么，但又不想 commit 改动的时候；
+- 希望临时保存代码，但是不想作为一个 commit 时。
+
+就可以用上 Git 的临时保存功能，对应为 `git stash` 命令：
 
 ```shell
-# 在错误的分支上“藏”好新变动
-git stash save "work for branch B"
+# 临时保存更改（入栈）
+$ git stash push
+stash@{0}: WIP on exp: 23b0327 fix: typo
+# stash@{0}: WIP on <branch_name>: <last_commit_hash> <last_commit_comment>
 
-# 切换到合适的分支
-git switch B
+# 查看栈内元素
+$ git stash list
 
-# 弹出新变动
+# 弹出栈顶元素
 git stash pop
-
-# 提交内容到当前分支
-git add .
-git commit -m "comment"
 ```
 
-特别地，`git stash` 只会暂存已经跟踪的文件，如果需要包含其它文件，可以使用以下参数：
+特别地，`git stash` 只会临时保存已追踪的文件，如果需要包含其它文件，可以添加以下参数：
 
 ```shell
 git stash -u  # 包含未跟踪文件
-git stash -a  # 包含所有文件（包括 .gitignore 忽略的）
+git stash -a  # 【很少用】包含所有文件，包括 .gitignore 忽略的
 ```
