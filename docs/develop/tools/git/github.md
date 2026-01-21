@@ -178,6 +178,23 @@ step 是 job 内的最小执行单元，可以直接执行命令，也可以调�
 
 action 是可复用的步骤封装，可以理解为“流水线里的函数”。既可以使用 [官方或社区提供的 action](https://github.com/marketplace?type=actions)（通过 `uses` 使用）；也可以在仓库中自定义（通过 `run` 进行）。注意 `uses` 和 `run` 这两个动作是原子操作，不能出现在同一个 `step` 中。
 
+### 外部变量
+
+工作流中难免会遇到容易变化的参数，或者需要隐私保护的变量，此时就可以使用 GitHub Actions 提供的引用外部变量的功能。基本语法为：
+
+```text
+${{ <type>.<key> }}
+```
+
+变量分用户和仓库两个级别，每个级别均有两类变量：
+
+- [私有变量](https://docs.github.com/zh/actions/how-tos/write-workflows/choose-what-workflows-do/use-secrets)。作为密文保存，可通过 `${{ secrets.<private_var_name> }}` 的方式引用（同仓库的 Collaborator 可以看到，注意安全哟）；
+- [公开变量](https://docs.github.com/zh/actions/how-tos/write-workflows/choose-what-workflows-do/use-variables)。作为明文保存，可通过 `${{ vars.<public_var_name> }}` 的方式引用。
+
+在仓库的 Settings 中的 Secrets and variables 中的 actions 中配置变量：
+
+![Settings >> Secrets and variables >> actions](https://cdn.dwj601.cn/images/20251213221831478.png)
+
 ### 快速上手
 
 !!! note "CI/CD 需求"
@@ -189,39 +206,36 @@ action 是可复用的步骤封装，可以理解为“流水线里的函数”�
 直接看具体的工作流：
 
 ```yaml
-# 工作流名称
+# 工作流的名称
 name: Deploy Website to Aliyun OSS
 
-# 工作流触发事件，这里是 push
+# 工作流的触发事件
 on:
   push
 
-# 所有的工作（每个工作之间并行进行）
+# 工作流中的所有工作
 jobs:
   # 这里只有一个工作，我们将其命名为 main（取别的名字也行）
   main:
     # 当前工作的运行环境，这里选择的是最新的 Ubuntu
     runs-on: ubuntu-latest
-    # 环境变量
-    env:
-      MKDOCS_GIT_COMMITTERS_APIKEY: ${{ secrets.MKDOCS_GIT_COMMITTERS_APIKEY }}  # prevent git-committers 403 rate limit exceeded
 
     # 具体的工作步骤
     steps:
     
-      # clone 当前仓库到对应的环境（用的现成的 action）
+      # clone 当前仓库到对应的环境
     - name: Checkout repository
       uses: actions/checkout@v6
       with:
-        fetch-depth: 0  # fetch all commit history
+        fetch-depth: 0  # 拉取所有的提交历史
 
-      # 配置 Python 环境（用的现成的 action）
+      # 配置 Python 环境
     - name: Setup python
       uses: actions/setup-python@v6
       with:
         python-version: '3.14.2'
     
-      # 配置 uv 包管理工具（用的现成的 action）
+      # 配置 uv 包管理工具
     - name: Setup uv
       uses: astral-sh/setup-uv@v7
       with:
@@ -231,16 +245,39 @@ jobs:
     - name: Install python dependence
       run: uv sync
     
+      # 尝试复用缓存
+    - name: Restore cache
+      uses: actions/cache/restore@v4
+      with:
+        # 精确匹配缓存文件夹
+        key: wiki-${{ hashfiles('.cache/**') }}
+        path: ~/.cache
+        # 精确匹配失败就模糊匹配 wiki- 开头的文件夹
+        restore-keys: |
+          wiki-
+    
       # 构建 Web 静态页面
     - name: Build website
       run: mkdocs build -f mkdocs.yml
+      # 当前 step 的环境变量
+      env:
+        # 避免调用 GitHub API 报 403 过载的错误
+        MKDOCS_GIT_COMMITTERS_APIKEY: ${{ secrets.MKDOCS_GIT_COMMITTERS_APIKEY }}
+        # 在 CI 启用部分耗时的插件
+        CI: true
+    
+      # 持久化缓存
+    - name: Save cache
+      uses: actions/cache/save@v4
+      with:
+        key: wiki-${{ hashfiles('.cache/**') }}
+        path: ~/.cache
     
       # 安装 Aliyun CLI（用的现成的 action）
     - name: Setup Aliyun CLI
       uses: aliyun/setup-aliyun-cli-action@v1
     
       # 配置 Aliyun CLI
-      # 注意：由于该数据为敏感数据，所以需要在 GitHub 提前配置，在这里以变量的形式读取
     - name: Config Aliyun CLI
       run: |
         aliyun configure set \
@@ -269,35 +306,9 @@ jobs:
           --Force false
 ```
 
-整个执行流程是：
+工作流中的部分参考内容如下：
 
-1. `on`：有代码被推送或有 PR 被创建则触发工作流；
-
-2. `jobs: main`：启动一个名为 main 的工作：
-
-    1. `runs-on`：基于 Ubuntu 运行环境；
-
-    2. `env`：配置环境变量；
-
-    3. `steps`：main 工作的具体步骤：
-
-        1. 拉取仓库代码；
-        2. 安装 Python；
-        3. 安装 uv；
-        4. 配置 Python 包依赖；
-        5. 构建 Web 静态页面；
-        6. 安装 Aliyun CLI [code](https://github.com/aliyun/aliyun-cli) [docs](https://help.aliyun.com/zh/cli/)；
-        7. 配置 Aliyun CLI；
-        8. 基于 Aliyun CLI 将网页部署到 OSS [docs](https://help.aliyun.com/zh/oss/developer-reference/cp-upload-file) [GitHub Actions 最大并发量](https://docs.github.com/en/actions/reference/limits#job-concurrency-limits-for-github-hosted-runners)；
-        9. 基于 Aliyun CLI 刷新 CDN 缓存。
-
-        如果任一步失败，job 立即终止，整个工作流标记为失败。
-
-注意到在配置 Aliyun CLI 时有一个 `${{ <type>.<key> }}` 语法。这是 GitHub Runner 引用用户额外配置的 GitHub Actions 变量的语法，分用户级和仓库级，这里用的是仓库级。GitHub Actions 仓库级变量一共有两类：
-
-- [仓库私有变量](https://docs.github.com/zh/actions/how-tos/write-workflows/choose-what-workflows-do/use-secrets)。作为密文保存，可通过 `${{ secrets.<private_var_name> }}` 的方式引用（同仓库的 Collaborator 可以看到，注意安全哟）；
-- [仓库公开变量](https://docs.github.com/zh/actions/how-tos/write-workflows/choose-what-workflows-do/use-variables)。作为明文保存，可通过 `${{ vars.<public_var_name> }}` 的方式引用。
-
-在仓库的 Settings 中的 Secrets and variables 中的 actions 中配置变量：
-
-![Settings >> Secrets and variables >> actions](https://cdn.dwj601.cn/images/20251213221831478.png)
+- [Aliyun CLI GitHub 仓库](https://github.com/aliyun/aliyun-cli)
+- [Aliyun CLI 官方文档](https://help.aliyun.com/zh/cli/)
+- [ossutil 复制命令 cp 的参数选项](https://help.aliyun.com/zh/oss/developer-reference/cp-upload-file)
+- [GitHub Actions 最大并发量](https://docs.github.com/en/actions/reference/limits#job-concurrency-limits-for-github-hosted-runners)
