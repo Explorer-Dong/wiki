@@ -523,50 +523,50 @@ git commit --amend
 
 ### 取消 Git 管理
 
-**场景一**。取消「当前版本」下某个文件的 Git 管理（保留在工作区）：
+有时我们会误将部分文件加入到 Git 管理，为了减小管理的体积或者取消敏感文件的管理，我们有必要将这些文件取消 Git 管理。一般有以下两种场景：
 
-```bash
-git rm --cached <file_name>  # 处理文件夹请加 -r 参数
+1）取消「当前版本」下某些文件的 Git 管理：
+
+```shell
+# 对于文件
+git rm --cached <file_name>
+
+# 对于文件夹
+git rm --cached -r <folder_name>
 ```
 
 之后在 `.gitignore` 中增加上述文件或文件夹名称。
 
-**场景二**。取消「所有版本」下某个文件的管理：
+2）取消「所有版本」下某些文件的 Git 管理 [^rm-in-all-commits]：
 
-!!! tip
-    有时我们会不小心将敏感文件加入到 Git 管理中，并且经过不断迭代，曾经的所有版本都记录了该敏感文件，那么我们就得 [在所有涉及到该敏感文件的版本中删除它](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository)。
-
-!!! warning
-    请务必先备份对应数据。
+[^rm-in-all-commits]: [Removing sensitive data from a repository](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository)
 
 ```bash
+# 过滤所有 commit
 git filter-branch \
     --force \
     --index-filter 'git rm --cached --ignore-unmatch <file_path>' \
     --prune-empty \
     --tag-name-filter cat -- --all
-```
 
-最后在本地强制推送即可远程同步：
-
-```bash
-git push --force <remote_name> <branch_name>
+# 过滤后强制推送到服务器
+git push --force
 ```
 
 ### 临时保存更改
 
 场景：
 
-- 当我们在开发某个分支的过程中，想要切换到其他分支做些什么，但又不想 commit 改动的时候；
+- 当我们在开发某个分支的过程中，想要切换到其他分支做些什么，但又不想 commit 改动时；
 - 希望临时保存代码，但是不想作为一个 commit 时。
 
 就可以用上 Git 的临时保存功能，对应为 `git stash` 命令：
 
 ```shell
 # 临时保存更改（入栈）
-$ git stash push
-stash@{0}: WIP on exp: 23b0327 fix: typo
-# stash@{0}: WIP on <branch_name>: <last_commit_hash> <last_commit_comment>
+git stash push
+# 输出格式：stash@{0}: WIP on <branch_name>: <last_commit_hash> <last_commit_comment>
+# 例如：stash@{0}: WIP on exp: 23b0327 fix: typo
 
 # 查看栈内元素
 $ git stash list
