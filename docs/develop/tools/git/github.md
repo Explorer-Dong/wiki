@@ -312,3 +312,5 @@ jobs:
 - [Aliyun CLI 官方文档](https://help.aliyun.com/zh/cli/)
 - [ossutil 复制命令 cp 的参数选项](https://help.aliyun.com/zh/oss/developer-reference/cp-upload-file)
 - [GitHub Actions 最大并发量](https://docs.github.com/en/actions/reference/limits#job-concurrency-limits-for-github-hosted-runners)
+- [GitHub Cache Action](https://github.com/actions/cache)
+- [Material for Mkdocs CI 中的 cache 示例](https://github.com/squidfunk/mkdocs-material/blob/master/.github/workflows/documentation.yml)
