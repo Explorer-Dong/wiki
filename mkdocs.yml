@@ -186,11 +186,16 @@ extra:
     - icon: simple/zhihu
       link: https://www.zhihu.com/people/dwj601
       name: 知乎
+    - icon: clover-solid
+      link: https://blog.dwj601.cn/
+      name: 生活博客
 
 
 # ==================== 页面导航 ====================
 nav:
-  - index.md
+  - 网站首页:
+    - index.md
+    - contributing.md
   - 基础知识:
     - base/index.md
     - 人工智能基础:
@@ -395,5 +400,3 @@ nav:
     - 科研范式:
       - llm/research/index.md
       - llm/research/paper-writing.md
-  - contributing.md
-  - 站长博客: https://blog.dwj601.cn/

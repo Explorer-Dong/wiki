@@ -1,5 +1,5 @@
 ---
-title: 首页
+title: 网站首页
 ---
 
 ![网站封面图，使用 Nano Banana Pro 制作](./assets/images/wiki-cover-image.png)
@@ -36,7 +36,7 @@ title: 首页
 
     ---
 
-    基础设施、模型架构、下游应用等研究内容。
+    基础设施、模型原理、下游应用等研究内容。
 
     [:octicons-arrow-right-24: 开始阅读](./llm/index.md)
 
