@@ -23,6 +23,25 @@ Transformer 由 Encoder-Decoder 结构组成，每个部分包含多个堆叠的
 
 <img src="https://cdn.dwj601.cn/images/20250512083359691.jpg" alt="Transformer 模型架构" style="zoom: 50%;" />
 
+可以抽象为下图：
+
+```mermaid
+flowchart TD
+    A[Input text] --> B[Tokenization]
+    B --> C[Word embedding]
+    B --> D[Positional encoding]
+    C --> E[Transformer block]
+    D --> E
+    E --> F[Output text]
+
+    subgraph E[Transformer block]
+        direction LR
+        E1[Attention mechanisms]
+        E2[Feedforward neural network]
+        E3[Normalization layer]
+    end
+```
+
 ### 数据流向
 
 训练阶段，输入序列与目标序列（右移一位）同时输入模型。Encoder 负责构建输入序列的上下文表示，Decoder 通过 Masked Self-Attention 仅观察到历史 token，从而计算条件概率 $p(y\mid x)$，最终组合损失 $\,\text{loss}=-\log p(y\mid x)\,$。

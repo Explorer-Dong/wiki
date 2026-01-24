@@ -1,5 +1,6 @@
 ---
 title: 论文写作
+status: new
 ---
 
 本文介绍如何撰写科研论文。
@@ -56,19 +57,19 @@ title: 论文写作
 
 **MS Word**。除非不得已，不建议使用。
 
-!!! tip "MS Word 的 引用更新"
+!!! tip "更新 MS Word 中的引用"
 
     对于 Word 中的引用，如果变动了某个被引用的部分，特别是带序号的，可能会波及一大片内容。此时我们可以使用快捷键 `Ctrl + A + F9` 更新全部引用域。
 
 ### 画图
 
-论文写作过程中，需要绘制较多的图，直观且视觉效果好的图可以大幅提升审稿人的阅读兴致（希望），同时也可以降低理解论文内容的难度。常用的画图工具有以下几个：
+论文写作过程中，需要绘制较多的图，直观且视觉效果好的图可以大幅提升审稿人的阅读兴致（希望），同时也可以降低审稿人理解论文的难度。常用的画图工具有以下几个：
 
-**draw.io**。可以使用 <draw.io> 绘制流程图。
+**draw.io**。该网站提供了拖拽的方式来绘制流程图，并支持将结果导出为 PDF、SVG 等多种格式。
 
 !!! tip "解决 Word 导出 PDF 时 SVG 模糊的问题"
 
-    使用 draw.io 将流程图导出为 SVG 后，插入 Word 并导出为 PDF 后，会发现原来的 SVG 会变模糊。可以使用下面的方法解决：
+    如果将 draw.io 导出的 SVG 插入 Word，然后将 Word 导出为 PDF，会发现其中的 SVG 会变模糊。可以使用下面的方法解决：
 
     1. 在 draw.io 上将流程图导出为 PDF；
     2. 用 [pdf2svg](https://github.com/jalios/pdf2svg-windows) 把该 PDF 导出为 SVG；
@@ -78,8 +79,8 @@ title: 论文写作
 
 **MS PPT**。可以使用 PPT 绘制更复杂的图。
 
-!!! tip "PPT 导出 为 PDF 时自动裁剪白边"
+!!! tip "裁剪 PPT 导出为 PDF 后的白边"
 
-    详见：<https://github.com/elliottzheng/ppt2fig>
+    详见：[ppt2fig](https://github.com/elliottzheng/ppt2fig) 工具
 
-    可以用 [PDFCraft](https://github.com/PDFCraftTool/pdfcraft/) 的「PDF 裁剪」功能代替。
+    可以用 [PDFCraft](https://github.com/PDFCraftTool/pdfcraft/) 的「PDF 裁剪」功能代替 ppt2fig。
