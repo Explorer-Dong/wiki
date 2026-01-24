@@ -28,13 +28,13 @@ jobs:
     - name: Install python dependence
       run: uv sync
     
-    - name: Restore cache
+    - name: Restore git committers cache
       uses: actions/cache/restore@v4
       with:
-        key: wiki-${{ hashfiles('.cache/**') }}
-        path: ~/.cache
+        path: .cache/plugin/git-committers
+        key: git-committers-${{ github.run_id }}
         restore-keys: |
-          wiki-
+          git-committers-
     
     - name: Build website
       run: mkdocs build -f mkdocs.yml
@@ -44,11 +44,11 @@ jobs:
         # CI will enable some plugins that consume time-consuming builds
         CI: true
     
-    - name: Save cache
+    - name: Save git committers cache
       uses: actions/cache/save@v4
       with:
-        key: wiki-${{ hashfiles('.cache/**') }}
-        path: ~/.cache
+        path: .cache/plugin/git-committers
+        key: git-committers-${{ github.run_id }}
     
     - name: Setup Aliyun CLI
       uses: aliyun/setup-aliyun-cli-action@v1
