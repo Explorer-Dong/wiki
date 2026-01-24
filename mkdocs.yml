@@ -383,12 +383,12 @@ nav:
         - llm/infra/training-framework/pytorch.md
       - 推理服务:
         - llm/infra/inference-server/index.md
-    - 模型研究:
-      - llm/research/index.md
+    - 模型原理:
+      - llm/model/index.md
       - Transformer Model:
-        - llm/research/transformer/index.md
+        - llm/model/transformer/index.md
       - Diffusion Model:
-        - llm/research/diffusion/index.md
+        - llm/model/diffusion/index.md
     - 下游应用:
       - llm/downstream/index.md
       - llm/downstream/prompt-engineering.md
