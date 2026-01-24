@@ -391,5 +391,6 @@ nav:
         - llm/research/diffusion/index.md
     - 下游应用:
       - llm/downstream/index.md
+      - llm/downstream/prompt-engineering.md
   - contributing.md
   - 站长博客: https://blog.dwj601.cn/
