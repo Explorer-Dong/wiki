@@ -41,13 +41,13 @@ jobs:
     - name: Restore git committers cache
       uses: actions/cache/restore@v4
       with:
-        # 要缓存的内容
-        path: .cache/plugin/git-committers
         # 精确匹配缓存索引
         key: git-committers-${{ hashFiles('.cache/plugin/git-committers/**') }}
-        # 模糊匹配缓存索引（精确匹配失效时，仍然复用原来的缓存）
+        # 模糊匹配缓存索引（当精确匹配失效时，仍能复用原来的缓存）
         restore-keys: |
           git-committers-
+        # 匹配成功后，复用的缓存的存储位置
+        path: .cache/plugin/git-committers
     
     # 构建网页
     - name: Build website
@@ -62,9 +62,9 @@ jobs:
     - name: Save git committers cache
       uses: actions/cache/save@v4
       with:
-        # 缓存路径
+        # 待缓存内容的路径
         path: .cache/plugin/git-committers
-        # 缓存索引
+        # 唯一缓存索引
         key: git-committers-${{ hashFiles('.cache/plugin/git-committers/**') }}
     
     # 安装 Aliyun CLI
