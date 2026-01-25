@@ -1,58 +1,77 @@
-# 本工作流的详细中文解析见：https://wiki.dwj601.cn/develop/tools/git/github/#快速上手
-
+# 工作流的名称
 name: Deploy Website to Aliyun OSS
 
+# 工作流的触发事件
 on:
   push
 
+# 工作流中的所有工作
 jobs:
+  # 这里只有一个工作，我们将其命名为 main（取别的名字也行）
   main:
+    # 当前工作的运行环境
     runs-on: ubuntu-latest
 
+    # 具体的工作步骤
     steps:
+
+    # 将当前仓库 clone 到 GitHub Actions 环境
     - name: Checkout repository
       uses: actions/checkout@v6
       with:
         fetch-depth: 0  # fetch all commit history
 
+    # 配置 Python 环境
     - name: Setup python
       uses: actions/setup-python@v6
       with:
         python-version: '3.14.2'
     
+    # 配置 uv 包管理工具
     - name: Setup uv
       uses: astral-sh/setup-uv@v7
       with:
         activate-environment: "true"
     
+    # 安装 Python 包依赖
     - name: Install python dependence
       run: uv sync
     
+    # 尝试复用 git committer 插件产生的缓存（加速 mkdocs build）
     - name: Restore git committers cache
       uses: actions/cache/restore@v4
       with:
+        # 要缓存的内容
         path: .cache/plugin/git-committers
-        key: git-committers-${{ github.run_id }}
+        # 精确匹配缓存索引
+        key: git-committers-${{ hashFiles('.cache/plugin/git-committers/**') }}
+        # 模糊匹配缓存索引（精确匹配失效时，仍然复用原来的缓存）
         restore-keys: |
           git-committers-
     
+    # 构建网页
     - name: Build website
       run: mkdocs build -f mkdocs.yml
       env:
-        # prevent "git-committers 403 rate limit exceeded" error
+        # 避免报速率错误："git-committers 403 rate limit exceeded"
         MKDOCS_GIT_COMMITTERS_APIKEY: ${{ secrets.MKDOCS_GIT_COMMITTERS_APIKEY }}
-        # CI will enable some plugins that consume time-consuming builds
+        # 在 CI 场景下启用一些编译耗时的插件
         CI: true
     
+    # 缓存 git committer 产生的内容
     - name: Save git committers cache
       uses: actions/cache/save@v4
       with:
+        # 缓存路径
         path: .cache/plugin/git-committers
-        key: git-committers-${{ github.run_id }}
+        # 缓存索引
+        key: git-committers-${{ hashFiles('.cache/plugin/git-committers/**') }}
     
+    # 安装 Aliyun CLI
     - name: Setup Aliyun CLI
       uses: aliyun/setup-aliyun-cli-action@v1
     
+    # 配置 Aliyun CLI
     - name: Config Aliyun CLI
       run: |
         aliyun configure set \
@@ -61,11 +80,13 @@ jobs:
           --access-key-id ${{ secrets.ALIYUN_ACCESS_KEY_ID  }} \
           --access-key-secret ${{ secrets.ALIYUN_ACCESS_KEY_SECRET  }}
 
+    # 把网页部署到 Aliyun OSS (Private)
     - name: Deploy to Aliyun OSS
       run: |
         aliyun ossutil cp oss://public-assets-shanghai/files/BingSiteAuth.xml ${{ vars.WEB_OSS_PATH }} -f
-        aliyun ossutil cp ./site/ ${{ vars.WEB_OSS_PATH }} -r -u -j 20
+        aliyun ossutil cp ./site/ ${{ vars.WEB_OSS_PATH }} -r -j 20
     
+    # 刷新 Aliyun CDN (Public)
     - name: Refresh Aliyun CDN
       run: |
         aliyun cdn RefreshObjectCaches \

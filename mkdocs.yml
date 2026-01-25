@@ -68,55 +68,44 @@ theme:
 
 # ==================== 语法扩展 ====================
 markdown_extensions:
-  # 并列嵌套（需要和 superfences 一起使用）
-  - pymdownx.tabbed:
-      alternate_style: true
-  # 悬浮提示
-  - abbr
-  - attr_list
-  - md_in_html
-  - pymdownx.snippets
-  # 折叠块
-  - pymdownx.details
-  # 内容框
-  - admonition
-  # 脚注
-  - footnotes
-  # 目录
-  - toc:
+  - abbr               # 悬浮缩写
+  - attr_list          # 给 md 添加 HTML 属性和 CSS 类
+  - md_in_html         # 允许在 HTML 中写 md
+  - admonition         # 内容框（例如 tip、note、warning 等）
+  - footnotes          # 脚注
+  - toc:               # 目录
       permalink: true             # 显示标题链接
       toc_depth: 3                # 显示目录深度
       title: 本页目录             # 目录标题
       permalink_title: 页面定位   # 链接标题
       slugify: !!python/object/apply:pymdownx.slugs.slugify {kwds: {case: lower}}
-  # 数学公式
-  - pymdownx.arithmatex:
+
+  - pymdownx.snippets      # 嵌入外部文件（例如代码）
+  - pymdownx.details       # 允许内容框折叠
+  - pymdownx.tabbed:       # 并列展示内容（需要和 superfences 一起使用）
+      alternate_style: true
+  - pymdownx.superfences:  # 允许嵌套
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.arithmatex:   # 优化数学公式
       generic: true
-  # 表情符号
-  - pymdownx.emoji:
+  - pymdownx.emoji:        # 支持表情符号
       emoji_index: !!python/name:material.extensions.emoji.twemoji 
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
       options:
         custom_icons:
           - overrides/.icons
-  # mermaid
-  - pymdownx.superfences:
-      custom_fences:
-        - name: mermaid
-          class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format
-  # 行内代码高亮
-  - pymdownx.highlight:
+  - pymdownx.highlight:    # 高亮行间代码
       auto_title: true           # 自动标题
       use_pygments: true         # 第三方库增强
       pygments_lang_class: true  # 语言定制化高亮
       linenums: true             # 显示行号
       anchor_linenums: true      # 行号锚点
       line_spans: __span         # 行号容器（移动端适配）
-  # 行间代码高亮
-  - pymdownx.inlinehilite
-  # 任务列表
-  - pymdownx.tasklist:
+  - pymdownx.inlinehilite  # 高亮行内代码
+  - pymdownx.tasklist:     # 支持任务列表
       custom_checkbox: true
 
 
