@@ -84,7 +84,10 @@ jobs:
     - name: Deploy to Aliyun OSS
       run: |
         aliyun ossutil cp oss://public-assets-shanghai/files/BingSiteAuth.xml ${{ vars.WEB_OSS_PATH }} -f
-        aliyun ossutil cp ./site/ ${{ vars.WEB_OSS_PATH }} -r -j 20
+        aliyun ossutil cp ./site/ ${{ vars.WEB_OSS_PATH }} -r -f -j 20
+        # -r 表示递归上传
+        # -f 表示强制覆盖
+        # -j 表示使用的线程数（启用 -f 才有效）
     
     # 刷新 Aliyun CDN (Public)
     - name: Refresh Aliyun CDN
