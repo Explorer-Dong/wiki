@@ -57,7 +57,7 @@ chown -R <user_name>:<group_name> ~/.ssh
 ### 客户端测试 ssh 连接
 
 ```bash
-ssh -i /path/to/private_key <user_name>@xxx.xxx.xxx.xxx  # 服务器 ip 地址
+ssh -i </path/to/private_key> <user_name>@<ip_address>
 ```
 
 ## FAQ
@@ -66,15 +66,16 @@ ssh -i /path/to/private_key <user_name>@xxx.xxx.xxx.xxx  # 服务器 ip 地址
 
 如果自定义了密钥文件名，那么使用某些基于 ssh 的程序可能会报「找不到私钥」的错，此时就需要配置服务和私钥的对应关系。
 
-例如，[Git](./git/commands.md) 在使用 git 协议和远程仓库进行交互时，就需要通过 ssh 进行加密，如果我们自定义了密钥文件名，Git 就会找不到对应的私钥从而交互失败。
+例如，[Git](./git/index.md) 在使用 SSH 协议和远程仓库进行交互时，就需要通过 ssh 进行加密，如果我们自定义了密钥文件名，Git 就会找不到对应的私钥从而交互失败。
 
-我们可以在 `~/.ssh/config` 中进行配置：
+我们可以在 `~/.ssh/config` 中进行配置。一个连接的配置样例如下：
 
 ```bash
-Host e.coding.net  # 服务对应的域名或 IP
-    HostName e.coding.net  # 服务对应的域名或 IP
-    User git  # 服务用户名，一般都是 git
-    IdentityFile ~/.ssh/key_work  # 本地私钥路径
+Host CODING                            # 远程名称（自定义）
+    HostName e.coding.net              # 远程服务器的域名或 IP
+    Port 7890                          # 连接端口（默认 22）
+    User git                           # 登录用户名
+    IdentityFile ~/.ssh/<private_key>  # 本地私钥路径
 ```
 
 ### 私钥 too open 问题
