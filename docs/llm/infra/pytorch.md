@@ -6,6 +6,42 @@ icon: simple/pytorch
 
 本文记录 [PyTorch](https://github.com/pytorch/pytorch) 的基本用法。
 
+## 安装 PyTorch
+
+从 CPU 到 GPU，用于快速理解依赖链的对比表：
+
+| 层级         | CPU                  | GPU            | 备注                         |
+| ------------ | -------------------- | -------------- | ---------------------------- |
+| 硬件         | CPU (x86/ARM)        | GPU (NVIDIA)   | -                            |
+| 驱动         | OS Kernel            | NVIDIA Driver  | 抽象硬件，方便上层调度       |
+| 工具链       | GCC                  | CUDA Toolkit   | 提供编译器、并行计算工具包等 |
+| 高性能算子库 | MKL / OpenBLAS       | cuDNN          | -                            |
+| Python 包    | NumPy、PyTorch (CPU) | PyTorch (CUDA) | -                            |
+
+[PyTorch、Python 以及 CUDA 的兼容矩阵](https://github.com/pytorch/pytorch/blob/main/RELEASE.md#release-compatibility-matrix)：
+
+![PyTorch、Python 以及 CUDA 的兼容矩阵](https://cdn.dwj601.cn/images/20260127164804811.png)
+
+[CUDA 与 GCC 的兼容矩阵](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/#id60)：
+
+![CUDA 与 GCC 的兼容矩阵](https://cdn.dwj601.cn/images/20260127173750471.png)
+
+[CUDA 与 NVIDIA Driver 的兼容矩阵](https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/#id7)：
+
+![CUDA 与 NVIDIA Driver 的兼容矩阵](https://cdn.dwj601.cn/images/20260127172513216.png)
+
+查看 CUDA 版本：
+
+```bash
+nvcc --version
+```
+
+查看 NVIDIA Driver 版本：
+
+```bash
+nvidia-smi
+```
+
 ## 张量基础
 
 ### 创建张量

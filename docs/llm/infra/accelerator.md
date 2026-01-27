@@ -37,6 +37,8 @@ status: new
 
 ### CUDA
 
+文档：[CUDA Toolkit Documentation](https://docs.nvidia.com/cuda/index.html)
+
 统一计算架构 (Compute Unified Devices Architectured, CUDA) 是 NVIDIA 推出的一种软硬件集成技术。通过该技术，用户可利用 NVIDIA 的 GPU 进行图像处理之外的运算。
 
 相较于传统计算架构（比如 CPU 和 GNU/Linux），我们可以将 CUDA 简单地类比为操作系统内核（比如 Linux），将 CUDA Toolkit 简单地类比为 GNU 工具链。
