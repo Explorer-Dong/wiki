@@ -89,21 +89,21 @@ graph TB
 === "uv"
 
     对于 Windows 用户，最简单的方法是直接下载 uv 的二进制程序：
-
+    
     1. 进入 uv 的 [GitHub Releases](https://github.com/astral-sh/uv/releases) 界面；
-
+    
     2. 下载适合你电脑芯片的压缩包。例如对于 64 位的 Windows，选择 `uv-x86_64-pc-windows-msvc.zip` 即可；
-
+    
     3. 将压缩包解压后，将对应目录添加到系统环境变量中。
-
+    
     4. 检查是否安装成功。在终端输入以下命令：
-
+    
         ```bash
         uv --version
         ```
-
+    
         如果可以正常打印 uv 的版本号信息，即表示安装成功。
-
+    
     5. 更多安装方法见 [uv docs](https://docs.astral.sh/uv/getting-started/installation/)。
 
 基本配置方法：
@@ -457,11 +457,15 @@ graph TB
     # 安装包
     uv add [options] <pkg>
     
+    # 安装包（安装指定版本）
+    uv add <pkg>==<version>
+    
     # 安装包（从文件中读取包列表）
     uv add -r <filename>
     
-    # 安装包（安装指定版本）
-    uv add <pkg>==<version>
+    # 安装包（从 git 源码安装）
+    # 前提得有构建文件：setup.py 或 pyproject.toml 或 setup.cfg
+    uv add git+https://github.com/thu-ml/SLA.git
     
     # 卸载包
     uv remove <pkg>
@@ -506,7 +510,7 @@ graph TB
 
 ### 类型检查
 
-推荐 mypy
+推荐 ty
 
 ### 测试
 
