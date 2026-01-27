@@ -19,13 +19,29 @@ Hugging Face (HF) 是一个类似于 GitHub 的在线存储库，其主要提供
 
 既然 HF 主要做的是存储服务，那么就和 Git 一样好理解了。HF 官方开发了一个 CLI 名为 `hf`，主要用来做上传、下载和鉴权等工作。虽然很多时候可以用 Git LFS、Python SDK 来完成一些操作，但我还是更喜欢用 CLI，因为所有的一切都是可控的。完整内容详见 [hf cli docs](https://huggingface.co/docs/huggingface_hub/en/guides/cli)，下面只罗列一些常用命令。
 
-!!! note "注意"
+!!! note
     你也许会在一些老项目上看到诸如 `huggingface-cli <command>` 的命令，这是老版 CLI 的语法，HF 团队在 25 年 7 月对 CLI 进行了大更新并将其更名为了 `hf`。更新详情见 [hf blog](https://huggingface.co/blog/hf-cli)。
 
 ### 安装 `hf`
 
+一步安装：
+
+=== "macOS/Linux"
+
+    ```bash
+    curl -LsSf https://hf.co/cli/install.sh | bash
+    ```
+
+=== "Windows"
+
+    ```powershell
+    powershell -ExecutionPolicy ByPass -c "irm https://hf.co/cli/install.ps1 | iex"
+    ```
+
+基于 pip 安装：
+
 ```bash
-pip install -U "huggingface_hub"
+pip install huggingface_hub
 ```
 
 ### 身份鉴权
@@ -44,16 +60,52 @@ hf auth login
 
 之后输入刚才创建的 token 即可正常下载模型。
 
-### 下载模型
+### 下载
+
+下载 Model：
 
 ```bash
-hf download <model_name> --local-dir <local_dir>
+hf download <model_name>
+
+# 例如：
+hf download HiDream-ai/HiDream-I1-Full
 ```
 
-### 下载数据集
+下载 Dataset：
 
 ```bash
-hf download <dataset_name> --repo-type=dataset <local_dir>
+hf download <dataset_name> --repo-type dataset
+
+# 例如：
+hf download HuggingFaceH4/ultrachat_200k --repo-type dataset
+```
+
+下载 Space：
+
+```bash
+hf download <space_name> --repo-type space
+
+# 例如：
+hf download HuggingFaceH4/zephyr-chat --repo-type space
+```
+
+下载单个文件：
+
+```bash
+hf download <model_or_dataset_or_space_name> <path/to/file>
+
+# 例如：
+hf download HiDream-ai/HiDream-I1-Full text_encoder/model.safetensors
+```
+
+持久化路径：
+
+```bash
+# 默认为 HF_HOME 环境变量
+# HF_HOME="~/.cache/huggingface"
+
+# 也可以通过 --local-dir 参数指定每次下载的路径
+hf download <anything> --local-dir <path/to/download>
 ```
 
 ## 网络问题
