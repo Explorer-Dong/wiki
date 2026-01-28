@@ -89,13 +89,26 @@ hf download <space_name> --repo-type space
 hf download HuggingFaceH4/zephyr-chat --repo-type space
 ```
 
-下载单个文件：
+下载部分文件：
 
 ```bash
+# 单文件
 hf download <model_or_dataset_or_space_name> <path/to/file>
 
 # 例如：
 hf download HiDream-ai/HiDream-I1-Full text_encoder/model.safetensors
+
+# 包含部分文件（--include 参数支持 glob 模式匹配）
+hf download <model_or_dataset_or_space_name> --include <glob_path>
+
+# 例如：
+hf download Wan-AI/Wan2.1-T2V-1.3B --include "google/**" --include "*.pth"
+
+# 排除部分文件（--exclude 参数支持 glob 模式匹配）
+hf download <model_or_dataset_or_space_name> --exclude <glob_path>
+
+# 例如：
+hf download Wan-AI/Wan2.1-T2V-1.3B --exclude "*.pth"
 ```
 
 持久化路径：
