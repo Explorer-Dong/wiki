@@ -22,6 +22,10 @@ icon: simple/pytorch
 
 ![PyTorch、Python 以及 CUDA 的兼容矩阵](https://cdn.dwj601.cn/images/20260127164804811.png)
 
+[各版本的一键安装命令](https://pytorch.org/get-started/previous-versions/)（以 `torch==2.8.0` 版本为例）：
+
+![各版本的一键安装命令（以 torch==2.8.0 版本为例）](https://cdn.dwj601.cn/images/20260129005244150.png)
+
 [CUDA 与 GCC 的兼容矩阵](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/#id60)：
 
 ![CUDA 与 GCC 的兼容矩阵](https://cdn.dwj601.cn/images/20260127173750471.png)
