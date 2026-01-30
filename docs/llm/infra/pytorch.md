@@ -24,7 +24,26 @@ icon: simple/pytorch
 
 [各版本的一键安装命令](https://pytorch.org/get-started/previous-versions/)（以 `torch==2.8.0` 版本为例）：
 
-![各版本的一键安装命令（以 torch==2.8.0 版本为例）](https://cdn.dwj601.cn/images/20260129005244150.png)
+=== "Linux/Windows"
+
+    ```bash
+    # ROCM 6.4 (Linux only)
+    pip install torch==2.8.0 torchvision==0.23.0 torchaudio==2.8.0 --index-url https://download.pytorch.org/whl/rocm6.4
+    # CUDA 12.6
+    pip install torch==2.8.0 torchvision==0.23.0 torchaudio==2.8.0 --index-url https://download.pytorch.org/whl/cu126
+    # CUDA 12.8
+    pip install torch==2.8.0 torchvision==0.23.0 torchaudio==2.8.0 --index-url https://download.pytorch.org/whl/cu128
+    # CUDA 12.9
+    pip install torch==2.8.0 torchvision==0.23.0 torchaudio==2.8.0 --index-url https://download.pytorch.org/whl/cu129
+    # CPU only
+    pip install torch==2.8.0 torchvision==0.23.0 torchaudio==2.8.0 --index-url https://download.pytorch.org/whl/cpu
+    ```
+
+=== "macOS"
+
+    ```bash
+    pip install torch==2.8.0 torchvision==0.23.0 torchaudio==2.8.0
+    ```
 
 [CUDA 与 GCC 的兼容矩阵](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/#id60)：
 
