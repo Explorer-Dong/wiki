@@ -552,6 +552,50 @@ tar [options] <xxx.tar> [options] [folder_path]
     # -t 即 --list，表示罗列包的内容
     ```
 
+### 压缩 zip
+
+zip 是一个跨平台压缩工具，支持单文件、多文件压缩。
+
+基本命令：
+
+```bash
+zip [options] <output.zip> <file1> <file2> ...
+```
+
+常见示例：
+
+```bash
+# 压缩单个文件
+zip archive.zip example.txt
+
+# 压缩多个文件
+zip archive.zip example1.txt example2.txt
+
+# 压缩文件夹
+zip archive.zip examples/
+```
+
+### 解压缩 unzip
+
+基本命令：
+
+```bash
+unzip [options] <file.zip>
+```
+
+常见示例：
+
+```bash
+# 解压压缩包
+unzip archive.zip
+
+# 解压到指定路径
+unzip archive.zip -d <path/to/target>
+
+# 罗列但不解压压缩包内容
+unzip -l archive.zip
+```
+
 ### 查找 find
 
 ```bash
