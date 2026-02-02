@@ -267,12 +267,12 @@ Python 中的解包机制让参数传递变得更灵活。解包分成两类：
     !!! tip
 
         字典解包是一种清晰、稳定、可扩展的方式，在 [Pydantic](./network-lib.md#pydantic)、[FastAPI](./network-lib.md#fastapi) 等框架中极为常见。例如，在构造 Pydantic 模型时，通常会将 JSON 反序列化得到的字典直接展开，模型内部再对字段进行验证：
-
+        
         ```python
         class User(BaseModel):
             name: str
             age: int
-
+        
         data = {"name": "Tom", "age": 20}
         user = User(**data)
         ```
@@ -408,18 +408,64 @@ print(dog._Dog__calculate_dog_years())  # 21
     }
     ```
 
-## 异常处理
+## 异常
 
-使用 `try`、`except`、`finally` 来处理可能的错误。
+现实场景下，程序的输入或运行几乎不可能始终正确，为了避免程序在出现异常时直接宕机，程序员需要主动编写代码，来应对可能的异常。基本异常处理逻辑主要分两步：
+
+1. 产生异常：Python 使用 `raise` 关键字来产生异常。
+2. 捕获异常：Python 使用 `try`、`except`、`finally` 关键字捕获异常。
+
+在发生 `raise ErrorType()` 后，Python 会做三件事：
+
+1. 构造异常对象；
+2. 停止当前函数的执行；
+3. 基于函数调用栈「逐层向上」查找异常处理器（即 `try, except` 逻辑）。
+
+### 产生异常
+
+基本语法：
+
+```python
+raise ExceptionObject()
+```
+
+常见异常：
+
+```python
+# 模块没找到
+raise ModuleNotFoundError("module not found")
+
+# 文件没找到
+raise FileNotFoundError("file not found")
+
+# 除零
+raise ZeroDivisionError("division by zero")
+```
+
+### 捕获异常
+
+基本语法：
 
 ```python
 try:
-    x = 10 / 0  # 会抛出除零异常
-except ZeroDivisionError:
-    print("不能除以零")
+    ...
+except A:
+    ...
+except B as e:
+    ...
+else:
+    ...
 finally:
-    print("执行完毕")
+    ...
 ```
+
+其基本逻辑是：
+
+- `try` 后跟随基本业务逻辑；
+- 如果出现 A 错误，则执行 `handle()` 函数（针对任意异常）；
+- 如果出现 B 错误，则执行 `handle(e)` 函数（针对 B 异常）；
+- 如果没有出现错误，则执行 `else` 后面的逻辑；
+- 无论上述结果如何，都会执行 `finally` 后面的逻辑。
 
 ## 迭代器与生成器
 
