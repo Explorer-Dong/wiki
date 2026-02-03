@@ -69,18 +69,18 @@ document$.subscribe(() => {
         const altText = img.getAttribute("alt");
         if (!altText) return;
 
-        // 避免重复插入
-        if (img.dataset.hasCaption === "true") return;
-
         const caption = document.createElement("div");
         caption.className = "markdown-img-caption";
         caption.textContent = altText;
 
-        // 插入到图片后面
-        img.insertAdjacentElement("afterend", caption);
-
-        // 标记已处理
-        img.dataset.hasCaption = "true";
+        const parent = img.parentElement;
+        if (parent && parent.tagName === "A" && parent.classList.contains("glightbox")) {
+            // 如果启用了 glightbox，则在 img 外层的 a 标签后插入
+            parent.insertAdjacentElement("afterend", caption);
+        } else {
+            // 否则直接在 img 后插入
+            img.insertAdjacentElement("afterend", caption);
+        }
     });
 });
 
