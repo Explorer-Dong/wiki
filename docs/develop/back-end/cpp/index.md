@@ -3,7 +3,10 @@ title: C++ 导读
 icon: simple/cplusplus
 ---
 
-本文介绍 C++ 的一些基本概念。
+本文介绍 C++ 的一些基本概念。一些参考文档：
+
+- [Microsoft C++ Docs](https://learn.microsoft.com/zh-cn/cpp/cpp/?view=msvc-180)
+- [C++ reference](https://en.cppreference.com/w/cpp.html)
 
 ## 编译器
 
