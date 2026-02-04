@@ -3,23 +3,22 @@ title: Hexo
 icon: simple/hexo
 ---
 
-我比较喜欢按照树的结构体系化地整理电子笔记，我一般将其称为知识库 (Wiki)，个人色彩强一点的话也可以叫做技术博客。让我产生「将知识库搭建为在线网站」这个想法主要有以下几个原因：
-
-- 分享笔记时，如果直接发文件不能实时更新，依托在线笔记软件也不够优雅，比如飞书的链接不能自定义、GitHub 有网络限制等；
-- 整理笔记时，以网站的形式呈现内容在架构上会更加清晰，更有助于我对笔记进行修改、润色和链接；
-- 阅读笔记时，以网站的形式呈现内容在多端阅读时会非常方便，避免了纯 Markdown 的格式渲染问题。
-
-所以索性直接将笔记打包成网站部署到大陆的服务器上。现在「以内容为主」的主流建站模式及其特点如下：
-
-1. 有后端：[WordPress](https://cn.wordpress.org/) 等。用在知识库上显得有些大材小用，也不太适合多人编辑进行开源；
-2. 无后端：[Hexo](https://hexo.io/zh-cn/)、[Mkdocs](https://www.mkdocs.org/)、[VuePress](https://v2.vuepress.vuejs.org/zh/)、[Gatsby](https://www.gatsbyjs.com/docs) 等。很适合更新不怎么频繁的中小型知识库场景，原理就是利用 [静态站点生成器](https://developer.mozilla.org/zh-CN/docs/Glossary/SSG) (Static Site Generator, SSG)，将写好的 Markdown 文件转换为 [HTML](../front-end/html.md)、[CSS](../front-end/css.md) 和 [JavaScript](../front-end/javascript/index.md) 文件供浏览器渲染。作者只需关注文章的内容本身，即可在极短的时间内构建一个可供外网访问的网站。
-
-本文就以 Hexo 为例讲解如何从零开始搭建一个自己的知识库网站。掌握了该方法，其余的 SSG 逻辑都是类似的，也就一通百通了。
-
 !!! tip
-    在开始之前，你需要在本地安装好 [Node.js](https://nodejs.org/zh-cn) 和 [Git](https://git-scm.com/)，并创建一个 [GitHub](https://github.com) 账号。
+    在浩瀚的网络中有一方自己的小天地，那很酷，不是吗 😋。
+
+本文以 Hexo 为例，讲解如何从零开始搭建一个独属于自己的博客网站。笔者的生活博客便是基于此搭建的，欢迎浏览：[Dwj‘s Blog](https://blog.dwj601.cn/index.html)。
+
+## 基本概念
+
+Hexo 是一款经典的 [静态站点生成器](https://developer.mozilla.org/zh-CN/docs/Glossary/SSG) (Static Site Generator, SSG)，能够将 Markdown 文件转换为网页（由 [HTML](../front-end/html.md)、[CSS](../front-end/css.md) 和 [JavaScript](../front-end/javascript/index.md) 等文件组成）供浏览器渲染，由于网页内容是静态的，便有此名。
+
+市面上常见的 SSG 还有 [Mkdocs](https://www.mkdocs.org/)、[VuePress](https://v2.vuepress.vuejs.org/zh/)、[Gatsby](https://www.gatsbyjs.com/docs)、[docsify](https://docsify.js.org/#/) 等，在理解了本篇的内容后，读者可以选择喜欢的产品自行尝试。
+
+静态网站凭借其轻量、便捷、DIY 属性强等特点，非常适合变动不怎么频繁内容的分发，比如个人博客、公司官网等。当然，有静态就有动态，例如 [WordPress](https://cn.wordpress.org/) 等，相较于静态网站，动态网站意味着内容变动上有着更高的灵活性，也意味着臃肿，读者可根据实际情况自行选择。
 
 ## 本地调试
+
+在开始之前，你需要在本地安装好 [Node.js](https://nodejs.org/zh-cn) 和 [Git](https://git-scm.com/)，并创建一个 [GitHub](https://github.com) 账号。
 
 本地调试是为了预览网站部署后的样式，这里假设你已经有了自己的 Markdown 笔记。
 
@@ -53,15 +52,15 @@ Hexo 服务默认占用 4000 端口。现在用浏览器访问 `http://localhost
 
 ## 云端部署
 
-本地调试没问题后，就可以打包网站并部署到服务器了。所谓打包，就是将 Markdown 笔记转化为 HTML 网页；所谓部署，就是将网页放到服务器。之后用户就可以通过 IP 或域名的方式访问你的笔记了。
+本地调试没问题后，就可以构建网站并部署到服务器了。所谓构建，就是将 Markdown 笔记转化为 HTML 网页；所谓部署，就是将网页放到服务器。之后用户就可以通过 IP 或域名的方式访问你的笔记了。
 
-这里介绍以下四种方法（选择其中的任意一种方法部署你的网站即可）：
+这里介绍以下四种方法（选择其中的任意一种即可）：
 
 ```mermaid
 graph LR
   A(部署 Hexo)
-  S1(基于 GitHub Pages)
-  S2(基于私有云服务器)
+  S1(【免费】基于 GitHub Pages)
+  S2(【付费】基于私有云服务器)
   m1(基于 hexo-deploy-git 插件)
   m2(基于 GitHub Actions 工作流)
   m3(基于 Git Hooks)
@@ -76,13 +75,7 @@ graph LR
 
 ### 基于 hexo-deploy-git 插件
 
-先介绍一下 GitHub Pages。GitHub Pages 是 GitHub 官方提供的静态站点托管平台，其可以以「项目、个人和组织」三种形式进行托管，例如：
-
-- 项目可以通过 `https://<username/orgname>.github.io/<project>/` 访问到；
-- 个人可以通过 `https://<username>.github.io/` 访问到；
-- 组织可以通过 `https://<orgname>.github.io/` 访问到。
-
-Hexo 的插件生态比较全，其中的 hexo-deploy-git 可以辅助我们一键部署到 GitHub。下面以「项目部署方式」为例，将站点部署到 `https://<username>.github.io/<repo>`。
+Hexo 的插件生态比较全，其中的 [hexo-deploy-git](https://github.com/hexojs/hexo-deployer-git) 可以辅助我们将网站一键部署到 [GitHub Pages](./git/github.md#github-pages)。下面以「项目部署方式」为例，将站点部署到 `https://<username>.github.io/<repo>`。
 
 1）安装 Hexo 部署包 `hexo-deployer-git`：
 
@@ -95,22 +88,23 @@ npm install hexo-deployer-git --save  # --save 是为了写入库依赖表 packa
 ```bash
 git add .
 git commit -m 'init'
-git remote add origin https://github.com/Explorer-Dong/demo.git
+git remote add origin https://github.com/<username>/demo.git
 git push -u origin main
 ```
 
-*注：如果想要以个人或组织的形式建站，就将仓库名取为 `<username/orgname>.github.io`，否则随意。
+!!! tip
+    如果想要以个人或组织的形式建站，就将仓库名取为 `<username/orgname>.github.io`，否则随意。
 
-3）配置 `_config.yml` 文件（假设仓库名为 demo 并且将网站托管在推送到仓库的 `public` 分支下）：
+3）配置 `_config.yml` 文件（假设将网页推送到仓库的 `public` 分支下）：
 
 ```yaml
 # 网站地址
-url: https://explorer-dong.github.io/demo
+url: https://<username>.github.io/blog
 
 # 部署策略
 deploy:
   - type: git
-    repo: https://github.com/Explorer-Dong/demo.git
+    repo: https://github.com/<username>/demo.git
     branch: public
 ```
 
@@ -128,7 +122,7 @@ hexo deploy  # 可简写为 hexo d
 
 ### 基于 GitHub Actions 工作流
 
-该方法可以利用 GitHub Actions 的 CI/CD 功能，自动帮我们完成「本地构建并部署」这两部操作，从而让我们只需要像维护项目代码一样专注于内容创作与版本管理，而无需关心其他事情。下面以「源码和站点同属一个仓库」的场景为例讲解如何配置。
+该方法可以利用 [GitHub Actions](./git/github.md#github-actions) 的 CI/CD 功能，自动帮我们完成「本地构建并部署」这两部操作，从而让我们只需要像维护项目代码一样专注于内容创作与版本管理，而无需关心其他事情。下面以「源码和站点同属一个仓库」的场景为例讲解如何配置。
 
 1）创建一个空 GitHub 仓库和一个鉴权 token（该鉴权 token 可以让 GitHub Actions 以你的身份操作你的仓库）：
 
@@ -147,10 +141,16 @@ hexo init
 4）编辑 `_config.yml` 文件中的 `url` 字段：
 
 ```yaml
-url: https://explorer-dong.github.io/demo-github-actions
+url: https://<username>.github.io/demo-github-actions
 ```
 
-5）创建工作流文件 .`github/workflows/bot.yml` 并复制以下内容：
+5）在 GitHub 仓库的 settings 中设置 secrets 变量：
+
+```bash
+GITHUB_TOKEN=<你刚才生成的 token>
+```
+
+6）创建工作流文件 .`github/workflows/bot.yml` 并复制以下内容：
 
 ```yaml
 name: Build and Deploy
@@ -181,7 +181,7 @@ jobs:
           folder: public     # 构建出来的待部署的站点文件夹名称
 ```
 
-6）初始化 Git 版本管理并连接到远程仓库：
+7）初始化 Git 版本管理并连接到远程仓库：
 
 ```bash
 # 初始化
@@ -190,21 +190,21 @@ git add .
 git commit -m 'init'
 
 # 连接远程仓库
-git remote add origin https://github.com/<user_name>/<repo_name>.git
+git remote add origin https://github.com/<username>/demo-github-actions.git
 
 # 首次推送
 git push -u origin main
 ```
 
-7）在 GitHub Pages 上配置站点托管分支：
+8）在 GitHub Pages 上配置站点托管分支：
 
 ![在 GitHub Pages 上配置站点托管分支：Settings >> Pages >> Build and deployment](https://cdn.dwj601.cn/images/202501230103361.png)
 
-GitHub Pages 按照上述工作流的指令，检测到 push 后开始执行，即 checkout、generate 和 deploy。等待所有流程结束后，重新加载 `https://<username>.github.io/<project>/` 就可以发现站点已经托管成功了！
+GitHub Pages 按照上述工作流的指令，检测到 push 后开始执行，即 checkout、generate 和 deploy。等待所有流程结束后，重新加载 `https://<username>.github.io/demo-github-actions/` 就可以发现站点已经托管成功了！
 
 ### 基于 Git Hooks
 
-由于 GitHub Pages 服务使用的服务器在美国，不用魔法访问速度过慢，国内平替 Gitee Pages 已经停止服务了，综合考虑还是部署到大陆的服务器上。当然这前提是你已经拥有一台大陆「备案」的 [云服务器](https://www.aliyun.com/product/ecs?userCode=jpec1z57) 和一个 [域名](https://wanwang.aliyun.com/domain/)。如果觉得备案太麻烦，可以考虑入手一台香港服务器。
+由于 GitHub Pages 服务使用的服务器在美国，不用魔法访问速度过慢，国内平替 Gitee Pages 已经停止服务了，综合考虑还是部署到大陆的服务器上。当然这前提是你已经拥有一台大陆的 [云服务器](https://www.aliyun.com/product/ecs?userCode=jpec1z57) 和一个备案的 [域名](https://wanwang.aliyun.com/domain/)。如果觉得备案太麻烦，可以考虑入手一台香港服务器（将域名解析到非大陆的服务器不需要备案）。
 
 假设你已经有了一台云服务器。为了简化后续文件上传操作，需要建立本地机和云服务器的 [SSH](./ssh.md) 连接。下面将基于 [Git Hooks](https://githooks.com/) 工具，介绍如何将自己的 Hexo 静态网站部署到阿里云服务器上。
 
@@ -414,3 +414,15 @@ ossutil cp /path/to/local-search.xml oss://<bucket_name>/path/to/oss_folder/
 ![配置对应 Bucket 的跨域规则](https://cdn.dwj601.cn/images/202501192333282.png)
 
 现在 8.5 MB 的 `local-search.xml` 只需要几百毫秒即可加载完成，完美！
+
+## 写在最后
+
+一开始我用 Hexo 组织我的笔记，后来发现偏技术型的笔记组织起来不怎么直观，就迁移到了另一个 SSG 上，即 Mkdocs。但是 Hexo 陪伴了我很久，就保留了下来，用来托管我的生活随笔。
+
+其实如果单纯记笔记，完全没必要把笔记在线化，我这么做主要是闲的没事干 😁，非要说原因的话，可以有下面几点：
+
+- 分享笔记时，如果直接发文件不能实时更新，依托在线笔记软件也不够优雅，比如飞书的链接不能自定义、GitHub 有网络限制等；
+- 整理笔记时，以网站形式呈现的内容在架构上会更加清晰，更有助于我对笔记进行修改、润色和链接；
+- 阅读笔记时，以网站的形式将内容呈现在浏览器上可以规避纯 Markdown 的格式渲染问题。
+
+笔记记久了，甚至能让我产生安全感，每次新增、修改、重构笔记时，都是对自己知识体系的完善，感觉就像在装修自己的小家，很舒服。当然，笔记不是为了追求极致的美观，理解并流畅表达才是关键所在。浩瀚网络，祝每一位认真记笔记的同学都学有所得！

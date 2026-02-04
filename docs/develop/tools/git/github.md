@@ -217,3 +217,11 @@ ${{ <type>.<key> }}
 - [GitHub Actions 最大并发量](https://docs.github.com/en/actions/reference/limits#job-concurrency-limits-for-github-hosted-runners)
 - [GitHub Cache Action](https://github.com/actions/cache)
 - [Material for Mkdocs CI 中的 cache 示例](https://github.com/squidfunk/mkdocs-material/blob/master/.github/workflows/documentation.yml)
+
+## GitHub Pages
+
+[GitHub Pages](https://docs.github.com/zh/pages) 是 GitHub 官方提供的静态站点托管平台，可以按「项目、个人或组织」的形式托管，例如：
+
+- 项目可以通过 `https://<username/orgname>.github.io/<project>/` 访问到；
+- 个人可以通过 `https://<username>.github.io/` 访问到；
+- 组织可以通过 `https://<orgname>.github.io/` 访问到。
