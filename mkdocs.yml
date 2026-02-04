@@ -182,9 +182,7 @@ extra:
 
 # ==================== 页面导航 ====================
 nav:
-  - 网站首页:
-    - index.md
-    - contributing.md
+  - index.md
   - 基础知识:
     - base/index.md
     - 人工智能基础:
@@ -382,3 +380,4 @@ nav:
     - 科研范式:
       - llm/research/index.md
       - llm/research/paper-writing.md
+  - contributing.md
