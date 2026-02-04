@@ -3,7 +3,7 @@ title: Jetbrains
 icon: simple/jetbrains
 ---
 
-本文记录 Jetbrains 系列软件的使用指南。
+Jetbrains 是捷克的一家 IDE 研发公司，提供了很多编程语言的 IDE 并且体验感较好。本文记录其研发的系列软件的使用指南。
 
 ## 更新 Jetbrains 学生许可证
 

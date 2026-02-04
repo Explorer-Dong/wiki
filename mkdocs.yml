@@ -343,13 +343,13 @@ nav:
       - develop/tools/index.md
       - develop/tools/hexo.md
       - develop/tools/ssh.md
-      - develop/tools/jetbrains.md
       - 编辑器:
         - develop/tools/editor/index.md
         - develop/tools/editor/devcpp.md
         - develop/tools/editor/idle.md
         - develop/tools/editor/vim.md
         - develop/tools/editor/vscode.md
+        - develop/tools/editor/jetbrains.md
       - Git:
         - develop/tools/git/index.md
         - develop/tools/git/commands.md
