@@ -6,7 +6,10 @@ icon: material/chart-line
 
 > 科学发展范式：实验科学 $\to$ 理论科学 $\to$ 计算科学 $\to$ 数据科学。
 
-本文记录机器学习相关内容。主要参考周志华老师的 [西瓜书](https://github.com/jingyuexing/Ebook/blob/master/Machine_Learning/机器学习_周志华.pdf) 及其配套的公式详解 [南瓜书](https://github.com/datawhalechina/pumpkin-book)，部分参考邱锡鹏老师的 [神经网络与深度学习](https://nndl.github.io/)。
+本文记录机器学习相关内容。主要参考内容：
+
+- 教材：周志华老师的 [西瓜书](https://github.com/jingyuexing/Ebook/blob/master/Machine_Learning/机器学习_周志华.pdf) 及其配套的公式详解 [南瓜书](https://github.com/datawhalechina/pumpkin-book)，邱锡鹏老师的 [神经网络与深度学习](https://nndl.github.io/)。
+- 代码：[mlxtend](https://rasbt.github.io/mlxtend/)、[scikit-learn](https://scikit-learn.org/stable/api/index.html)、[scikit-learn 中文](https://scikit-learn.org.cn/)。
 
 机器学习是一种「通过学习数据规律，实现诸如 **预测**、**生成**、**决策** 等实际任务的」研究范式。下表罗列了三类机器学习任务的实际建模策略：
 
