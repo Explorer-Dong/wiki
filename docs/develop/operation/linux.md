@@ -428,22 +428,24 @@ touch <FileName>
 
 ### 创建链接 ln
 
+创建链接：
+
 ```bash
 # 创建硬链接
 ln <target> <link_name>
 
 # 创建软链接
 ln -s <target> <link_name>
-
-# 查看所有链接
-ls -l <link_name>
-
-# 删除链接（删除的是链接本身，不影响目标文件）
-rm <link_name>
 ```
 
-!!! tip
-    为了避免递归结构，目录链接时一般用软链接。
+!!! warning
+    目录禁止硬链接，原理见操作系统持久化中的 [文件共享](../../base/cs/operating-system/persistence.md#文件共享)。
+
+删除链接：
+
+```bash
+rm <link_name>
+```
 
 ### 复制 cp
 
