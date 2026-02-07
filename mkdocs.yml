@@ -14,7 +14,7 @@ watch:
 
 # ==================== 主题配置 ====================
 theme:
-  # variant: classic
+  variant: classic  # zensical 引擎配置，[modern, classic]
   name: material
   language: zh
   custom_dir: overrides
