@@ -377,7 +377,4 @@ nav:
     - 下游应用:
       - llm/downstream/index.md
       - llm/downstream/prompt-engineering.md
-    - 科研范式:
-      - llm/research/index.md
-      - llm/research/paper-writing.md
   - contributing.md
