@@ -97,3 +97,49 @@ document$.subscribe(({ body }) => {
         ],
     })
 })
+
+/**
+ * 在文章标题 TOC 上方自定义内容块
+ */
+document$.subscribe(() => {
+    const page_key = location.pathname;
+
+    // 若当前页面已关闭内容块，则不再渲染
+    if (sessionStorage.getItem(page_key)) return;
+
+    // 将内容快插入到右侧文章标题 TOC 的上方
+    const sidebar = document.querySelector(".md-sidebar--secondary");
+    if (sidebar) {
+        const toc = sidebar.querySelector(".md-nav--secondary");
+        if (!toc) return;
+
+        // 创建内容块
+        const block = document.createElement("div");
+        block.className = "toc-above-block";
+        block.innerHTML = `
+            <button class="toc-above-block__close" aria-label="关闭">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
+                    <path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                </svg>
+            </button>
+            <p>📣活动</p>
+            <p>1.
+                <a target="_blank" href="https://www.aliyun.com/daily-act/ecs/activity_selection?userCode=jpec1z57" style="color: orange;">
+                    阿里云服务器 38 元一年
+                </a>
+            </p>
+            <p>2.
+                <a target="_blank" href="https://www.aliyun.com/minisite/goods?userCode=jpec1z57" style="color: orange;">
+                    阿里云 9 折商品链接
+                </a>
+            </p>
+        `;
+        // 插入内容块
+        toc.parentNode.insertBefore(block, toc);
+        // 监听内容块关闭事件
+        block.querySelector(".toc-above-block__close").addEventListener("click", () => {
+            block.remove();
+            sessionStorage.setItem(page_key, "1");
+        });
+    };
+})
