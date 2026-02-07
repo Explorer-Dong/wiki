@@ -784,29 +784,29 @@ return_type search(int node_index) {
 
 在计算时间复杂度时，我们可以将分治的逻辑想象成一棵二叉树，对于二叉树的每一层都会有 $O(n)$ 的遍历开销，而二叉树的层数平均有 $O(\log n)$ 层，因此排序的时间复杂度就是 $O(n\log n)$。当然如果每次选择的基准刚好是所在序列的最值，就会导致二叉树的层数退化到 $O(n)$，但一般来说不会这么极端。
 
-=== "C++ 示例代码"
+示例代码：
 
-    ```c++
-    vector<int> a = {3, 1, 4, 2, 5};  // 待排序数组
-    
-    void quick_sort(int l, int r) {
-        if (l >= r) return;
-    
-        // conquer
-        int i = l - 1, j = r + 1, x = a[(l + r) >> 1];
-        while (i < j) {
-            while (a[++i] < x);
-            while (a[--j] > x);
-            if (i < j) swap(a[i], a[j]);
-        }
-    
-        // divide
-        quick_sort(l, j);
-        quick_sort(j + 1, r);
+```cpp
+vector<int> a = {3, 1, 4, 2, 5};  // 待排序数组
+
+void quick_sort(int l, int r) {
+    if (l >= r) return;
+
+    // conquer
+    int i = l - 1, j = r + 1, x = a[(l + r) >> 1];
+    while (i < j) {
+        while (a[++i] < x);
+        while (a[--j] > x);
+        if (i < j) swap(a[i], a[j]);
     }
-    
-    quick_sort(0, a.size() - 1);  // 调用示例
-    ```
+
+    // divide
+    quick_sort(l, j);
+    quick_sort(j + 1, r);
+}
+
+quick_sort(0, a.size() - 1);  // 调用示例
+```
 
 **归并排序**。这是一种稳定的排序算法，核心思想同样是分治且符合标准的三步分治策略。同样以升序为例，如果两个有序序列都是升序或都是降序，那么可以双指针扫描一遍从而 $O(n)$ 地合并这两个序列为一个有序序列。基于该先验，我们就有了归并排序算法：
 
@@ -816,36 +816,36 @@ return_type search(int node_index) {
 
 时间复杂度的计算与快速排序类似，只不过这里的分治递归二叉树一定是 $O(\log n)$ 层，那么时间复杂度就是稳定的 $O(n \log n)$。
 
-=== "C++ 示例代码"
+示例代码：
 
-    ```c++
-    vector<int> a = {3, 1, 4, 2, 5};  // 待排序数组
-    vector<int> t(a.size(), 0);       // 临时数组
-    
-    void merge_sort(int l, int r) {
-        if (l >= r) return;
-    
-        // divide
-        int mid = (l + r) >> 1;
-    
-        // conquer
-        merge_sort(l, mid), merge_sort(mid + 1, r);
-    
-        // combine
-        int i = l, j = mid + 1, k = 0;
-        while (i <= mid && j <= r) {
-            if (a[i] < a[j]) t[k++] = a[i++];
-            else t[k++] = a[j++];
-            cnt++;
-        }
-        while (i <= mid) t[k++] = a[i++];
-        while (j <= r) t[k++] = a[j++];
-    
-        for (i = l, j = 0; i <= r; i++) a[i] = t[j++];
-    };
-    
-    merge_sort(0, a.size() - 1);  // 调用示例
-    ```
+```cpp
+vector<int> a = {3, 1, 4, 2, 5};  // 待排序数组
+vector<int> t(a.size(), 0);       // 临时数组
+
+void merge_sort(int l, int r) {
+    if (l >= r) return;
+
+    // divide
+    int mid = (l + r) >> 1;
+
+    // conquer
+    merge_sort(l, mid), merge_sort(mid + 1, r);
+
+    // combine
+    int i = l, j = mid + 1, k = 0;
+    while (i <= mid && j <= r) {
+        if (a[i] < a[j]) t[k++] = a[i++];
+        else t[k++] = a[j++];
+        cnt++;
+    }
+    while (i <= mid) t[k++] = a[i++];
+    while (j <= r) t[k++] = a[j++];
+
+    for (i = l, j = 0; i <= r; i++) a[i] = t[j++];
+};
+
+merge_sort(0, a.size() - 1);  // 调用示例
+```
 
 ### 回溯
 

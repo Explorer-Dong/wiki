@@ -726,7 +726,7 @@ struct GListNode {
 
 可以使用 DFS 或者 BFS 的方式进行。以多叉有向树为例，假设树中每个结点都用一个数字 ID 来唯一表示，那么就有以下遍历伪代码：
 
-=== "C++ DFS"
+=== "DFS"
 
     ```c++
     vector<int> g[N];
@@ -741,7 +741,7 @@ struct GListNode {
     dfs(0)
     ```
 
-=== "C++ BFS"
+=== "BFS"
 
     ```c++
     vector<int> g[N];
@@ -866,7 +866,7 @@ print(f"最小的最大子树：{min_max_size}")
 
 时间复杂度：$O(n)$
 
-=== "Python 两次 BFS"
+=== "两次 BFS"
 
     ```python
     from collections import deque
@@ -911,7 +911,7 @@ print(f"最小的最大子树：{min_max_size}")
     print(double_path_length - diameter)
     ```
 
-=== "Python 两次 DFS"
+=== "两次 DFS"
 
     ```python
     import sys
@@ -947,7 +947,7 @@ print(f"最小的最大子树：{min_max_size}")
     print(double_path_length - diameter)
     ```
 
-=== "Python 回溯法"
+=== "回溯法"
 
     ```python
     import sys
@@ -1026,7 +1026,7 @@ for i in range(1, 20):
 
 有了 $f$ 数组，求解 $\text{lca}(u,v)$ 的思路就可以仍然沿用朴素算法，只不过在跳跃时可以利用倍增算法进行优化了。完整代码示例：
 
-=== "Python 朴素 LCA"
+=== "朴素 LCA"
 
     ```python
     import sys
@@ -1091,7 +1091,7 @@ for i in range(1, 20):
         print('\n'.join(map(str, OUTs)))
     ```
 
-=== "Python 倍增 LCA"
+=== "倍增 LCA"
 
     ```python
     import sys
@@ -1473,7 +1473,7 @@ class BookMyShow:
 线段树上二分代码：
 
 ```python
-
+# TODO
 ```
 
 ### 例：营业额统计🤨
@@ -1492,110 +1492,110 @@ class BookMyShow:
 >
 > 时间复杂度：$O(n \log n)$
 
-TLE 但逻辑清晰代码
+=== "TLE 但逻辑清晰代码"
 
-```cpp
-#include <iostream>
-#include <algorithm>
-using namespace std;
+    ```cpp
+    #include <iostream>
+    #include <algorithm>
+    using namespace std;
 
-const int N = 1 << 16;
+    const int N = 1 << 16;
 
-int n, a[N];
+    int n, a[N];
 
-void solve() {
-    cin >> n;
-    
-    int res = 0;
-    cin >> a[1];
-    res += a[1];
-    
-    for (int i = 2; i <= n; i++) {
-        // 维护之前序列有序
-        sort(a + 1, a + i);
-        cin >> a[i];
+    void solve() {
+        cin >> n;
+        
+        int res = 0;
+        cin >> a[1];
+        res += a[1];
+        
+        for (int i = 2; i <= n; i++) {
+            // 维护之前序列有序
+            sort(a + 1, a + i);
+            cin >> a[i];
 
-        // 二分查找目标数
-        int l = 1, r = i - 1;
-        while (l < r) {
-            int mid = (l + r) >> 1;
-            if (a[mid] < a[i]) l = mid + 1;
-            else r = mid;
+            // 二分查找目标数
+            int l = 1, r = i - 1;
+            while (l < r) {
+                int mid = (l + r) >> 1;
+                if (a[mid] < a[i]) l = mid + 1;
+                else r = mid;
+            }
+            
+            // 边界判断
+            int ans = abs(a[i] - a[r]);
+            if (r + 1 >= 1 && r + 1 <= i - 1) ans = min(ans, abs(a[i] - a[r + 1]));
+            if (r - 1 >= 1 && r - 1 <= i - 1) ans = min(ans, abs(a[i] - a[r - 1]));
+            
+            res += ans;
         }
         
-        // 边界判断
-        int ans = abs(a[i] - a[r]);
-        if (r + 1 >= 1 && r + 1 <= i - 1) ans = min(ans, abs(a[i] - a[r + 1]));
-        if (r - 1 >= 1 && r - 1 <= i - 1) ans = min(ans, abs(a[i] - a[r - 1]));
-        
-        res += ans;
+        cout << res << "\n";
     }
-    
-    cout << res << "\n";
-}
 
-signed main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr), cout.tie(nullptr);
-    int T = 1;
-//    cin >> T;
-    while (T--) solve();
-    return 0;
-}
-```
+    signed main() {
+        ios::sync_with_stdio(false);
+        cin.tie(nullptr), cout.tie(nullptr);
+        int T = 1;
+    //    cin >> T;
+        while (T--) solve();
+        return 0;
+    }
+    ```
 
-AC 的 set 代码
+=== "使用 `set` AC 的代码"
 
-```cpp
-#include <iostream>
-#include <algorithm>
-#include <set>
-using namespace std;
+    ```cpp
+    #include <iostream>
+    #include <algorithm>
+    #include <set>
+    using namespace std;
 
-int n, res;
-set<int> s;
+    int n, res;
+    set<int> s;
 
-void solve() {
-    cin >> n;
-    
-    int x;
-    cin >> x;
-    res += x;
-    s.insert(x);
-    
-    while (--n) {
+    void solve() {
+        cin >> n;
+        
+        int x;
         cin >> x;
+        res += x;
+        s.insert(x);
+        
+        while (--n) {
+            cin >> x;
 
-        auto it = s.lower_bound(x);
+            auto it = s.lower_bound(x);
 
-        if (it == s.end()) {
-            // 没有比当前数大的
-            res += x - *s.rbegin();
-        } else if (it == s.begin()) {
-            // 没有比当前数小的
-            res += *s.begin() - x;
-        } else {
-            // 当前数已存在于集合中 or 既有比当前数大的也有比当前数小的
-            auto pre = it;
-            pre--;
-            res += min(abs(x - *it), abs(x - *pre));
+            if (it == s.end()) {
+                // 没有比当前数大的
+                res += x - *s.rbegin();
+            } else if (it == s.begin()) {
+                // 没有比当前数小的
+                res += *s.begin() - x;
+            } else {
+                // 当前数已存在于集合中 or 既有比当前数大的也有比当前数小的
+                auto pre = it;
+                pre--;
+                res += min(abs(x - *it), abs(x - *pre));
+            }
+            
+            s.insert(x);
         }
         
-        s.insert(x);
+        cout << res << "\n";
     }
-    
-    cout << res << "\n";
-}
 
-signed main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr), cout.tie(nullptr);
-    int T = 1;
-//    cin >> T;
-    while (T--) solve();
-    return 0;
-}
-```
+    signed main() {
+        ios::sync_with_stdio(false);
+        cin.tie(nullptr), cout.tie(nullptr);
+        int T = 1;
+    //    cin >> T;
+        while (T--) solve();
+        return 0;
+    }
+    ```
 
 ### 例：切蛋糕🤨
 
@@ -1681,177 +1681,183 @@ int main() {
 >
 > 时间复杂度：$O(n \log n)$
 
-```cpp
-template<class T>
-class BinaryIndexedTree {
-private:
-    std::vector<T> _arr;
-    int _n;
+=== "C++"
 
-    int lowbit(int x) { return x & (-x); }
+    ```cpp
+    template<class T>
+    class BinaryIndexedTree {
+    private:
+        std::vector<T> _arr;
+        int _n;
 
-public:
-    BinaryIndexedTree(int n) :_n(n) {
-        _arr.resize(_n + 1, 0);
-    }
+        int lowbit(int x) { return x & (-x); }
 
-    void add(int pos, T x) {
-        while (pos <= _n) {
-            _arr[pos] += x;
-            pos += lowbit(pos);
-        }
-    }
-
-    T sum(int pos) {
-        T ret = 0;
-        while (pos) {
-            ret += _arr[pos];
-            pos -= lowbit(pos);
-        }
-        return ret;
-    }
-};
-
-
-class Solution {
-public:
-    vector<int> resultArray(vector<int>& nums) {
-        vector<int> copy = nums;
-        sort(copy.begin(), copy.end());
-        copy.erase(unique(copy.begin(), copy.end()), copy.end());
-
-        int n = copy.size(), cnt = 1;
-        unordered_map<int, int> a;
-        for (int i = 0; i < n; i++) {
-            a[copy[i]] = cnt++;
+    public:
+        BinaryIndexedTree(int n) :_n(n) {
+            _arr.resize(_n + 1, 0);
         }
 
-        vector<int> v1, v2;
-        v1.push_back(nums[0]);
-        v2.push_back(nums[1]);
-
-        BinaryIndexedTree<int> t1(n), t2(n);
-        t1.add(a[nums[0]], 1);
-        t2.add(a[nums[1]], 1);
-
-        for (int i = 2; i < nums.size(); i++) {
-            int d1 = t1.sum(n) - t1.sum(a[nums[i]]);
-            int d2 = t2.sum(n) - t2.sum(a[nums[i]]);
-
-            if (d1 > d2) {
-                v1.push_back(nums[i]);
-                t1.add(a[nums[i]], 1);                
-            } else if (d1 < d2) {
-                v2.push_back(nums[i]);
-                t2.add(a[nums[i]], 1);
-            } else if (d1 == d2 && v1.size() < v2.size()) {
-                v1.push_back(nums[i]);
-                t1.add(a[nums[i]], 1);
-            } else if (d1 == d2 && v1.size() > v2.size()) {
-                v2.push_back(nums[i]);
-                t2.add(a[nums[i]], 1);
-            } else {
-                v1.push_back(nums[i]);
-                t1.add(a[nums[i]], 1);
+        void add(int pos, T x) {
+            while (pos <= _n) {
+                _arr[pos] += x;
+                pos += lowbit(pos);
             }
         }
 
-        for (int x: v2) {
-            v1.push_back(x);
+        T sum(int pos) {
+            T ret = 0;
+            while (pos) {
+                ret += _arr[pos];
+                pos -= lowbit(pos);
+            }
+            return ret;
         }
-
-        return v1;
-    }
-};
-```
-
-```python
-class BinaryIndexedTree:
-    def __init__(self, n: int):
-        self._n = n
-        self._arr = [0] * (n + 1)
-
-    def _lowbit(self, x: int) -> int:
-        return x & (-x)
-
-    def add(self, pos: int, x: int) -> None:
-        while pos <= self._n:
-            self._arr[pos] += x
-            pos += self._lowbit(pos)
-
-    def sum(self, pos: int) -> int:
-        ret = 0
-        while pos:
-            ret += self._arr[pos]
-            pos -= self._lowbit(pos)
-        return ret
+    };
 
 
-class Solution:
-    def resultArray(self, nums: List[int]) -> List[int]:
-        copy = sorted(set(nums))
-        
-        n, cnt, a = len(copy), 1, {}
-        for x in copy:
-            a[x] = cnt
-            cnt += 1
+    class Solution {
+    public:
+        vector<int> resultArray(vector<int>& nums) {
+            vector<int> copy = nums;
+            sort(copy.begin(), copy.end());
+            copy.erase(unique(copy.begin(), copy.end()), copy.end());
 
-        v1, v2 = [nums[0]], [nums[1]]
-        t1, t2 = BinaryIndexedTree(n), BinaryIndexedTree(n)
-        t1.add(a[nums[0]], 1)
-        t2.add(a[nums[1]], 1)
-        
-        for x in nums[2:]:
-            d1, d2 = t1.sum(n) - t1.sum(a[x]), t2.sum(n) - t2.sum(a[x])
+            int n = copy.size(), cnt = 1;
+            unordered_map<int, int> a;
+            for (int i = 0; i < n; i++) {
+                a[copy[i]] = cnt++;
+            }
+
+            vector<int> v1, v2;
+            v1.push_back(nums[0]);
+            v2.push_back(nums[1]);
+
+            BinaryIndexedTree<int> t1(n), t2(n);
+            t1.add(a[nums[0]], 1);
+            t2.add(a[nums[1]], 1);
+
+            for (int i = 2; i < nums.size(); i++) {
+                int d1 = t1.sum(n) - t1.sum(a[nums[i]]);
+                int d2 = t2.sum(n) - t2.sum(a[nums[i]]);
+
+                if (d1 > d2) {
+                    v1.push_back(nums[i]);
+                    t1.add(a[nums[i]], 1);                
+                } else if (d1 < d2) {
+                    v2.push_back(nums[i]);
+                    t2.add(a[nums[i]], 1);
+                } else if (d1 == d2 && v1.size() < v2.size()) {
+                    v1.push_back(nums[i]);
+                    t1.add(a[nums[i]], 1);
+                } else if (d1 == d2 && v1.size() > v2.size()) {
+                    v2.push_back(nums[i]);
+                    t2.add(a[nums[i]], 1);
+                } else {
+                    v1.push_back(nums[i]);
+                    t1.add(a[nums[i]], 1);
+                }
+            }
+
+            for (int x: v2) {
+                v1.push_back(x);
+            }
+
+            return v1;
+        }
+    };
+    ```
+
+=== "Python"
+
+    ```python
+    class BinaryIndexedTree:
+        def __init__(self, n: int):
+            self._n = n
+            self._arr = [0] * (n + 1)
+
+        def _lowbit(self, x: int) -> int:
+            return x & (-x)
+
+        def add(self, pos: int, x: int) -> None:
+            while pos <= self._n:
+                self._arr[pos] += x
+                pos += self._lowbit(pos)
+
+        def sum(self, pos: int) -> int:
+            ret = 0
+            while pos:
+                ret += self._arr[pos]
+                pos -= self._lowbit(pos)
+            return ret
+
+
+    class Solution:
+        def resultArray(self, nums: List[int]) -> List[int]:
+            copy = sorted(set(nums))
             
-            if d1 > d2:
-                v1.append(x)
-                t1.add(a[x], 1)
-            elif d1 < d2:
-                v2.append(x)
-                t2.add(a[x], 1)
-            elif d1 == d2 and len(v1) < len(v2):
-                v1.append(x)
-                t1.add(a[x], 1)
-            elif d1 == d2 and len(v1) > len(v2):
-                v2.append(x)
-                t2.add(a[x], 1)
-            else:
-                v1.append(x)
-                t1.add(a[x], 1)
-        
-        return v1 + v2
-```
+            n, cnt, a = len(copy), 1, {}
+            for x in copy:
+                a[x] = cnt
+                cnt += 1
 
-```python
-class Solution:
-    def resultArray(self, nums: List[int]) -> List[int]:
-        from sortedcontainers import SortedList
-        
-        v1, v2 = copy.deepcopy(nums[:1]), copy.deepcopy(nums[1:2])
-        s1, s2 = SortedList(v1), SortedList(v2)
-
-        for x in nums[2:]:
-            d1, d2 = len(v1) - s1.bisect_right(x), len(v2) - s2.bisect_right(x)
+            v1, v2 = [nums[0]], [nums[1]]
+            t1, t2 = BinaryIndexedTree(n), BinaryIndexedTree(n)
+            t1.add(a[nums[0]], 1)
+            t2.add(a[nums[1]], 1)
             
-            if d1 > d2:
-                v1.append(x)
-                s1.add(x)
-            elif d1 < d2:
-                v2.append(x)
-                s2.add(x)
-            elif d1 == d2 and len(v1) < len(v2):
-                v1.append(x)
-                s1.add(x)
-            elif d1 == d2 and len(v1) > len(v2):
-                v2.append(x)
-                s2.add(x)
-            else:
-                v1.append(x)
-                s1.add(x)
-        
-        return v1 + v2
-```
+            for x in nums[2:]:
+                d1, d2 = t1.sum(n) - t1.sum(a[x]), t2.sum(n) - t2.sum(a[x])
+                
+                if d1 > d2:
+                    v1.append(x)
+                    t1.add(a[x], 1)
+                elif d1 < d2:
+                    v2.append(x)
+                    t2.add(a[x], 1)
+                elif d1 == d2 and len(v1) < len(v2):
+                    v1.append(x)
+                    t1.add(a[x], 1)
+                elif d1 == d2 and len(v1) > len(v2):
+                    v2.append(x)
+                    t2.add(a[x], 1)
+                else:
+                    v1.append(x)
+                    t1.add(a[x], 1)
+            
+            return v1 + v2
+    ```
+
+=== "Python `SortedList`"
+
+    ```python
+    class Solution:
+        def resultArray(self, nums: List[int]) -> List[int]:
+            from sortedcontainers import SortedList
+            
+            v1, v2 = copy.deepcopy(nums[:1]), copy.deepcopy(nums[1:2])
+            s1, s2 = SortedList(v1), SortedList(v2)
+
+            for x in nums[2:]:
+                d1, d2 = len(v1) - s1.bisect_right(x), len(v2) - s2.bisect_right(x)
+                
+                if d1 > d2:
+                    v1.append(x)
+                    s1.add(x)
+                elif d1 < d2:
+                    v2.append(x)
+                    s2.add(x)
+                elif d1 == d2 and len(v1) < len(v2):
+                    v1.append(x)
+                    s1.add(x)
+                elif d1 == d2 and len(v1) > len(v2):
+                    v2.append(x)
+                    s2.add(x)
+                else:
+                    v1.append(x)
+                    s1.add(x)
+            
+            return v1 + v2
+    ```
 
 ## 堆
 
@@ -2254,97 +2260,95 @@ class DSU:
 
 时间复杂度：$O(n)$
 
-=== "Python"
+```python
+class DSU:
+    def __init__(self, n: int):
+        """初始化一个含有 n 个元素的并查集，元素下标范围为 [0, n-1]"""
+        self.p = [i for i in range(n)]  # p[i] 表示 i 号点的祖先结点编号
+        self.cnt = [1] * n  # cnt[i] 表示 i 号点所在集合的元素个数
+        self.set_cnt = n  # 集合的个数
 
-    ```python
-    class DSU:
-        def __init__(self, n: int):
-            """初始化一个含有 n 个元素的并查集，元素下标范围为 [0, n-1]"""
-            self.p = [i for i in range(n)]  # p[i] 表示 i 号点的祖先结点编号
-            self.cnt = [1] * n  # cnt[i] 表示 i 号点所在集合的元素个数
-            self.set_cnt = n  # 集合的个数
-    
-        def find(self, a: int) -> int:
-            """返回 a 号点的祖先结点"""
-            root = a
-            # 先找到根结点
-            while self.p[root] != root:
-                root = self.p[root]
-            # 再走一遍进行路径压缩
-            while self.p[a] != a:
-                a = self.p[a]
-                self.p[a] = root
-            return root
-    
-        def merge(self, a: int, b: int) -> None:
-            """合并结点 a 和结点 b 所在的集合"""
-            pa, pb = self.find(a), self.find(b)
-            if pa == pb:
-                return
-            self.set_cnt -= 1
-            if self.cnt[pa] < self.cnt[pb]:
-                self.p[pa] = pb
-                self.cnt[pb] += self.cnt[pa]
-            else:
-                self.p[pb] = pa
-                self.cnt[pa] += self.cnt[pb]
-    
-        def size(self, a: int) -> int:
-            """返回结点 a 所在集合的元素个数"""
-            return self.cnt[self.find(a)]
-    
-        def size(self) -> int:
-            """返回并查集中集合的个数"""
-            return self.set_cnt
-    
-        def same(self, a: int, b: int) -> bool:
-            """判断结点 a 和结点 b 是否在同一个集合中"""
-            return self.find(a) == self.find(b)
+    def find(self, a: int) -> int:
+        """返回 a 号点的祖先结点"""
+        root = a
+        # 先找到根结点
+        while self.p[root] != root:
+            root = self.p[root]
+        # 再走一遍进行路径压缩
+        while self.p[a] != a:
+            a = self.p[a]
+            self.p[a] = root
+        return root
 
-
-    from collections import deque
-    
-    # 快读
-    import sys
-    input = lambda: sys.stdin.readline().strip()
-    
-    # 处理输入
-    n, m = map(int, input().strip().split())
-    label = ' ' + input().strip()
-    g = [[] for _ in range(n + 1)]
-    for _ in range(n - 1):
-        u, v = map(int, input().strip().split())
-        g[u].append(v)
-        g[v].append(u)
-    
-    # 合并树链
-    dsu = DSU(n + 1)
-    q = deque()
-    vis = [False] * (n + 1)
-    q.append(1)
-    vis[1] = True
-    while len(q):
-        now = q.popleft()
-        for ch in g[now]:
-            if vis[ch]:
-                continue
-            if label[now] == label[ch]:
-                dsu.merge(now, ch)
-            q.append(ch)
-            vis[ch] = True
-    
-    # 处理查询
-    ans = ""
-    for _ in range(m):
-        u, v, lab = map(str, input().strip().split())
-        u, v = int(u), int(v)
-    
-        if not dsu.same(u, v) or label[dsu.find(u)] == lab:
-            ans += '1'
+    def merge(self, a: int, b: int) -> None:
+        """合并结点 a 和结点 b 所在的集合"""
+        pa, pb = self.find(a), self.find(b)
+        if pa == pb:
+            return
+        self.set_cnt -= 1
+        if self.cnt[pa] < self.cnt[pb]:
+            self.p[pa] = pb
+            self.cnt[pb] += self.cnt[pa]
         else:
-            ans += '0'
-    print(ans)
-    ```
+            self.p[pb] = pa
+            self.cnt[pa] += self.cnt[pb]
+
+    def size(self, a: int) -> int:
+        """返回结点 a 所在集合的元素个数"""
+        return self.cnt[self.find(a)]
+
+    def size(self) -> int:
+        """返回并查集中集合的个数"""
+        return self.set_cnt
+
+    def same(self, a: int, b: int) -> bool:
+        """判断结点 a 和结点 b 是否在同一个集合中"""
+        return self.find(a) == self.find(b)
+
+
+from collections import deque
+
+# 快读
+import sys
+input = lambda: sys.stdin.readline().strip()
+
+# 处理输入
+n, m = map(int, input().strip().split())
+label = ' ' + input().strip()
+g = [[] for _ in range(n + 1)]
+for _ in range(n - 1):
+    u, v = map(int, input().strip().split())
+    g[u].append(v)
+    g[v].append(u)
+
+# 合并树链
+dsu = DSU(n + 1)
+q = deque()
+vis = [False] * (n + 1)
+q.append(1)
+vis[1] = True
+while len(q):
+    now = q.popleft()
+    for ch in g[now]:
+        if vis[ch]:
+            continue
+        if label[now] == label[ch]:
+            dsu.merge(now, ch)
+        q.append(ch)
+        vis[ch] = True
+
+# 处理查询
+ans = ""
+for _ in range(m):
+    u, v, lab = map(str, input().strip().split())
+    u, v = int(u), int(v)
+
+    if not dsu.same(u, v) or label[dsu.find(u)] == lab:
+        ans += '1'
+    else:
+        ans += '0'
+print(ans)
+```
 
 ### 例：减少恶意软件的传播 II🤨
 
@@ -2358,11 +2362,9 @@ class DSU:
 
 *注：弱化版仅为消除感染能力，过于简单，这里只介绍增强版。
 
-=== "Python"
-
-    ```python
-    
-    ```
+```python
+# TODO
+```
 
 ### 例：关押罪犯🤨
 
@@ -2386,9 +2388,9 @@ class DSU:
 
 *[二分图]: 又称二部图 (Bipartite Graph)。定义为：节点由两个集合组成，且两个集合内部没有边的图。
 
-=== "Python 二分图 + 二分查找"
+=== "二分图 + 二分查找"
 
-    ```cpp
+    ```python
     from collections import deque
     
     n, m = map(int, input().strip().split())
@@ -2440,7 +2442,7 @@ class DSU:
     print(edges[r][2])
     ```
 
-=== "Python 带权并查集"
+=== "带权并查集"
 
     ```python
     class DSU:

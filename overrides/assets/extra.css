@@ -43,6 +43,11 @@
     align-items: center;
 }
 
+/* 最大代码行数 */
+/* .md-typeset pre>code {
+    max-height: 35rem;
+} */
+
 /* ==================== 表格 ==================== */
 /* 解决 KaTeX 表格在移动端的尾部有异常空白的问题 */
 .md-typeset__table {

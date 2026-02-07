@@ -101,7 +101,7 @@ markdown_extensions:
       auto_title: true           # 自动标题
       use_pygments: true         # 第三方库增强
       pygments_lang_class: true  # 语言定制化高亮
-      linenums: true             # 显示行号
+      # linenums: true             # 显示行号
       anchor_linenums: true      # 行号锚点
       line_spans: __span         # 行号容器（移动端适配）
   - pymdownx.inlinehilite  # 高亮行内代码

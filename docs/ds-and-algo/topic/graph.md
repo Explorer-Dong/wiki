@@ -14,7 +14,7 @@ icon: simple/graphql
 
 与 [树的遍历](./ds.md#树的遍历) 类似，图也拥有深度优先和广度优先两种遍历方式。由于图可能存在环路（无论是有向图还是无向图），因此不能像树的遍历那样通过记忆父结点来规避死循环，只能另外创建元素类型为 `bool` 的 `vis` 数组来标记已经遍历过的结点。
 
-=== "C++ DFS"
+=== "DFS"
 
     ```c++
     vector<int> g[N];
@@ -35,7 +35,7 @@ icon: simple/graphql
     dfs(0);
     ```
 
-=== "C++ BFS"
+=== "BFS"
 
     ```c++
     vector<int> g[N];
@@ -88,90 +88,86 @@ icon: simple/graphql
 - 在 DFS 时，如果某个点之前已经被 `vis` 数组标记过，那么环路一定不会经过这个点（反证法，如果环路经过这个点，那么曾经的某一轮 DFS 一定可以判断出来）；
 - 在 DFS 时，仍然需要维护 `vis` 数组，但是要等 DFS 结束再将这一轮 DFS 过的结点标记为 `true`，否则无法判断是否存在环路（因为提前标记为 `true` 后，环路上的结点就不会被 `path` 数组标记，也就无法判定环路）。
 
-=== "C++"
-
-    ```c++
-    class Solution {
-    public:
-        bool canFinish(int n, vector<vector<int>>& p) {
-            // 建图
-            vector<int> g[n];
-            for (auto& a: p) {
-                g[a[0]].push_back(a[1]);
-            }
-    
-            vector<bool> vis(n);   // 全局访问情况
-            vector<bool> path(n);  // 路径访问情况
-            bool ok = true;
-    
-            function<void(int)> dfs = [&](int u) -> void {
-                path[u] = true;
-                for (int v: g[u]) {
-                    if (vis[v]) {
-                        continue;
-                    }
-                    if (path[v]) {
-                        ok = false;
-                        return;
-                    }
-                    dfs(v);
-                }
-                path[u] = false;
-                vis[u] = true;  // 注意要在路径遍历完开始回溯时，再标记全局访问情况
-            };
-    
-            for (int i = 0; i < n; i++) {
-                if (!vis[i]) {
-                    dfs(i);
-                }
-            }
-    
-            return ok;
+```c++
+class Solution {
+public:
+    bool canFinish(int n, vector<vector<int>>& p) {
+        // 建图
+        vector<int> g[n];
+        for (auto& a: p) {
+            g[a[0]].push_back(a[1]);
         }
-    };
-    ```
+
+        vector<bool> vis(n);   // 全局访问情况
+        vector<bool> path(n);  // 路径访问情况
+        bool ok = true;
+
+        function<void(int)> dfs = [&](int u) -> void {
+            path[u] = true;
+            for (int v: g[u]) {
+                if (vis[v]) {
+                    continue;
+                }
+                if (path[v]) {
+                    ok = false;
+                    return;
+                }
+                dfs(v);
+            }
+            path[u] = false;
+            vis[u] = true;  // 注意要在路径遍历完开始回溯时，再标记全局访问情况
+        };
+
+        for (int i = 0; i < n; i++) {
+            if (!vis[i]) {
+                dfs(i);
+            }
+        }
+
+        return ok;
+    }
+};
+```
 
 **通过拓扑排序维护出该有向图的拓扑序列，间接判断有向图是否存在环路**。拓扑序列定义为：对于图中任意一条有向边 $u\to v$，$u$ 在拓扑序列中的顺序都要比 $v$ 在拓扑序列中的顺序更靠前。实现上可以使用 BFS，顶点入队条件是入度为 $0$，顶点出队时需要将被指向点的入度减一。时间复杂度也是 $O(n+m)$。
 
-=== "C++"
+```c++
+class Solution {
+public:
+    bool canFinish(int n, vector<vector<int>>& p) {
+        vector<int> g[n];
+        vector<int> rd(n);  // 入度
 
-    ```c++
-    class Solution {
-    public:
-        bool canFinish(int n, vector<vector<int>>& p) {
-            vector<int> g[n];
-            vector<int> rd(n);  // 入度
-    
-            for (auto& a: p) {
-                g[a[0]].push_back(a[1]);
-                rd[a[1]]++;
-            }
-    
-            queue<int> q;
-            vector<int> topo;  // 拓扑序列
-            for (int i = 0; i < n; i++) {
-                if (!rd[i]) {
-                    q.push(i);
-                    topo.push_back(i);
-                }
-            }
-    
-            while (q.size()) {
-                int u = q.front();
-                q.pop();
-                for (int v: g[u]) {
-                    rd[v]--;
-                    if (!rd[v]) {
-                        q.push(v);
-                        topo.push_back(v);
-                    }
-                }
-            }
-    
-            return topo.size() == n;
+        for (auto& a: p) {
+            g[a[0]].push_back(a[1]);
+            rd[a[1]]++;
         }
-    };
-    ```
+
+        queue<int> q;
+        vector<int> topo;  // 拓扑序列
+        for (int i = 0; i < n; i++) {
+            if (!rd[i]) {
+                q.push(i);
+                topo.push_back(i);
+            }
+        }
+
+        while (q.size()) {
+            int u = q.front();
+            q.pop();
+            for (int v: g[u]) {
+                rd[v]--;
+                if (!rd[v]) {
+                    q.push(v);
+                    topo.push_back(v);
+                }
+            }
+        }
+
+        return topo.size() == n;
+    }
+};
+```
 
 ### 拓扑图的最短/长路径
 
@@ -250,121 +246,119 @@ void dp(int s) {  // 以 s 为起点求单源最长（短）路
 
 时间复杂度：$O(n)$
 
-=== "C++"
+```c++
+#include <iostream>
+#include <queue>
+#include <vector>
+using namespace std;
 
-    ```c++
-    #include <iostream>
-    #include <queue>
-    #include <vector>
-    using namespace std;
-    
-    void solve() {
-        int n, a, b;
-        cin >> n >> a >> b;
-    
-        // 建图并维护入度
-        vector<int> g[n + 1];
-        vector<int> rd(n + 1);
-        for (int i = 0; i < n; i++) {
-            int u, v;
-            cin >> u >> v;
-            rd[u]++, rd[v]++;
-            g[u].push_back(v);
-            g[v].push_back(u);
+void solve() {
+    int n, a, b;
+    cin >> n >> a >> b;
+
+    // 建图并维护入度
+    vector<int> g[n + 1];
+    vector<int> rd(n + 1);
+    for (int i = 0; i < n; i++) {
+        int u, v;
+        cin >> u >> v;
+        rd[u]++, rd[v]++;
+        g[u].push_back(v);
+        g[v].push_back(u);
+    }
+
+    // 标记环路（DFS、BFS 均可，这里以 BFS 为例）
+    vector<bool> loop(n + 1, true);
+    queue<int> q;
+    for (int i = 1; i <= n; i++) {
+        if (rd[i] == 1) {
+            loop[i] = false;
+            rd[i]--;  // 删边
+            q.push(i);
         }
-    
-        // 标记环路（DFS、BFS 均可，这里以 BFS 为例）
-        vector<bool> loop(n + 1, true);
-        queue<int> q;
-        for (int i = 1; i <= n; i++) {
-            if (rd[i] == 1) {
-                loop[i] = false;
-                rd[i]--;  // 删边
-                q.push(i);
+    }
+    while (q.size()) {
+        int u = q.front();
+        q.pop();  // 拆点
+        for (int v: g[u]) {
+            rd[v]--;  // 删边
+            if (rd[v] == 1) {
+                loop[v] = false;
+                rd[v]--;
+                q.push(v);
             }
         }
+    }
+
+    // 从 B 点开始遍历一遍计算 dB 并找到 tag 点（DFS、BFS 均可，这里以 BFS 为例）
+    auto bfs = [&](int b) -> pair<int, int> {
+        vector<int> d(n + 1);
+        vector<bool> vis(n + 1);
+        queue<int> q;
+        d[b] = 0;
+        vis[b] = true;
+        q.push(b);
         while (q.size()) {
             int u = q.front();
-            q.pop();  // 拆点
+            q.pop();
             for (int v: g[u]) {
-                rd[v]--;  // 删边
-                if (rd[v] == 1) {
-                    loop[v] = false;
-                    rd[v]--;
+                if (!vis[v]) {
+                    d[v] = d[u] + 1;
+                    vis[v] = true;
                     q.push(v);
                 }
             }
         }
-    
-        // 从 B 点开始遍历一遍计算 dB 并找到 tag 点（DFS、BFS 均可，这里以 BFS 为例）
-        auto bfs = [&](int b) -> pair<int, int> {
-            vector<int> d(n + 1);
-            vector<bool> vis(n + 1);
-            queue<int> q;
-            d[b] = 0;
-            vis[b] = true;
-            q.push(b);
-            while (q.size()) {
-                int u = q.front();
-                q.pop();
-                for (int v: g[u]) {
-                    if (!vis[v]) {
-                        d[v] = d[u] + 1;
-                        vis[v] = true;
-                        q.push(v);
-                    }
-                }
+        int dB = n + 1, tag = -1;
+        for (int i = 1; i <= n; i++) {
+            if (loop[i] && dB > d[i]) {
+                dB = d[i], tag = i;
             }
-            int dB = n + 1, tag = -1;
-            for (int i = 1; i <= n; i++) {
-                if (loop[i] && dB > d[i]) {
-                    dB = d[i], tag = i;
-                }
-            }
-            return {dB, tag};
-        };
-        auto [dB, tag] = bfs(b);
-    
-        // 从 A 点开始遍历一遍计算 dA（DFS、BFS 均可，这里以 BFS 为例）
-        auto bfs2 = [&](int a) -> int {
-            vector<int> d(n + 1);
-            vector<bool> vis(n + 1);
-            queue<int> q;
-            vis[a] = true;
-            d[a] = 0;
-            q.push(a);
-            while (q.size()) {
-                int u = q.front();
-                q.pop();
-                for (int v: g[u]) {
-                    if (!vis[v]) {
-                        vis[v] = true;
-                        d[v] = d[u] + 1;
-                        q.push(v);
-                    }
-                }
-            }
-            return d[tag];
-        };
-        int dA = bfs2(a);
-    
-        // 最终结果
-        cout << (dB < dA ? "YES" : "NO") << "\n";
-    }
-    
-    int main() {
-        ios::sync_with_stdio(false);
-        cin.tie(nullptr);
-    
-        int T;
-        cin >> T;
-        while (T--) {
-            solve();
         }
-    
-        return 0;
+        return {dB, tag};
+    };
+    auto [dB, tag] = bfs(b);
+
+    // 从 A 点开始遍历一遍计算 dA（DFS、BFS 均可，这里以 BFS 为例）
+    auto bfs2 = [&](int a) -> int {
+        vector<int> d(n + 1);
+        vector<bool> vis(n + 1);
+        queue<int> q;
+        vis[a] = true;
+        d[a] = 0;
+        q.push(a);
+        while (q.size()) {
+            int u = q.front();
+            q.pop();
+            for (int v: g[u]) {
+                if (!vis[v]) {
+                    vis[v] = true;
+                    d[v] = d[u] + 1;
+                    q.push(v);
+                }
+            }
+        }
+        return d[tag];
+    };
+    int dA = bfs2(a);
+
+    // 最终结果
+    cout << (dB < dA ? "YES" : "NO") << "\n";
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int T;
+    cin >> T;
+    while (T--) {
+        solve();
     }
-    ```
+
+    return 0;
+}
+```
 
 ## 最短路问题
 
@@ -529,63 +523,61 @@ Dijkstra 算法是最经典的单源最短路算法，需要满足非负边权�
 
 复杂度分析：极端情况就是所有的边都入一次堆，那么总时间复杂度就是 $O(m\log m)$，空间复杂度为 $O(n+m)$。
 
-=== "C++"
+```c++
+#include <algorithm>
+#include <climits>
+#include <iostream>
+#include <queue>
+#include <vector>
+using namespace std;
 
-    ```c++
-    #include <algorithm>
-    #include <climits>
-    #include <iostream>
-    #include <queue>
-    #include <vector>
-    using namespace std;
-    
-    const int inf = INT_MAX >> 1;
-    using pii = pair<int, int>;
-    
-    int main() {
-        ios::sync_with_stdio(false);
-        cin.tie(nullptr);
-    
-        int n, m, s;
-        cin >> n >> m >> s;
-    
-        // 建图
-        vector<pii> g[n + 1];
-        for (int i = 1; i <= m; i++) {
-            int u, v, w;
-            cin >> u >> v >> w;
-            g[u].push_back({v, w});
-        }
-    
-        // Dijkstra
-        vector<int> d(n + 1, inf);
-        vector<int> vis(n + 1, false);
-        priority_queue<pii, vector<pii>, greater<pii>> h;  // 小根堆
-        d[s] = 0;
-        h.push({d[s], s});
-        while (h.size()) {
-            auto [_, u] = h.top();
-            h.pop();
-            if (vis[u]) {
-                continue;
-            }
-            vis[u] = true;
-            for (auto& [v, w]: g[u]) {
-                if (!vis[v] && d[v] > d[u] + w) {
-                    d[v] = d[u] + w;
-                    h.push({d[v], v});
-                }
-            }
-        }
-    
-        // 输出
-        for (int i = 1; i <= n; i++) {
-            cout << (d[i] == inf ? INT_MAX : d[i]) << " \n"[i == n];
-        }
-    
-        return 0;
+const int inf = INT_MAX >> 1;
+using pii = pair<int, int>;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m, s;
+    cin >> n >> m >> s;
+
+    // 建图
+    vector<pii> g[n + 1];
+    for (int i = 1; i <= m; i++) {
+        int u, v, w;
+        cin >> u >> v >> w;
+        g[u].push_back({v, w});
     }
-    ```
+
+    // Dijkstra
+    vector<int> d(n + 1, inf);
+    vector<int> vis(n + 1, false);
+    priority_queue<pii, vector<pii>, greater<pii>> h;  // 小根堆
+    d[s] = 0;
+    h.push({d[s], s});
+    while (h.size()) {
+        auto [_, u] = h.top();
+        h.pop();
+        if (vis[u]) {
+            continue;
+        }
+        vis[u] = true;
+        for (auto& [v, w]: g[u]) {
+            if (!vis[v] && d[v] > d[u] + w) {
+                d[v] = d[u] + w;
+                h.push({d[v], v});
+            }
+        }
+    }
+
+    // 输出
+    for (int i = 1; i <= n; i++) {
+        cout << (d[i] == inf ? INT_MAX : d[i]) << " \n"[i == n];
+    }
+
+    return 0;
+}
+```
 
 *注：从上述介绍的 Dijkstra 算法容易发现，当以 $u$ 为中心结点主动更新其出边的点时，$d_u$ 已经固定了，如果存在负边，有可能出现下图的情况而导致 $u$ 过早被固定。
 
