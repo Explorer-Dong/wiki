@@ -128,9 +128,10 @@ apt remove <package_name>
 
 language-pack-zh-hans 是一个终端汉化软件包。Shell 的运行结果通过 Terminal 呈现，如果遇到都是英文的输出结果，可以进行以下操作将其转换为中文。
 
-1）安装中文语言包：
+1）软件安装：
 
 ```bash
+apt update
 apt install language-pack-zh-hans
 ```
 
@@ -167,19 +168,26 @@ reboot
 
 tree 是一个目录可视化工具，适合展示或查看指定目录下的文件结构。
 
-Linux 默认自带，如果没有，可以快速安装：
+软件安装：
+
+=== "Linux"
+
+    ```bash
+    apt update
+    apt install tree
+    ```
+
+=== "Windows"
+
+    手动下载 tree 的二进制程序 [Tree for Windows](https://gnuwin32.sourceforge.net/packages/tree.htm)，下载后将二进制程序的路径加入环境变量即可使用。
+
+基本命令：
 
 ```bash
-# 安装 tree
-apt update && apt upgrade && apt install tree
-
-# 检查安装
-tree --version
+tree [-option] [dir]
 ```
 
-Windows 需要手动下载 tree 的二进制程序，下载地址：[Tree for Windows](https://gnuwin32.sourceforge.net/packages/tree.htm)。下载后将二进制程序的路径加入环境变量即可。
-
-基本命令格式：`tree [-option] [dir]`
+常见参数：
 
 - 显示中文：`-N`。如果中文名是中文，不加 `-N` 有些电脑上是乱码的；
 - 选择展示的层级：`-L [n]`；
@@ -191,6 +199,13 @@ Windows 需要手动下载 tree 的二进制程序，下载地址：[Tree for Wi
 ### 多路复用器 tmux
 
 [tmux](https://github.com/tmux/tmux) 是一个终端多路复用工具，支持一个终端多路复用。不同的路以会话 (session) 的形式存在，特别适合后台运行长时间任务。
+
+软件安装：
+
+```bash
+apt update
+apt install tmux
+```
 
 基本命令：
 
@@ -213,10 +228,14 @@ tmux kill-session -t <session_name>
 ```bash
 # 退出会话
 Ctrl+b d
-
-# 查看会话历史
-Ctrl+b 滚轮
 ```
+
+启用滚轮：
+
+- 进入 tmux 会话
+- 输入 `Ctrl + b + :`
+- 输入 `set -g mouse on`
+- 回车后即可使用滚轮
 
 ### 下载器 wget
 
