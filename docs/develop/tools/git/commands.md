@@ -88,12 +88,26 @@ git config --global core.quotepath false
 
 ### 工作区 $\xrightarrow[]{\text{add}}$ 暂存区
 
-```bash
-# 工作区到暂存区
-git add {<file> | <folder> | .}
+基本命令：
 
-# 逐段比对并手动决策（适用于同一个文件的改动对应多个版本的情况）
+```bash
+git add {<file> | <folder> | .}
+```
+
+逐代码块 (patch) 加入（适用于同一个文件的改动对应多个版本的情况）：
+
+```bash
 git add -p [<file> | <folder> | .]
+
+# 之后会显示参数选项 [y,n,q,a,d,s,e,?]
+# y - yes：确认指定段加入暂存区
+# n - no：取消指定段加入暂存区
+# q - quit：退出交互模式
+# a - all：将当前文件的所有变动块都加入暂存区
+# d - down：跳过当前文件的所有变动块
+# s - split：将当前代码块划分为更小的块
+# e - edit：手动选择当前代码块的内容（适用于 s 划分精度不足的场景）
+# ?：显示帮助文本
 ```
 
 ### 暂存区 $\xrightarrow[]{\text{commit}}$ 仓库区
@@ -555,29 +569,51 @@ git push --force
 
 ### 临时保存更改
 
-场景：
+当我们在开发某个分支的过程中，临时想切换到其他分支做些什么时，Git 是不允许此时的工作区有变动的，但我们又不想 commit 工作区的代码，就可以使用 Git 的「临时保存」功能。使用一个类似于栈的数据结构进行维护。
 
-- 当我们在开发某个分支的过程中，想要切换到其他分支做些什么，但又不想 commit 改动时；
-- 希望临时保存代码，但是不想作为一个 commit 时。
+代码入栈：
 
-就可以用上 Git 的临时保存功能，对应为 `git stash` 命令：
-
-```shell
+```bash
 # 临时保存更改（入栈）
-git stash push
-# 输出格式：stash@{0}: WIP on <branch_name>: <last_commit_hash> <last_commit_comment>
-# 例如：stash@{0}: WIP on exp: 23b0327 fix: typo
+git stash [push]
+# 示例输出：stash@{0}: WIP on exp: 23b0327 fix: typo
 
-# 查看栈内元素
-$ git stash list
+# 保存时排除已提交到暂存区的代码
+git stash [push] --keep-index
 
-# 弹出栈顶元素
-git stash pop
+# 包含未跟踪文件
+git stash [push] -u
+
+# 【很少用】包含所有文件，包括 .gitignore 忽略的
+git stash [push] -a
 ```
 
-特别地，`git stash` 只会临时保存已追踪的文件，如果需要包含其它文件，可以添加以下参数：
+代码出栈：
 
-```shell
-git stash -u  # 包含未跟踪文件
-git stash -a  # 【很少用】包含所有文件，包括 .gitignore 忽略的
+```bash
+# 弹出并使用栈顶代码
+git stash pop
+
+# 使用栈顶代码
+git stash apply
+
+# 删除栈顶代码
+git stash drop
+
+# 使用栈内指定代码
+git stash apply stash@{<2>}
+
+# 删除栈内指定代码
+git stash drop stash@{<2>}
+
+# 使用栈内代码时，如果保存前代码已经进入暂存区，则保持该模式
+# 否则，默认会将所有代码全部应用到工作区
+git stash apply --index
+```
+
+其他命令：
+
+```bash
+# 查看栈内元素
+git stash list
 ```
