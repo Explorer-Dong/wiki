@@ -489,11 +489,15 @@ graph TB
     更新包：
     
     ```bash
-    # 更新全部包
+    # 更新全部包索引
     uv lock --upgrade
+    # 同步环境
+    uv sync
     
-    # 更新指定包
-    uv lock --upgrade-package <pkg>
+    # 更新指定包索引
+    uv lock --upgrade-package <pkg>[=<version>]
+    # 同步环境
+    uv sync
     ```
 
 ## 代码管理🤨
