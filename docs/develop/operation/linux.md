@@ -875,7 +875,7 @@ htop
 btop
 ```
 
-### 搜索进程
+### 搜索进程 lsof
 
 可以使用 [lsof](https://github.com/lsof-org/lsof) 工具实现。
 
@@ -888,28 +888,16 @@ lsof -i :<port>
 
 如果想要中断一个并行/并发任务，在终端输入 `Ctrl+C` 往往是无效的，因为 `Ctrl+C` 一次只能结束一个进程/线程。我们可以直接用 `taskkill` 或 `pkill` 终止对应程序的所有进程。
 
-=== "Windows"
+```bash
+# 终止特定 PID 的进程
+kill -9 <process_id>
 
-    ```bash
-    # 终止所有 Python 进程
-    taskkill /F /IM python.exe
-    
-    # 终止特定 PID 的进程
-    taskkill /F /T /PID <process_id>
-    ```
+# 终止所有 Python 进程
+pkill -9 -f python
 
-=== "Linux/macOS"
-
-    ```bash
-    # 终止所有 Python 进程
-    pkill -9 -f python
-    
-    # 或者使用 killall
-    killall -9 python
-    
-    # 终止特定 PID 的进程
-    kill -9 <process_id>
-    ```
+# 或者使用 killall
+killall -9 python
+```
 
 ??? "练习：进程管理"
 

@@ -61,6 +61,25 @@ Remove-Item <folder> -Recurse
 rm -r <folder>
 ```
 
+## 进程管理
+
+### 搜索进程 netstat
+
+```python
+# 按照端口号查询
+netstat -ano | findstr :8080
+```
+
+### 终止进程 taskkill
+
+```bash
+# 终止特定 PID 的进程
+taskkill /F /T /PID <process_id>
+
+# 终止所有 Python 进程
+taskkill /F /IM python.exe
+```
+
 ## 网络管理
 
 ### 查询 DNS 信息 nslookup
