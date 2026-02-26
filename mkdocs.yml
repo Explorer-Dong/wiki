@@ -338,7 +338,11 @@ nav:
       - develop/operation/wsl2.md
       - develop/operation/shell.md
       - develop/operation/nginx.md
-      - develop/operation/docker.md
+      - Docker:
+        - develop/operation/docker/index.md
+        - develop/operation/docker/setup.md
+        - develop/operation/docker/image.md
+        - develop/operation/docker/container.md
     - 工具:
       - develop/tools/index.md
       - develop/tools/hexo.md
