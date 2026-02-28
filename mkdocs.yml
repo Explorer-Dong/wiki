@@ -343,6 +343,7 @@ nav:
         - develop/operation/docker/setup.md
         - develop/operation/docker/image.md
         - develop/operation/docker/container.md
+        - develop/operation/docker/practice.md
     - 工具:
       - develop/tools/index.md
       - develop/tools/hexo.md

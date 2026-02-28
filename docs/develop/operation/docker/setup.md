@@ -1,5 +1,5 @@
 ---
-title: Docker 管理
+title: 软件配置
 icon: octicons/gear-24
 ---
 
@@ -11,7 +11,7 @@ icon: octicons/gear-24
 
 安装步骤：
 
-1. 安装 [WSL2](../operation/wsl2.md#安装-wsl)；
+1. 安装 [WSL2](../../operation/wsl2.md#安装-wsl)；
 2. 进入 [Docker](https://www.docker.com/) 官网，下载 Docker Desktop for Windows；
 3. 运行安装程序，默认安装在 C 盘，也可以自定义调整安装路径。安装过程中会提示启用 WSL2 功能，确保勾选该选项。
 
@@ -25,7 +25,7 @@ icon: octicons/gear-24
 
 ### 验证安装
 
-```dockerfile
+```bash
 # 检查 docker
 docker --version
 
