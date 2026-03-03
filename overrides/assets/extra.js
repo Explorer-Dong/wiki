@@ -133,6 +133,11 @@ document$.subscribe(() => {
                     阿里云 9 折商品链接
                 </a>
             </p>
+            <p>3.
+                <a target="_blank" href="https://s.qiniu.com/IJNj2u" style="color: lightblue;">
+                    七牛云千万 Token 免费送
+                </a>
+            </p>
         `;
         // 插入内容块
         toc.parentNode.insertBefore(block, toc);
