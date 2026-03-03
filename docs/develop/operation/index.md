@@ -9,9 +9,9 @@ title: 运维导读
 
 一些运维资源：
 
-- 云服务提供商：[阿里云](https://www.aliyun.com/)、[腾讯云](https://cloud.tencent.com/)、[华为云](https://www.huaweicloud.com/)、[京东云](https://www.jdcloud.com/)、[Vercel](https://vercel.com/explorer-dongs-projects) 等。
+- 主机提供商：[阿里云](https://www.aliyun.com/)、[腾讯云](https://cloud.tencent.com/)、[华为云](https://www.huaweicloud.com/)、[京东云](https://www.jdcloud.com/)、[Vercel](https://vercel.com/explorer-dongs-projects)、[JustHost](https://justhost.ru/zh) 等。
 - 域名提供商：[阿里云万网](https://wanwang.aliyun.com/)、[Spaceship](https://www.spaceship.com/zh/application/domain-list-application/) 等。
-- 网站流量统计：[百度统计](https://tongji.baidu.com/main/homepage/self/homepage/index)、[Google Analytics](https://analytics.google.com/analytics/web/#/p474855975/reports/intelligenthome)、[Bing Webmaster Tools](https://www.bing.com/webmasters) 等。
+- 站长统计工具：[百度统计](https://tongji.baidu.com/main/homepage/self/homepage/index)、[Google Analytics](https://analytics.google.com/analytics/web/#/p474855975/reports/intelligenthome)、[Bing Webmaster Tools](https://www.bing.com/webmasters) 等。
 
 运维的基本 [学习路线](https://roadmap.sh/devops?r=devops-beginner) 如下图所示：
 
