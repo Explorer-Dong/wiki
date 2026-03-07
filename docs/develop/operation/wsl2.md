@@ -3,13 +3,11 @@ title: WSL2
 icon: material/penguin
 ---
 
-本文介绍 WSL 的基本使用方法，一切的疑问都可以在 [官方文档](https://learn.microsoft.com/zh-cn/windows/wsl/) 中找到。
+本文介绍 WSL 的基本使用方法，详情见 [WSL 官方文档](https://learn.microsoft.com/zh-cn/windows/wsl/)。
 
 ## 基本概念
 
 WSL (Windows Subsystem for Linux) 是微软开发的一个兼容层，允许在 Windows 上运行 Linux 并使用其大部分功能。它为开发者提供了一个完整的 Linux 环境，而无需安装虚拟机或双系统。
-
-由于 WSL2 相对于 WSL1 在性能上有了质的飞跃，所以现代 WSL 一般都指 WSL2。下文的 WSL 不特别声明均指 WSL2。
 
 WSL1 vs WSL2：
 
@@ -24,16 +22,14 @@ WSL2 的主要特性：
 - 快速启动：秒级启动 Linux 环境；
 - 轻量级资源占用：动态内存分配，按需使用系统资源。
 
+由于 WSL2 相对于 WSL1 在性能上有了质的飞跃，所以现代 WSL 一般都指 WSL2。下文的 WSL 不特别声明均指 WSL2。
+
 ## WSL 管理
 
 ### 安装 WSL
 
-系统要求：
-
-- Windows 10 版本 2004 及更高版本（内部版本 19041 及更高版本）；
-- 支持虚拟化的 CPU（需要在 BIOS 中启用虚拟化），默认开启，可在任务管理器的「性能」选项中查看。
-
-安装步骤：
+!!! tip "系统要求"
+    安装 WSL 需要 Windows 10 2004 及更高版本（内部版本 19041 及更高版本），同时需要有支持虚拟化的 CPU（需要在 BIOS 中启用虚拟化，默认开启，可在任务管理器的「性能」选项中查看）。
 
 1）配置「启用或关闭 Windows 功能」选项，启用「Virtual Machine Platform」和「适用于 Linux 的 Windows 子系统」两个选项，然后重启电脑。如下图所示：
 
@@ -45,122 +41,139 @@ WSL2 的主要特性：
 wsl --install
 ```
 
-系统会自动安装 WSL：
+系统会自动安装 WSL 和默认的 Linux 发行版 Ubuntu。下载安装过程如下所示：
 
-![正在下载 WSL](https://cdn.dwj601.cn/images/20250907220459381.png)
+|                   首先会下载安装最新的 WSL                   |           然后回下载安装默认的 Linux 发行版 Ubuntu           |
+| :----------------------------------------------------------: | :----------------------------------------------------------: |
+| ![正在下载 WSL](https://cdn.dwj601.cn/images/20250907220459381.png) | ![正在下载 Ubuntu](https://cdn.dwj601.cn/images/20250907220506204.png) |
 
-然后会自动下载并安装默认的 Linux 发行版 Ubuntu：
+查看 WSL 安装情况：
 
-![正在下载 Ubuntu](https://cdn.dwj601.cn/images/20250907220506204.png)
+```bash
+wsl --version
+```
 
 3）设置好用户名和密码后，就可以使用以下命令进入 Linux 环境：
 
 ```bash
-wsl.exe -d Ubuntu  # Ubuntu 可以替换为你指定的 Linux 发行版名称
+wsl -d Ubuntu  # Ubuntu 可以替换为你指定的 Linux 发行版名称
 ```
 
 ![专属于 Linux 的命令](https://cdn.dwj601.cn/images/20250907221157099.png)
 
-### 版本管理
+### 更新 WSL
 
 ```bash
-# 查看 WSL 版本
-wsl --version
-
-# 更新 WSL
 wsl --update
-
-# 将发行版转换为 WSL2 支持的版本
-wsl --set-version <发行版名称> 2
-
-# 设置默认使用 WSL2
-wsl --set-default-version 2
 ```
 
 ### 配置 WSL
 
-创建 `C:\Users\<用户名>\.wslconfig` 来对 WSL2 进行全局配置：
+有以下两种方法来对 WSL 进行全局配置：
+
+- 创建 `C:\Users\<用户名>\.wslconfig` 文本文件来配置 WSL；
+- 运行 `WSL Settings` GUI 程序可视化配置 WSL（也会自动创建上述文件）。
+
+示例配置：
 
 ```ini
 [wsl2]
-# 限制 WSL2 使用的内存
 memory=8GB
-
-# 限制 WSL2 使用的处理器核心数
-processors=16
-
-# 设置交换文件大小
 swap=16GB
+processors=12
+defaultVhdSize=32GB
 ```
 
-配置修改后需要重启 WSL。
+配置前需要关闭所有实例，重启后生效。
+
+### 卸载 WSL
+
+```bash
+wsl --uninstall
+```
 
 ## 发行版管理
 
-注意，使用 `wsl` 命令后后台会启动一个 WSL 守护进程，该进程无法自动关闭，但占用的资源可以忽略不计。
+!!! tip
+    使用 `wsl` 命令会在后台启动一个 WSL 守护进程，该进程无法自动关闭，但占用的资源可以忽略不计。
 
-### 安装与卸载
+### 查看发行版
 
 ```bash
-# 列出可在线安装的发行版
+# 查看所有已安装的发行版
+wsl --list
+
+# 查看所有已安装的发行版的详细信息
+wsl --list --verbose
+
+# 查看可在线安装的发行版
 wsl --list --online
-wsl -l -o
-
-# 安装指定的 Linux 发行版
-wsl --install -d <发行版名称>
-
-# 设置默认的发行版
-wsl --set-default <发行版名称>
-
-# 列出所有已安装的发行版
-wsl --list  # wsl -l
-
-# 卸载发行版
-wsl --unregister <发行版名称>
 ```
 
-### 启动与停止
+### 安装发行版
+
+```bash
+wsl --install <distri_name>
+```
+
+### 卸载发行版
+
+```bash
+wsl --unregister <distri_name>
+```
+
+### 启动发行版
 
 ```bash
 # 启动默认的发行版
 wsl
 
-# 启动指定的发行版
-wsl -d <发行版名称>
+# 设置默认的发行版
+wsl --set-default <distri_name>
 
+# 启动指定的发行版
+wsl --distribution <distri_name>
+```
+
+### 停止发行版
+
+```bash
 # 停止所有的发行版
 wsl --shutdown
 
 # 停止指定的发行版
-wsl --terminate <发行版名称>
-wsl -t <发行版名称>
+wsl --terminate <distri_name>
 ```
 
-### 状态查询
+### 移动发行版
+
+发行版默认安装在系统盘，我们可以手动调整安装位置。
+
+方法一，基于 WSL [2.3.11](https://github.com/microsoft/WSL/releases/tag/2.3.11) 新特性 `--move` 一步移动：
 
 ```bash
-# 查看全部发行版
-wsl --list --verbose  # wsl -l -v
+# 基本命令
+wsl --manage <distri_name> --move <path\to\target>
 
-# 查看正在运行的发行版
-wsl --list --running
-
-# 也可以用任务管理器查看状态
+# 示例命令
+wsl --manage Ubuntu-24.04 --move D:\WSL\Ubuntu-24.04
 ```
 
-### 导出与备份
+方法二，基于导入导出机制：
 
 ```bash
-# 导出发行版为备份文件
-wsl --export <发行版名称> <文件路径.tar>
+# 导出发行版
+wsl --export <distri_name> <path/to/source.tar>
 
-# 从备份文件导入发行版
-wsl --import <发行版名称> <安装位置> <文件路径.tar>
+# 导入发行版
+wsl --import <distri_name> <path/to/target> <path/to/source.tar>
 ```
 
 ### 配置发行版
 
-在 Linux 发行版内创建 `/etc/wsl.conf` 文件来配置对应的发行版：
+在发行版文件系统内创建 `/etc/wsl.conf` 文本文件来配置对应的发行版。
+
+示例配置：
 
 ```ini
 [boot]
@@ -184,6 +197,18 @@ appendWindowsPath = true
 [user]
 # 设置默认用户
 # default = <用户名>
+```
+
+### 重置发行版密码
+
+如果忘记了 Linux 用户密码：
+
+```bash
+# 以 root 身份启动
+wsl -u root
+
+# 重置用户密码
+passwd <用户名>
 ```
 
 ## 文件管理
@@ -218,14 +243,14 @@ cd /mnt/c
 cd /mnt/d
 
 # 示例：访问 Windows 用户目录
-cd /mnt/c/Users/<你的用户名>
+cd /mnt/c/Users/<user_name>
 ```
 
 ## 网络管理
 
 ### 访问 WSL 服务
 
-WSL2 默认使用 NAT 网络模式, 可以通过 `localhost` 访问 WSL 中运行的服务：
+WSL 默认使用 NAT 网络模式, 可以通过 `localhost` 访问 WSL 中运行的服务：
 
 ```bash
 # 在 WSL 中启动 Web 服务器
@@ -256,18 +281,4 @@ netsh interface portproxy show all
 
 # 删除端口转发规则
 netsh interface portproxy delete v4tov4 listenport=8000 listenaddress=0.0.0.0
-```
-
-## 其他
-
-### 重置发行版密码
-
-如果忘记了 Linux 用户密码：
-
-```bash
-# 以 root 身份启动
-wsl -u root
-
-# 重置用户密码
-passwd <用户名>
 ```
