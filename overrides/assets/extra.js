@@ -135,7 +135,7 @@ document$.subscribe(() => {
             </p>
             <p>3.
                 <a target="_blank" href="https://s.qiniu.com/IJNj2u" style="color: lightblue;">
-                    七牛云千万 Token 免费送
+                    七牛云 AI token 免费送
                 </a>
             </p>
         `;
