@@ -5,6 +5,9 @@ icon: material/penguin
 
 本文介绍 WSL 的基本使用方法，详情见 [WSL 官方文档](https://learn.microsoft.com/zh-cn/windows/wsl/)。
 
+!!! tip
+    由于 WSL2 相对于 WSL1 在性能上有了质的飞跃，所以现代 WSL 一般都指 WSL2。下文的 WSL 不特别声明均指 WSL2。
+
 ## 基本概念
 
 WSL (Windows Subsystem for Linux) 是微软开发的一个兼容层，允许在 Windows 上运行 Linux 并使用其大部分功能。它为开发者提供了一个完整的 Linux 环境，而无需安装虚拟机或双系统。
@@ -22,8 +25,6 @@ WSL2 的主要特性：
 - 快速启动：秒级启动 Linux 环境；
 - 轻量级资源占用：动态内存分配，按需使用系统资源。
 
-由于 WSL2 相对于 WSL1 在性能上有了质的飞跃，所以现代 WSL 一般都指 WSL2。下文的 WSL 不特别声明均指 WSL2。
-
 ## WSL 管理
 
 ### 安装 WSL
@@ -31,7 +32,7 @@ WSL2 的主要特性：
 !!! tip "系统要求"
     安装 WSL 需要 Windows 10 2004 及更高版本（内部版本 19041 及更高版本），同时需要有支持虚拟化的 CPU（需要在 BIOS 中启用虚拟化，默认开启，可在任务管理器的「性能」选项中查看）。
 
-1）配置「启用或关闭 Windows 功能」选项，启用「Virtual Machine Platform」和「适用于 Linux 的 Windows 子系统」两个选项，然后重启电脑。如下图所示：
+1）配置「启用或关闭 Windows 功能」选项，启用「Virtual Machine Platform（有些主机会显示为中文——虚拟机平台）」和「适用于 Linux 的 Windows 子系统」两个选项，然后重启电脑。如下图所示：
 
 ![启用功能](https://cdn.dwj601.cn/images/20250907214237225.png)
 
@@ -215,23 +216,22 @@ passwd <用户名>
 
 跨文件系统操作会较慢，在 WSL 中操作时，建议将项目文件放在 Linux 文件系统中以获得最佳性能。数据会默认存放在 `%LOCALAPPDATA%\wsl` 对应包的 vhdx 硬盘映像文件中。
 
-### 从 Windows 访问 Linux 文件
+### Windows 访问 Linux 文件
 
-在 Windows 文件资源管理器的地址栏输入：
+直接从「文件资源管理器的侧边栏」访问 Linux 文件：
 
-```bash
-\\wsl$\<发行版名称>
-```
+![直接从「文件资源管理器的侧边栏」访问 Linux 文件](https://cdn.dwj601.cn/images/20260309190349151.png)
 
-或者直接在地址栏输入：
+也可以在「文件资源管理器的地址栏」输入：
 
 ```bash
-\\wsl$
+\\wsl.localhost\<distri_name>
+
+# 示例
+\\wsl.localhost\Ubuntu-22.04
 ```
 
-可以看到所有已安装的发行版。
-
-### 从 Linux 访问 Windows 文件
+### Linux 访问 Windows 文件
 
 Windows 磁盘被挂载在 `/mnt` 目录下：
 
@@ -282,3 +282,19 @@ netsh interface portproxy show all
 # 删除端口转发规则
 netsh interface portproxy delete v4tov4 listenport=8000 listenaddress=0.0.0.0
 ```
+
+## 常见应用
+
+说了那么多 WSL 的管理方法，那么 WSL 到底有哪些用呢？我目前主要用 WSL 完成以下任务。
+
+### WSL + VSCode
+
+为了在 Windows 平台进行 Linux 开发，我们能可以借助 WSL 和 VSCode。
+
+方法一：在 VSCode 插件市场中搜索 `WSL` 并安装，调起命令面板后输入 `WSL: Connect to WSL` 即可连接本地 WSL 实例：
+
+![调起命令面板后输入 WSL: Connect to WSL 即可连接本地 WSL 实例](https://cdn.dwj601.cn/images/20260309190717160.png)
+
+方法二：在「远程资源管理器」中选择「WSL 目标」来连接本地 WSL 实例：
+
+![在「远程资源管理器」中选择「WSL 目标」来连接本地 WSL 实例](https://cdn.dwj601.cn/images/20260309190922658.png)
