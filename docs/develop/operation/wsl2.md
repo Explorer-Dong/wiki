@@ -248,9 +248,9 @@ cd /mnt/c/Users/<user_name>
 
 ## 网络管理
 
-### 访问 WSL 服务
+### 网络模式
 
-WSL 默认使用 NAT 网络模式, 可以通过 `localhost` 访问 WSL 中运行的服务：
+WSL 默认使用 [NAT](../../base/cs/computer-network/network-layer.md#ipv4-的-nat-技术) 网络模式，该模式允许 Windows 通过本地回环地址访问 WSL 中运行的服务：
 
 ```bash
 # 在 WSL 中启动 Web 服务器
@@ -260,27 +260,45 @@ python3 -m http.server 8000
 http://localhost:8000
 ```
 
+但如果 Windows 开启了代理，会在每次启动 WSL 时出现以下提示（恼）：
+
+![如果 Windows 开启了代理，会在每次启动 WSL 时出现提示](https://cdn.dwj601.cn/images/20260310222408171.png)
+
+将 WSL 的网络模式 [配置](#配置-wsl) 为 mirrored 即可解决上述问题：
+
+```toml
+[wsl2]
+networkingMode=mirrored
+```
+
+但在重新启动 WSL 后可能会出现以下警告：
+
+![修改为镜像网络模式后出现的新问题](https://cdn.dwj601.cn/images/20260310222632407.png)
+
+多重启几次 WSL 即可：
+
+```bash
+# 关闭 WSL
+wsl --shutdown
+
+# 等待至少 8 秒
+
+# 启动 WSL
+wsl
+```
+
+之后就可以解决问题了。
+
+### WSL 科学上网
+
+最简单的方法就是启用代理软件的 TUN 模式，直接把流量转到虚拟网卡上。
+
 ### 获取 WSL IP 地址
 
 ```bash
 # 在 WSL 中查看 IP 地址
 ip addr show eth0
 hostname -I
-```
-
-### 端口转发
-
-如果需要从局域网访问 WSL 服务, 可以使用端口转发：
-
-```powershell
-# 在 Windows PowerShell（管理员）中执行
-netsh interface portproxy add v4tov4 listenport=8000 listenaddress=0.0.0.0 connectport=8000 connectaddress=<WSL的IP地址>
-
-# 查看端口转发规则
-netsh interface portproxy show all
-
-# 删除端口转发规则
-netsh interface portproxy delete v4tov4 listenport=8000 listenaddress=0.0.0.0
 ```
 
 ## 常见应用
