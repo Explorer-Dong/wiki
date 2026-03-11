@@ -148,27 +148,35 @@ wsl --terminate <distri_name>
 
 ### 移动发行版
 
-发行版默认安装在系统盘，我们可以手动调整安装位置。
+发行版默认安装在系统盘，我们可以手动调整安装位置缓解存储压力。
 
-方法一，基于 WSL [2.3.11](https://github.com/microsoft/WSL/releases/tag/2.3.11) 新特性 `--move` 一步移动：
-
-```bash
-# 基本命令
-wsl --manage <distri_name> --move <path\to\target>
-
-# 示例命令
-wsl --manage Ubuntu-24.04 --move D:\WSL\Ubuntu-24.04
-```
-
-方法二，基于导入导出机制：
+首先需要关闭 WSL：
 
 ```bash
-# 导出发行版
-wsl --export <distri_name> <path/to/source.tar>
-
-# 导入发行版
-wsl --import <distri_name> <path/to/target> <path/to/source.tar>
+wsl --shutdown
 ```
+
+具体移动方法有两种：
+
+- 方法一：基于 WSL [2.3.11](https://github.com/microsoft/WSL/releases/tag/2.3.11) 新特性 `--move` 一步移动：
+
+    ```bash
+    # 基本命令
+    wsl --manage <distri_name> --move <path\to\target>
+
+    # 示例命令
+    wsl --manage Ubuntu-24.04 --move D:\WSL\Ubuntu-24.04
+    ```
+
+- 方法二：基于导入导出机制：
+
+    ```bash
+    # 导出发行版
+    wsl --export <distri_name> <path/to/source.tar>
+
+    # 导入发行版
+    wsl --import <distri_name> <path/to/target> <path/to/source.tar>
+    ```
 
 ### 配置发行版
 
