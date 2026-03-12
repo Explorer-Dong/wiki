@@ -380,5 +380,6 @@ nav:
         - llm/model/diffusion/index.md
     - 下游应用:
       - llm/downstream/index.md
-      - llm/downstream/prompt-engineering.md
+      - llm/downstream/api-provider.md
+      - llm/downstream/code-agent.md
   - contributing.md
