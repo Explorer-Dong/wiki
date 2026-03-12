@@ -1,6 +1,7 @@
 ---
 title: 镜像管理
 icon: material/human
+status: new
 ---
 
 镜像包含了应用程序及其运行环境。
@@ -54,3 +55,7 @@ docker image prune
 # 删除所有镜像
 docker rmi $(docker images -q)
 ```
+
+## 自定义镜像
+
+TODO
