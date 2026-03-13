@@ -125,7 +125,7 @@ document$.subscribe(() => {
             <p>📣活动</p>
             <p>1.
                 <a target="_blank" href="https://www.aliyun.com/daily-act/ecs/activity_selection?userCode=jpec1z57" style="color: orange;">
-                    阿里云服务器 38 元一年
+                    阿里云服务器 68 元一年
                 </a>
             </p>
             <p>2.
