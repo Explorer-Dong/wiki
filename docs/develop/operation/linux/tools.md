@@ -279,7 +279,7 @@ aria2c <URL>
 
 ## 文件传输工具 scp
 
-在计算机网络应用层中，我们介绍了安全复制协议 [SCP](../../base/cs/computer-network/application-layer.md#scp-协议)，基于该协议，工程师开发了安全复制程序——scp，用来作为点对点的数据加密传输工具。
+在计算机网络应用层中，我们介绍了安全复制协议 [SCP](../../../base/cs/computer-network/application-layer.md#scp-协议)，基于该协议，工程师开发了安全复制程序——scp，用来作为点对点的数据加密传输工具。
 
 该程序就两个核心用法：
 

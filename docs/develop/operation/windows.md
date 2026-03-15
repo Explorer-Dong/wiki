@@ -13,7 +13,7 @@ Windows 上是不区分大小写的（即大小写不敏感）。比如 `main.py
 
 ![Windows 大小写不敏感](https://cdn.dwj601.cn/images/20251221152025.png)
 
-而 [Linux](./linux.md) 上是区分大小写的（即大小写敏感）。那么比如 `main.py` 和 `Main.py` 就存在于同一个文件夹下，表示两个不同的文件：
+而 [Linux](./linux/index.md) 上是区分大小写的（即大小写敏感）。那么比如 `main.py` 和 `Main.py` 就存在于同一个文件夹下，表示两个不同的文件：
 
 ![Linux 大小写敏感](https://cdn.dwj601.cn/images/20251221153013.png)
 

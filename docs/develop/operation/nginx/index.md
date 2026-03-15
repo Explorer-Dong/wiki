@@ -48,7 +48,7 @@ nginx: /usr/sbin/nginx /usr/lib/nginx /etc/nginx /usr/share/nginx /usr/share/man
 | 位置                             | 图示                                                         | 解释                                                         |
 | -------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | `/usr/sbin/nginx`                | ![/usr/sbin/nginx](https://cdn.dwj601.cn/images/202404031007306.png) | nginx 二进制文件。初始启动时需要进入该目录并执行 `./nginx`   |
-| `/usr/lib/nginx`                 | ![/usr/lib/nginx](https://cdn.dwj601.cn/images/20251020143726232.png) | nginx 的所有共享对象 (shared objects, so) 模块，即 [动态库](../../base/cs/computer-system-base/program-link.md#动态链接) |
+| `/usr/lib/nginx`                 | ![/usr/lib/nginx](https://cdn.dwj601.cn/images/20251020143726232.png) | nginx 的所有共享对象 (shared objects, so) 模块，即 [动态库](../../../base/cs/computer-system-base/program-link.md#动态链接) |
 | `/etc/nginx`                     | <img src="https://cdn.dwj601.cn/images/202404031027880.png" alt="/etc/nginx" style="zoom: 67%;" /> | nginx 的配置文件目录                                         |
 | `/usr/share/nginx`               | ![/usr/share/nginx](https://cdn.dwj601.cn/images/202404031027018.png) | nginx 的一些静态资源，同时软链接到模块依赖文件               |
 | `/usr/share/man/man8/nginx.8.gz` | ![/usr/share/man/man8/nginx.8.gz](https://cdn.dwj601.cn/images/202404031303783.png) | nginx 的使用说明文件                                         |
