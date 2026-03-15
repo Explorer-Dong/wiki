@@ -333,10 +333,16 @@ nav:
       - develop/database/redis.md
     - 运维:
       - develop/operation/index.md
-      - develop/operation/linux.md
+      - Linux:
+        - develop/operation/linux/index.md
+        - develop/operation/linux/shell.md
+        - develop/operation/linux/tools.md
+        - develop/operation/linux/manage-file.md
+        - develop/operation/linux/manage-permission.md
+        - develop/operation/linux/manage-progress.md
+        - develop/operation/linux/manage-disk.md
       - develop/operation/windows.md
       - develop/operation/wsl2.md
-      - develop/operation/shell.md
       - develop/operation/nginx.md
       - Docker:
         - develop/operation/docker/index.md
