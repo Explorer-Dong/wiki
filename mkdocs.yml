@@ -343,12 +343,15 @@ nav:
         - develop/operation/linux/manage-disk.md
       - develop/operation/windows.md
       - develop/operation/wsl2.md
-      - develop/operation/nginx.md
       - Docker:
         - develop/operation/docker/index.md
         - develop/operation/docker/setup.md
         - develop/operation/docker/image.md
         - develop/operation/docker/container.md
+      - Nginx:
+        - develop/operation/nginx/index.md
+        - develop/operation/nginx/commands.md
+        - develop/operation/nginx/setup.md
     - 工具:
       - develop/tools/index.md
       - develop/tools/hexo.md
