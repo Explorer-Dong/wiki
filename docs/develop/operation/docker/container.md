@@ -321,35 +321,29 @@ docker exec <容器A> ping -c 3 <容器B>
 
 ### 端口映射
 
-将容器端口映射到宿主机，使外部可以访问容器服务：
+将容器端口映射到宿主机，使外部可以访问容器服务。
+
+基本端口映射：
 
 ```bash
-# 基本端口映射
 docker run -d -p <宿主机端口>:<容器端口> <镜像名>
+```
 
+默认会映射到宿主机的所有网络接口，即 `0.0.0.0:<host_port>:<container_port>`，安全起见，建议仅映射到本地然后把端口 [反代](../nginx/setup.md#反向代理) 到 443 端口：
+
+```bash hl_lines="4"
 # 示例
-docker run -d -p 8080:80 nginx:latest
-
-# 映射到所有网络接口
-docker run -d -p 0.0.0.0:8080:80 nginx:latest
-
-# 映射到指定 IP
-docker run -d -p 192.168.1.100:8080:80 nginx:latest
-
-# 映射多个端口
 docker run -d \
-  -p 8080:80 \
-  -p 8443:443 \
-  nginx:latest
+  --name memos \
+  -p 127.0.0.1:5230:5230 \
+  -v ~/.memos:/var/opt/memos \
+  neosmemo/memos:stable
+```
 
-# 映射 UDP 端口
-docker run -d -p 53:53/udp dns-server:latest
+查看端口映射：
 
-# 随机映射端口
-docker run -d -P nginx:latest
-
-# 查看端口映射
-docker port <容器名或ID>
+```bash
+docker port <contrainer>
 ```
 
 ### 使用 host 网络模式
