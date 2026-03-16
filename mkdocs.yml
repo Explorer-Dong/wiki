@@ -351,8 +351,8 @@ nav:
       - develop/operation/cloud.md
       - Nginx:
         - develop/operation/nginx/index.md
-        - develop/operation/nginx/commands.md
         - develop/operation/nginx/setup.md
+        - develop/operation/nginx/setup-server.md
     - 工具:
       - develop/tools/index.md
       - develop/tools/hexo.md
