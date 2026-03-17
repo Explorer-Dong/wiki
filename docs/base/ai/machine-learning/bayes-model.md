@@ -1,6 +1,6 @@
 ---
 title: 贝叶斯模型
-status: new
+status: todo
 ---
 
 ## 极大似然估计

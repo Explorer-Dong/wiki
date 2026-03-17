@@ -1,7 +1,7 @@
 ---
 title: 计算硬件
 icon: simple/nvidia
-status: new
+status: todo
 ---
 
 本文介绍计算硬件的相关知识。

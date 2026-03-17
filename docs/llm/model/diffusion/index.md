@@ -1,6 +1,6 @@
 ---
 title: Diffusion Model
-status: new
+status: todo
 ---
 
 本文介绍扩散模型 (Diffusion Model) 的基本原理。

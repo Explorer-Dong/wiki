@@ -1,6 +1,6 @@
 ---
 title: 向量组
-status: new
+status: todo
 ---
 
 现在我们从向量的角度来理解矩阵。

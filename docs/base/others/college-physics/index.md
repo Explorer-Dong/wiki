@@ -1,6 +1,6 @@
 ---
 title: 大学物理
-status: new
+status: todo
 icon: material/magnet
 ---
 

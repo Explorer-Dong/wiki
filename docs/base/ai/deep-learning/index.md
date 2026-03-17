@@ -1,6 +1,6 @@
 ---
 title: 深度学习导读
-status: new
+status: todo
 icon: octicons/ai-model-24
 ---
 

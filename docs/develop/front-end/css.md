@@ -1,6 +1,6 @@
 ---
 title: CSS
-status: new
+status: todo
 icon: simple/css
 ---
 

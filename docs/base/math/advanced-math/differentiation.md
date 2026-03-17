@@ -1,6 +1,6 @@
 ---
 title: 微分学
-status: new
+status: todo
 ---
 
 ## 极限 (Limit)

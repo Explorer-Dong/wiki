@@ -1,7 +1,7 @@
 ---
 title: 推理框架
 icon: material/server-plus-outline
-status: new
+status: todo
 ---
 
 常见的推理框架：

@@ -1,6 +1,6 @@
 ---
 title: Redis
-status: new
+status: todo
 icon: simple/redis
 ---
 

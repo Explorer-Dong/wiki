@@ -1,5 +1,5 @@
 ---
-title: 第 16 届 Python A 组（国赛）
+title: 第 16 届 PA 组（国赛）
 icon: material/medal-outline
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: 云服务
 icon: simple/alibabacloud
-status: new
+status: todo
 ---
 
 很多时候我们需要一台 7*24 待命的机器运行我们的服务，本地搭建门槛较高（场地、稳定性、安全性等），此时付费使用云服务商提供的服务是一个不错的选择。

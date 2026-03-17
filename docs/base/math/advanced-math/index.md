@@ -1,6 +1,6 @@
 ---
 title: 高等数学导读
-status: new
+status: todo
 icon: material/math-integral
 ---
 

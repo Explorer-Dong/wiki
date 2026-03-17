@@ -51,25 +51,25 @@ cd wiki
 
 3）配置 Python 环境：
 
-项目使用 uv 进行管理，请先 [安装 uv](./develop/back-end/python/index.md#工具的安装与配置) 再进行后续操作。
-
-同步环境：
-
-```bash
-uv sync
-```
-
-激活虚拟环境：
+项目使用 uv 进行管理，请先 [安装 uv](./develop/back-end/python/index.md#工具的安装与配置)。接下来同步环境即可：
 
 === "Windows"
 
     ```powershell
+    # 同步环境
+    uv sync
+
+    # 激活虚拟环境
     .venv\Script\activate
     ```
 
 === "macOS/Linux"
 
     ```bash
+    # 同步环境
+    uv sync
+
+    # 激活虚拟环境
     source .venv/bin/activate
     ```
 
@@ -78,14 +78,8 @@ uv sync
 现在你就可以进行修改或新增文件，具体规范见 [行文规范](#行文规范)。之后请启动本地预览服务，来查看自己的内容是否可以被正常渲染：
 
 ```bash
-# 方案一：最稳定的预览工具
-mkdocs serve
-
-# 方案二：更快速的预览工具（部分功能不支持）
-zensical serve
+zensical serve -o
 ```
-
-服务启动后即可通过访问 `http://127.0.0.1:8000` 来预览网站。
 
 5）推送仓库：
 

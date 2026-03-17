@@ -1,6 +1,6 @@
 ---
 title: 约束优化方法
-status: new
+status: todo
 ---
 
 ## 线性规划

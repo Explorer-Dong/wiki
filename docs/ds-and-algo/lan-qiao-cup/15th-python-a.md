@@ -1,5 +1,5 @@
 ---
-title: 第 15 届 Python A 组（省赛）
+title: 第 15 届 PA 组（省赛）
 icon: material/medal-outline
 ---
 

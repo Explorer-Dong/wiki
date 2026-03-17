@@ -1,7 +1,7 @@
 ---
 title: 镜像管理
 icon: material/human
-status: new
+status: todo
 ---
 
 镜像包含了应用程序及其运行环境。

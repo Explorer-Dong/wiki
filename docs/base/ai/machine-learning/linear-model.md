@@ -1,6 +1,6 @@
 ---
 title: 线性模型
-status: new
+status: todo
 ---
 
 本章介绍机器学习模型中的线性模型。基本形式如下：

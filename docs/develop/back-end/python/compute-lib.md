@@ -1,6 +1,6 @@
 ---
 title: 科学计算库
-status: new
+status: todo
 icon: simple/numpy
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: MySQL
-status: new
+status: todo
 icon: simple/mysql
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: 积分学
-status: new
+status: todo
 ---
 
 ## 积分
