@@ -4,7 +4,7 @@ title: 网站首页
 
 ![网站封面图（使用 Nano Banana 2）](./assets/images/wiki-cover-image.jpg)
 
-本网站托管笔者的技术博客，围绕「计算机」与「人工智能」两大主题，展开以下四个板块：
+本网站托管笔者的知识库（技术博客），围绕「计算机」与「人工智能」两大主题，展开以下四个板块：
 
 <div class="grid cards" markdown>
 
