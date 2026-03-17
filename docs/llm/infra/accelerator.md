@@ -1,6 +1,6 @@
 ---
 title: 计算硬件
-icon: simple/nvidia
+icon: lucide/gpu
 status: todo
 ---
 

@@ -142,16 +142,10 @@ extra:
   status:
     todo: ToDo
   social:
-    - icon: fontawesome/brands/github
+    - icon: lucide/github
       link: https://github.com/Explorer-Dong
       name: GitHub
-    - icon: fontawesome/solid/c
-      link: https://blog.csdn.net/qq_73408594
-      name: CSDN
-    - icon: simple/zhihu
-      link: https://www.zhihu.com/people/dwj601
-      name: 知乎
-    - icon: clover-solid
+    - icon: lucide/clover
       link: https://blog.dwj601.cn/
       name: Blog
 

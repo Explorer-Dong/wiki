@@ -1,7 +1,7 @@
 ---
 title: 异步编程库
 status: todo
-icon: recycle-solid
+icon: lucide/recycle
 ---
 
 本文讨论如何使用 Python 进行异步编程，狠狠压榨偷偷摸鱼的 CPU 😡。

@@ -1,6 +1,6 @@
 ---
 title: 其他
-icon: ellipsis-solid
+icon: lucide/ellipsis
 ---
 
 ## 图的遍历

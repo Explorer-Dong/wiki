@@ -1,6 +1,6 @@
 ---
 title: PyTorch
-status: new
+status: todo
 icon: simple/pytorch
 ---
 

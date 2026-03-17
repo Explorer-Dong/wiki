@@ -1,6 +1,6 @@
 ---
 title: GitHub 常见用法
-icon: material/github
+icon: lucide/github
 ---
 
 本文介绍 [GitHub](https://github.com) 的常见用法，更详细的内容见官方文档 [GitHub Docs](https://docs.github.com/zh)。
