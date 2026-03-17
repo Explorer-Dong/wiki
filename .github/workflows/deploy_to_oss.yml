@@ -9,6 +9,9 @@ on:
 jobs:
   # 这里只有一个工作，我们将其命名为 main（取别的名字也行）
   main:
+    # 仅允许在原始仓库 Explorer-Dong/wiki 中运行
+    if: ${{ github.repository == 'Explorer-Dong/wiki' }}
+
     # 当前工作的运行环境
     runs-on: ubuntu-latest
 
