@@ -385,17 +385,17 @@ git merge --squash <branch_name>
 git commit -m "comment"
 ```
 
-!!! tip "分支合并的方向规范"
-
-    从工程上来说，分支合并的方向也是有要求的，例如：
-    
-    | 源分支     | 目标分支 | 图示                            |
-    | :--------- | :------- | :------------------------------ |
-    | 发布分支   | 主干分支 | release/* $\rightarrow$ main    |
-    | 热修复分支 | 主干分支 | hotfix/* $\rightarrow$ main     |
-    | 功能分支   | 开发分支 | feature/* $\rightarrow$ develop |
-    | 发布分支   | 开发分支 | release/* $\rightarrow$ develop |
-    | 热修复分支 | 开发分支 | hotfix/* $\rightarrow$ develop  |
+> [!tip]
+>
+> 分支合并的方向规范。从工程上来说，分支合并的方向也是有要求的，例如：
+>
+> | 源分支     | 目标分支 | 图示                            |
+> | :--------- | :------- | :------------------------------ |
+> | 发布分支   | 主干分支 | release/* $\rightarrow$ main    |
+> | 热修复分支 | 主干分支 | hotfix/* $\rightarrow$ main     |
+> | 功能分支   | 开发分支 | feature/* $\rightarrow$ develop |
+> | 发布分支   | 开发分支 | release/* $\rightarrow$ develop |
+> | 热修复分支 | 开发分支 | hotfix/* $\rightarrow$ develop  |
 
 ### 追踪远程分支
 
@@ -432,8 +432,9 @@ git push <remote_name> <new_name>
 git push <remote_name> --delete <old_name>
 ```
 
-!!! tip
-    如果待改名的分支为远程保护分支，则需要先在远程服务商那里调整保护分支。
+> [!note]
+>
+> 如果待改名的分支为远程保护分支，则需要先在远程服务商那里调整保护分支。
 
 ### 删除分支
 

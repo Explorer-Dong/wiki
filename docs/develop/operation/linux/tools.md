@@ -148,8 +148,9 @@ Ctrl+b d
 
 wget 是 Linux 系统中自带的命令行下载工具，支持 HTTP/HTTPS、FTP 等协议，功能丰富且使用简单。适合用于单文件的下载，支持断点续传、递归下载。
 
-!!! tip "Wget on Windows"
-    Windows 上可以下载 [Windows binaries of GNU Wget](https://eternallybored.org/misc/wget/) 二进制程序来使用。
+> [!note]
+>
+> Windows 上可以下载 [Windows binaries of GNU Wget](https://eternallybored.org/misc/wget/) 二进制程序来使用。
 
 单个文件下载最基本的命令格式是：
 
@@ -206,29 +207,31 @@ wget [url]
 
 [aria2](https://github.com/aria2/aria2) 是一款轻量级、高性能的命令行下载工具，支持 HTTP/HTTPS、FTP、SFTP 等常见协议，和 [wget](#下载器-wget) 相比最大的优势在于可以多线程下载。
 
-!!! note "安装 aria2"
-
-    === "Ubuntu"
-    
-        ```bash
-        apt update && apt install aria2
-        ```
-    
-    === "CentOS"
-    
-        ```bash
-        yum update && yum install aria2
-        ```
-    
-    === "macOS"
-    
-        ```bash
-        brew install aria2
-        ```
-    
-    === "Windows"
-    
-        在 aria2 的 [GitHub Release](https://github.com/aria2/aria2/releases) 界面下载对应的版本即可。
+> [!note]
+>
+> 安装 aria2：
+>
+> === "Ubuntu"
+>
+>     ```bash
+>     apt update && apt install aria2
+>     ```
+>
+> === "CentOS"
+>
+>     ```bash
+>     yum update && yum install aria2
+>     ```
+>
+> === "macOS"
+>
+>     ```bash
+>     brew install aria2
+>     ```
+>
+> === "Windows"
+>
+> ​    在 aria2 的 [GitHub Release](https://github.com/aria2/aria2/releases) 界面下载对应的版本即可。
 
 单个文件下载最基本的命令格式是（单线程）：
 
@@ -245,8 +248,9 @@ aria2c <URL>
     aria2c -x 4 <URL>
     ```
 
-    !!! warning
-        多线程下载仅适用于单线程跑不满下行带宽的场景，线程开多了容易被误判为爬虫从而被封禁 IP。
+    > [!warning]
+    >
+    > 多线程下载仅适用于单线程跑不满下行带宽的场景，线程开多了容易被误判为爬虫从而被封禁 IP。
 
 - **断点续传**：
 
@@ -260,22 +264,24 @@ aria2c <URL>
     aria2c -i urls.txt
     ```
 
-!!! tip "wget vs. aria2"
-
-    以服务器下载 HuggingFace [某个 9GB 单文件](https://huggingface.co/datasets/jingyaogong/minimind_dataset/blob/main/sft_2048.jsonl) 为例：
-    
-    | 工具  | 线程数 | 时间开销（秒） | 平均下行带宽（MB/s） |
-    | :---: | :----: | :------------: | :------------------: |
-    | wget  |   1    |      604       |         21.3         |
-    | aria2 |   1    |      266       |          32          |
-    | aria2 |   2    |      141       |          60          |
-    | aria2 |   4    |       87       |          98          |
-    | aria2 |   8    |       71       |         121          |
-    
-    实验结果如上表所示，可以得到以下两个结论：
-    
-    - 当达到平均下行带宽峰值（约 125MB/s）后，提升线程数就无法再提速了。
-    - aria2 的单线程下载性能明显高于 wget。
+> [!note]
+>
+> wget vs. aria2:
+>
+> 以服务器下载 HuggingFace [某个 9GB 单文件](https://huggingface.co/datasets/jingyaogong/minimind_dataset/blob/main/sft_2048.jsonl) 为例：
+>
+> | 工具  | 线程数 | 时间开销（秒） | 平均下行带宽（MB/s） |
+> | :---: | :----: | :------------: | :------------------: |
+> | wget  |   1    |      604       |         21.3         |
+> | aria2 |   1    |      266       |          32          |
+> | aria2 |   2    |      141       |          60          |
+> | aria2 |   4    |       87       |          98          |
+> | aria2 |   8    |       71       |         121          |
+>
+> 实验结果如上表所示，可以得到以下两个结论：
+>
+> - 当达到平均下行带宽峰值（约 125MB/s）后，提升线程数就无法再提速了。
+> - aria2 的单线程下载性能明显高于 wget。
 
 ## 文件传输工具 scp
 

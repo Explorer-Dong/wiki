@@ -70,8 +70,9 @@ parser.add_argument("--use_gpu", action="store_true")
 parser.add_argument("--no_cache", action="store_false")
 ```
 
-!!! tip
-    `bool` 型参数约束就不要加默认值了，然后我感觉 `store_false` 有一点反人类，一般都用 `store_true`。
+> [!note]
+>
+> `bool` 型参数约束就不要加默认值了，然后我感觉 `store_false` 有一点反人类，一般都用 `store_true`。
 
 **`choices` 字段**。确保参数在预期选项中。
 

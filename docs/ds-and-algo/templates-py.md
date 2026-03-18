@@ -3,8 +3,9 @@ title: 代码模板 (Python)
 icon: material/language-python
 ---
 
-!!! tip
-    本文记录 Python 语言的算法竞赛代码模板，全部使用 built-in 模块，有不严谨或错误的地方还望评论区斧正🤗。更好的阅读体验参见 [专题解析](./topic/index.md) 部分。
+> [!tip]
+>
+> 本文记录 Python 语言的算法竞赛代码模板，全部使用 built-in 模块，有不严谨或错误的地方还望评论区斧正🤗。更好的阅读体验参见 [专题解析](./topic/index.md) 部分。
 
 ## 常用数据结构 API
 
@@ -213,11 +214,13 @@ for line in sys.stdin:
 from sortedcontainers import SortedList
 ```
 
-!!! warning
-    注意，该库并非 Python 的标准库，大多数 OJ 平台不允许使用，力扣除外。若要在本地使用该库，需要手动下载：
-    ```bash
-    pip install sortedcontainers
-    ```
+> [!warning]
+>
+> 注意，该库并非 Python 的标准库，大多数 OJ 平台不允许使用，力扣除外。若要在本地使用该库，需要手动下载：
+>
+> ```bash
+> pip install sortedcontainers
+> ```
 
 `SortedList` 相当于 C++ 中的 `multiset`。常见用法如下：
 
@@ -2984,8 +2987,9 @@ def longestAlternatingSubarray(self, nums: List[int], k: int) -> int:
     return res
 ```
 
-!!! tip
-    基础算法到此结束，接下来开始数据结构与高级算法的学习。
+> [!note]
+>
+> 基础算法到此结束，接下来开始数据结构与高级算法的学习。
 
 ## 数据结构
 

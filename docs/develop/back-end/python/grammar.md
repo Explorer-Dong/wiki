@@ -10,8 +10,9 @@ icon: material/stairs-up
 
 Python 是动态类型语言，变量不需要声明类型，赋值时会自动确定类型。
 
-!!! tip
-    Python 支持在声明变量时写上预期的数据类型，但并不会主动检查数据类型不匹配的错误，可以借助第三方 [类型检查](./index.md#类型检查) 工具来避免此类错误。
+> [!tip]
+>
+> Python 支持在声明变量时写上预期的数据类型，但并不会主动检查数据类型不匹配的错误，可以借助第三方 [类型检查](./index.md#类型检查) 工具来避免此类错误。
 
 ### 整型
 
@@ -264,18 +265,18 @@ Python 中的解包机制让参数传递变得更灵活。解包分成两类：
     f(**info)  # 等价于 f(name="Bob", city="Singapore")
     ```
 
-    !!! tip
-
-        字典解包是一种清晰、稳定、可扩展的方式，在 [Pydantic](./network-lib.md#pydantic)、[FastAPI](./network-lib.md#fastapi) 等框架中极为常见。例如，在构造 Pydantic 模型时，通常会将 JSON 反序列化得到的字典直接展开，模型内部再对字段进行验证：
-        
-        ```python
-        class User(BaseModel):
-            name: str
-            age: int
-        
-        data = {"name": "Tom", "age": 20}
-        user = User(**data)
-        ```
+    > [!note]
+    >
+    > 字典解包是一种清晰、稳定、可扩展的方式，在 [Pydantic](./network-lib.md#pydantic)、[FastAPI](./network-lib.md#fastapi) 等框架中极为常见。例如，在构造 Pydantic 模型时，通常会将 JSON 反序列化得到的字典直接展开，模型内部再对字段进行验证：
+    >
+    > ```python
+    > class User(BaseModel):
+    >     name: str
+    >     age: int
+    > 
+    > data = {"name": "Tom", "age": 20}
+    > user = User(**data)
+    > ```
 
 ### lambda
 

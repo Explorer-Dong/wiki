@@ -3,8 +3,9 @@ title: 第 16 届 PA 组（省赛）
 icon: material/medal-outline
 ---
 
-!!! tip
-    官方还没有开放评测，[洛谷](https://www.luogu.com.cn/problem/list?tag=363&orderBy=name&order=desc&page=1) 开放了全部评测，但是时间限制与比赛不太一样，往往更加严格，所以可能会出现洛谷过不了，但其实赛时能过的情况。
+> [!tip]
+>
+> 官方还没有开放评测，[洛谷](https://www.luogu.com.cn/problem/list?tag=363&orderBy=name&order=desc&page=1) 开放了全部评测，但是时间限制与比赛不太一样，往往更加严格，所以可能会出现洛谷过不了，但其实赛时能过的情况。
 
 ## T1 偏蓝 (5'/5')
 

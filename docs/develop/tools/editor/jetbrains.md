@@ -7,8 +7,9 @@ Jetbrains 是捷克的一家 IDE 研发公司，提供了很多编程语言的 I
 
 ## 更新 Jetbrains 学生许可证
 
-!!! tip
-    只有在学生许可证即将到期的两周内才可以进行下面的操作。具体原因见 [Jetbrains 社区计划](https://www.jetbrains.com/zh-cn/community/education/#students) 的详细说明。
+> [!note]
+>
+> 只有在学生许可证即将到期的两周内才可以进行下面的操作。具体原因见 [Jetbrains 社区计划](https://www.jetbrains.com/zh-cn/community/education/#students) 的详细说明。
 
 ### 第一步：进入学信网
 

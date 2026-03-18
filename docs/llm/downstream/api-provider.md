@@ -21,8 +21,9 @@ icon: material/api
 - Gemini: [https://aistudio.google.com](https://aistudio.google.com)
 - Claude: [https://platform.claude.com/dashboard](https://platform.claude.com/dashboard)
 
-!!! tip
-    就个人体感，Claude 适合做架构，ChatGPT 适合写后端，Gemini 适合写前端。
+> [!note]
+>
+> 就个人体感，Claude 适合做架构，ChatGPT 适合写后端，Gemini 适合写前端。
 
 国内第一梯队：
 
@@ -67,8 +68,9 @@ icon: material/api
 
 另外简单任务也可以直接使用 Web 服务，但由于不涉及 API，这里就不再展开。
 
-!!! tip
-    如果有其他更好的 API 中转平台，欢迎交流！
+> [!note]
+>
+> 如果有其他更好的 API 中转平台，欢迎交流！
 
 ## API 选购
 
@@ -111,8 +113,9 @@ docker run -d \
   bestrui/octopus
 ```
 
-!!! tip "部署方案"
-    更推荐本地部署使用，因为当并发请求比较大时，对服务器的性能要求比较高，读者可根据自己的服务器情况自行选择，因为这个工具理论上可以作为中转站给第三方使用的，只要你有足够的低价 token。
+> [!note]
+>
+> 部署方案：更推荐本地部署使用，因为当并发请求比较大时，对服务器的性能要求比较高，读者可根据自己的服务器情况自行选择，因为这个工具理论上可以作为中转站给第三方使用的，只要你有足够的低价 token。
 
 服务启动后，把各 API 按照要求填到「渠道」中即可。一个比较好用的方法就是「分组」：在渠道添加好供应商后，可以把相同的模型设置到一个分组（池子）里，后续通过自定义的池子名称（这里是 ds-chat），就可以一个接口按照某种规则（这里是轮询）访问池子里的接口了：
 

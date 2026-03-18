@@ -6,9 +6,9 @@ icon: simple/numpy
 
 本文介绍 [NumPy](https://numpy.org/) 的用法。
 
-!!! quote "NumPy"
-
-    The fundamental package for scientific computing with Python.
+> [!tip]
+>
+> NumPy: The fundamental package for scientific computing with Python.
 
 NumPy 提供：
 
@@ -236,10 +236,10 @@ print(c2)
 """
 ```
 
-!!! note
+解析：
 
-    1. 全都是矩阵。此时与向量自动对齐不同，矩阵运算需要我们手动进行对齐，否则报「矩阵没有对齐」的错误；
-    2. 既有矩阵也有向量。此时同样需要我们手动对齐，否则报「矩阵没有对齐」的错误。
+1. 全都是矩阵。此时与向量自动对齐不同，矩阵运算需要我们手动进行对齐，否则报「矩阵没有对齐」的错误；
+2. 既有矩阵也有向量。此时同样需要我们手动对齐，否则报「矩阵没有对齐」的错误。
 
 ### 矩阵运算小结
 

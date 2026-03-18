@@ -5,8 +5,9 @@ icon: material/chart-scatter-plot
 
 Python 没有内置数据可视化库，但是第三方库比较丰富。本文就以 [Matplotlib](https://matplotlib.org/stable/index.html) 为例。
 
-!!! quote "Matplotlib"
-    An object-oriented plotting library.
+> [!tip]
+>
+> Matplotlib: An object-oriented plotting library.
 
 ## 基本概念
 
@@ -148,13 +149,15 @@ plt.savefig("image.svg")
 
 ![image.svg](https://cdn.dwj601.cn/images/20251223143721454.svg)
 
-!!! tip "关于 SVG 图像与分辨率"
-    我标注分辨率是为了表示图像的大小，但请注意，SVG 没有分辨率一说。
+> [!note]
+>
+> 我标注分辨率是为了表示图像的大小，但请注意，SVG 没有分辨率一说。
 
 ### 初始化多子图
 
-!!! tip "多子图原则"
-    每个 Axes 应该是自解释的，不依赖上下文也能读懂。
+> [!note]
+>
+> 多子图原则：每个 Axes 应该是自解释的，不依赖上下文也能读懂。
 
 ```python hl_lines="14-19"
 import matplotlib as mpl
@@ -546,6 +549,3 @@ plt.savefig("image.svg")
 输出：
 
 ![image.svg](https://cdn.dwj601.cn/images/20251223163304569.svg)
-
-!!! quote "沃兹基硕德"
-    已经开始幻想自己画出很牛比的图放到论文里了 🤤。

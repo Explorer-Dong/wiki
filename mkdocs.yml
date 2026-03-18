@@ -73,10 +73,10 @@ theme:
 markdown_extensions:
   - abbr               # 悬浮缩写
   - attr_list          # 给 md 添加 HTML 属性和 CSS 类
-  - md_in_html         # 允许在 HTML 中写 md
-  - admonition         # 内容框（例如 tip、note、warning 等）
-  - footnotes          # 脚注
-  - toc:               # 目录
+  - md_in_html
+  - admonition
+  - footnotes
+  - toc:
       permalink: true             # 显示标题链接
       toc_depth: 3                # 显示目录深度
       title: 本页目录             # 目录标题
@@ -110,6 +110,7 @@ markdown_extensions:
   - pymdownx.inlinehilite  # 高亮行内代码
   - pymdownx.tasklist:     # 支持任务列表
       custom_checkbox: true
+  - gfm_admonition  # 支持 GitHub 样式的 Admonition
 
 
 # ==================== 样式注入 ====================

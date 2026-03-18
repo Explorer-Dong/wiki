@@ -68,8 +68,9 @@ ln <target> <link_name>
 ln -s <target> <link_name>
 ```
 
-!!! warning
-    目录禁止硬链接，原理见操作系统持久化中的 [文件共享](../../../base/cs/operating-system/persistence.md#文件共享)。
+> [!warning]
+>
+> 目录禁止硬链接，原理见操作系统持久化中的 [文件共享](../../../base/cs/operating-system/persistence.md#文件共享)。
 
 删除链接：
 

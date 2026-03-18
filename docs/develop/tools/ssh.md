@@ -3,8 +3,9 @@ title: ssh
 icon: material/key
 ---
 
-!!! tip
-    但凡涉及到加密连接，几乎都有 ssh 的身影，这里就单独写一篇文章来记录她。
+> [!note]
+>
+> 但凡涉及到加密连接，几乎都有 ssh 的身影，这里就单独写一篇文章来记录她。
 
 在计算机网络应用层中，我们介绍了安全外壳协议 [SSH](../../base/cs/computer-network/application-layer.md#ssh-协议)。基于该协议，工程师开发了加密传输程序——[ssh](https://www.openssh.org/manual.html)，作为客户端和服务器之间的加密连接工具。
 
@@ -43,8 +44,9 @@ ssh-keygen /c/User/<user_name>/.ssh/<key_file_name>
 echo "<your_public_key> <local_user_name>@<local_computer_name>" >> authorized_keys
 ```
 
-!!! tip
-    `authorized_keys` 可以存放多个公钥，以供多人连接使用。公钥末尾的 `<local_user_name>@<local_computer_name>` 可以自定义。
+> [!note]
+>
+> `authorized_keys` 可以存放多个公钥，以供多人连接使用。公钥末尾的 `<local_user_name>@<local_computer_name>` 可以自定义。
 
 修改文件和文件夹的权限与属主：
 

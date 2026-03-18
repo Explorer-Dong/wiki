@@ -19,8 +19,9 @@ Hugging Face (HF) 是一个类似于 GitHub 的在线存储库，其主要提供
 
 既然 HF 主要做的是存储服务，那么就和 Git 一样好理解了。HF 官方开发了一个 CLI 名为 `hf`，主要用来做上传、下载和鉴权等工作。虽然很多时候可以用 Git LFS、Python SDK 来完成一些操作，但我还是更喜欢用 CLI，因为所有的一切都是可控的。完整内容详见 [hf cli docs](https://huggingface.co/docs/huggingface_hub/en/guides/cli)，下面只罗列一些常用命令。
 
-!!! note
-    你也许会在一些老项目上看到诸如 `huggingface-cli <command>` 的命令，这是老版 CLI 的语法，HF 团队在 25 年 7 月对 CLI 进行了大更新并将其更名为了 `hf`。更新详情见 [hf blog](https://huggingface.co/blog/hf-cli)。
+> [!note]
+>
+> 你也许会在一些老项目上看到诸如 `huggingface-cli <command>` 的命令，这是老版 CLI 的语法，HF 团队在 25 年 7 月对 CLI 进行了大更新并将其更名为了 `hf`。更新详情见 [hf blog](https://huggingface.co/blog/hf-cli)。
 
 ### 安装 `hf`
 

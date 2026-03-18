@@ -3,9 +3,11 @@ title: 第 16 届 PA 组（国赛）
 icon: material/medal-outline
 ---
 
-!!! tip
-    国赛没有把代码带出来，所以就简单回忆了一下。最后二等奖收尾。
-    ![国二](https://cdn.dwj601.cn/images/20250627182359491.png)
+> [!tip]
+>
+> 国赛没有把代码带出来，所以就简单回忆了一下。最后二等奖收尾。
+>
+> ![国二](https://cdn.dwj601.cn/images/20250627182359491.png)
 
 ## T1
 

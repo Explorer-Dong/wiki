@@ -110,8 +110,9 @@ docker pause <容器名或容器 ID>
 docker unpause <容器名或容器 ID>
 ```
 
-!!! tip
-    重新运行容器不需要重新添加 `docker run` 时设置的参数，因为这些配置都被持久化在对应的容器元数据中了，Linux 中容器元数据的持久化路径为 `/var/lib/docker/containers/<CONTAINER_ID>/`。
+> [!note]
+>
+> 重新运行容器不需要重新添加 `docker run` 时设置的参数，因为这些配置都被持久化在对应的容器元数据中了，Linux 中容器元数据的持久化路径为 `/var/lib/docker/containers/<CONTAINER_ID>/`。
 
 ### 进入容器 
 

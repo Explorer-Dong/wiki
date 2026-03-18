@@ -3,8 +3,9 @@ title: 代码模板 (C++)
 icon: simple/cplusplus
 ---
 
-!!! tip
-    本文记录 C++ 语言的算法竞赛代码模板，全部使用 built-in 模块。
+> [!tip]
+>
+> 本文记录 C++ 语言的算法竞赛代码模板，全部使用 built-in 模块。
 
 ## 基础算法
 

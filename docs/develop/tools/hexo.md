@@ -3,8 +3,9 @@ title: Hexo
 icon: simple/hexo
 ---
 
-!!! tip
-    在浩瀚的网络中有一方自己的小天地，那很酷，不是吗 😋。
+> [!tip]
+>
+> 在浩瀚的网络中有一方自己的小天地，那很酷，不是吗 😋。
 
 本文以 Hexo 为例，讲解如何从零开始搭建一个独属于自己的博客网站。笔者的生活博客便是基于此搭建的，欢迎浏览：[Dwj‘s Blog](https://blog.dwj601.cn/index.html)。
 
@@ -92,8 +93,9 @@ git remote add origin https://github.com/<username>/demo.git
 git push -u origin main
 ```
 
-!!! tip
-    如果想要以个人或组织的形式建站，就将仓库名取为 `<username/orgname>.github.io`，否则随意。
+> [!note]
+>
+> 如果想要以个人或组织的形式建站，就将仓库名取为 `<username/orgname>.github.io`，否则随意。
 
 3）配置 `_config.yml` 文件（假设将网页推送到仓库的 `public` 分支下）：
 

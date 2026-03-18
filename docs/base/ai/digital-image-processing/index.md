@@ -5,8 +5,9 @@ icon: simple/opencv
 
 本文记录数字图像处理 [^ref-book] 的学习笔记。旨在学习「数字图像的基本知识」以及「数字图像的传统算法」，为后续学习 [计算机视觉](../computer-vision/index.md) 等领域打好基础。
 
-!!! tip
-    本文涉及到的代码实现有 [MATLAB (R2023a)](https://ww2.mathworks.cn/help/images/index.html) 和 [OpenCV Python (4.10.0)](https://docs.opencv.org/4.10.0/d2/d96/tutorial_py_table_of_contents_imgproc.html) 两种。
+> [!tip]
+>
+> 本文涉及到的代码实现有 [MATLAB (R2023a)](https://ww2.mathworks.cn/help/images/index.html) 和 [OpenCV Python (4.10.0)](https://docs.opencv.org/4.10.0/d2/d96/tutorial_py_table_of_contents_imgproc.html) 两种。
 
 [^ref-book]: 蔡利梅, 王利娟. 数字图像处理——使用MATLAB分析与实现（第2版）[M]. 北京: 清华大学出版社, 2023.
 
@@ -39,8 +40,9 @@ $$
 \text{PPI} = \frac{\sqrt{(\text{水平像素数})^2 + (\text{垂直像素数})^2}}{\text{屏幕尺寸（英寸）}}
 $$
 
-!!! tip
-    屏幕尺寸即屏幕对角线的长度。
+> [!note]
+>
+> 屏幕尺寸即屏幕对角线的长度。
 
 常见的分辨率有 480P、720P、1080P 等，P 即 Progressive Scan 逐行扫描，数字即图像的像素行数。例如，按照 16:9 的宽高比例来说，对应的分辨率尺寸就是：
 
@@ -258,9 +260,9 @@ $$
     
         参考：[几何变换的矩阵表示 - MathWorks](https://ww2.mathworks.cn/help/images/matrix-representation-of-geometric-transformations.html)
     
-        !!! warning
-    
-            下面用 maketform 构造出来的变换矩阵是理论变换矩阵 $T$ 的转置结果 $T'$。
+        > [!note]
+        >
+        > 下面用 maketform 构造出来的变换矩阵是理论变换矩阵 $T$ 的转置结果 $T'$。
     
         ```matlab
         % 平移

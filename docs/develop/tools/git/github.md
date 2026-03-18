@@ -47,8 +47,9 @@ git config credential.helper <mode>
 - 【不推荐】store 模式。将 token 以明文的方式存储在磁盘 `~/.git-credentials` 文件中，这很危险，不推荐这种用法；
 - 【macOS 可选】osxkeychain 模式。macOS 上的加密存储方式。
 
-!!! tip
-    token 或密码的存储属于 Git 的行为，准确地说是 [Git 凭证管理器 (Git Credential Manager, GCM)](https://git-scm.com/book/zh/v2/Git-工具-凭证存储) 的行为，与 GitHub 无关。
+> [!note]
+>
+> token 或密码的存储属于 Git 的行为，准确地说是 [Git 凭证管理器 (Git Credential Manager, GCM)](https://git-scm.com/book/zh/v2/Git-工具-凭证存储) 的行为，与 GitHub 无关。
 
 ### 方案二：ssh
 
@@ -104,8 +105,9 @@ git clone git@github.com:Explorer-Dong/wiki.git
 
 我们将需要修改的内容完善后，就按照常规的 Git 用法进行 add、commit 和 push 操作即可。
 
-!!! tip
-    很多仓库要求贡献者在指定分支上进行，比如不允许在 main 分支编写代码，只允许在 develop 分支上进行，读者需根据实际情况进行版本管理。
+> [!note]
+>
+> 很多仓库要求贡献者在指定分支上进行，比如不允许在 main 分支编写代码，只允许在 develop 分支上进行，读者需根据实际情况进行版本管理。
 
 ### 可选步：同步 fork 后的仓库
 
@@ -132,8 +134,9 @@ git pull --rebase upstream <sourcec_branch_name>
 git push origin <target_branch_name> --force
 ```
 
-!!! note
-    一旦在本地使用变基合并的方法合并源分支的提交后，后续再在 GitHub 网页端使用 Sync fork 也会基于变基合并的模式更新源分支了。
+> [!note]
+>
+> 一旦在本地使用变基合并的方法合并源分支的提交后，后续再在 GitHub 网页端使用 Sync fork 也会基于变基合并的模式更新源分支了。
 
 ### 第四步：发起 PR 请求
 
@@ -147,14 +150,15 @@ git push origin <target_branch_name> --force
 
 [GitHub Actions](https://docs.github.com/zh/actions) 是 GitHub 原生提供的 CI/CD 平台，可用于自动化执行软件构建、测试和部署操作。整个过程是声明式的，配置即行为。
 
-!!! note "CI/CD"
-
-    在实际软件开发的过程中，代码会很频繁地变动，而代码变动就意味着需要重新「构建、测试和部署」，这是一个人力成本比较高、容易出错并且反馈周期较长的过程。
-    
-    CI/CD 应运而生，它通过自动化流水线来解决上述问题。当代码提交到仓库后，系统自动触发构建、测试和部署，把「提交代码 $\to$ 可运行服务」的过程标准化、可重复化。其中：
-    
-    - 持续集成 (Continuous Integration, CI) 侧重于尽早发现问题。通过频繁合并和自动测试，保证代码始终处于可工作的状态；
-    - 持续交付/部署 (Continuous Delivery / Deployment, CD) 侧重于尽快交付产品。让通过验证的代码可以随时、安全地发布到目标环境。
+> [!note]
+>
+> 在实际软件开发的过程中，代码会很频繁地变动，而代码变动就意味着需要重新「构建、测试和部署」，这是一个人力成本比较高、容易出错并且反馈周期较长的过程。
+>
+> CI/CD 应运而生，它通过自动化流水线来解决上述问题。当代码提交到仓库后，系统自动触发构建、测试和部署，把「提交代码 $\to$ 可运行服务」的过程标准化、可重复化。其中：
+>
+> - 持续集成 (Continuous Integration, CI) 侧重于尽早发现问题。通过频繁合并和自动测试，保证代码始终处于可工作的状态；
+>
+> - 持续交付/部署 (Continuous Delivery / Deployment, CD) 侧重于尽快交付产品。让通过验证的代码可以随时、安全地发布到目标环境。
 
 为了理解它的组成，可以把 GitHub Actions 拆解为以下几个关键概念。
 
@@ -197,11 +201,11 @@ ${{ <type>.<key> }}
 
 ### 快速上手
 
-!!! note "CI/CD 需求"
-    利用 GitHub Actions 将静态网站部署到 Aliyun OSS 上（这也是本网站目前的 [部署方法](https://github.com/Explorer-Dong/wiki/blob/main/.github/workflows/deploy_to_oss.yml) 哟 😉）。
-
-!!! tip
-    如果你用的是 VSCode 编写工作流，可以安装 GitHub 自己开发的 [Actions 插件](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-github-actions) 获得更好的编辑体验。
+> [!note]
+>
+> 利用 GitHub Actions 将静态网站部署到 Aliyun OSS 上（这也是本网站目前的 [部署方法](https://github.com/Explorer-Dong/wiki/blob/main/.github/workflows/deploy_to_oss.yml) 哟 😉）。
+>
+> 如果你用的是 VSCode 编写工作流，可以安装 GitHub 自己开发的 [Actions 插件](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-github-actions) 获得更好的编辑体验。
 
 直接看具体的工作流：
 
