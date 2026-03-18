@@ -1,14 +1,22 @@
 ---
-title: 网站首页
+title: 首页
 ---
 
-![网站封面图（使用 Nano Banana 2）](./assets/images/wiki-cover-image.jpg)
+# Open CS/AI Wiki
 
-本网站托管笔者的知识库（技术博客），围绕「计算机」与「人工智能」两大主题，展开以下四个板块：
+<p align="center" style="font-size: 1.5em; font-weight: bold;">
+    一个围绕计算机与人工智能的知识库
+</p>
+
+![](./assets/images/wiki-cover-image.jpg)
+
+<p align="center" style="font-size: 1.5em; font-weight: bold;">
+    <b>四大内容板块</b>
+</p>
 
 <div class="grid cards" markdown>
 
--   :octicons-book-16:{ .lg .middle } **基础知识**
+-   :lucide-book-open:{ .lg .middle } **基础知识**
 
     ---
 
@@ -24,7 +32,7 @@ title: 网站首页
 
     [:octicons-arrow-right-24: 开始阅读](./ds-and-algo/index.md)
 
--   :fontawesome-regular-file-code:{ .lg .middle } **软件开发**
+-   :lucide-file-code-corner:{ .lg .middle } **软件开发**
 
     ---
 
@@ -32,7 +40,7 @@ title: 网站首页
 
     [:octicons-arrow-right-24: 开始阅读](./develop/index.md)
 
--   :material-robot-outline:{ .lg .middle } **大模型**
+-   :lucide-bot:{ .lg .middle } **大模型**
 
     ---
 
@@ -42,10 +50,26 @@ title: 网站首页
 
 </div>
 
-碍于笔者认知，博客内容难免有些偏差。如果您在阅读的过程中遇到了困惑，请不要吝啬您的意见或建议。详细的贡献方法请移步 [参与贡献](./contributing.md) 作进一步了解。下图是本项目的协作者名单：
+<p align="center" style="font-size: 1.5em; font-weight: bold;">
+    <b>开放社区属性</b>
+</p>
 
-![贡献名单](https://stg.contrib.rocks/image?repo=Explorer-Dong/wiki)
+<div class="grid cards" markdown>
 
-如果觉得网站内容对您有帮助，欢迎进入 [GitHub](https://github.com/Explorer-Dong/wiki) 为我们的项目点一颗 Star。您的⭐与反馈是我们更新的最大动力！下图是本项目的星标历史：
+-   :lucide-heart-handshake:{ .lg .middle } **参与贡献**
 
-![星标历史](https://api.star-history.com/svg?repos=Explorer-Dong/wiki&type=date&legend=bottom-right)
+    ---
+
+    碍于笔者认知，笔记内容难免有些偏差。如果您在阅读的过程中遇到了困惑，请不要吝啬您的意见或建议。详细的贡献方法请移步 [参与贡献](./contributing.md)。下图是本项目的协作者：
+
+    ![贡献名单](https://stg.contrib.rocks/image?repo=Explorer-Dong/wiki)
+
+-   :lucide-star:{ .lg .middle } **支持项目**
+
+    ---
+
+    如果觉得网站内容对您有帮助，欢迎进入 [GitHub](https://github.com/Explorer-Dong/wiki) 为我们的项目点一颗 ⭐。下图是本项目的星标历史：
+
+    ![星标历史](https://api.star-history.com/svg?repos=Explorer-Dong/wiki&type=date&legend=bottom-right)
+
+</div>
