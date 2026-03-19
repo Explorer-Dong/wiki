@@ -6,5 +6,5 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "markdown-gfm-admonition>=0.3.0",
-    "zensical>=0.0.27",
+    "zensical>=0.0.28",
 ]
