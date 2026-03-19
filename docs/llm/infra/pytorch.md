@@ -8,25 +8,27 @@ icon: simple/pytorch
 
 ## 安装 PyTorch
 
-从 CPU 到 GPU，用于快速理解依赖链的对比表：
+默认大家对 [CPU 体系](../../base/cs/operating-system/index.md) 有一定的了解，那么从 CPU 过渡到 GPU 就有迹可循了：
 
-| 层级         | CPU                  | GPU            | 备注                         |
-| ------------ | -------------------- | -------------- | ---------------------------- |
-| 硬件         | CPU (x86/ARM)        | GPU (NVIDIA)   | -                            |
-| 驱动         | OS Kernel            | NVIDIA Driver  | 抽象硬件，方便上层调度       |
-| 工具链       | GCC                  | CUDA Toolkit   | 提供编译器、并行计算工具包等 |
-| 高性能算子库 | MKL / OpenBLAS       | cuDNN          | -                            |
-| Python 包    | NumPy、PyTorch (CPU) | PyTorch (CUDA) | -                            |
+| 层级         | CPU                  | GPU            |
+| ------------ | -------------------- | -------------- |
+| 硬件         | CPU (x86/ARM)        | GPU (NVIDIA)   |
+| 驱动         | OS Kernel            | NVIDIA Driver  |
+| 工具链       | GCC                  | CUDA Toolkit   |
+| 高性能算子库 | MKL / OpenBLAS       | cuDNN          |
+| Python 包    | NumPy、PyTorch (CPU) | PyTorch (CUDA) |
 
-[PyTorch、Python 以及 CUDA 的兼容矩阵](https://github.com/pytorch/pytorch/blob/main/RELEASE.md#release-compatibility-matrix)：
+上表从上到下本质上是逐层封装的过程。
 
-![PyTorch、Python 以及 CUDA 的兼容矩阵](https://cdn.dwj601.cn/images/20260127164804811.png)
+### 快速上手
 
-[各版本的一键安装命令](https://pytorch.org/get-started/previous-versions/)（以 `torch==2.8.0` 版本为例）：
+首先安装 NVIDIA Driver 和 CUDA Toolkit：默认会预装好，否则可以查看官网解决，[NVIDIA Driver Installation Guide](https://docs.nvidia.com/datacenter/tesla/driver-installation-guide/index.html)、[CUDA Installation Guide](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/contents.html)。
+
+接着安装算子库和 PyTorch 包（torch 包会自动安装算子库，所以只需要安装 torch 包即可）。以 `torch==2.8.0` 版本为例，其余版本请前往 [PyTorch 官网](https://pytorch.org/get-started/previous-versions/) 查看：
 
 === "Linux/Windows"
 
-    ```bash
+    ```bash hl_lines="9 10"
     # ROCM 6.4 (Linux only)
     pip install torch==2.8.0 torchvision==0.23.0 torchaudio==2.8.0 --index-url https://download.pytorch.org/whl/rocm6.4
     # CUDA 12.6
@@ -45,11 +47,11 @@ icon: simple/pytorch
     pip install torch==2.8.0 torchvision==0.23.0 torchaudio==2.8.0
     ```
 
-[CUDA 与 GCC 的兼容矩阵](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/#id60)：
+### 版本兼容
 
-![CUDA 与 GCC 的兼容矩阵](https://cdn.dwj601.cn/images/20260127173750471.png)
+依赖链一长，兼容性就显得格外脆弱，从上游到下游（驱动、编译器、包）的依赖情况如下。
 
-[CUDA 与 NVIDIA Driver 的兼容矩阵](https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/#id7)：
+[NVIDIA Driver 与 CUDA 的兼容矩阵](https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/#id7)：
 
 ![CUDA 与 NVIDIA Driver 的兼容矩阵](https://cdn.dwj601.cn/images/20260127172513216.png)
 
@@ -65,9 +67,31 @@ nvcc --version
 nvidia-smi
 ```
 
-## 张量基础
+[CUDA 与 GCC 的兼容矩阵](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/#system-requirements)（CUDA 依赖 GCC 的一些库）：
 
-### 创建张量
+![CUDA 与 GCC 的兼容矩阵](https://cdn.dwj601.cn/images/20260127173750471.png)
+
+查看 GCC 版本：
+
+```bash
+gcc --version
+```
+
+[CUDA 与 PyTorch 和 Python 的兼容矩阵](https://github.com/pytorch/pytorch/blob/main/RELEASE.md#release-compatibility-matrix)：
+
+![PyTorch、Python 以及 CUDA 的兼容矩阵](https://cdn.dwj601.cn/images/20260127164804811.png)
+
+查看 Python 版本：
+
+```bash
+python --version
+```
+
+## 数据类型
+
+PyTorch 的数据类型被称为张量 (tensor)，可以表示任意维度的向量。
+
+### 张量创建
 
 ```python
 import torch
@@ -150,28 +174,7 @@ z = torch.cat([x, y], dim=0)  # 沿维度 0 拼接，结果 (4, 3)
 z = torch.stack([x, y], dim=0)  # 创建新维度，结果 (2, 2, 3)
 ```
 
-### GPU 加速
-
-```python
-# 检查 CUDA 是否可用
-print(torch.cuda.is_available())
-
-# 设置默认设备
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-# 将张量移动到 GPU
-x = torch.randn(2, 3)
-x_gpu = x.to(device)
-x_gpu = x.cuda()  # 简写形式
-
-# 在 GPU 上直接创建张量
-x_gpu = torch.randn(2, 3, device=device)
-
-# 将张量移回 CPU
-x_cpu = x_gpu.cpu()
-```
-
-## 三、自动微分
+## 自动微分
 
 ### 3.1 基本用法
 
@@ -232,7 +235,93 @@ x = torch.randn(3, requires_grad=True)
 y = x.detach()  # y 与 x 共享数据但不追踪梯度
 ```
 
-## 四、神经网络基础
+## 数据处理
+
+### 6.1 Dataset 和 DataLoader
+
+```python
+from torch.utils.data import Dataset, DataLoader
+
+class CustomDataset(Dataset):
+    def __init__(self, data, labels, transform=None):
+        self.data = data
+        self.labels = labels
+        self.transform = transform
+    
+    def __len__(self):
+        return len(self.data)
+    
+    def __getitem__(self, idx):
+        sample = self.data[idx]
+        label = self.labels[idx]
+        
+        if self.transform:
+            sample = self.transform(sample)
+        
+        return sample, label
+
+# 使用
+dataset = CustomDataset(X_train, y_train)
+dataloader = DataLoader(
+    dataset,
+    batch_size=32,
+    shuffle=True,
+    num_workers=4,  # 多进程加载
+    pin_memory=True  # 加速 CPU 到 GPU 传输
+)
+```
+
+### 6.2 图像数据增强
+
+```python
+from torchvision import transforms
+
+# 定义变换
+transform = transforms.Compose([
+    transforms.RandomHorizontalFlip(p=0.5),
+    transforms.RandomRotation(10),
+    transforms.ColorJitter(brightness=0.2, contrast=0.2),
+    transforms.RandomResizedCrop(224, scale=(0.8, 1.0)),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                        std=[0.229, 0.224, 0.225])
+])
+
+# 应用到数据集
+from torchvision.datasets import ImageFolder
+
+train_dataset = ImageFolder(root='train/', transform=transform)
+train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
+```
+
+### 6.3 内置数据集
+
+```python
+from torchvision import datasets, transforms
+
+# MNIST
+transform = transforms.Compose([
+    transforms.ToTensor(),
+    transforms.Normalize((0.1307,), (0.3081,))
+])
+
+train_dataset = datasets.MNIST(
+    root='./data',
+    train=True,
+    download=True,
+    transform=transform
+)
+
+# CIFAR-10
+train_dataset = datasets.CIFAR10(
+    root='./data',
+    train=True,
+    download=True,
+    transform=transform
+)
+```
+
+## 网络构建
 
 ### 4.1 使用 nn.Module 构建网络
 
@@ -337,7 +426,7 @@ model = nn.Sequential(OrderedDict([
 ]))
 ```
 
-## 五、训练流程
+## 训练流程
 
 ### 5.1 完整训练示例
 
@@ -448,90 +537,25 @@ for epoch in range(num_epochs):
     scheduler.step(val_loss)
 ```
 
-## 六、数据处理
-
-### 6.1 Dataset 和 DataLoader
+## CPU $\to$ GPU
 
 ```python
-from torch.utils.data import Dataset, DataLoader
+# 检查 CUDA 是否可用
+print(torch.cuda.is_available())
 
-class CustomDataset(Dataset):
-    def __init__(self, data, labels, transform=None):
-        self.data = data
-        self.labels = labels
-        self.transform = transform
-    
-    def __len__(self):
-        return len(self.data)
-    
-    def __getitem__(self, idx):
-        sample = self.data[idx]
-        label = self.labels[idx]
-        
-        if self.transform:
-            sample = self.transform(sample)
-        
-        return sample, label
+# 设置默认设备
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-# 使用
-dataset = CustomDataset(X_train, y_train)
-dataloader = DataLoader(
-    dataset,
-    batch_size=32,
-    shuffle=True,
-    num_workers=4,  # 多进程加载
-    pin_memory=True  # 加速 CPU 到 GPU 传输
-)
-```
+# 将张量移动到 GPU
+x = torch.randn(2, 3)
+x_gpu = x.to(device)
+x_gpu = x.cuda()  # 简写形式
 
-### 6.2 图像数据增强
+# 在 GPU 上直接创建张量
+x_gpu = torch.randn(2, 3, device=device)
 
-```python
-from torchvision import transforms
-
-# 定义变换
-transform = transforms.Compose([
-    transforms.RandomHorizontalFlip(p=0.5),
-    transforms.RandomRotation(10),
-    transforms.ColorJitter(brightness=0.2, contrast=0.2),
-    transforms.RandomResizedCrop(224, scale=(0.8, 1.0)),
-    transforms.ToTensor(),
-    transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                        std=[0.229, 0.224, 0.225])
-])
-
-# 应用到数据集
-from torchvision.datasets import ImageFolder
-
-train_dataset = ImageFolder(root='train/', transform=transform)
-train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
-```
-
-### 6.3 内置数据集
-
-```python
-from torchvision import datasets, transforms
-
-# MNIST
-transform = transforms.Compose([
-    transforms.ToTensor(),
-    transforms.Normalize((0.1307,), (0.3081,))
-])
-
-train_dataset = datasets.MNIST(
-    root='./data',
-    train=True,
-    download=True,
-    transform=transform
-)
-
-# CIFAR-10
-train_dataset = datasets.CIFAR10(
-    root='./data',
-    train=True,
-    download=True,
-    transform=transform
-)
+# 将张量移回 CPU
+x_cpu = x_gpu.cpu()
 ```
 
 ## 七、模型保存与加载
