@@ -203,14 +203,14 @@ ${{ <type>.<key> }}
 
 > [!note]
 >
-> 利用 GitHub Actions 将静态网站部署到 Aliyun OSS 上（这也是本网站目前的 [部署方法](https://github.com/Explorer-Dong/wiki/blob/main/.github/workflows/deploy_to_oss.yml) 哟 😉）。
+> 利用 GitHub Actions 将静态网站部署到 Aliyun OSS 上（这也是本网站目前的 [部署方法](https://github.com/Explorer-Dong/wiki/blob/main/.github/workflows/deploy_document.yml) 哟 😉）。
 >
 > 如果你用的是 VSCode 编写工作流，可以安装 GitHub 自己开发的 [Actions 插件](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-github-actions) 获得更好的编辑体验。
 
 直接看具体的工作流：
 
-```yaml title=".github/workflows/deploy_to_oss.yml"
---8<-- ".github/workflows/deploy_to_oss.yml"
+```yaml title=".github/workflows/deploy_document.yml"
+--8<-- ".github/workflows/deploy_document.yml"
 ```
 
 工作流中的部分参考内容如下：

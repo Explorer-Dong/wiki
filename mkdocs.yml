@@ -7,25 +7,17 @@ edit_uri: edit/main/docs/
 copyright: '&copy; 2026 Explorer Dong'
 
 
-# ==================== 预览配置 ====================
-watch:
-  - overrides/
-
-
 # ==================== 主题配置 ====================
 theme:
-  variant: modern  # zensical 引擎配置，[modern, classic]
-  name: material
+  variant: modern
   language: zh
-  custom_dir: overrides
-  # 图标
+  custom_dir: docs/assets/overrides
   logo: assets/logo.svg
   favicon: assets/logo.svg
   icon:
-    repo: fontawesome/brands/github
-    edit: material/pencil 
-    view: material/eye
-  # 颜色
+    repo: material/github
+    edit: lucide/pencil
+    view: lucide/eye
   palette:
     - media: "(prefers-color-scheme)"
       toggle:
@@ -33,8 +25,8 @@ theme:
         name: 切换到亮色模式
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: indigo
-      accent: indigo
+      primary: white
+      accent: white
       toggle:
         icon: lucide/sun
         name: 切换到暗色模式
@@ -99,7 +91,7 @@ markdown_extensions:
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
       options:
         custom_icons:
-          - overrides/.icons
+          - docs/assets/overrides/.icons
   - pymdownx.highlight:    # 高亮行间代码
       auto_title: true           # 自动标题
       use_pygments: true         # 第三方库增强
@@ -121,12 +113,12 @@ extra_javascript:
   # mermaid
   - https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.12.0/mermaid.min.js
   # 自定义 JS 脚本
-  - assets/extra.js
+  - assets/scripts/extra.js
 extra_css:
   # KaTeX
   - https://registry.npmmirror.com/katex/0.16.21/files/dist/katex.min.css
   # 自定义 CSS 样式
-  - assets/extra.css
+  - assets/styles/extra.css
 
 
 # ==================== 插件配置 ====================

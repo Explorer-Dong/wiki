@@ -1,5 +1,5 @@
 # 工作流的名称
-name: Deploy Website to Aliyun OSS
+name: Deploy document
 
 # 工作流的触发事件
 on:
