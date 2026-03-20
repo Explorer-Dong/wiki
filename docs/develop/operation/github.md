@@ -1,5 +1,5 @@
 ---
-title: GitHub 常见用法
+title: GitHub
 icon: lucide/github
 ---
 
@@ -9,7 +9,7 @@ icon: lucide/github
 
 ### Git 与 GitHub
 
-Git 是一款版本管理软件，适用目前绝大多数操作系统；[GitHub](./github.md) 是一个代码托管平台，于 2018 年被微软收购，与 Git 没有任何关系。但使用 Git 管理的项目可以基于 GitHub 进行分布式存储，非常适合协作开发。因此往往需要结合二者来达到相对良好的 Teamwork 效果。
+[Git](../tools/git/index.md) 是一款版本管理软件，适用目前绝大多数操作系统；GitHub 是一个代码托管平台，于 2018 年被微软收购，与 Git 没有任何关系。但使用 Git 管理的项目可以基于 GitHub 进行分布式存储，非常适合协作开发。因此往往需要结合二者来达到相对良好的 Teamwork 效果。
 
 ### 仓库连接协议
 
@@ -53,7 +53,7 @@ git config credential.helper <mode>
 
 ### 方案二：ssh
 
-使用 ssh 进行鉴权就很简单了。[创建密钥对](../ssh.md#客户端生成密钥对) 后把公钥上传到 [GitHub](https://github.com/settings/keys)，然后本地 [配置 ssh config](../ssh.md#ssh-config) 让对应的私钥指向 `github.com` 即可。
+使用 ssh 进行鉴权就很简单了。[创建密钥对](../tools/ssh.md#客户端生成密钥对) 后把公钥上传到 [GitHub](https://github.com/settings/keys)，然后本地 [配置 ssh config](../tools/ssh.md#ssh-config) 让对应的私钥指向 `github.com` 即可。
 
 ### 与代码托管平台的连接方式
 
@@ -113,11 +113,11 @@ git clone git@github.com:Explorer-Dong/wiki.git
 
 当我们基于 fork 后的仓库的某个分支进行开发时，源仓库的该分支很有可能也更新了。此时我们有两种方法同步 fork 后的仓库（底层是将源仓库新产生的提交 push 到我们的仓库中）：
 
-方法一：直接在 GitHub 网页上使用 `Update branch` 同步分支。但这会产生一个新的提交点（默认使用 [普通合并](./commands.md#合并分支) 选项，我没找到可以调整合并方式的选项，如果有欢迎评论指出），而 `Discard <x> commits` 会删除部分提交，不太安全就不用了：
+方法一：直接在 GitHub 网页上使用 `Update branch` 同步分支。但这会产生一个新的提交点（默认使用 [普通合并](../tools/git/branch.md#普通合并) 选项，我没找到可以调整合并方式的选项，如果有欢迎评论指出），而 `Discard <x> commits` 会删除部分提交，不太安全就不用了：
 
 ![网页版 GitHub 同步 fork 的操作界面](https://cdn.dwj601.cn/images/20260120220424952.png)
 
-方法二：在本地手动使用「变基合并」的方式同步 fork 后的仓库。为了避免新增节点，我们可以使用 [变基合并](./commands.md#合并分支) 同步 fork [^sync-forked-repo-1] [^sync-forked-repo-2] 后的仓库。由于 GitHub 网页版不支持该操作，只能本地进行：
+方法二：在本地手动使用「变基合并」的方式同步 fork 后的仓库。为了避免新增节点，我们可以使用 [变基合并](../tools/git/branch.md#变基合并) 同步 fork [^sync-forked-repo-1] [^sync-forked-repo-2] 后的仓库。由于 GitHub 网页版不支持该操作，只能本地进行：
 
 [^sync-forked-repo-1]: [sync forked repository without creating a new commit](https://stackoverflow.com/questions/44583721/how-to-sync-forked-repository-without-creating-a-new-commit)
 

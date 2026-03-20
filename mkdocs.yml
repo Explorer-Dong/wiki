@@ -306,16 +306,17 @@ nav:
         - develop/operation/linux/manage-disk.md
       - develop/operation/windows.md
       - develop/operation/wsl2.md
+      - develop/operation/github.md
       - Docker:
         - develop/operation/docker/index.md
         - develop/operation/docker/setup.md
         - develop/operation/docker/image.md
         - develop/operation/docker/container.md
-      - develop/operation/cloud.md
       - Nginx:
         - develop/operation/nginx/index.md
         - develop/operation/nginx/setup.md
         - develop/operation/nginx/setup-server.md
+      - develop/operation/cloud.md
     - 工具:
       - develop/tools/index.md
       - develop/tools/hexo.md
@@ -330,10 +331,9 @@ nav:
       - Git:
         - develop/tools/git/index.md
         - develop/tools/git/commands.md
+        - develop/tools/git/branch.md
         - develop/tools/git/lfs.md
         - develop/tools/git/submodule.md
-        - develop/tools/git/github.md
-        - develop/tools/git/branch-conflict.md
     - 其他:
       - develop/others/data-serialization-format.md
       - develop/others/cli-argument-format.md
