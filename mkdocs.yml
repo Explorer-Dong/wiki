@@ -287,13 +287,10 @@ nav:
         - develop/back-end/python/std-lib.md
         - develop/back-end/python/async-lib.md
         - develop/back-end/python/network-lib.md
+        - develop/back-end/python/dbms-lib.md
         - develop/back-end/python/compute-lib.md
         - develop/back-end/python/data-analyze-lib.md
         - develop/back-end/python/visual-lib.md
-    - 数据库:
-      - develop/database/index.md
-      - develop/database/mysql.md
-      - develop/database/redis.md
     - 运维:
       - develop/operation/index.md
       - Linux:
