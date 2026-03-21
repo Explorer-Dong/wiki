@@ -269,28 +269,28 @@ nav:
   - 软件开发:
     - develop/index.md
     - 前端:
-      - develop/front-end/index.md
-      - develop/front-end/html.md
-      - develop/front-end/css.md
+      - develop/frontend/index.md
+      - develop/frontend/html.md
+      - develop/frontend/css.md
       - JavaScript:
-        - develop/front-end/javascript/index.md
-        - develop/front-end/javascript/grammar.md
+        - develop/frontend/javascript/index.md
+        - develop/frontend/javascript/grammar.md
     - 后端:
-      - develop/back-end/index.md
+      - develop/backend/index.md
       - C++:
-        - develop/back-end/cpp/index.md
-        - develop/back-end/cpp/grammar.md
-        - develop/back-end/cpp/std-lib.md
+        - develop/backend/cpp/index.md
+        - develop/backend/cpp/grammar.md
+        - develop/backend/cpp/std-lib.md
       - Python:
-        - develop/back-end/python/index.md
-        - develop/back-end/python/grammar.md
-        - develop/back-end/python/std-lib.md
-        - develop/back-end/python/async-lib.md
-        - develop/back-end/python/network-lib.md
-        - develop/back-end/python/dbms-lib.md
-        - develop/back-end/python/compute-lib.md
-        - develop/back-end/python/data-analyze-lib.md
-        - develop/back-end/python/visual-lib.md
+        - develop/backend/python/index.md
+        - develop/backend/python/grammar.md
+        - develop/backend/python/std-lib.md
+        - develop/backend/python/async-lib.md
+        - develop/backend/python/network-lib.md
+        - develop/backend/python/dbms-lib.md
+        - develop/backend/python/compute-lib.md
+        - develop/backend/python/data-analyze-lib.md
+        - develop/backend/python/visual-lib.md
     - 运维:
       - develop/operation/index.md
       - Linux:
@@ -303,6 +303,12 @@ nav:
         - develop/operation/linux/manage-disk.md
       - develop/operation/windows.md
       - develop/operation/wsl2.md
+      - Git:
+        - develop/operation/git/index.md
+        - develop/operation/git/commands.md
+        - develop/operation/git/branch.md
+        - develop/operation/git/lfs.md
+        - develop/operation/git/submodule.md
       - develop/operation/github.md
       - Docker:
         - develop/operation/docker/index.md
@@ -314,24 +320,17 @@ nav:
         - develop/operation/nginx/setup.md
         - develop/operation/nginx/setup-server.md
       - develop/operation/cloud.md
-    - 工具:
-      - develop/tools/index.md
-      - develop/tools/hexo.md
-      - develop/tools/ssh.md
-      - 编辑器:
-        - develop/tools/editor/index.md
-        - develop/tools/editor/devcpp.md
-        - develop/tools/editor/idle.md
-        - develop/tools/editor/vim.md
-        - develop/tools/editor/vscode.md
-        - develop/tools/editor/jetbrains.md
-      - Git:
-        - develop/tools/git/index.md
-        - develop/tools/git/commands.md
-        - develop/tools/git/branch.md
-        - develop/tools/git/lfs.md
-        - develop/tools/git/submodule.md
     - 其他:
+      - develop/others/index.md
+      - develop/others/ssh.md
+      - Editor & IDE:
+        - develop/others/editor-and-ide/index.md
+        - develop/others/editor-and-ide/devcpp.md
+        - develop/others/editor-and-ide/idle.md
+        - develop/others/editor-and-ide/vim.md
+        - develop/others/editor-and-ide/vscode.md
+        - develop/others/editor-and-ide/jetbrains.md
+      - develop/others/hexo.md
       - develop/others/data-serialization-format.md
       - develop/others/cli-argument-format.md
   - 大模型:

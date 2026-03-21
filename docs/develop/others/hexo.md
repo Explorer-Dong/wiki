@@ -11,7 +11,7 @@ icon: simple/hexo
 
 ## 基本概念
 
-Hexo 是一款经典的 [静态站点生成器](https://developer.mozilla.org/zh-CN/docs/Glossary/SSG) (Static Site Generator, SSG)，能够将 Markdown 文件转换为网页（由 [HTML](../front-end/html.md)、[CSS](../front-end/css.md) 和 [JavaScript](../front-end/javascript/index.md) 等文件组成）供浏览器渲染，由于网页内容是静态的，便有此名。
+Hexo 是一款经典的 [静态站点生成器](https://developer.mozilla.org/zh-CN/docs/Glossary/SSG) (Static Site Generator, SSG)，能够将 Markdown 文件转换为网页（由 [HTML](../frontend/html.md)、[CSS](../frontend/css.md) 和 [JavaScript](../frontend/javascript/index.md) 等文件组成）供浏览器渲染，由于网页内容是静态的，便有此名。
 
 市面上常见的 SSG 还有 [Mkdocs](https://www.mkdocs.org/)、[VuePress](https://v2.vuepress.vuejs.org/zh/)、[Gatsby](https://www.gatsbyjs.com/docs)、[docsify](https://docsify.js.org/#/) 等，在理解了本篇的内容后，读者可以选择喜欢的产品自行尝试。
 
@@ -76,7 +76,7 @@ graph LR
 
 ### 基于 hexo-deploy-git 插件
 
-Hexo 的插件生态比较全，其中的 [hexo-deploy-git](https://github.com/hexojs/hexo-deployer-git) 可以辅助我们将网站一键部署到 [GitHub Pages](./git/github.md#github-pages)。下面以「项目部署方式」为例，将站点部署到 `https://<username>.github.io/<repo>`。
+Hexo 的插件生态比较全，其中的 [hexo-deploy-git](https://github.com/hexojs/hexo-deployer-git) 可以辅助我们将网站一键部署到 [GitHub Pages](../operation/github.md#github-pages)。下面以「项目部署方式」为例，将站点部署到 `https://<username>.github.io/<repo>`。
 
 1）安装 Hexo 部署包 `hexo-deployer-git`：
 
@@ -124,7 +124,7 @@ hexo deploy  # 可简写为 hexo d
 
 ### 基于 GitHub Actions 工作流
 
-该方法可以利用 [GitHub Actions](./git/github.md#github-actions) 的 CI/CD 功能，自动帮我们完成「本地构建并部署」这两部操作，从而让我们只需要像维护项目代码一样专注于内容创作与版本管理，而无需关心其他事情。下面以「源码和站点同属一个仓库」的场景为例讲解如何配置。
+该方法可以利用 [GitHub Actions](../operation/github.md#github-actions) 的 CI/CD 功能，自动帮我们完成「本地构建并部署」这两部操作，从而让我们只需要像维护项目代码一样专注于内容创作与版本管理，而无需关心其他事情。下面以「源码和站点同属一个仓库」的场景为例讲解如何配置。
 
 1）创建一个空 GitHub 仓库和一个鉴权 token（该鉴权 token 可以让 GitHub Actions 以你的身份操作你的仓库）：
 

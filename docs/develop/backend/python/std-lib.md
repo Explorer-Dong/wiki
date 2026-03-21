@@ -606,15 +606,15 @@ print(f"主目录: {home}")
 ```python
 from pathlib import Path
 
-p = Path('/home/user/documents/report.pdf')
+p = Path("/home/user/documents/report.tar.gz")
 
 # 路径组成部分
-print(f"父目录: {p.parent}")
-print(f"文件名: {p.name}")
-print(f"文件名（无扩展名）: {p.stem}")
-print(f"扩展名: {p.suffix}")
+print(f"所有父目录: {p.parent}")  # /home/user/documents
+print(f"文件名: {p.name}")  # report.tar.gz
+print(f"文件名去掉最后一个扩展: {p.stem}")  # report.tar
+print(f"扩展名: {p.suffix}")  # .gz
 print(f"所有扩展名: {p.suffixes}")  # ['.tar', '.gz']
-print(f"路径各部分: {p.parts}")
+print(f"路径各部分: {p.parts}")  # ('/', 'home', 'user', 'documents', 'report.tar.gz')
 
 # 判断路径类型
 print(f"是否绝对路径: {p.is_absolute()}")
