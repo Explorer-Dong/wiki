@@ -49,7 +49,7 @@ theme:
     - navigation.instant.preview   # 预加载内链
     - navigation.footer            # 页脚
     - content.code.copy            # 代码块复制按钮
-    - content.code.select          # 代码块选中行
+    # - content.code.select          # 代码块选中行
     - content.tooltips             # 内容悬浮提示
     - content.action.edit          # 编辑源文件按钮
     - content.action.view          # 查看源文件按钮
@@ -63,20 +63,22 @@ theme:
 
 # ==================== 语法扩展 ====================
 markdown_extensions:
+  # provided by "Python Markdown"
   - abbr               # 悬浮缩写
   - attr_list          # 给 md 添加 HTML 属性和 CSS 类
   - md_in_html
-  - admonition
   - footnotes
   - toc:
-      permalink: true             # 显示标题链接
-      toc_depth: 3                # 显示目录深度
-      title: 本页目录             # 目录标题
-      permalink_title: 页面定位   # 链接标题
+      permalink: true
+      toc_depth: 3
+      title: On this page
+      permalink_title: Link to this section
       slugify: !!python/object/apply:pymdownx.slugs.slugify {kwds: {case: lower}}
 
-  - pymdownx.snippets      # 嵌入外部文件（例如代码）
-  - pymdownx.details       # 允许内容框折叠
+  # provided by "PyMdown Extensions"
+  - pymdownx.snippets
+  - pymdownx.quotes:  # admonition & details
+      callouts: true
   - pymdownx.tabbed:       # 并列展示内容（需要和 superfences 一起使用）
       alternate_style: true
   - pymdownx.superfences:  # 允许嵌套
@@ -86,14 +88,14 @@ markdown_extensions:
           format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.arithmatex:   # 优化数学公式
       generic: true
-  - pymdownx.emoji:        # 支持表情符号
+  - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji 
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
       options:
         custom_icons:
           - docs/assets/overrides/.icons
-  - pymdownx.highlight:    # 高亮行间代码
-      auto_title: true           # 自动标题
+  - pymdownx.highlight:
+      auto_title: true
       use_pygments: true         # 第三方库增强
       pygments_lang_class: true  # 语言定制化高亮
       # linenums: true             # 显示行号
@@ -102,7 +104,6 @@ markdown_extensions:
   - pymdownx.inlinehilite  # 高亮行内代码
   - pymdownx.tasklist:     # 支持任务列表
       custom_checkbox: true
-  - gfm_admonition  # 支持 GitHub 样式的 Admonition
 
 
 # ==================== 样式注入 ====================

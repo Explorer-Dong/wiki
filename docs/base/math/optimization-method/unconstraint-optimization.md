@@ -10,292 +10,292 @@ status: todo
 - 共轭梯度法基于「一阶梯度」。解大型最优化问题的首选；
 - 拟牛顿法基于「函数值和一阶梯度」。其中的 BFGS 是目前最成功的方法。
 
-??? note "Python 实战：极小化 Rosenbrock 函数"
-
-    ```python
-    # 目标函数
-    def f(x: np.ndarray) -> float:
-        return (1 - x[0])**2 + 100 * (x[1] - x[0]**2)**2
-    
-    # 一阶梯度
-    def g(x: np.ndarray) -> np.ndarray:
-        grad_x = -2 * (1 - x[0]) - 400 * x[0] * (x[1] - x[0]**2)
-        grad_y = 200 * (x[1] - x[0]**2)
-        return np.array([grad_x, grad_y])
-    
-    # 二阶梯度
-    def G(x: np.ndarray) -> np.ndarray:
-        grad_xx = 2 - 400 * x[1] + 1200 * x[0]**2
-        grad_xy = -400 * x[0]
-        grad_yx = -400 * x[0]
-        grad_yy = 200
-        return np.array([
-            [grad_xx, grad_xy],
-            [grad_yx, grad_yy]
-        ])
-    
-    # 初始点
-    initial_point = [-1.2, 1]
-    ```
-    
-    已知最优点为 $x^*=(1, 1)^T$，最优解 $f(x^*)=0$，以书中例题初始点 $(-1.2,1)^T$ 为例开始迭代。
-    
-    === "梯度下降法"
-    
-        ```python
-        def gradient_descent(initial_point, max_iter=5, eps=1e-6):
-            x = np.array(initial_point)
-            points = [x]
-            gradients = [g(x)]
-            alphas = []
-    
-            for _ in range(max_iter):
-                grad = gradients[-1]
-    
-                # 搜索方向
-                direction = -grad
-    
-                # 步长因子：无法确定准确的步长最小化函数，因此此处采用二分法搜索最优步长
-                alpha = 1
-                while f(x + alpha * direction) > f(x):
-                    alpha /= 2
-    
-                x = x + alpha * direction
-                points.append(x)
-                gradients.append(g(x))
-                alphas.append(alpha)
-    
-                if np.linalg.norm(grad) < eps:
-                    break
-    
-            return points, gradients, alphas
-    
-        points, gradients, alphas = gradient_descent(initial_point, max_iter=100, eps=1e-6)
-    
-        for i, (point, grad, alpha) in enumerate(zip(points, gradients, [1] + alphas)):
-            print(f"Iteration {i}:")
-            print(f"  Point       = {point}")
-            print(f"  Gradient    = {grad}")
-            print(f"  Step Size   = {alpha}")
-            print(f"  Direction   = {-grad}")
-            print(f"  Function Val= {f(point)}\n")
-        ```
-    
-        迭代 100 次后输出为：
-    
-        ```text
-        Iteration 98:
-        Point       = [0.93432802 0.87236513]
-        Gradient    = [ 0.0942865  -0.12074477]
-        Step Size   = 0.00390625
-        Direction   = [-0.0942865   0.12074477]
-        Function Val= 0.004349256784446673
-    
-        Iteration 99:
-        Point       = [0.93414387 0.87260096]
-        Gradient    = [-0.12281587 -0.00476179]
-        Step Size   = 0.001953125
-        Direction   = [0.12281587 0.00476179]
-        Function Val= 0.004337086557103718
-    
-        Iteration 100:
-        Point       = [0.93438374 0.87261026]
-        Gradient    = [ 0.04171114 -0.09254423]
-        Step Size   = 0.001953125
-        Direction   = [-0.04171114  0.09254423]
-        Function Val= 0.004326904052586884
-        ```
-    
-    === "牛顿法"
-    
-        ```python
-        def newton_method(initial_point, max_iter=5, eps=1e-6):
-            x = np.array(initial_point)
-            points = [x]
-            gradients = [g(x)]
-            Hessians = [G(x)]
-    
-            for _ in range(max_iter):
-                grad = gradients[-1]
-                Hessian = Hessians[-1]
-    
-                # 搜索方向
-                direction = np.linalg.inv(Hessian) @ grad
-    
-                # 步长因子：假定使用固定步长的牛顿法
-                alpha = 1
-    
-                x = x - alpha * direction
-                points.append(x)
-                gradients.append(g(x))
-                Hessians.append(G(x))
-    
-                if np.linalg.norm(grad) < eps:
-                    break
-    
-            return points, gradients, Hessians
-    
-        points, gradients, Hessians = newton_method(initial_point, max_iter=50, eps=1e-6)
-    
-        for i, (point, grad, Hessian) in enumerate(zip(points, gradients, Hessians)):
-            print(f"Iteration {i}:")
-            print(f"  Point       = {point}")
-            print(f"  Gradient    = {grad}")
-            print(f"  Hessian     = {Hessian}")
-            print(f"  Function Val= {f(point)}\n")
-        ```
-    
-        迭代 7 次即收敛：
-    
-        ```makefile
-        Iteration 5:
-        Point       = [0.9999957  0.99999139]
-        Gradient    = [-8.60863343e-06 -2.95985458e-11]
-        Hessian     = [[ 801.99311306 -399.99827826]
-        [-399.99827826  200.        ]]
-        Function Val= 1.8527397192178054e-11
-    
-        Iteration 6:
-        Point       = [1. 1.]
-        Gradient    = [ 7.41096051e-09 -3.70548037e-09]
-        Hessian     = [[ 802.00000001 -400.        ]
-        [-400.          200.        ]]
-        Function Val= 3.4326461875363225e-20
-    
-        Iteration 7:
-        Point       = [1. 1.]
-        Gradient    = [-0.  0.]
-        Hessian     = [[ 802. -400.]
-        [-400.  200.]]
-        Function Val= 0.0
-        ```
-    
-    === "共轭梯度法"
-    
-        ```python
-        def conjugate_gradient(initial_point, max_iter=5, eps=1e-6):
-            x = np.array(initial_point)
-            points = [x]
-            gradients = [g(x)]
-            directions = [-g(x)]
-            alphas = []
-    
-            for i in range(max_iter):
-                grad = gradients[-1]
-    
-                # 搜索方向：FR公式
-                if i == 0:
-                    direction = -grad
-                else:
-                    beta = np.dot(g(x), g(x)) / np.dot(g(points[-2]), g(points[-2]))
-                    direction = -g(x) + beta * direction
-    
-                # 步长因子：精确线搜索直接得到闭式解
-                alpha = -np.dot(grad, direction) / np.dot(direction, G(x) @ direction)
-    
-                x = x + alpha * direction
-    
-                directions.append(direction)
-                alphas.append(alpha)
-                points.append(x)
-                gradients.append(g(x))
-    
-                if np.linalg.norm(grad) < eps:
-                    break
-    
-            return points, gradients, alphas
-    
-        points, gradients, alphas = conjugate_gradient(initial_point, max_iter=1000, eps=1e-6)
-    
-        for i, (point, grad, alpha) in enumerate(zip(points, gradients, alphas)):
-            print(f"Iteration {i}:")
-            print(f"  Point       = {point}")
-            print(f"  Gradient    = {grad}")
-            print(f"  Step Size   = {alpha}")
-            print(f"  Direction   = {-grad}")
-            print(f"  Function Val= {f(point)}\n")
-        ```
-    
-        迭代 1000 次后输出为：
-    
-        ```makefile
-        Iteration 997:
-        Point       = [0.9999994  0.99999875]
-        Gradient    = [ 1.90794906e-05 -1.01414007e-05]
-        Step Size   = 0.0005161468619784313
-        Direction   = [-1.90794906e-05  1.01414007e-05]
-        Function Val= 6.191018745155016e-13
-    
-        Iteration 998:
-        Point       = [0.99999931 0.99999861]
-        Gradient    = [ 5.43686111e-06 -3.40374227e-06]
-        Step Size   = 0.0005078748917694624
-        Direction   = [-5.43686111e-06  3.40374227e-06]
-        Function Val= 4.986125950068217e-13
-    
-        Iteration 999:
-        Point       = [0.9999993 0.9999986]
-        Gradient    = [ 1.34784246e-06 -1.36924747e-06]
-        Step Size   = 0.0005356250138048412
-        Direction   = [-1.34784246e-06  1.36924747e-06]
-        Function Val= 4.881643528976312e-13
-        ```
-    
-    === "拟牛顿法"
-    
-        ```python
-        def bfgs(initial_point, max_iter=5, eps=1e-6):
-            x = np.array(initial_point)
-            points = [x]
-            gradients = [g(x)]
-            B = G(x)
-    
-            for _ in range(max_iter):
-                grad = gradients[-1]
-    
-                # 迭代公式
-                x = x - np.linalg.inv(B) @ grad
-    
-                # 更新 B 矩阵
-                s = x - points[-1]
-                y = g(x) - gradients[-1]
-                B = B + np.outer(y, y) / (s @ y) - (B @ np.outer(s, s) @ B) / (s @ B @ s)
-    
-                points.append(x)
-                gradients.append(g(x))
-    
-                if np.linalg.norm(grad) < eps:
-                    break
-    
-            return points, gradients
-    
-        points, gradients = bfgs(initial_point, max_iter=1000, eps=1e-6)
-    
-        for i, (point, grad) in enumerate(zip(points, gradients)):
-            print(f"Iteration {i}:")
-            print(f"  Point       = {point}")
-            print(f"  Gradient    = {grad}")
-            print(f"  Function Val= {f(point)}\n")
-        ```
-    
-        迭代 78 次收敛：
-    
-        ```makefile
-        Iteration 76:
-        Point       = [1.00000075 0.99999921]
-        Gradient    = [ 0.000918   -0.00045825]
-        Function Val= 5.255482679080297e-10
-    
-        Iteration 77:
-        Point       = [1.00000006 1.00000012]
-        Gradient    = [ 6.46055099e-07 -2.63592925e-07]
-        Function Val= 3.7061757712619374e-15
-    
-        Iteration 78:
-        Point       = [1. 1.]
-        Gradient    = [6.75185684e-10 4.68913797e-10]
-        Function Val= 6.510026595267928e-19
-        ```
+> [!note]- Python 实战：极小化 Rosenbrock 函数
+>
+> ```python
+> # 目标函数
+> def f(x: np.ndarray) -> float:
+>     return (1 - x[0])**2 + 100 * (x[1] - x[0]**2)**2
+> 
+> # 一阶梯度
+> def g(x: np.ndarray) -> np.ndarray:
+>     grad_x = -2 * (1 - x[0]) - 400 * x[0] * (x[1] - x[0]**2)
+>     grad_y = 200 * (x[1] - x[0]**2)
+>     return np.array([grad_x, grad_y])
+> 
+> # 二阶梯度
+> def G(x: np.ndarray) -> np.ndarray:
+>     grad_xx = 2 - 400 * x[1] + 1200 * x[0]**2
+>     grad_xy = -400 * x[0]
+>     grad_yx = -400 * x[0]
+>     grad_yy = 200
+>     return np.array([
+>         [grad_xx, grad_xy],
+>         [grad_yx, grad_yy]
+>     ])
+> 
+> # 初始点
+> initial_point = [-1.2, 1]
+> ```
+>
+> 已知最优点为 $x^*=(1, 1)^T$，最优解 $f(x^*)=0$，以书中例题初始点 $(-1.2,1)^T$ 为例开始迭代。
+>
+> === "梯度下降法"
+>
+>     ```python
+>     def gradient_descent(initial_point, max_iter=5, eps=1e-6):
+>         x = np.array(initial_point)
+>         points = [x]
+>         gradients = [g(x)]
+>         alphas = []
+>     
+>         for _ in range(max_iter):
+>             grad = gradients[-1]
+>     
+>             # 搜索方向
+>             direction = -grad
+>     
+>             # 步长因子：无法确定准确的步长最小化函数，因此此处采用二分法搜索最优步长
+>             alpha = 1
+>             while f(x + alpha * direction) > f(x):
+>                 alpha /= 2
+>     
+>             x = x + alpha * direction
+>             points.append(x)
+>             gradients.append(g(x))
+>             alphas.append(alpha)
+>     
+>             if np.linalg.norm(grad) < eps:
+>                 break
+>     
+>         return points, gradients, alphas
+>     
+>     points, gradients, alphas = gradient_descent(initial_point, max_iter=100, eps=1e-6)
+>     
+>     for i, (point, grad, alpha) in enumerate(zip(points, gradients, [1] + alphas)):
+>         print(f"Iteration {i}:")
+>         print(f"  Point       = {point}")
+>         print(f"  Gradient    = {grad}")
+>         print(f"  Step Size   = {alpha}")
+>         print(f"  Direction   = {-grad}")
+>         print(f"  Function Val= {f(point)}\n")
+>     ```
+>     
+>     迭代 100 次后输出为：
+>     
+>     ```text
+>     Iteration 98:
+>     Point       = [0.93432802 0.87236513]
+>     Gradient    = [ 0.0942865  -0.12074477]
+>     Step Size   = 0.00390625
+>     Direction   = [-0.0942865   0.12074477]
+>     Function Val= 0.004349256784446673
+>     
+>     Iteration 99:
+>     Point       = [0.93414387 0.87260096]
+>     Gradient    = [-0.12281587 -0.00476179]
+>     Step Size   = 0.001953125
+>     Direction   = [0.12281587 0.00476179]
+>     Function Val= 0.004337086557103718
+>     
+>     Iteration 100:
+>     Point       = [0.93438374 0.87261026]
+>     Gradient    = [ 0.04171114 -0.09254423]
+>     Step Size   = 0.001953125
+>     Direction   = [-0.04171114  0.09254423]
+>     Function Val= 0.004326904052586884
+>     ```
+>
+> === "牛顿法"
+>
+>     ```python
+>     def newton_method(initial_point, max_iter=5, eps=1e-6):
+>         x = np.array(initial_point)
+>         points = [x]
+>         gradients = [g(x)]
+>         Hessians = [G(x)]
+>     
+>         for _ in range(max_iter):
+>             grad = gradients[-1]
+>             Hessian = Hessians[-1]
+>     
+>             # 搜索方向
+>             direction = np.linalg.inv(Hessian) @ grad
+>     
+>             # 步长因子：假定使用固定步长的牛顿法
+>             alpha = 1
+>     
+>             x = x - alpha * direction
+>             points.append(x)
+>             gradients.append(g(x))
+>             Hessians.append(G(x))
+>     
+>             if np.linalg.norm(grad) < eps:
+>                 break
+>     
+>         return points, gradients, Hessians
+>     
+>     points, gradients, Hessians = newton_method(initial_point, max_iter=50, eps=1e-6)
+>     
+>     for i, (point, grad, Hessian) in enumerate(zip(points, gradients, Hessians)):
+>         print(f"Iteration {i}:")
+>         print(f"  Point       = {point}")
+>         print(f"  Gradient    = {grad}")
+>         print(f"  Hessian     = {Hessian}")
+>         print(f"  Function Val= {f(point)}\n")
+>     ```
+>     
+>     迭代 7 次即收敛：
+>     
+>     ```makefile
+>     Iteration 5:
+>     Point       = [0.9999957  0.99999139]
+>     Gradient    = [-8.60863343e-06 -2.95985458e-11]
+>     Hessian     = [[ 801.99311306 -399.99827826]
+>     [-399.99827826  200.        ]]
+>     Function Val= 1.8527397192178054e-11
+>     
+>     Iteration 6:
+>     Point       = [1. 1.]
+>     Gradient    = [ 7.41096051e-09 -3.70548037e-09]
+>     Hessian     = [[ 802.00000001 -400.        ]
+>     [-400.          200.        ]]
+>     Function Val= 3.4326461875363225e-20
+>     
+>     Iteration 7:
+>     Point       = [1. 1.]
+>     Gradient    = [-0.  0.]
+>     Hessian     = [[ 802. -400.]
+>     [-400.  200.]]
+>     Function Val= 0.0
+>     ```
+>
+> === "共轭梯度法"
+>
+>     ```python
+>     def conjugate_gradient(initial_point, max_iter=5, eps=1e-6):
+>         x = np.array(initial_point)
+>         points = [x]
+>         gradients = [g(x)]
+>         directions = [-g(x)]
+>         alphas = []
+>     
+>         for i in range(max_iter):
+>             grad = gradients[-1]
+>     
+>             # 搜索方向：FR公式
+>             if i == 0:
+>                 direction = -grad
+>             else:
+>                 beta = np.dot(g(x), g(x)) / np.dot(g(points[-2]), g(points[-2]))
+>                 direction = -g(x) + beta * direction
+>     
+>             # 步长因子：精确线搜索直接得到闭式解
+>             alpha = -np.dot(grad, direction) / np.dot(direction, G(x) @ direction)
+>     
+>             x = x + alpha * direction
+>     
+>             directions.append(direction)
+>             alphas.append(alpha)
+>             points.append(x)
+>             gradients.append(g(x))
+>     
+>             if np.linalg.norm(grad) < eps:
+>                 break
+>     
+>         return points, gradients, alphas
+>     
+>     points, gradients, alphas = conjugate_gradient(initial_point, max_iter=1000, eps=1e-6)
+>     
+>     for i, (point, grad, alpha) in enumerate(zip(points, gradients, alphas)):
+>         print(f"Iteration {i}:")
+>         print(f"  Point       = {point}")
+>         print(f"  Gradient    = {grad}")
+>         print(f"  Step Size   = {alpha}")
+>         print(f"  Direction   = {-grad}")
+>         print(f"  Function Val= {f(point)}\n")
+>     ```
+>     
+>     迭代 1000 次后输出为：
+>     
+>     ```makefile
+>     Iteration 997:
+>     Point       = [0.9999994  0.99999875]
+>     Gradient    = [ 1.90794906e-05 -1.01414007e-05]
+>     Step Size   = 0.0005161468619784313
+>     Direction   = [-1.90794906e-05  1.01414007e-05]
+>     Function Val= 6.191018745155016e-13
+>     
+>     Iteration 998:
+>     Point       = [0.99999931 0.99999861]
+>     Gradient    = [ 5.43686111e-06 -3.40374227e-06]
+>     Step Size   = 0.0005078748917694624
+>     Direction   = [-5.43686111e-06  3.40374227e-06]
+>     Function Val= 4.986125950068217e-13
+>     
+>     Iteration 999:
+>     Point       = [0.9999993 0.9999986]
+>     Gradient    = [ 1.34784246e-06 -1.36924747e-06]
+>     Step Size   = 0.0005356250138048412
+>     Direction   = [-1.34784246e-06  1.36924747e-06]
+>     Function Val= 4.881643528976312e-13
+>     ```
+>
+> === "拟牛顿法"
+>
+>     ```python
+>     def bfgs(initial_point, max_iter=5, eps=1e-6):
+>         x = np.array(initial_point)
+>         points = [x]
+>         gradients = [g(x)]
+>         B = G(x)
+>     
+>         for _ in range(max_iter):
+>             grad = gradients[-1]
+>     
+>             # 迭代公式
+>             x = x - np.linalg.inv(B) @ grad
+>     
+>             # 更新 B 矩阵
+>             s = x - points[-1]
+>             y = g(x) - gradients[-1]
+>             B = B + np.outer(y, y) / (s @ y) - (B @ np.outer(s, s) @ B) / (s @ B @ s)
+>     
+>             points.append(x)
+>             gradients.append(g(x))
+>     
+>             if np.linalg.norm(grad) < eps:
+>                 break
+>     
+>         return points, gradients
+>     
+>     points, gradients = bfgs(initial_point, max_iter=1000, eps=1e-6)
+>     
+>     for i, (point, grad) in enumerate(zip(points, gradients)):
+>         print(f"Iteration {i}:")
+>         print(f"  Point       = {point}")
+>         print(f"  Gradient    = {grad}")
+>         print(f"  Function Val= {f(point)}\n")
+>     ```
+>     
+>     迭代 78 次收敛：
+>     
+>     ```makefile
+>     Iteration 76:
+>     Point       = [1.00000075 0.99999921]
+>     Gradient    = [ 0.000918   -0.00045825]
+>     Function Val= 5.255482679080297e-10
+>     
+>     Iteration 77:
+>     Point       = [1.00000006 1.00000012]
+>     Gradient    = [ 6.46055099e-07 -2.63592925e-07]
+>     Function Val= 3.7061757712619374e-15
+>     
+>     Iteration 78:
+>     Point       = [1. 1.]
+>     Gradient    = [6.75185684e-10 4.68913797e-10]
+>     Function Val= 6.510026595267928e-19
+>     ```
 
 ## 梯度下降法
 

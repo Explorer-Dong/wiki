@@ -130,170 +130,170 @@ $$
 
 主要有平移、镜像、旋转、缩放和错切 5 种几何变换。下面利用后向映射法详解旋转的逻辑，然后基于这套逻辑实现缩放的底层代码。其余的几何变换操作类似，就不再赘述，掌握编程语言的 API 即可。
 
-???+ note
-
-    === "图像「旋转」逻辑"
-    
-        我们以图像的左上角即原点作为旋转点，逆时针方向为正方向。对于原图中的任意点 $(x, y)$，我们将其表示为 $(r\cdot \cos \alpha,r\cdot \sin \alpha)$，逆时针旋转 $\theta$ 度后，就有下面的变换公式和逆变换公式。
-    
-        变换公式（在老点的坐标系下，已知老点算新点）：
-    
-        $$
-        \begin{cases}
-        x' = r\cdot \cos (\alpha - \theta) = r\cdot \cos \alpha \cdot \cos \theta + r\cdot \sin \alpha \cdot \sin \theta = x \cdot \cos \theta + y \cdot \sin \theta \\
-        y' = r\cdot \sin (\alpha - \theta) = r\cdot \sin \alpha \cdot \cos \theta - r\cdot \cos \alpha \cdot \sin \theta = -x \cdot \sin \theta + y \cdot \cos \theta
-        \end{cases}
-        \to
-        \begin{bmatrix}
-        x'\\
-        y'\\
-        1
-        \end{bmatrix}
-        =
-        \begin{bmatrix}
-        \cos \theta & \sin \theta & 0\\
-        -\sin \theta & \cos \theta & 0\\
-        0 & 0 & 1
-        \end{bmatrix}
-        \begin{bmatrix}
-        x\\
-        y\\
-        1
-        \end{bmatrix}
-        $$
-    
-        逆变换公式（在新点的坐标系下，已知新点算老点）：
-    
-        $$
-        \begin{cases}
-        x = x' \cdot \cos \theta - y' \cdot \sin \theta \\
-        y = x' \cdot \sin \theta + y' \cdot \cos \theta
-        \end{cases}
-        \to
-        \begin{bmatrix}
-        x\\
-        y\\
-        1
-        \end{bmatrix}
-        =
-        \begin{bmatrix}
-        \cos \theta & -\sin \theta & 0\\
-        \sin \theta & \cos \theta & 0\\
-        0 & 0 & 1
-        \end{bmatrix}
-        \begin{bmatrix}
-        x'\\
-        y'\\
-        1
-        \end{bmatrix}
-        $$
-    
-        **确定新图尺寸**。我们可以利用上述变换公式，首先「在原图的坐标系下」计算出 4 个顶点变换后的坐标 $P_1(x_1,y_1),P_2(x_2,y_2),P_3(x_3,y_3),P_4(x_4,y_4)$ 来确定新图的尺寸：
-    
-        $$
-        \begin{aligned}
-        M =& \lceil \max(x_1, x_2, x_3, x_4) - \min(x_1, x_2, x_3, x_4) + 1 \rceil\\
-        N =& \lceil \max(y_1, y_2, y_3, y_4) - \min(y_1, y_2, y_3, y_4) + 1 \rceil
-        \end{aligned}
-        $$
-    
-        **坐标系转换**。与平移/镜像时可以直接使用逆变换找老点时不同，旋转时的坐标系会发生变化（其实就是新原点相对于老原点在 $x$ 和 $y$ 方向上有了一定的偏移量），因此我们需要 **先将新点逆偏移到老点的坐标系中**，再根据逆变换寻找到对应的老点。逆偏移的逻辑很简单，对于新图中的任意一点 $(x', y')$，逆偏移的计算方法如下：
-    
-        $$
-        \begin{cases}
-        x' \xrightarrow []{\text{逆偏移为}} x' + \min(x_1, x_2, x_3, x_4)\\
-        y' \xrightarrow []{\text{逆偏移为}} y' + \min(y_1, y_2, y_3, y_4)\\
-        \end{cases}
-        $$
-    
-        **坐标逆变换**。最后我们进行坐标逆变换辅以合理的插值策略即可实现后向映射法。
-    
-    === "图像「缩放」实现"
-    
-        ```matlab
-        clear;
-        clc;
-        image = imread("../bird.jpg");
-        scale = 2;
-    
-        % 计算新图大小
-        [h, w, c] = size(image);
-        scale_h = scale * h;
-        scale_w = scale * w;
-    
-        % 填充新图像素点 | 后向映射法
-        scale_image = uint8(zeros(h, w, c));
-        for new_y = 1:scale_h
-            for new_x = 1:scale_w
-                % 逆变换找到老点
-                T = [1/scale, 0,       0;
-                    0,       1/scale, 0;
-                    0,       0,       1];
-                old_p = T * [new_x; new_y; 1];  % p = T * p'
-                [old_x, old_y] = deal(old_p(1), old_p(2));
-                % 双线性插值
-                if old_x < 1 || old_x > scale_w || old_y < 1 || old_y > scale_h
-                    continue
-                elseif old_x == round(old_x) && old_y == round(old_y)
-                    scale_image(new_y, new_x, :) = image(old_y, old_x, :);
-                else
-                    % 为了方便，这里的 (x,y) 变成了矩阵坐标系
-                    [x, y] = deal(min(floor(old_y), h - 1), min(floor(old_x), w - 1));
-                    [a, b] = deal(old_y - x, old_x - y);
-                    f1 = image(x, y, :) + b * (image(x, y + 1, :) - image(x, y, :));
-                    f2 = image(x + 1, y, :) + b * (image(x + 1, y + 1, :) - image(x + 1, y, :));
-                    scale_image(new_y, new_x, :) = f1 + a * (f2 - f1);
-                end
-            end
-        end
-    
-        figure;
-        set(gcf, 'Name', "拓展内容(3) | 手搓imresize并使用双线性插值")
-        imshowpair(image, scale_image, method='montage'), title("放大");
-        ```
-    
-        结果如下：
-    
-        ![手搓 imresize 并使用双线性插值](https://cdn.dwj601.cn/images/202412101637009.png)
-    
-    === "MATLAB API"
-    
-        参考：[几何变换的矩阵表示 - MathWorks](https://ww2.mathworks.cn/help/images/matrix-representation-of-geometric-transformations.html)
-    
-        > [!note]
-        >
-        > 下面用 maketform 构造出来的变换矩阵是理论变换矩阵 $T$ 的转置结果 $T'$。
-    
-        ```matlab
-        % 平移
-        T = maketform('affine', [1, 0, 0;
-                                0, 1, 0;
-                                detx, dety, 1]);
-        I_det_xy = imtransform(图像, T, "插值方法");  % 插值：最近邻nearest、双线性bilinear、三次bicubic
-    
-        % 镜像
-        I_flip_row = filpdim(图像, 1);  % 按行翻转
-        I_flip_col = filpdim(图像, 2);  % 按列翻转
-    
-        % 旋转
-        imroate(图像, 逆时针角度, "插值方法");  % 角度制
-    
-        % 缩放
-        imresize(图像, 比例, "插值方法");
-    
-        %% 错切
-        % 沿水平方向错切
-        T_x = maketform('affine', [1, 0, 0;
-                                detx, 1, 0;
-                                0, 0, 1]);
-        I_det_x = imtransform(图像, T_x, "插值方法");
-    
-        % 沿垂直方向错切
-        T_y = maketform('affine', [1, dety, 0;
-                                0, 1, 0;
-                                0, 0, 1]);
-        I_det_y = imtransform(图像, T_y, "插值方法");
-        ```
+> [!note]
+>
+> === "图像「旋转」逻辑"
+>
+>     我们以图像的左上角即原点作为旋转点，逆时针方向为正方向。对于原图中的任意点 $(x, y)$，我们将其表示为 $(r\cdot \cos \alpha,r\cdot \sin \alpha)$，逆时针旋转 $\theta$ 度后，就有下面的变换公式和逆变换公式。
+>     
+>     变换公式（在老点的坐标系下，已知老点算新点）：
+>     
+>     $$
+>     \begin{cases}
+>     x' = r\cdot \cos (\alpha - \theta) = r\cdot \cos \alpha \cdot \cos \theta + r\cdot \sin \alpha \cdot \sin \theta = x \cdot \cos \theta + y \cdot \sin \theta \\
+>     y' = r\cdot \sin (\alpha - \theta) = r\cdot \sin \alpha \cdot \cos \theta - r\cdot \cos \alpha \cdot \sin \theta = -x \cdot \sin \theta + y \cdot \cos \theta
+>     \end{cases}
+>     \to
+>     \begin{bmatrix}
+>     x'\\
+>     y'\\
+>     1
+>     \end{bmatrix}
+>     =
+>     \begin{bmatrix}
+>     \cos \theta & \sin \theta & 0\\
+>     -\sin \theta & \cos \theta & 0\\
+>     0 & 0 & 1
+>     \end{bmatrix}
+>     \begin{bmatrix}
+>     x\\
+>     y\\
+>     1
+>     \end{bmatrix}
+>     $$
+>     
+>     逆变换公式（在新点的坐标系下，已知新点算老点）：
+>     
+>     $$
+>     \begin{cases}
+>     x = x' \cdot \cos \theta - y' \cdot \sin \theta \\
+>     y = x' \cdot \sin \theta + y' \cdot \cos \theta
+>     \end{cases}
+>     \to
+>     \begin{bmatrix}
+>     x\\
+>     y\\
+>     1
+>     \end{bmatrix}
+>     =
+>     \begin{bmatrix}
+>     \cos \theta & -\sin \theta & 0\\
+>     \sin \theta & \cos \theta & 0\\
+>     0 & 0 & 1
+>     \end{bmatrix}
+>     \begin{bmatrix}
+>     x'\\
+>     y'\\
+>     1
+>     \end{bmatrix}
+>     $$
+>     
+>     **确定新图尺寸**。我们可以利用上述变换公式，首先「在原图的坐标系下」计算出 4 个顶点变换后的坐标 $P_1(x_1,y_1),P_2(x_2,y_2),P_3(x_3,y_3),P_4(x_4,y_4)$ 来确定新图的尺寸：
+>     
+>     $$
+>     \begin{aligned}
+>     M =& \lceil \max(x_1, x_2, x_3, x_4) - \min(x_1, x_2, x_3, x_4) + 1 \rceil\\
+>     N =& \lceil \max(y_1, y_2, y_3, y_4) - \min(y_1, y_2, y_3, y_4) + 1 \rceil
+>     \end{aligned}
+>     $$
+>     
+>     **坐标系转换**。与平移/镜像时可以直接使用逆变换找老点时不同，旋转时的坐标系会发生变化（其实就是新原点相对于老原点在 $x$ 和 $y$ 方向上有了一定的偏移量），因此我们需要 **先将新点逆偏移到老点的坐标系中**，再根据逆变换寻找到对应的老点。逆偏移的逻辑很简单，对于新图中的任意一点 $(x', y')$，逆偏移的计算方法如下：
+>     
+>     $$
+>     \begin{cases}
+>     x' \xrightarrow []{\text{逆偏移为}} x' + \min(x_1, x_2, x_3, x_4)\\
+>     y' \xrightarrow []{\text{逆偏移为}} y' + \min(y_1, y_2, y_3, y_4)\\
+>     \end{cases}
+>     $$
+>     
+>     **坐标逆变换**。最后我们进行坐标逆变换辅以合理的插值策略即可实现后向映射法。
+>
+> === "图像「缩放」实现"
+>
+>     ```matlab
+>     clear;
+>     clc;
+>     image = imread("../bird.jpg");
+>     scale = 2;
+>     
+>     % 计算新图大小
+>     [h, w, c] = size(image);
+>     scale_h = scale * h;
+>     scale_w = scale * w;
+>     
+>     % 填充新图像素点 | 后向映射法
+>     scale_image = uint8(zeros(h, w, c));
+>     for new_y = 1:scale_h
+>         for new_x = 1:scale_w
+>             % 逆变换找到老点
+>             T = [1/scale, 0,       0;
+>                 0,       1/scale, 0;
+>                 0,       0,       1];
+>             old_p = T * [new_x; new_y; 1];  % p = T * p'
+>             [old_x, old_y] = deal(old_p(1), old_p(2));
+>             % 双线性插值
+>             if old_x < 1 || old_x > scale_w || old_y < 1 || old_y > scale_h
+>                 continue
+>             elseif old_x == round(old_x) && old_y == round(old_y)
+>                 scale_image(new_y, new_x, :) = image(old_y, old_x, :);
+>             else
+>                 % 为了方便，这里的 (x,y) 变成了矩阵坐标系
+>                 [x, y] = deal(min(floor(old_y), h - 1), min(floor(old_x), w - 1));
+>                 [a, b] = deal(old_y - x, old_x - y);
+>                 f1 = image(x, y, :) + b * (image(x, y + 1, :) - image(x, y, :));
+>                 f2 = image(x + 1, y, :) + b * (image(x + 1, y + 1, :) - image(x + 1, y, :));
+>                 scale_image(new_y, new_x, :) = f1 + a * (f2 - f1);
+>             end
+>         end
+>     end
+>     
+>     figure;
+>     set(gcf, 'Name', "拓展内容(3) | 手搓imresize并使用双线性插值")
+>     imshowpair(image, scale_image, method='montage'), title("放大");
+>     ```
+>     
+>     结果如下：
+>     
+>     ![手搓 imresize 并使用双线性插值](https://cdn.dwj601.cn/images/202412101637009.png)
+>
+> === "MATLAB API"
+>
+>     参考：[几何变换的矩阵表示 - MathWorks](https://ww2.mathworks.cn/help/images/matrix-representation-of-geometric-transformations.html)
+>     
+>     > [!note]
+>     >
+>     > 下面用 maketform 构造出来的变换矩阵是理论变换矩阵 $T$ 的转置结果 $T'$。
+>                             
+>     ```matlab
+>     % 平移
+>     T = maketform('affine', [1, 0, 0;
+>                             0, 1, 0;
+>                             detx, dety, 1]);
+>     I_det_xy = imtransform(图像, T, "插值方法");  % 插值：最近邻nearest、双线性bilinear、三次bicubic
+>                             
+>     % 镜像
+>     I_flip_row = filpdim(图像, 1);  % 按行翻转
+>     I_flip_col = filpdim(图像, 2);  % 按列翻转
+>                             
+>     % 旋转
+>     imroate(图像, 逆时针角度, "插值方法");  % 角度制
+>                             
+>     % 缩放
+>     imresize(图像, 比例, "插值方法");
+>                             
+>     %% 错切
+>     % 沿水平方向错切
+>     T_x = maketform('affine', [1, 0, 0;
+>                             detx, 1, 0;
+>                             0, 0, 1]);
+>     I_det_x = imtransform(图像, T_x, "插值方法");
+>                             
+>     % 沿垂直方向错切
+>     T_y = maketform('affine', [1, dety, 0;
+>                             0, 1, 0;
+>                             0, 0, 1]);
+>     I_det_y = imtransform(图像, T_y, "插值方法");
+>     ```
 
 ### 代数运算
 
@@ -418,6 +418,105 @@ $$
 
 所谓均值滤波，其实就是对原图使用「全 1 的卷积核」进行卷积运算。邻域越大，在消除噪声的同时也会让图像更模糊。
 
+代码：
+
+```matlab
+H = fspecial('average', 3);
+res = imfilter(g, H, 'conv');
+```
+
+> [!note]- 完整「均值滤波」代码实现
+>
+> **题目要求**
+>
+> 给定一张灰度图像 $\displaystyle \begin{bmatrix} { 0 } & { 0 } & { 0 } & { 0 } & { 0 } \\ { 0 } & { 5 } & { 1 } & { 6 } & { 0 } \\ { 0 } & { 4 } & { 6 } & { 3 } & { 0 } \\ { 0 } & { 7 } & { 2 } & { 1 } & { 0 } \\ { 0 } & { 0 } & { 0 } & { 0 } & { 0 } \end{bmatrix}$，使用 $3\times 3$ 规格的均值滤波，不处理边缘像素。
+>
+> **理论分析**
+>
+> 均值滤波可以通过使用全 1 的卷积核进行卷积运算来实现。即：
+>
+> $$
+> \frac{1}{9}
+> \begin{bmatrix}
+> 1 & 1 & 1\\
+> 1 & 1 & 1\\
+> 1 & 1 & 1
+> \end{bmatrix}
+> $$
+>
+> **代码实现**
+>
+> 1）matlab 自定义实现
+>
+> ```matlab
+> clear;
+> clc;
+> 
+> % 图像
+> g = [0, 0, 0, 0, 0;
+>     0, 5, 1, 6, 0;
+>     0, 4, 6, 3, 0;
+>     0, 7, 2, 1, 0;
+>     0, 0, 0, 0, 0];
+> 
+> % 卷积核
+> core = 1/9 * [1, 1, 1;
+>             1, 1, 1;
+>             1, 1, 1];
+> 
+> % 均值滤波
+> [h, w] = size(g);
+> ans = zeros(h, w);
+> for i = 2:h-1
+>     for j = 2:w-1
+>         ans(i, j) = sum(core .* g(i-1:i+1, j-1:j+1), 'all');
+>     end
+> end
+> 
+> disp("自定义模拟实现均值滤波：")
+> disp(ans);
+> ```
+>
+> 输出：
+>
+> ![输出](https://cdn.dwj601.cn/images/202412052057463.png)
+>
+> 2）matlab 库函数
+>
+> ```matlab
+> g = [0, 0, 0, 0, 0;
+>     0, 5, 1, 6, 0;
+>     0, 4, 6, 3, 0;
+>     0, 7, 2, 1, 0;
+>     0, 0, 0, 0, 0];
+> 
+> % 'conv' 参数表示使用卷积进行计算
+> disp("MATLAB库函数实现均值滤波：")
+> disp(res);
+> ```
+>
+> 输出：
+>
+> ![输出](https://cdn.dwj601.cn/images/202501080941228.png)
+>
+> 3）Python-OpenCV 库函数
+>
+> ```python
+> g = np.array([[0, 0, 0, 0, 0],
+>             [0, 5, 1, 6, 0],
+>             [0, 4, 6, 3, 0],
+>             [0, 7, 2, 1, 0],
+>             [0, 0, 0, 0, 0]]).astype(np.float32)
+> 
+> res = cv2.blur(g, (3, 3))
+> np.set_printoptions(precision=4)
+> print(res)
+> ```
+>
+> 输出：
+>
+> ![输出](https://cdn.dwj601.cn/images/202412052138666.png)
+
 ### 高斯滤波
 
 所谓高斯滤波，对于二维图像，其实就是对原图使用「二维高斯分布的卷积核」进行卷积运算。此法 **适用于高斯型噪声** 场景。对于输出图像的 p 位置像素，卷积核中 q 位置的权重为：
@@ -428,9 +527,224 @@ $$
 
 当噪声符合高斯分布并且均值为 $0$ 时，高斯滤波可以完美消除噪声。但是与均值滤波类似，$\sigma$  越大，邻域内的平均程度就越厉害，也就会导致图像越模糊。
 
+```matlab
+H = fspecial('gaussian', [3, 3], 0.8);
+res = filter2(H, g);
+```
+
+> [!note]- 完整「高斯滤波」代码实现
+>
+> **题目要求**
+>
+> 给定的一张灰度图像 $\displaystyle \begin{bmatrix} { 0 } & { 0 } & { 0 } & { 0 } & { 0 } \\ { 0 } & { 5 } & { 1 } & { 6 } & { 0 } \\ { 0 } & { 4 } & { 6 } & { 3 } & { 0 } \\ { 0 } & { 7 } & { 2 } & { 1 } & { 0 } \\ { 0 } & { 0 } & { 0 } & { 0 } & { 0 } \end{bmatrix}，使用 3\times 3 规格的高斯滤波，标准差分别为 \sigma=0.8,\sigma=1$，不处理边缘像素。
+>
+> **理论分析**
+>
+> 高斯滤波可以通过使用服从二维高斯分布的卷积核进行卷积运算来实现。
+>
+> - 当 \sigma=0.8 时，卷积核参数为：
+>
+> $$
+> \frac{1}{16} \begin{bmatrix} 1 & 2 & 1\\ 2 & 4 & 2\\ 1 & 2 & 1 \end{bmatrix}
+> $$
+>
+> - 当 \sigma=1 时，卷积核参数为：
+>
+> $$
+> \frac{1}{10} \begin{bmatrix} 1 & 1 & 1\\ 1 & 2 & 1\\ 1 & 1 & 1 \end{bmatrix}
+> $$
+>
+> **代码实现**
+>
+> 1）matlab 自定义实现
+>
+> ```matlab
+>  clear;
+>  clc;
+>  
+>  % 图像
+>  g = [0, 0, 0, 0, 0;
+>  0, 5, 1, 6, 0;
+>  0, 4, 6, 3, 0;
+>  0, 7, 2, 1, 0;
+>  0, 0, 0, 0, 0];
+>  
+>  % 卷积核1
+>  core1 = 1/16 * [1, 2, 1;
+>  2, 4, 2;
+>  1, 2, 1];
+>  
+>  % 卷积核2
+>  core2 = 1/10 * [1, 1, 1;
+>  1, 2, 1;
+>  1, 1, 1];
+>  
+>  % 高斯滤波
+>  [h, w] = size(g);
+>  ans = zeros(h, w);
+>  for i = 2:h-1
+>  for j = 2:w-1
+>  ans(i, j) = sum(core1 .* g(i-1:i+1, j-1:j+1), 'all');
+>  end
+>  end
+>  
+>  res = zeros(h, w);
+>  for i = 2:h-1
+>  for j = 2:w-1
+>  res(i, j) = sum(core2 .* g(i-1:i+1, j-1:j+1), 'all');
+>  end
+>  end
+>  
+>  disp('使用标准差为0.8的高斯平滑:');
+>  disp(ans);
+>  disp('使用标准差为1.0的高斯平滑:');
+>  disp(res);
+> ```
+>
+> 输出：
+>
+> ![输出](https://cdn.dwj601.cn/images/202412051944655.png)
+>
+> 2）matlab 库函数
+>
+> ```matlab
+>  g = [0, 0, 0, 0, 0;
+>  0, 5, 1, 6, 0;
+>  0, 4, 6, 3, 0;
+>  0, 7, 2, 1, 0;
+>  0, 0, 0, 0, 0];
+>  
+>  H = fspecial('gaussian', [3, 3], 0.8);
+>  ans_matlab = filter2(H, g);
+>  disp("MATLAB库函数实现标准差为0.8高斯滤波：")
+>  disp(ans_matlab);
+>  
+>  H = fspecial('gaussian', [3, 3], 1.0);
+>  res_matlab = filter2(H, g);
+>  disp("MATLAB库函数实现标准差为1.0高斯滤波：")
+>  disp(res_matlab);
+> ```
+>
+> 输出：同样只需要关注中间 9 个元素：
+>
+> ![输出](https://cdn.dwj601.cn/images/202412052114124.png)
+>
+> 至于为什么和模拟的输出结果不一致，是因为自定义实现的代码中「**高斯核参数并不完全准确**」，matlab 中的高斯核参数如下：
+>
+> ![真实高斯核](https://cdn.dwj601.cn/images/202412052116057.png)
+>
+> 3）Python-OpenCV 库函数
+>
+> ```python
+>  g = np.array([[0, 0, 0, 0, 0],
+>  [0, 5, 1, 6, 0],
+>  [0, 4, 6, 3, 0],
+>  [0, 7, 2, 1, 0],
+>  [0, 0, 0, 0, 0]]).astype(np.float32)
+>  
+>  res = cv2.GaussianBlur(g, (3, 3), 0.8)
+>  np.set_printoptions(precision=4)
+>  print('Python-OpenCV 库函数实现标准差为0.8高斯滤波：')
+>  print(res, end='\n\n')
+>  
+>  res = cv2.GaussianBlur(g, (3, 3), 1.0)
+>  np.set_printoptions(precision=4)
+>  print('Python-OpenCV 库函数实现标准差为1.0高斯滤波：')
+>  print(res)
+> ```
+>
+> 输出：
+
 ### 中值滤波
 
 所谓中值滤波，其实就是将原图中的每一个像素点用「邻域中像素中位数点」进行代替。此法 **适用于椒盐型噪声** 场景。
+
+```matlab
+res = medfilt2(g);
+```
+
+> [!note]- 完整「中值滤波」代码实现
+>
+> **题目要求**
+>
+> 给定一张灰度图像 $\begin{bmatrix} 1 & 3 & 6 & 8 & 6 & 3 \\ 15 & 4 & 7 & 9 & 8 & 1 \\ 13 & 3 & 5 & 5 & 7 & 4 \\ 3 & 4 & 0 & 2 & 5 & 7 \\ 6 & 12 & 3 & 6 & 9 & 7 \\ 9 & 11 & 3 & 11 & 14 & 13 \end{bmatrix}$，使用自定义的邻域进行中值滤波，不处理边缘像素。并从中说明中值滤波适合处理哪种类型的噪声。
+>
+> **理论分析**
+>
+> 中值滤波就是将每一个像素用邻域内像素的中值进行代替实现。假设仍然使用 $3\times 3$ 规格的邻域进行滤波。
+>
+> **代码实现**
+>
+> 1）matlab 自定义实现
+>
+> ```matlab
+> clc;
+> clear;
+> 
+> g = [1, 3, 6, 8, 6, 3;
+> 15, 4, 7, 9, 8, 1;
+> 13, 3, 5, 5, 7, 4;
+> 3, 4, 0, 2, 5, 7;
+> 6, 12, 3, 6, 9, 7; 
+> 9, 11, 3, 11, 14, 13];
+> 
+> [h, w] = size(g);
+> res = zeros(h, w);
+> for i = 2:h-1
+> for j = 2:w-1
+> area = [g(i-1, j-1:j+1), g(i, j-1:j+1), g(i+1, j-1:j+1)];
+> sorted_values = sort(area);
+> res(i, j) = sorted_values(5);
+> end
+> end
+> 
+> disp(res);
+> ```
+>
+> 输出：
+>
+> ![输出](https://cdn.dwj601.cn/images/202412052118819.png)
+>
+> 2）matlab 库函数
+>
+> ```matlab
+> g = [1, 3, 6, 8, 6, 3;
+> 15, 4, 7, 9, 8, 1;
+> 13, 3, 5, 5, 7, 4;
+> 3, 4, 0, 2, 5, 7;
+> 6, 12, 3, 6, 9, 7; 
+> 9, 11, 3, 11, 14, 13];
+> 
+> ans = medfilt2(g);
+> disp(ans);
+> ```
+>
+> 输出：除了边缘，其余内容与自定义实现的代码运行结果一致：
+>
+> ![输出](https://cdn.dwj601.cn/images/202412052120505.png)
+>
+> 3）Python-OpenCV 库函数
+>
+> ```python
+> g = np.array([[1, 3, 6, 8, 6, 3],
+> [15, 4, 7, 9, 8, 1],
+> [13, 3, 5, 5, 7, 4],
+> [3, 4, 0, 2, 5, 7],
+> [6, 12, 3, 6, 9, 7],
+> [9, 11, 3, 11, 14, 13]]).astype(np.float32)
+> 
+> res = cv2.medianBlur(g, 3)
+> np.set_printoptions(precision=4)
+> print(res)
+> ```
+>
+> 输出：
+>
+> ![输出](https://cdn.dwj601.cn/images/202412052145219.png)
+>
+> **小结**
+>
+> 从中值滤波的结果可以看出，原始图像中坐标为 (5,2) 的 12，(4,3) 的 0 等极端值都被周围的中值替换掉了，从而实现了平滑。从这一点也可以看出中值平滑算法可以去除图像中「**椒盐型**」的噪声，即小范围内的极端值像素点。
 
 ### 双边滤波
 
@@ -454,344 +768,6 @@ $$
 \text{低频图像 } G(u, v) \xrightarrow []{\text{IDFT}}
 \text{平滑图像 } g(x, y)
 $$
-
-### 代码实战：三大去噪算法
-
-下列代码参考：
-
-1. [MATLAB fspecial 函数](https://ww2.mathworks.cn/help/images/ref/fspecial.html?searchHighlight=fspecial&s_tid=srchtitle_support_results_1_fspecial)
-2. [MATLAB imfilter 函数](https://ww2.mathworks.cn/help/images/ref/imfilter.html?searchHighlight=imfilter&s_tid=srchtitle_support_results_1_imfilter)
-3. [OpenCV-Python 所有图像平滑函数](https://docs.opencv.org/4.10.0/d4/d13/tutorial_py_filtering.html)
-
-=== "均值滤波"
-
-    ```matlab
-    H = fspecial('average', 3);
-    res = imfilter(g, H, 'conv');
-    ```
-    
-    ??? "完整「均值滤波」代码实现"
-    
-        **题目要求**
-    
-        给定一张灰度图像 $\displaystyle \begin{bmatrix} { 0 } & { 0 } & { 0 } & { 0 } & { 0 } \\ { 0 } & { 5 } & { 1 } & { 6 } & { 0 } \\ { 0 } & { 4 } & { 6 } & { 3 } & { 0 } \\ { 0 } & { 7 } & { 2 } & { 1 } & { 0 } \\ { 0 } & { 0 } & { 0 } & { 0 } & { 0 } \end{bmatrix}$，使用 $3\times 3$ 规格的均值滤波，不处理边缘像素。
-    
-        **理论分析**
-    
-        均值滤波可以通过使用全 1 的卷积核进行卷积运算来实现。即：
-    
-        $$
-        \frac{1}{9}
-        \begin{bmatrix}
-        1 & 1 & 1\\
-        1 & 1 & 1\\
-        1 & 1 & 1
-        \end{bmatrix}
-        $$
-    
-        **代码实现**
-    
-        1）matlab 自定义实现
-    
-        ```matlab
-        clear;
-        clc;
-    
-        % 图像
-        g = [0, 0, 0, 0, 0;
-            0, 5, 1, 6, 0;
-            0, 4, 6, 3, 0;
-            0, 7, 2, 1, 0;
-            0, 0, 0, 0, 0];
-    
-        % 卷积核
-        core = 1/9 * [1, 1, 1;
-                    1, 1, 1;
-                    1, 1, 1];
-    
-        % 均值滤波
-        [h, w] = size(g);
-        ans = zeros(h, w);
-        for i = 2:h-1
-            for j = 2:w-1
-                ans(i, j) = sum(core .* g(i-1:i+1, j-1:j+1), 'all');
-            end
-        end
-    
-        disp("自定义模拟实现均值滤波：")
-        disp(ans);
-        ```
-    
-        输出：
-    
-        ![输出](https://cdn.dwj601.cn/images/202412052057463.png)
-    
-        2）matlab 库函数
-    
-        ```matlab
-        g = [0, 0, 0, 0, 0;
-            0, 5, 1, 6, 0;
-            0, 4, 6, 3, 0;
-            0, 7, 2, 1, 0;
-            0, 0, 0, 0, 0];
-    
-        % 'conv' 参数表示使用卷积进行计算
-        disp("MATLAB库函数实现均值滤波：")
-        disp(res);
-        ```
-    
-        输出：
-    
-        ![输出](https://cdn.dwj601.cn/images/202501080941228.png)
-    
-        3）Python-OpenCV 库函数
-    
-        ```python
-        g = np.array([[0, 0, 0, 0, 0],
-                    [0, 5, 1, 6, 0],
-                    [0, 4, 6, 3, 0],
-                    [0, 7, 2, 1, 0],
-                    [0, 0, 0, 0, 0]]).astype(np.float32)
-    
-        res = cv2.blur(g, (3, 3))
-        np.set_printoptions(precision=4)
-        print(res)
-        ```
-    
-        输出：
-    
-        ![输出](https://cdn.dwj601.cn/images/202412052138666.png)
-
-=== "高斯滤波"
-
-    ```matlab
-    H = fspecial('gaussian', [3, 3], 0.8);
-    res = filter2(H, g);
-    ```
-    
-    ??? "完整「高斯滤波」代码实现"
-    
-        **题目要求**
-    
-        给定的一张灰度图像 $\displaystyle \begin{bmatrix} { 0 } & { 0 } & { 0 } & { 0 } & { 0 } \\ { 0 } & { 5 } & { 1 } & { 6 } & { 0 } \\ { 0 } & { 4 } & { 6 } & { 3 } & { 0 } \\ { 0 } & { 7 } & { 2 } & { 1 } & { 0 } \\ { 0 } & { 0 } & { 0 } & { 0 } & { 0 } \end{bmatrix}$，使用 $3\times 3$ 规格的高斯滤波，标准差分别为 $\sigma=0.8,\sigma=1$，不处理边缘像素。
-    
-        **理论分析**
-    
-        高斯滤波可以通过使用服从二维高斯分布的卷积核进行卷积运算来实现。
-    
-        - 当 $\sigma=0.8$ 时，卷积核参数为：
-    
-            $$
-            \frac{1}{16}
-            \begin{bmatrix}
-            1 & 2 & 1\\
-            2 & 4 & 2\\
-            1 & 2 & 1
-            \end{bmatrix}
-            $$
-    
-        - 当 $\sigma=1$ 时，卷积核参数为：
-        
-            $$
-            \frac{1}{10}
-            \begin{bmatrix}
-            1 & 1 & 1\\
-            1 & 2 & 1\\
-            1 & 1 & 1
-            \end{bmatrix}
-            $$
-    
-        **代码实现**
-    
-        1）matlab 自定义实现
-    
-        ```matlab
-        clear;
-        clc;
-    
-        % 图像
-        g = [0, 0, 0, 0, 0;
-            0, 5, 1, 6, 0;
-            0, 4, 6, 3, 0;
-            0, 7, 2, 1, 0;
-            0, 0, 0, 0, 0];
-    
-        % 卷积核1
-        core1 = 1/16 * [1, 2, 1;
-                        2, 4, 2;
-                        1, 2, 1];
-    
-        % 卷积核2
-        core2 = 1/10 * [1, 1, 1;
-                        1, 2, 1;
-                        1, 1, 1];
-    
-        % 高斯滤波
-        [h, w] = size(g);
-        ans = zeros(h, w);
-        for i = 2:h-1
-            for j = 2:w-1
-                ans(i, j) = sum(core1 .* g(i-1:i+1, j-1:j+1), 'all');
-            end
-        end
-    
-        res = zeros(h, w);
-        for i = 2:h-1
-            for j = 2:w-1
-                res(i, j) = sum(core2 .* g(i-1:i+1, j-1:j+1), 'all');
-            end
-        end
-    
-        disp('使用标准差为0.8的高斯平滑:');
-        disp(ans);
-        disp('使用标准差为1.0的高斯平滑:');
-        disp(res);
-        ```
-    
-        输出：
-    
-        ![输出](https://cdn.dwj601.cn/images/202412051944655.png)
-    
-        2）matlab 库函数
-    
-        ```matlab
-        g = [0, 0, 0, 0, 0;
-            0, 5, 1, 6, 0;
-            0, 4, 6, 3, 0;
-            0, 7, 2, 1, 0;
-            0, 0, 0, 0, 0];
-    
-        H = fspecial('gaussian', [3, 3], 0.8);
-        ans_matlab = filter2(H, g);
-        disp("MATLAB库函数实现标准差为0.8高斯滤波：")
-        disp(ans_matlab);
-    
-        H = fspecial('gaussian', [3, 3], 1.0);
-        res_matlab = filter2(H, g);
-        disp("MATLAB库函数实现标准差为1.0高斯滤波：")
-        disp(res_matlab);
-        ```
-    
-        输出：同样只需要关注中间 9 个元素：
-    
-        ![输出](https://cdn.dwj601.cn/images/202412052114124.png)
-    
-        至于为什么和模拟的输出结果不一致，是因为自定义实现的代码中「**高斯核参数并不完全准确**」，matlab 中的高斯核参数如下：
-    
-        ![真实高斯核](https://cdn.dwj601.cn/images/202412052116057.png)
-    
-        3）Python-OpenCV 库函数
-    
-        ```python
-        g = np.array([[0, 0, 0, 0, 0],
-                    [0, 5, 1, 6, 0],
-                    [0, 4, 6, 3, 0],
-                    [0, 7, 2, 1, 0],
-                    [0, 0, 0, 0, 0]]).astype(np.float32)
-    
-        res = cv2.GaussianBlur(g, (3, 3), 0.8)
-        np.set_printoptions(precision=4)
-        print('Python-OpenCV 库函数实现标准差为0.8高斯滤波：')
-        print(res, end='\n\n')
-    
-        res = cv2.GaussianBlur(g, (3, 3), 1.0)
-        np.set_printoptions(precision=4)
-        print('Python-OpenCV 库函数实现标准差为1.0高斯滤波：')
-        print(res)
-        ```
-    
-        输出：
-    
-        ![输出](https://cdn.dwj601.cn/images/202412052142741.png)
-
-=== "中值滤波"
-
-    ```matlab
-    res = medfilt2(g);
-    ```
-    
-    ??? "完整「中值滤波」代码实现"
-    
-        **题目要求**
-    
-        给定一张灰度图像 $\begin{bmatrix} 1 & 3 & 6 & 8 & 6 & 3 \\ 15 & 4 & 7 & 9 & 8 & 1 \\ 13 & 3 & 5 & 5 & 7 & 4 \\ 3 & 4 & 0 & 2 & 5 & 7 \\ 6 & 12 & 3 & 6 & 9 & 7 \\ 9 & 11 & 3 & 11 & 14 & 13 \end{bmatrix}$，使用自定义的邻域进行中值滤波，不处理边缘像素。并从中说明中值滤波适合处理哪种类型的噪声。
-    
-        **理论分析**
-    
-        中值滤波就是将每一个像素用邻域内像素的中值进行代替实现。假设仍然使用 $3\times 3$ 规格的邻域进行滤波。
-    
-        **代码实现**
-    
-        1）matlab 自定义实现
-    
-        ```matlab
-        clc;
-        clear;
-    
-        g = [1, 3, 6, 8, 6, 3;
-            15, 4, 7, 9, 8, 1;
-            13, 3, 5, 5, 7, 4;
-            3, 4, 0, 2, 5, 7;
-            6, 12, 3, 6, 9, 7; 
-            9, 11, 3, 11, 14, 13];
-    
-        [h, w] = size(g);
-        res = zeros(h, w);
-        for i = 2:h-1
-            for j = 2:w-1
-                area = [g(i-1, j-1:j+1), g(i, j-1:j+1), g(i+1, j-1:j+1)];
-                sorted_values = sort(area);
-                res(i, j) = sorted_values(5);
-            end
-        end
-    
-        disp(res);
-        ```
-    
-        输出：
-    
-        ![输出](https://cdn.dwj601.cn/images/202412052118819.png)
-    
-        2）matlab 库函数
-    
-        ```matlab
-        g = [1, 3, 6, 8, 6, 3;
-            15, 4, 7, 9, 8, 1;
-            13, 3, 5, 5, 7, 4;
-            3, 4, 0, 2, 5, 7;
-            6, 12, 3, 6, 9, 7; 
-            9, 11, 3, 11, 14, 13];
-    
-        ans = medfilt2(g);
-        disp(ans);
-        ```
-    
-        输出：除了边缘，其余内容与自定义实现的代码运行结果一致：
-    
-        ![输出](https://cdn.dwj601.cn/images/202412052120505.png)
-    
-        3）Python-OpenCV 库函数
-    
-        ```python
-        g = np.array([[1, 3, 6, 8, 6, 3],
-                    [15, 4, 7, 9, 8, 1],
-                    [13, 3, 5, 5, 7, 4],
-                    [3, 4, 0, 2, 5, 7],
-                    [6, 12, 3, 6, 9, 7],
-                    [9, 11, 3, 11, 14, 13]]).astype(np.float32)
-    
-        res = cv2.medianBlur(g, 3)
-        np.set_printoptions(precision=4)
-        print(res)
-        ```
-    
-        输出：
-    
-        ![输出](https://cdn.dwj601.cn/images/202412052145219.png)
-    
-        **小结**
-    
-        从中值滤波的结果可以看出，原始图像中坐标为 (5,2) 的 12，(4,3) 的 0 等极端值都被周围的中值替换掉了，从而实现了平滑。从这一点也可以看出中值平滑算法可以去除图像中「**椒盐型**」的噪声，即小范围内的极端值像素点。
 
 ## 图像锐化
 

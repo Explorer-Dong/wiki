@@ -270,41 +270,41 @@ $$
 
 将上述 SVM 基本型转化为对偶问题，从而可以更高效的求解该最优化问题。
 
-??? note "对偶转化推导"
-
-    ![对偶转化推导 - 1](https://cdn.dwj601.cn/images/202404152113847.jpg)
-    
-    ![对偶转化推导 - 2](https://cdn.dwj601.cn/images/202404152113969.jpg)
-    
-    于是模型 $f(x)$ 就是：
-    
-    $$
-    \begin{aligned}
-    f(x) &= w^Tx+b \\
-    &= \sum_{i = 1}^m\alpha_iy_ix_i^Tx+b
-    \end{aligned}
-    $$
-    
-    其中参数 b 的求解可通过支持向量得到：
-    
-    $$
-    y_if(x_i) = 1 \to y_i\left(\sum_{i = 1}^m\alpha_iy_ix_i^Tx+b \right)= 1
-    $$
-    
-    由于原问题含有不等式约束，因此还需要满足 KKT 条件：
-    
-    $$
-    \begin{cases}
-    \alpha_i \ge 0&,\text{对偶可行性} \\
-    y_if(x_i) \ge 1&,\text{原始可行性} \\
-    \alpha_i(y_if(x_i)-1) = 0&,\text{互补松弛性}
-    \end{cases}
-    $$
-    
-    对于上述互补松弛性：
-    
-    - 若 $\alpha_i > 0$，则 $y_if(x_i)=1$，表示支持向量，需要保留
-    - 若 $y_if(x_i)>1$，则 $\alpha_i = 0$，表示非支持向量，不用保留
+> [!note]- 对偶转化推导
+>
+> ![对偶转化推导 - 1](https://cdn.dwj601.cn/images/202404152113847.jpg)
+>
+> ![对偶转化推导 - 2](https://cdn.dwj601.cn/images/202404152113969.jpg)
+>
+> 于是模型 $f(x)$ 就是：
+>
+> $$
+> \begin{aligned}
+> f(x) &= w^Tx+b \\
+> &= \sum_{i = 1}^m\alpha_iy_ix_i^Tx+b
+> \end{aligned}
+> $$
+>
+> 其中参数 b 的求解可通过支持向量得到：
+>
+> $$
+> y_if(x_i) = 1 \to y_i\left(\sum_{i = 1}^m\alpha_iy_ix_i^Tx+b \right)= 1
+> $$
+>
+> 由于原问题含有不等式约束，因此还需要满足 KKT 条件：
+>
+> $$
+> \begin{cases}
+> \alpha_i \ge 0&,\text{对偶可行性} \\
+> y_if(x_i) \ge 1&,\text{原始可行性} \\
+> \alpha_i(y_if(x_i)-1) = 0&,\text{互补松弛性}
+> \end{cases}
+> $$
+>
+> 对于上述互补松弛性：
+>
+> - 若 $\alpha_i > 0$，则 $y_if(x_i)=1$，表示支持向量，需要保留
+> - 若 $y_if(x_i)>1$，则 $\alpha_i = 0$，表示非支持向量，不用保留
 
 现在得到的对偶问题其实是一个二次规划问题，我们可以采用 SMO（Sequential Minimal Optimization） 算法求解。具体略。
 

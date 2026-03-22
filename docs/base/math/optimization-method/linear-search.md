@@ -22,169 +22,171 @@ status: todo
 
 ## 精确线性搜索算法
 
-??? note "预备知识：单峰函数定理"
+> [!note]- 预备知识：单峰函数定理
+>
+> 在正式开始介绍之前，我们先了解 **单峰函数定理**：
+>
+> - 定理：对于在区间 $[a,b]$ 上的一个单峰函数 $f(x)$，$x^* \in [a,b]$ 是其极小点，$x_1$ 和 $x_2$ 是 $[a,b]$ 上的任意两点，且 $a<x_1<x_2<b$，可以通过比较 $f(x_1),f(x_2)$ 的值来确定点的保留和舍弃
+>
+> - 迭代：
+>
+>     1. 若 $f(x_1) \ge f(x_2)$ 则 $x^* \in [x_1,b]$
+>
+>         ![保留右区间](https://cdn.dwj601.cn/images/202404121125038.png)
+>
+>     2. 若 $f(x_1) < f(x_2)$ 则 $x^* \in [a,x_2]$
+>
+>         ![保留左区间](https://cdn.dwj601.cn/images/202404121125961.png)
+>
+>     3. 若 $f(x_1) = f(x_2)$ 则 $x^* \in [x_1,x_2]$
+>
+> 于是迭代的关键就在于如何取点 $x_1$ 和 $x_2$，下面开始介绍三种取点方法。
 
-    在正式开始介绍之前，我们先了解 **单峰函数定理**：
-    
-    - 定理：对于在区间 $[a,b]$ 上的一个单峰函数 $f(x)$，$x^* \in [a,b]$ 是其极小点，$x_1$ 和 $x_2$ 是 $[a,b]$ 上的任意两点，且 $a<x_1<x_2<b$，可以通过比较 $f(x_1),f(x_2)$ 的值来确定点的保留和舍弃
-    
-    - 迭代：
-    
-        1. 若 $f(x_1) \ge f(x_2)$ 则 $x^* \in [x_1,b]$
-    
-            ![保留右区间](https://cdn.dwj601.cn/images/202404121125038.png)
-    
-        2. 若 $f(x_1) < f(x_2)$ 则 $x^* \in [a,x_2]$​
-    
-            ![保留左区间](https://cdn.dwj601.cn/images/202404121125961.png)
-    
-        3. 若 $f(x_1) = f(x_2)$ 则 $x^* \in [x_1,x_2]$
-    
-    于是迭代的关键就在于如何取点 $x_1$ 和 $x_2$，下面开始介绍三种取点方法。
 
-??? note "基于 python 实现：0.618 法、斐波那契法、二分法"
 
-    === "Python"
-    
-        ```python
-        class ExactLinearSearch:
-            def __init__(self, 
-                        a: float, b: float, delta: float, 
-                        f: Callable[[float], float], 
-                        criterion: str="0.618", max_iter=100) -> None:
-                
-                self.a = a
-                self.b = b
-                self.delta = delta
-                self.f = f
-                self.max_iter = max_iter
-                
-                if criterion == "0.618":
-                    new_a, new_b, x_star, count = self._f_goad()
-                elif criterion == "fibonacci":
-                    new_a, new_b, x_star, count = self._f_fibo()
-                else: # criterion == "binary"
-                    new_a, new_b, x_star, count = self._f_binary()
-
-                fixed = lambda x, acc: round(x, acc)
-                print(f"算法为：“{criterion}” 法")
-                print(f"共迭代：{count} 次")
-                print(f"左边界: {fixed(new_a, 4)}")
-                print(f"右边界: {fixed(new_b, 4)}")
-                print(f"最优解: {fixed(x_star, 4)}")
-                print(f"最优值: {fixed(f(x_star), 6)}\n")
-
-            def _f_goad(self) -> Tuple[float, float, float, int]:
-                a, b, delta, f = self.a, self.b, self.delta, self.f
-                count = 0
-
-                lam = a + 0.382 * (b - a)
-                mu = b - 0.382 * (b - a)
-
-                while count <= self.max_iter:
-                    phi_lam = f(lam)
-                    phi_mu = f(mu)
-
-                    if phi_lam <= phi_mu:
-                        b = mu
-                    else:
-                        a = lam
-                    
-                    lam = a + 0.382 * (b - a)
-                    mu = b - 0.382 * (b - a)
-
-                    if b - lam <= delta:
-                        return a, b, lam, count
-                    if mu - a <= delta:
-                        return a, b, mu, count
-                    
-                    count += 1
-                
-                return a, b, lam if f(lam) <= f(mu) else mu, count
-
-            def _f_fibo(self) -> Tuple[float, float, float, int]:
-                a, b, delta, f, max_iter = self.a, self.b, self.delta, self.f, self.max_iter
-                count = None
-
-                F = [0.0] * max_iter
-                F[1] = F[2] = 1
-                for i in range(3, max_iter):
-                    F[i] = F[i - 1] + F[i - 2]
-                    if F[i] >= (b - a) / delta:
-                        count = i - 2
-                        break
-                
-                if count == None:
-                    ValueError("区间过大或精度过高导致，找不到合适的迭代次数")
-
-                lam, mu = a, b
-                for i in range(3, count + 1):
-                    
-                    lam = a + (1 - F[i - 1] / F[i]) * (b - a)
-                    mu = b - (1 - F[i - 1] / F[i]) * (b - a)
-                    if f(lam) <= f(mu):
-                        b = mu
-                    else:
-                        a = lam
-                        
-                return a, b, lam if f(lam) <= f(mu) else mu, count
-            
-            def _f_binary(self) -> Tuple[float, float, float, int]:
-                a, b, delta, f, max_iter = self.a, self.b, self.delta, self.f, self.max_iter
-                count = None
-                
-                count = np.ceil(np.log2((b - a) / delta)).astype(int)
-
-                if count > max_iter:
-                    ValueError("区间过大或精度过高导致迭代次数过高")
-            
-                for _ in range(count):
-                    c = (a + b) / 2.0
-                    if f(c) >= 0.0:
-                        b = c
-                    else:
-                        a = c
-
-                return a, b, c, count
-        ```
-    
-    === "调用"
-    
-        ```python
-        a, b, delta = -1, 1, 0.01
-        f = lambda x: np.exp(-x) + np.exp(x)  # 原函数
-        calc_goad = ExactLinearSearch(a, b, delta, f, criterion="0.618")
-        calc_fibo = ExactLinearSearch(a, b, delta, f, criterion="fibonacci")
-    
-        a, b, delta = -3, 6, 0.1
-        f = lambda x: 2 * x + 2               # 导函数
-        calc_bina = ExactLinearSearch(a, b, delta, f, criterion="binary")
-        ```
-    
-    === "结果"
-    
-        ```text
-        算法为：“0.618” 法
-        共迭代：10 次
-        左边界: -0.0031
-        右边界: 0.0069
-        最优解: 0.0007
-        最优值: 2.000001
-    
-        算法为：“fibonacci” 法
-        共迭代：11 次
-        左边界: -0.0225
-        右边界: 0.0
-        最优解: -0.0139
-        最优值: 2.000193
-    
-        算法为：“binary” 法
-        共迭代：7 次
-        左边界: -1.0312
-        右边界: -0.9609
-        最优解: -0.9609
-        最优值: 0.078125
-        ```
+> [!note]- 基于 python 实现：0.618 法、斐波那契法、二分法
+>
+> === "Python"
+>
+>     ```python
+>     class ExactLinearSearch:
+>         def __init__(self, 
+>                     a: float, b: float, delta: float, 
+>                     f: Callable[[float], float], 
+>                     criterion: str="0.618", max_iter=100) -> None:
+>             
+>             self.a = a
+>             self.b = b
+>             self.delta = delta
+>             self.f = f
+>             self.max_iter = max_iter
+>             
+>             if criterion == "0.618":
+>                 new_a, new_b, x_star, count = self._f_goad()
+>             elif criterion == "fibonacci":
+>                 new_a, new_b, x_star, count = self._f_fibo()
+>             else: # criterion == "binary"
+>                 new_a, new_b, x_star, count = self._f_binary()
+>     
+>             fixed = lambda x, acc: round(x, acc)
+>             print(f"算法为：“{criterion}” 法")
+>             print(f"共迭代：{count} 次")
+>             print(f"左边界: {fixed(new_a, 4)}")
+>             print(f"右边界: {fixed(new_b, 4)}")
+>             print(f"最优解: {fixed(x_star, 4)}")
+>             print(f"最优值: {fixed(f(x_star), 6)}\n")
+>     
+>         def _f_goad(self) -> Tuple[float, float, float, int]:
+>             a, b, delta, f = self.a, self.b, self.delta, self.f
+>             count = 0
+>     
+>             lam = a + 0.382 * (b - a)
+>             mu = b - 0.382 * (b - a)
+>     
+>             while count <= self.max_iter:
+>                 phi_lam = f(lam)
+>                 phi_mu = f(mu)
+>     
+>                 if phi_lam <= phi_mu:
+>                     b = mu
+>                 else:
+>                     a = lam
+>                 
+>                 lam = a + 0.382 * (b - a)
+>                 mu = b - 0.382 * (b - a)
+>     
+>                 if b - lam <= delta:
+>                     return a, b, lam, count
+>                 if mu - a <= delta:
+>                     return a, b, mu, count
+>                 
+>                 count += 1
+>             
+>             return a, b, lam if f(lam) <= f(mu) else mu, count
+>     
+>         def _f_fibo(self) -> Tuple[float, float, float, int]:
+>             a, b, delta, f, max_iter = self.a, self.b, self.delta, self.f, self.max_iter
+>             count = None
+>     
+>             F = [0.0] * max_iter
+>             F[1] = F[2] = 1
+>             for i in range(3, max_iter):
+>                 F[i] = F[i - 1] + F[i - 2]
+>                 if F[i] >= (b - a) / delta:
+>                     count = i - 2
+>                     break
+>             
+>             if count == None:
+>                 ValueError("区间过大或精度过高导致，找不到合适的迭代次数")
+>     
+>             lam, mu = a, b
+>             for i in range(3, count + 1):
+>                 
+>                 lam = a + (1 - F[i - 1] / F[i]) * (b - a)
+>                 mu = b - (1 - F[i - 1] / F[i]) * (b - a)
+>                 if f(lam) <= f(mu):
+>                     b = mu
+>                 else:
+>                     a = lam
+>                     
+>             return a, b, lam if f(lam) <= f(mu) else mu, count
+>         
+>         def _f_binary(self) -> Tuple[float, float, float, int]:
+>             a, b, delta, f, max_iter = self.a, self.b, self.delta, self.f, self.max_iter
+>             count = None
+>             
+>             count = np.ceil(np.log2((b - a) / delta)).astype(int)
+>     
+>             if count > max_iter:
+>                 ValueError("区间过大或精度过高导致迭代次数过高")
+>         
+>             for _ in range(count):
+>                 c = (a + b) / 2.0
+>                 if f(c) >= 0.0:
+>                     b = c
+>                 else:
+>                     a = c
+>     
+>             return a, b, c, count
+>     ```
+>
+> === "调用"
+>
+>     ```python
+>     a, b, delta = -1, 1, 0.01
+>     f = lambda x: np.exp(-x) + np.exp(x)  # 原函数
+>     calc_goad = ExactLinearSearch(a, b, delta, f, criterion="0.618")
+>     calc_fibo = ExactLinearSearch(a, b, delta, f, criterion="fibonacci")
+>     
+>     a, b, delta = -3, 6, 0.1
+>     f = lambda x: 2 * x + 2               # 导函数
+>     calc_bina = ExactLinearSearch(a, b, delta, f, criterion="binary")
+>     ```
+>
+> === "结果"
+>
+>     ```text
+>     算法为：“0.618” 法
+>     共迭代：10 次
+>     左边界: -0.0031
+>     右边界: 0.0069
+>     最优解: 0.0007
+>     最优值: 2.000001
+>     
+>     算法为：“fibonacci” 法
+>     共迭代：11 次
+>     左边界: -0.0225
+>     右边界: 0.0
+>     最优解: -0.0139
+>     最优值: 2.000193
+>     
+>     算法为：“binary” 法
+>     共迭代：7 次
+>     左边界: -1.0312
+>     右边界: -0.9609
+>     最优解: -0.9609
+>     最优值: 0.078125
+>     ```
 
 ### 0.618 法
 

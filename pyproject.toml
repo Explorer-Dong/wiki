@@ -5,6 +5,5 @@ description = "A systematic wiki (technical blog) centered on computer science a
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
-    "markdown-gfm-admonition>=0.3.0",
     "zensical>=0.0.28",
 ]

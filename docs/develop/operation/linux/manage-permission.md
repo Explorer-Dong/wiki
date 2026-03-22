@@ -180,98 +180,98 @@ umask
 
 可能是出于安全考虑，文件默认不允许拥有可执行权限，因此如果 `umask` 显示为 $0022$，则创建的文件默认权限为 $644$，即每一位都 $-1$ 以确保是偶数。
 
-??? "练习：权限管理"
+## 练习题
 
-    **一、添加 4 个用户：alice、bob、john、mike**
-    
-    首先需要确保当前是 root 用户，使用 `su root` 切换到 root 用户。然后在创建用户时同时创建该用户对应的目录：
-    
+一、添加 4 个用户：alice、bob、john、mike
+
+首先需要确保当前是 root 用户，使用 `su root` 切换到 root 用户。然后在创建用户时同时创建该用户对应的目录：
+
+```bash
+useradd -d /home/alice -m alice
+useradd -d /home/bob -m bob
+useradd -d /home/john -m john
+useradd -d /home/mike -m mike
+```
+
+![添加 4 个用户](https://cdn.dwj601.cn/images/202409272339074.png)
+
+二、为 alice 设置密码
+
+```bash
+passwd alice
+```
+
+![为 alice 设置密码](https://cdn.dwj601.cn/images/202409272340323.png)
+
+三、创建用户组 workgroup 并将 alice、bob、john 加入
+
+- 创建用户组：
+
     ```bash
-    useradd -d /home/alice -m alice
-    useradd -d /home/bob -m bob
-    useradd -d /home/john -m john
-    useradd -d /home/mike -m mike
+    groupadd workgroup
     ```
-    
-    ![添加 4 个用户](https://cdn.dwj601.cn/images/202409272339074.png)
-    
-    **二、为 alice 设置密码**
-    
+
+- 添加到新组：
+
     ```bash
-    passwd alice
+    usermod -a -G workgroup alice
+    usermod -a -G workgroup bob
+    usermod -a -G workgroup john
     ```
-    
-    ![为 alice 设置密码](https://cdn.dwj601.cn/images/202409272340323.png)
-    
-    **三、创建用户组 workgroup 并将 alice、bob、john 加入**
-    
-    - 创建用户组：
-    
-        ```bash
-        groupadd workgroup
-        ```
-    
-    - 添加到新组：
-    
-        ```bash
-        usermod -a -G workgroup alice
-        usermod -a -G workgroup bob
-        usermod -a -G workgroup john
-        ```
-    
-        - `-a`：是 `--append` 的缩写，表示将用户添加到一个组，而不会移除她已有的其他组。这个选项必须与 `-G` 一起使用
-        - `-G`：指定要添加用户的附加组（即用户可以属于多个组），这里是 workgroup
-    
-    - 将 workgroup 作为各自的主组：
-    
-        ```bash
-        usermod -g workgroup alice
-        usermod -g workgroup bob
-        usermod -g workgroup john
-        ```
-    
-        - `-g`：用于指定用户的主组（primary group）。主组是当用户创建文件或目录时默认分配的组
-    
-    ![创建用户组 workgroup 并将 alice、bob、john 加入](https://cdn.dwj601.cn/images/202409272341900.png)
-    
-    **四、创建 `/home/work` 目录并将其属主改为 alice，属组改为 workgroup**
-    
+
+    - `-a`：是 `--append` 的缩写，表示将用户添加到一个组，而不会移除她已有的其他组。这个选项必须与 `-G` 一起使用
+    - `-G`：指定要添加用户的附加组（即用户可以属于多个组），这里是 workgroup
+
+- 将 workgroup 作为各自的主组：
+
     ```bash
-    # 创建目录
-    mkdir work
-    
-    # 修改属主和属组
-    chown alice:workgroup work
-    
-    # 或者
-    chown alice.workgroup work
+    usermod -g workgroup alice
+    usermod -g workgroup bob
+    usermod -g workgroup john
     ```
-    
-    ![创建 /home/work 目录并将其属主改为 alice，属组改为 workgroup](https://cdn.dwj601.cn/images/202409272343315.png)
-    
-    **五、修改 work 目录的权限**
-    
-    使得属组内的用户对该目录具有所有权限，属组外的用户对该目录没有任何权限。
-    
-    ```bash
-    # 写法一
-    chmod ug+rwx,o-rwx work
-    
-    # 写法二
-    chmod 770 work
-    ```
-    
-    ![修改 work 目录的权限](https://cdn.dwj601.cn/images/202409272345642.png)
-    
-    **六、权限功能测试**
-    
-    以 bob 用户身份在 work 目录下创建 `bob.txt` 文件。可以看到符合默认创建文件的权限格式 $644$：
-    
-    ![以 bob 用户在 work 下创建 bob.txt 文件](https://cdn.dwj601.cn/images/202409272350694.png)
-    
-    同组用户与不同组用户关于「目录/文件」的 `rw` 权限测试。
-    
-    - 关于 $770$ 目录。由于 work 目录被 bob 创建时权限设置为了 $770$，bob 用户与 john 用户属于同一个组 workgroup，因此 john 因为 $g=7$ 可以进入 work 目录进行操作，而 bob 用户与 mike 用户不属于同一个组，因此 mike 因为 $o=0$ 无法进入 work 目录，更不用说查看或者修改 work 目录中的文件了。
-    - 关于 $644$ 文件。现在 john 由于 $770$ 中的第二个 $7$ 进入了 work 目录。由文件默认的 $644$ 权限可以知道：john 因为第一个 $4$ 可以读文件，但是不可以写文件，因此如下图所示，可以执行 `cat` 查看文件内容，但是不可以执行 `echo` 编辑文件内容。至于 mike，可以看到无论起始是否在 work 目录，都没有权限 `cd` 到 work 目录或者 `ls` 查看 work 目录中的内容。
-    
-    ![权限测试](https://cdn.dwj601.cn/images/202409280007514.png)
+
+    - `-g`：用于指定用户的主组（primary group）。主组是当用户创建文件或目录时默认分配的组
+
+![创建用户组 workgroup 并将 alice、bob、john 加入](https://cdn.dwj601.cn/images/202409272341900.png)
+
+四、创建 `/home/work` 目录并将其属主改为 alice，属组改为 workgroup
+
+```bash
+# 创建目录
+mkdir work
+
+# 修改属主和属组
+chown alice:workgroup work
+
+# 或者
+chown alice.workgroup work
+```
+
+![创建 /home/work 目录并将其属主改为 alice，属组改为 workgroup](https://cdn.dwj601.cn/images/202409272343315.png)
+
+五、修改 work 目录的权限
+
+使得属组内的用户对该目录具有所有权限，属组外的用户对该目录没有任何权限。
+
+```bash
+# 写法一
+chmod ug+rwx,o-rwx work
+
+# 写法二
+chmod 770 work
+```
+
+![修改 work 目录的权限](https://cdn.dwj601.cn/images/202409272345642.png)
+
+六、权限功能测试
+
+以 bob 用户身份在 work 目录下创建 `bob.txt` 文件。可以看到符合默认创建文件的权限格式 $644$：
+
+![以 bob 用户在 work 下创建 bob.txt 文件](https://cdn.dwj601.cn/images/202409272350694.png)
+
+同组用户与不同组用户关于「目录/文件」的 `rw` 权限测试。
+
+- 关于 $770$ 目录。由于 work 目录被 bob 创建时权限设置为了 $770$，bob 用户与 john 用户属于同一个组 workgroup，因此 john 因为 $g=7$ 可以进入 work 目录进行操作，而 bob 用户与 mike 用户不属于同一个组，因此 mike 因为 $o=0$ 无法进入 work 目录，更不用说查看或者修改 work 目录中的文件了。
+- 关于 $644$ 文件。现在 john 由于 $770$ 中的第二个 $7$ 进入了 work 目录。由文件默认的 $644$ 权限可以知道：john 因为第一个 $4$ 可以读文件，但是不可以写文件，因此如下图所示，可以执行 `cat` 查看文件内容，但是不可以执行 `echo` 编辑文件内容。至于 mike，可以看到无论起始是否在 work 目录，都没有权限 `cd` 到 work 目录或者 `ls` 查看 work 目录中的内容。
+
+![权限测试](https://cdn.dwj601.cn/images/202409280007514.png)

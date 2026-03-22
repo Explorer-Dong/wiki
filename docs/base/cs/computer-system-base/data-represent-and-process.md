@@ -230,69 +230,69 @@ UTF-8 的最大优势是兼容性：早期英文文本不需要修改即可在 U
 |   位扩展   |    内置逻辑    | 在短数向长数转换时。有符号整数采用符号扩展（前方补符号位）；无符号整数采用 0 扩展（前方补 0） |
 |   位截断   |    内置逻辑    | 在长数向短数转换时。高位直接丢弃                             |
 
-??? note "位扩展案例"
+> [!note]- 位扩展案例
+>
+> ```cpp
+> #include <stdio.h>
+> 
+> int main() {
+>     short int si = -32768;
+>     unsigned short usi = si;
+>     int i = si;
+>     unsigned ui = usi;
+>     
+>     printf("si  = \t%hd\t%x\n", si, si);
+>     printf("usi = \t%hu\t%x\n", usi, usi);
+>     printf("i   = \t%d\t%x\n", i, i);
+>     printf("ui  = \t%u\t%x\n", ui, ui);
+> }
+> ```
+>
+> 上述代码在 32 位大端机器上的输出：
+>
+> ```cpp
+> si  =   -32768  8000
+> usi =   32768   8000
+> i   =   -32768  ffff8000
+> ui  =   32768   8000
+> ```
+>
+> 分析：
+>
+> - `si` 和 `usi` 是同一个机器数的不同真值结果，由于数位没有长短的变化，故十六进制表示结果相同
+> - `i` 是有符号整数的位扩展，采用符号扩展，补充符号位 1，故向前补充了 16 个 1
+> - `ui` 是无符号数的位扩展，采用 0 扩展，补充 0，故向前补充了 16 个 0
 
-    ```cpp
-    #include <stdio.h>
-    
-    int main() {
-        short int si = -32768;
-        unsigned short usi = si;
-        int i = si;
-        unsigned ui = usi;
-        
-        printf("si  = \t%hd\t%x\n", si, si);
-        printf("usi = \t%hu\t%x\n", usi, usi);
-        printf("i   = \t%d\t%x\n", i, i);
-        printf("ui  = \t%u\t%x\n", ui, ui);
-    }
-    ```
-    
-    上述代码在 32 位大端机器上的输出：
-    
-    ```cpp
-    si  =   -32768  8000
-    usi =   32768   8000
-    i   =   -32768  ffff8000
-    ui  =   32768   8000
-    ```
-    
-    分析：
-    
-    - `si` 和 `usi` 是同一个机器数的不同真值结果，由于数位没有长短的变化，故十六进制表示结果相同
-    - `i` 是有符号整数的位扩展，采用符号扩展，补充符号位 1，故向前补充了 16 个 1
-    - `ui` 是无符号数的位扩展，采用 0 扩展，补充 0，故向前补充了 16 个 0
-
-??? note "位截断案例"
-
-    ```cpp
-    #include <stdio.h>
-    
-    int main() {
-        int i = 32768;
-        short si = (short)i;
-        int j = si;
-    
-        printf("i  = \t%d\t%x\n", i, i);
-        printf("si = \t%hd\t%x\n", si, si);
-        printf("j  = \t%d\t%x\n", j, j);
-    }
-    ```
-    
-    上述代码在 32 位大端机器上的输出：
-    
-    ```
-    i  =    32768   00008000
-    si =    -32768  8000
-    j  =    -32768  ffff8000
-    ```
-    
-    分析：
-    
-    - `i` 的真值和机器数很显然
-    - `si` 的机器数就是将 `i` 的机器数截取了后 16 位的结果，在识别为有符号数以后，得到的真值就是最小的负数 -32768
-    - `j` 是有符号整数的位扩展运算，补充符号位 1
-    - 可以发现了 **截断错误**，而这种错误编译器一般是不会发现的！
+> [!note]- 位截断案例
+>
+> ```cpp
+> #include <stdio.h>
+> 
+> int main() {
+>     int i = 32768;
+>     short si = (short)i;
+>     int j = si;
+> 
+>     printf("i  = \t%d\t%x\n", i, i);
+>     printf("si = \t%hd\t%x\n", si, si);
+>     printf("j  = \t%d\t%x\n", j, j);
+> }
+> ```
+>
+> 上述代码在 32 位大端机器上的输出：
+>
+> ```
+> i  =    32768   00008000
+> si =    -32768  8000
+> j  =    -32768  ffff8000
+> ```
+>
+> 分析：
+>
+> - `i` 的真值和机器数很显然
+> - `si` 的机器数就是将 `i` 的机器数截取了后 16 位的结果，在识别为有符号数以后，得到的真值就是最小的负数 -32768
+> - `j` 是有符号整数的位扩展运算，补充符号位 1
+> - 可以发现了 **截断错误**，而这种错误编译器一般是不会发现的！
 
 ### 整数加减运算
 
@@ -333,89 +333,88 @@ UTF-8 的最大优势是兼容性：早期英文文本不需要修改即可在 U
 
     - 综上所述：$\text{CF} = \text{Sub} \oplus \text{Cout}$。
 
-
-??? note "运算案例"
-
-    对于两个机器数 `x = 1000 0110` 和 `y = 1111 0110`
-    
-    === "加法：计算 `x + y`"
-    
-        $$
-        \begin{aligned}
-        &\text{MUX}:
-        \begin{cases}
-        y' &= y \\
-        \text{Sub} &= 0
-        \end{cases}
-        \\
-        &\text{Adder}:
-        \begin{cases}
-        x: & 1000\ 0110 \\
-        y'= y: & 1111\ 0110 \\
-        \text{Sub}: & 0
-        \end{cases}
-        \\
-        &\text{Result}: 1 \ 0111\ 1100
-        \\
-        &\text{Signals}:
-        \begin{cases}
-        \text{ZF} = 0 \\
-        \text{SF} = 0 \\
-        \text{OF} = 1 \\
-        \text{CF} = 1
-        \end{cases}
-        \\
-        &\text{Real Value}:
-        \begin{cases}
-        \text{signed}: &124(134+246-2^8)\\
-        \text{unsigned}: &124(134+246-2^8)
-        \end{cases}
-        \end{aligned}
-        $$
-    
-    === "减法：计算 `x - y`"
-        
-        $$
-        \begin{aligned}
-        &\text{MUX}:
-        \begin{cases}
-        y' &= \overline{y} \\
-        \text{Sub} &= 1
-        \end{cases}
-        \\
-        &\text{Adder}:
-        \begin{cases}
-        x: & 1000\ 0110 \\
-        y'=\overline{y}: & 0000\ 1001 \\
-        \text{Sub}: & 1
-        \end{cases}
-        \\
-        &\text{Result}: 0 \ 1001\ 0000
-        \\
-        &\text{Signals}:
-        \begin{cases}
-        \text{ZF} = 0 \\
-        \text{SF} = 0 \\
-        \text{OF} = 0 \\
-        \text{CF} = 1
-        \end{cases}
-        \\
-        &\text{Real Value}:
-        \begin{cases}
-        \text{signed}: &-112 \\
-        \text{unsigned}: &144(134-246+2^8)
-        \end{cases}
-        \end{aligned}
-        $$
-    
-    === "对于 n = 8 的情况而言，数据范围是"
-    
-        $$
-        \begin{cases}
-        \text{signed}: &[-2^{n-1},2^{n-1}) &=& [-128,127] \\
-        \text{unsigned}: &[0,2^n) &=& [0,255]
-        \end{cases}
-        $$
+> [!note]- 运算案例
+>
+> 对于两个机器数 `x = 1000 0110` 和 `y = 1111 0110`
+>
+> === "加法：计算 `x + y`"
+>
+>     $$
+>     \begin{aligned}
+>     &\text{MUX}:
+>     \begin{cases}
+>     y' &= y \\
+>     \text{Sub} &= 0
+>     \end{cases}
+>     \\
+>     &\text{Adder}:
+>     \begin{cases}
+>     x: & 1000\ 0110 \\
+>     y'= y: & 1111\ 0110 \\
+>     \text{Sub}: & 0
+>     \end{cases}
+>     \\
+>     &\text{Result}: 1 \ 0111\ 1100
+>     \\
+>     &\text{Signals}:
+>     \begin{cases}
+>     \text{ZF} = 0 \\
+>     \text{SF} = 0 \\
+>     \text{OF} = 1 \\
+>     \text{CF} = 1
+>     \end{cases}
+>     \\
+>     &\text{Real Value}:
+>     \begin{cases}
+>     \text{signed}: &124(134+246-2^8)\\
+>     \text{unsigned}: &124(134+246-2^8)
+>     \end{cases}
+>     \end{aligned}
+>     $$
+>
+> === "减法：计算 `x - y`"
+>     
+>     $$
+>     \begin{aligned}
+>     &\text{MUX}:
+>     \begin{cases}
+>     y' &= \overline{y} \\
+>     \text{Sub} &= 1
+>     \end{cases}
+>     \\
+>     &\text{Adder}:
+>     \begin{cases}
+>     x: & 1000\ 0110 \\
+>     y'=\overline{y}: & 0000\ 1001 \\
+>     \text{Sub}: & 1
+>     \end{cases}
+>     \\
+>     &\text{Result}: 0 \ 1001\ 0000
+>     \\
+>     &\text{Signals}:
+>     \begin{cases}
+>     \text{ZF} = 0 \\
+>     \text{SF} = 0 \\
+>     \text{OF} = 0 \\
+>     \text{CF} = 1
+>     \end{cases}
+>     \\
+>     &\text{Real Value}:
+>     \begin{cases}
+>     \text{signed}: &-112 \\
+>     \text{unsigned}: &144(134-246+2^8)
+>     \end{cases}
+>     \end{aligned}
+>     $$
+>
+> === "对于 n = 8 的情况而言，数据范围是"
+>
+>     $$
+>     \begin{cases}
+>     \text{signed}: &[-2^{n-1},2^{n-1}) &=& [-128,127] \\
+>     \text{unsigned}: &[0,2^n) &=& [0,255]
+>     \end{cases}
+>     $$
 
 ### 整数乘除运算
 

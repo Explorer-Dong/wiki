@@ -18,17 +18,17 @@ status: todo
 
 - 求解方法：施密特正交化求解标准正交基。
 
-??? note "施密特正交化求标准正交基 - 详细过程"
-
-    一、正交化
-    
-    ![正交化](https://cdn.dwj601.cn/images/202406140946478.png)
-    
-    ![正交化 - 续](https://cdn.dwj601.cn/images/202406140946479.png)
-    
-    二、单位化
-    
-    ![单位化](https://cdn.dwj601.cn/images/202406140946480.png)
+> [!note]- 施密特正交化求标准正交基 - 详细过程
+>
+> 一、正交化
+>
+> ![正交化](https://cdn.dwj601.cn/images/202406140946478.png)
+>
+> ![正交化 - 续](https://cdn.dwj601.cn/images/202406140946479.png)
+>
+> 二、单位化
+>
+> ![单位化](https://cdn.dwj601.cn/images/202406140946480.png)
 
 正交矩阵。
 

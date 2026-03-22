@@ -22,35 +22,35 @@ main
 - events 块主要用来配置 Nginx 的网络运行方式，例如：每个 worker 的最大连接数。
 - http 块主要用来配置 Nginx 反向代理的逻辑，例如：端口转发、负载均衡。
 
-??? tip "典型 `nginx.conf` 配置"
-
-    ```nginx
-    # 全局块配置
-    user nginx;
-    worker_processes auto;
-    
-    # events 块配置
-    events {
-        worker_connections 1024;
-    }
-    
-    # http 块配置
-    http {
-        include mime.types;
-        default_type application/octet-stream;
-    
-        # 虚拟主机
-        server {
-            listen 80;
-            server_name example.com;
-    
-            location / {
-                root /usr/share/nginx/html;
-                index index.html;
-            }
-        }
-    }
-    ```
+> [!tip]- 典型 `nginx.conf` 配置
+>
+> ```nginx
+> # 全局块配置
+> user nginx;
+> worker_processes auto;
+> 
+> # events 块配置
+> events {
+>     worker_connections 1024;
+> }
+> 
+> # http 块配置
+> http {
+>     include mime.types;
+>     default_type application/octet-stream;
+> 
+>     # 虚拟主机
+>     server {
+>         listen 80;
+>         server_name example.com;
+> 
+>         location / {
+>             root /usr/share/nginx/html;
+>             index index.html;
+>         }
+>     }
+> }
+> ```
 
 下面从三大模块分别介绍 Nginx 的具体配置方法。
 

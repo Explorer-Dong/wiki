@@ -567,20 +567,27 @@ $$
 \end{aligned}
 $$
 
-???+note "推导"
-    推导的根本方式还是从定义出发。当然为了省事也可以从性质出发。
-    === "0-1 分布"
-        ![0-1 分布](https://cdn.dwj601.cn/images/202404202313030.jpg)
-    === "二项分布"
-        ![二项分布](https://cdn.dwj601.cn/images/202404202313503.jpg)
-    === "几何分布"
-        ![几何分布](https://cdn.dwj601.cn/images/202404202313329.jpg)
-    === "泊松分布"
-        ![泊松分布](https://cdn.dwj601.cn/images/202404202313316.jpg)
-    === "均匀分布"
-        ![均匀分布](https://cdn.dwj601.cn/images/202404202313239.jpg)
-    === "指数分布"
-        ![指数分布](https://cdn.dwj601.cn/images/202404202313832.jpg)
+> [!note]- 推导
+>
+> 推导的根本方式还是从定义出发。当然为了省事也可以从性质出发。
+> 
+> === "0-1 分布"
+>     ![0-1 分布](https://cdn.dwj601.cn/images/202404202313030.jpg)
+> 
+> === "二项分布"
+>     ![二项分布](https://cdn.dwj601.cn/images/202404202313503.jpg)
+> 
+> === "几何分布"
+>     ![几何分布](https://cdn.dwj601.cn/images/202404202313329.jpg)
+>
+> === "泊松分布"
+>     ![泊松分布](https://cdn.dwj601.cn/images/202404202313316.jpg)
+>
+> === "均匀分布"
+>     ![均匀分布](https://cdn.dwj601.cn/images/202404202313239.jpg)
+> 
+> === "指数分布"
+>     ![指数分布](https://cdn.dwj601.cn/images/202404202313832.jpg)
 
 ### 协方差
 
@@ -637,7 +644,8 @@ $$
 
 但是当 $(X,Y) \sim (\mu_1,\mu_2,\sigma_1^2,\sigma_2^2,\rho)$ 时，相互独立就与线性无关等价了。
 
-???+note "证明 [^alone-nolinear]：满足二维正态分布的两个随机变量，相互独立 $\iff$ 线性无关"
-    ![二维正态分布的两个随机变量：相互独立 等价于 线性无关](https://cdn.dwj601.cn/images/202404261112302.jpg)
+> [!note]- 证明 [^alone-nolinear]：满足二维正态分布的两个随机变量，相互独立 $\iff$ 线性无关
+>
+> ![二维正态分布的两个随机变量：相互独立 等价于 线性无关](https://cdn.dwj601.cn/images/202404261112302.jpg)
 
 [^alone-nolinear]: [如何去直观地理解不相关不一定是独立，而独立必然不相关 | 光波 - (www.zhihu.com)](https://www.zhihu.com/question/29641138/answer/3162080728)
