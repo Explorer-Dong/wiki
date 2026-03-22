@@ -87,6 +87,12 @@ gcc --version
 python --version
 ```
 
+查看 PyTorch 版本：
+
+```bash
+python -c "import torch; print(torch.__version__)"
+```
+
 ## 数据类型
 
 PyTorch 的数据类型被称为张量 (tensor)，可以表示任意维度的向量。
@@ -94,11 +100,15 @@ PyTorch 的数据类型被称为张量 (tensor)，可以表示任意维度的向
 ### 张量创建
 
 ```python
+import numpy as np
 import torch
 
 # 从 Python 列表创建
 x = torch.tensor([1, 2, 3])
-print(x)  # tensor([1, 2, 3])
+
+# 从 NumPy 数组创建
+np_array = np.array([1, 2, 3])
+x_from_np = torch.from_numpy(np_array)
 
 # 创建特殊张量
 zeros = torch.zeros(2, 3)  # 全零张量
@@ -110,14 +120,9 @@ randn = torch.randn(2, 3)  # 标准正态分布
 x_float = torch.tensor([1, 2, 3], dtype=torch.float32)
 x_long = torch.tensor([1, 2, 3], dtype=torch.long)
 
-# 从 NumPy 数组创建
-import numpy as np
-np_array = np.array([1, 2, 3])
-x_from_np = torch.from_numpy(np_array)
-
 # 创建与现有张量相同形状的张量
 x = torch.randn(2, 3)
-y = torch.zeros_like(x)  # 形状与 x 相同的全零张量
+y = torch.zeros_like(x)
 ```
 
 ### 张量属性
@@ -136,30 +141,30 @@ print(x.dim())        # 3 (维度数)
 ### 张量操作
 
 ```python
-# 基本运算
 x = torch.tensor([1, 2, 3])
 y = torch.tensor([4, 5, 6])
 
-z = x + y           # 加法
-z = torch.add(x, y) # 加法（函数形式）
+# 基本运算
+z = x + y           # 逐元素加法
+z = torch.add(x, y) # 逐元素加法（函数形式）
 x.add_(y)           # 原地加法（会修改 x）
 
 z = x * y           # 逐元素乘法
-z = x @ y           # 点积（1D）
-z = x.dot(y)        # 点积
+z = x @ y           # 点积/内积
+z = x.dot(y)        # 点积/内积（函数形式）
 
 # 矩阵运算
 A = torch.randn(2, 3)
 B = torch.randn(3, 4)
-C = A @ B           # 矩阵乘法
+C = A @ B               # 矩阵乘法
 C = torch.matmul(A, B)  # 矩阵乘法（函数形式）
 
 # 形状变换
 x = torch.randn(2, 3, 4)
-y = x.view(2, 12)       # 重塑为 (2, 12)
-y = x.reshape(2, -1)    # -1 自动推断维度
-y = x.transpose(0, 1)   # 转置维度 0 和 1
-y = x.permute(2, 0, 1)  # 重排维度
+y = x.view(2, 12)       # 重塑形状，新形状 (2, 12)
+y = x.reshape(2, -1)    # 重塑形状，新形状 (2, 12)（-1 表示自动推断维度）
+y = x.transpose(0, 1)   # 交换维度，新形状 (3, 2, 4)
+y = x.permute(2, 0, 1)  # 重排维度，新形状 (4, 2, 3)
 
 # 索引和切片
 x = torch.randn(4, 5)
@@ -170,9 +175,14 @@ print(x[1:3, :])   # 第 2-3 行
 # 拼接
 x = torch.randn(2, 3)
 y = torch.randn(2, 3)
-z = torch.cat([x, y], dim=0)  # 沿维度 0 拼接，结果 (4, 3)
-z = torch.stack([x, y], dim=0)  # 创建新维度，结果 (2, 2, 3)
+z = torch.cat([x, y], dim=0)    # 沿指定维度拼接，新形状 (4, 3)
+z = torch.stack([x, y], dim=0)  # 插入一个新维度，新形状 (2, 2, 3)
 ```
+
+> [!note] `torch.view()` 和 `torch.reshape()` 的区别
+>
+> - `torch.view()`: 若内存连续，则共享内存；否则报错。
+> - `torch.reshape()`: 若内存连续，则共享内存；否则会先调用 `.contiguous()` 自动复制一份。
 
 ## 自动微分
 
