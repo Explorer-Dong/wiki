@@ -1,9 +1,9 @@
 [project]
 name = "Open-CSAI-Wiki"
 version = "0.0.1"
-description = "A systematic wiki (technical blog) centered on computer science and artificial intelligence."
+description = "Explorer Dong's Wiki"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.13"
 dependencies = [
-    "zensical>=0.0.28",
+    "zensical>=0.0.29",
 ]
