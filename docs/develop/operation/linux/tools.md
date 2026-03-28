@@ -31,6 +31,22 @@ apt install <package_name>:<version>
 apt remove <package_name>
 ```
 
+更换 apt 下载源：
+
+```bash
+# 编辑 apt 源文件
+vim /etc/apt/sources.list.d/ubuntu.sources
+
+# 将 URIs: http://archive.ubuntu.com/ubuntu/ 修改为
+URIs: https://mirrors.tuna.tsinghua.edu.cn/ubuntu
+
+# 将 URIs: http://security.ubuntu.com/ubuntu 也改为
+URIs: https://mirrors.tuna.tsinghua.edu.cn/ubuntu
+
+# 退出编辑后刷新配置
+apt update
+```
+
 ## 汉化 language-pack-zh-hans
 
 language-pack-zh-hans 是一个终端汉化软件包。Shell 的运行结果通过 Terminal 呈现，如果遇到都是英文的输出结果，可以进行以下操作将其转换为中文。
