@@ -148,3 +148,17 @@ document$.subscribe(() => {
         });
     };
 })
+
+/**
+ * 侧边栏滚动条：滚动后自动隐藏
+ */
+document$.subscribe(() => {
+    const scrollWraps = document.querySelectorAll(".md-sidebar__scrollwrap");
+
+    scrollWraps.forEach(wrap => {
+        wrap.addEventListener("scroll", () => {
+            // 滚动时添加隐藏类
+            wrap.classList.add("scrollbar-hidden");
+        });
+    });
+})

@@ -126,3 +126,24 @@ th {
 .toc-above-block__close:hover {
     opacity: 1;
 }
+
+
+/* ==================== 滚动条 ==================== */
+/* 美化侧边栏滚动条：初始可见，滚动后隐藏，悬停时重新显示 */
+
+/* 滚动条基础样式 */
+.md-sidebar__scrollwrap::-webkit-scrollbar { width: 4px; }
+.md-sidebar__scrollwrap::-webkit-scrollbar-track { background: transparent; }
+.md-sidebar__scrollwrap::-webkit-scrollbar-thumb { border-radius: 4px; }
+
+/* 滚动后隐藏 */
+.md-sidebar__scrollwrap.scrollbar-hidden { scrollbar-color: transparent transparent !important; }
+.md-sidebar__scrollwrap.scrollbar-hidden::-webkit-scrollbar-thumb { background-color: transparent !important; }
+
+/* 悬停时显示 */
+.md-sidebar__scrollwrap.scrollbar-hidden:hover,
+.md-sidebar__scrollwrap.scrollbar-hidden:focus-within { scrollbar-color: var(--md-accent-fg-color) transparent !important; }
+.md-sidebar__scrollwrap.scrollbar-hidden:hover::-webkit-scrollbar-thumb,
+.md-sidebar__scrollwrap.scrollbar-hidden:focus-within::-webkit-scrollbar-thumb { background-color: var(--md-default-fg-color--lighter) !important; }
+.md-sidebar__scrollwrap.scrollbar-hidden:hover::-webkit-scrollbar-thumb:hover,
+.md-sidebar__scrollwrap.scrollbar-hidden:focus-within::-webkit-scrollbar-thumb:hover { background-color: var(--md-accent-fg-color) !important; }
