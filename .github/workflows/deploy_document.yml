@@ -67,11 +67,13 @@ jobs:
         # -f 表示强制操作
         # -j 表示使用的线程数（启用 -f 才有效）
     
-    # 刷新 Aliyun CDN (Public)
-    - name: Refresh Aliyun CDN
+    # 刷新 Aliyun ESA (Public)
+    - name: Refresh Aliyun ESA
       run: |
-        aliyun cdn RefreshObjectCaches \
-          --region ${{ vars.REGION }} \
-          --ObjectPath ${{ vars.WEB_DIRECTORY }} \
-          --ObjectType Directory \
-          --Force false
+        aliyun esa PurgeCaches \
+          --region cn-hangzhou \
+          --Content '{"CacheKeys":[],"Hostnames":[],"Directories":["${{ vars.WEB_DIRECTORY }}"]}' \
+          --SiteId 1185133088541216 \
+          --Type directory \
+          --Force false \
+          --EdgeComputePurge true
