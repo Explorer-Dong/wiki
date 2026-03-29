@@ -5,5 +5,5 @@ description = "Explorer Dong's Wiki"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "zensical>=0.0.29",
+    "zensical>=0.0.30",
 ]
