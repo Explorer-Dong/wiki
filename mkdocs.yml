@@ -9,7 +9,6 @@ copyright: '&copy; 2026 Explorer Dong'
 
 # ==================== 主题配置 ====================
 theme:
-  variant: modern
   language: zh
   custom_dir: docs/assets/overrides
   logo: assets/logo.svg
@@ -71,8 +70,6 @@ markdown_extensions:
   - toc:
       permalink: true
       toc_depth: 3
-      title: On this page
-      permalink_title: Link to this section
       slugify: !!python/object/apply:pymdownx.slugs.slugify {kwds: {case: lower}}
 
   # provided by "PyMdown Extensions"
@@ -142,6 +139,9 @@ extra:
     - icon: lucide/clover
       link: https://blog.dwj601.cn/
       name: Blog
+    - icon: lucide/lightbulb
+      link: https://www.dwj601.cn/
+      name: Homepage
 
 
 # ==================== 页面导航 ====================
