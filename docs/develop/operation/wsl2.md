@@ -300,17 +300,59 @@ wsl
 
 之后就可以解决问题了。
 
-### WSL 科学上网
+### 科学上网
 
-最简单的方法就是启用代理软件的 TUN 模式，直接把流量转到虚拟网卡上。
+方法一：启用代理软件的 TUN 模式，直接把流量转到虚拟网卡上。
 
-### 获取 WSL IP 地址
+![启用代理软件的 TUN 模式](https://cdn.dwj601.cn/images/20260330191942773.png)
+
+方法二：使用 Windows 的代理服务。
 
 ```bash
-# 在 WSL 中查看 IP 地址
-ip addr show eth0
-hostname -I
+# 编辑环境变量配置文件
+vim /etc/.bashrc
+
+# 添加以下两个环境变量
+export http_proxy=127.0.0.1:<port>
+export https_proxy=127.0.0.1:<port>
 ```
+
+### DNS 配置
+
+如果遇到了 DNS 失效的问题：`Temporary failure in name resolution`，可以尝试修改 WSL 的 DNS 服务器。
+
+编辑对应发行版的配置文件 `/etc/wsl.conf`，然后加入以下配置：
+
+```bash
+[network]
+generateResolvConf = false
+```
+
+重启 WSL：
+
+```bash
+wsl --shutdown
+```
+
+在 Windows PowerShell 中查询当前局域网的 DNS 地址：
+
+```powershell
+ipconfig /all
+```
+
+找到类似以下内容的信息：
+
+```text
+DNS Servers . . . . . . . . . . : <10.x.x.x>
+```
+
+写入发行版的配置文件 `/etc/resolv.conf`：
+
+```bash
+nameserver <10.x.x.x>
+```
+
+之后 WSL 应该就可以正常联网并基于代理访问服务了。
 
 ## 常见应用
 
