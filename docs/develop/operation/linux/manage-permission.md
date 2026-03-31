@@ -86,7 +86,13 @@ whoami
 ## 创建用户 useradd
 
 ```bash
+# 基本命令格式
 useradd <username>
+
+# 一般会用下面的语句默认创建用户文件夹并赋予一定的权限
+useradd -d /home/<username> -m <username>
+# -d 表示当前用户的路径
+# -m 表示如果路径不存在就自动创建
 ```
 
 ## 删除用户 userdel

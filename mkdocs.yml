@@ -294,6 +294,7 @@ nav:
         - develop/backend/python/visual-lib.md
     - 运维:
       - develop/operation/index.md
+      - develop/operation/ssh.md
       - Linux:
         - develop/operation/linux/index.md
         - develop/operation/linux/shell.md
@@ -323,7 +324,6 @@ nav:
       - develop/operation/cloud.md
     - 其他:
       - develop/others/index.md
-      - develop/others/ssh.md
       - Editor & IDE:
         - develop/others/editor-and-ide/index.md
         - develop/others/editor-and-ide/devcpp.md
