@@ -133,9 +133,9 @@ extra:
   status:
     todo: ToDo
   social:
-    - icon: lucide/github
-      link: https://github.com/Explorer-Dong
-      name: GitHub
+    - icon: lucide/radio-tower
+      link: https://stats.uptimerobot.com/uDFPc6P9Xc/802518309
+      name: Status
     - icon: lucide/clover
       link: https://blog.dwj601.cn/
       name: Blog
