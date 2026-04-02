@@ -119,8 +119,30 @@ load key "<your_private_key>": bad permisions
 Permission denied (publickey)
 ```
 
-只需要使用 [chmod](./linux/manage-permission.md#改变权限-chmod) 命令将私钥权限修改为 400 或 600 即可：
+解决方案是调整私钥的权限：
 
-```bash
-chmod 600 </path/to/your_private_key>
-```
+=== "Linux"
+
+    ```bash
+    chmod 600 </path/to/your_private_key>
+    ```
+
+=== "Windows"
+
+    ```powershell
+    # 变量定义你的私钥路径
+    $path = "C:\Users\<username>\.ssh\<private_key>"
+
+    # 将所有者改为当前用户
+    icacls $path /setowner $env:username
+
+    # 禁用继承并删除其他所有人的权限
+    icacls $path /inheritance:r
+
+    # 仅赋予当前用户完全控制权限
+    icacls $path /grant "${env:username}:(F)"
+    ```
+
+> [!note]
+>
+> 该方案对 ssh config 文件同样奏效。
