@@ -70,6 +70,10 @@ title: 首页
 
     如果觉得网站内容对您有帮助，欢迎进入 [GitHub](https://github.com/Explorer-Dong/wiki) 为我们的项目点一颗 ⭐。下图是本项目的星标历史：
 
-    ![星标历史](https://api.star-history.com/svg?repos=Explorer-Dong/wiki&type=date&legend=bottom-right)
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Explorer-Dong/wiki&type=date&theme=dark&legend=bottom-right" />
+      <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=Explorer-Dong/wiki&type=date&legend=bottom-right" />
+      <img alt="星标历史" src="https://api.star-history.com/svg?repos=Explorer-Dong/wiki&type=date&legend=bottom-right" />
+    </picture>
 
 </div>

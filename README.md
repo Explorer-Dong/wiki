@@ -40,7 +40,11 @@
 
 如果觉得网站的内容对您有帮助，欢迎为项目点一颗 ⭐！下图是本项目的星标历史：
 
-![项目的星标历史](https://api.star-history.com/svg?repos=Explorer-Dong/wiki&type=date&legend=bottom-right)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Explorer-Dong/wiki&type=date&theme=dark&legend=bottom-right" />
+  <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=Explorer-Dong/wiki&type=date&legend=bottom-right" />
+  <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Explorer-Dong/wiki&type=date&legend=bottom-right" />
+</picture>
 
 ## 开源协议
 
