@@ -8847,8 +8847,6 @@ while True:
 
 ```
 
-
-
 #### 约数
 
 ##### **试除法求所有约数**
@@ -8883,8 +8881,6 @@ def solve(x):
 print(solve(1200000)) # 96
 ```
 
-
-
 **乘积数的约数个数**
 
 对于一个以标准分解式给出的数 $N = \prod_{i = 1}^k p_i^{\alpha_i}$, 其约数个数为  $\prod_{i = 1} ^k (\alpha_i + 1)$
@@ -8895,7 +8891,7 @@ print(solve(1200000)) # 96
 
 对于一个以标准分解式给出的数 $N = \prod_{i = 1}^k p_i^{\alpha_i}$, 其约数之和为  $\prod_{i = 1} ^k (\sum_{j = 0}^{\alpha_i} p_i^j)$
 
-> 例如 $N = 2^5 \cdot 3^1, 约数个数为 (2^0 + 2^1 + \cdots + 2^5) \times (3^0 + 3^1)$。展开结果实际上，各个互不相同，每一项都是一个约数，总个数就是约数个数。
+> 例如 $N = 2^5 \cdot 3^1, 约数之和为 (2^0 + 2^1 + \cdots + 2^5) \times (3^0 + 3^1)$。展开结果实际上，各个互不相同，每一项都是一个约数，总个数就是约数个数。
 
 [871. 约数之和 - AcWing 题库](https://www.acwing.com/problem/content/873/)
 
@@ -8924,7 +8920,6 @@ def S(a, n):
 for a, n in cnt.items():
     res = (res * S(a, n)) % moder
 print(res % moder)
-
 ```
 
 ##### 约数筛 / 约数预处理
