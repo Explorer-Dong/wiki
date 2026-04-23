@@ -123,6 +123,8 @@ extra_css:
 plugins:
   - search:
       lang: zh
+  - glightbox:
+      auto_caption: true
 
 
 # ==================== 额外配置 ====================

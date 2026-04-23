@@ -5,7 +5,7 @@
 <p align="center">
   <a title="GitHub Stars" href="https://github.com/Explorer-Dong/wiki/stargazers" target="_blank"><img alt="GitHub Stars" src="https://img.shields.io/github/stars/Explorer-Dong/wiki?style=flat&label=GitHub%20Stars"></a>
   <a title="Python Version" href="https://python.org" target="_blank"><img src="https://img.shields.io/badge/Python-3.13+-aff" alt="Python Version"></a>
-  <a title="Zensical Version" href="https://github.com/zensical/zensical" target="_blank"><img src="https://img.shields.io/badge/Zensical-0.0.34+-gold" alt="Mkdocs Material"></a>
+  <a title="Zensical Version" href="https://github.com/zensical/zensical" target="_blank"><img src="https://img.shields.io/badge/Zensical-0.0.36+-gold" alt="Mkdocs Material"></a>
   <a title="Ask DeepWiki" href="https://deepwiki.com/Explorer-Dong/wiki" target="_blank"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
   <a title="GitHub Actions Workflow Status" href="https://github.com/Explorer-Dong/wiki/actions/workflows/deploy_document.yml" target="_blank"><img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/Explorer-Dong/wiki/deploy_document.yml?label=Deploy"></a>
   <a title="License" href="https://github.com/Explorer-Dong/wiki/blob/main/LICENSE" target="_blank"><img src="https://img.shields.io/github/license/Explorer-Dong/wiki.svg?style=flat&label=License" alt="License"></a>
